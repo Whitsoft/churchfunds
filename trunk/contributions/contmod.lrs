@@ -1,0 +1,378 @@
+LazarusResources.Add('TDataMod','FORMDATA',[
+  'TPF0'#8'TDataMod'#7'DataMod'#14'OldCreateOrder'#8#6'Height'#3#3#3#16'Horizon'
+  +'talOffset'#2#23#14'VerticalOffset'#2'3'#5'Width'#3#136#4#0#13'TIBConnection'
+  +#14'FBConnectionEZ'#9'Connected'#9#11'LoginPrompt'#8#12'DatabaseName'#6#30'/'
+  +'home/don/firebird/ezfunds.fdb'#14'KeepConnection'#8#8'Password'#6#9'masterk'
+  +'ey'#11'Transaction'#7#16'SQLTransactionEZ'#8'UserName'#6#6'SYSDBA'#8'HostNa'
+  +'me'#6#9'localhost'#4'left'#2'@'#3'top'#2' '#0#0#15'TSQLTransaction'#16'SQLT'
+  +'ransactionEZ'#6'Active'#9#6'Action'#7#6'caNone'#8'Database'#7#14'FBConnecti'
+  +'onEZ'#4'left'#2'@'#3'top'#2'p'#0#0#9'TSQLQuery'#15'SQLQueryLiabOwe'#9'Index'
+  +'Name'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectio'
+  +'nEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#18'Select sum(AMOUNT)'#6#12'from Trans T'#6#24'where T.ACCOUNT=:AccParm'#6
+  +#3'and'#6#13'T.TRAN_TYPE>0'#6#23'and T.TRAN_DATE<=:EDate'#0#6'Params'#14#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#7'AccParm'#9'ParamType'#7#9'ptUnknown'#0
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'EDate'#9'ParamType'#7#9'ptUnknown'
+  +#0#0#4'left'#2'@'#3'top'#3'`'#2#0#0#9'TSQLQuery'#13'QuerySrchName'#9'IndexNa'
+  +'me'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'F'
+  +'BConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.'
+  +'Strings'#1#6'8select C.Name, C.Title, C.Fname, C.Env_No from MEMBERS C'#6#31
+  +'where UPPER(C.NAME) LIKE :PNAME'#6#17'or C.ENV_NO=:PEnv'#0#6'Params'#14#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#5'PNAME'#9'ParamType'#7#9'ptUnknown'#0#1
+  +#8'DataType'#7#9'ftUnknown'#4'Name'#6#4'PEnv'#9'ParamType'#7#9'ptUnknown'#0#0
+  +#4'left'#3#232#0#3'top'#3#144#1#0#12'TStringField'#17'QuerySrchNameNAME'#12
+  +'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'NAME'#5'Index'
+  +#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8
+  +'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#12'TStringField'#18'QuerySrchNam'
+  +'eTITLE'#12'DisplayWidth'#2#14#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'TIT'
+  +'LE'#5'Index'#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pf'
+  +'InWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2#14#0#0#12'TStringField'#18
+  +'QuerySrchNameFNAME'#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldN'
+  +'ame'#6#5'FNAME'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfIn'
+  +'Update'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#13'TLon'
+  +'gintField'#19'QuerySrchNameENV_NO'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'f'
+  +'kData'#9'FieldName'#6#6'ENV_NO'#5'Index'#2#3#11'LookupCache'#8#13'ProviderF'
+  +'lags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0#0#11
+  +'TDatasource'#11'SrcSrchName'#7'DataSet'#7#13'QuerySrchName'#4'left'#3'x'#1#3
+  +'top'#3#248#1#0#0#9'TSQLQuery'#12'TableAmounts'#9'IndexName'#6#13'DEFAULT_OR'
+  +'DER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLT'
+  +'ransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#26'    SELECT * FROM ACCOUN'
+  +'TS'#0#6'Params'#14#0#4'left'#3#160#2#3'top'#3'0'#1#0#0#9'TSQLQuery'#10'Tabl'
+  +'eEnvNo'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'FBCon'
+  +'nectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Stri'
+  +'ngs'#1#6#25'    SELECT * FROM MEMBERS'#0#6'Params'#14#0#4'left'#3#160#2#3't'
+  +'op'#3#208#0#0#0#9'TSQLQuery'#11'TableDetail'#9'IndexName'#6#13'DEFAULT_ORDE'
+  +'R'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTra'
+  +'nsactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#23'    SELECT * FROM FUNDS'#0
+  +#6'Params'#14#0#4'left'#3#160#2#3'top'#3#144#1#0#0#11'TDatasource'#7'FundSrc'
+  +#7'DataSet'#7#11'TableDetail'#4'left'#3#8#2#3'top'#3#208#0#0#0#9'TSQLQuery'
+  +#13'QuerySrchFund'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcF'
+  +'ields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransacti'
+  +'onEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'3select F.Detail_Fund_No, F.Descrip'
+  +'tion from FUNDS F'#6'&where Upper(F.Description) LIKE :PDESC'#0#6'Params'#14
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'PDESC'#9'ParamType'#7#9'ptUnknown'
+  +#0#0#4'left'#3#232#0#3'top'#3#248#1#0#0#9'TSQLQuery'#15'TableEditDetail'#9'I'
+  +'ndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'
+  +#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#23
+  +'    SELECT * FROM FUNDS'#0#6'Params'#14#0#4'left'#3#160#2#3'top'#3#248#1#0#0
+  +#11'TDatasource'#13'SrcEditDetail'#7'DataSet'#7#15'TableEditDetail'#4'left'#3
+  +#8#2#3'top'#3'0'#1#0#0#9'TSQLQuery'#13'TableEditCont'#9'IndexName'#6#13'DEFA'
+  +'ULT_ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16
+  +'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'    SELECT * FROM ME'
+  +'MBERS'#0#6'Params'#14#0#4'left'#2'@'#3'top'#3#144#1#0#0#11'TDatasource'#12
+  +'SrcSeditCont'#7'DataSet'#7#13'TableEditCont'#4'left'#3'x'#1#3'top'#3#144#1#0
+  +#0#9'TSQLQuery'#12'TableEditEnv'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9
+  +#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'R'
+  ,'eadOnly'#8#11'SQL.Strings'#1#6#25'    SELECT * FROM MEMBERS'#0#6'Params'#14
+  +#0#4'left'#3#160#2#3'top'#2' '#0#0#11'TDatasource'#10'SrcEditEnv'#7'DataSet'
+  +#7#12'TableEditEnv'#4'left'#3'x'#1#3'top'#3#208#0#0#0#9'TSQLQuery'#11'TableP'
+  +'ledge'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'FBConn'
+  +'ectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strin'
+  +'gs'#1#6#25'    SELECT * FROM PLEDGES'#0#6'Params'#14#0#4'left'#3#160#2#3'to'
+  +'p'#2'p'#0#14'TSmallintField'#17'TablePledgeENV_NO'#12'DisplayWidth'#2#10#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#6'ENV_NO'#5'Index'#2#0#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#9#0#0#14'TSmallintField'#15'TablePledgeFUND'#12'DisplayWidth'#2#10#9'Fi'
+  +'eldKind'#7#6'fkData'#9'FieldName'#6#4'FUND'#5'Index'#2#1#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#9#0#0#12'TStringField'#15'TablePledgeTYPE'#12'DisplayWidth'#2#1#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#4'TYPE'#5'Index'#2#2#11'LookupCache'#8#13'Provid'
+  +'erFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#4'Siz'
+  +'e'#2#1#0#0#10'TDateField'#16'TablePledgeBDATE'#12'DisplayWidth'#2#10#9'Fiel'
+  +'dKind'#7#6'fkData'#9'FieldName'#6#5'BDATE'#5'Index'#2#3#11'LookupCache'#8#13
+  +'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8
+  +#0#0#10'TDateField'#16'TablePledgeEDATE'#12'DisplayWidth'#2#10#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#5'EDATE'#5'Index'#2#4#11'LookupCache'#8#13'Provide'
+  +'rFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9
+  +'TBCDField'#17'TablePledgeAMOUNT'#12'DisplayWidth'#2#18#9'FieldKind'#7#6'fkD'
+  +'ata'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#5#11'LookupCache'#8#13'ProviderFla'
+  +'gs'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precisio'
+  +'n'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#0#11
+  +'TDatasource'#9'SrcPledge'#7'DataSet'#7#11'TablePledge'#4'left'#3#8#2#3'top'
+  +#2' '#0#0#9'TSQLQuery'#13'QueryRContrib'#9'IndexName'#6#13'DEFAULT_ORDER'#14
+  +'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQL'
+  +'TransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'select C.* from MEMBERS'
+  +' C'#6#24'where C.ENV_NO>=:FromEnv'#6#20'and C.ENV_NO<=:ToEnv'#0#6'Params'#14
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'FromEnv'#9'ParamType'#7#9'ptUnknow'
+  +'n'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'ToEnv'#9'ParamType'#7#9'ptUnk'
+  +'nown'#0#0#4'left'#3#232#0#3'top'#2' '#0#0#9'TSQLQuery'#14'QueryRCbutions'#9
+  +'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'
+  +#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11
+  +'SQL.Strings'#1#6#26'select C.* from CBUTIONS C'#6#21'where C.ENV_NO=:EnvNo'
+  +#6#25'and (C.C_DATE>=:FromDate)'#6#21'and C.C_DATE<=:ToDate'#0#6'Params'#14#1
+  +#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'EnvNo'#9'ParamType'#7#9'ptUnknown'#0
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnkno'
+  +'wn'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptU'
+  +'nknown'#0#0#4'left'#3#232#0#3'top'#2'p'#0#0#9'TSQLQuery'#12'QueryRPledge'#9
+  +'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConn'
+  +'ectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strin'
+  +'gs'#1#6#25'Select P.* from Pledges P'#6#21'where P.ENV_NO=:EnvNo'#6#16'and '
+  +'P.FUND=:FUND'#6#21'and P.Type Like :Type'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#5'EnvNo'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7
+  +#9'ftUnknown'#4'Name'#6#4'FUND'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7
+  +#9'ftUnknown'#4'Name'#6#4'Type'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#232
+  +#0#3'top'#3#208#0#0#0#9'TSQLQuery'#10'TableRFund'#9'IndexName'#6#13'DEFAULT_'
+  +'ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQ'
+  +'LTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#23'    SELECT * FROM FUND'
+  +'S'#0#6'Params'#14#0#4'left'#3'x'#1#3'top'#2' '#0#0#9'TSQLQuery'#9'QueryFund'
+  +#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBCo'
+  +'nnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Str'
+  +'ings'#1#6'$Select Sum(C.Amount) from CBUTIONS C'#6#21'where C.ENV_NO=:EnvNo'
+  +#6#23'and C.C_DATE>=:FromDate'#6#21'and C.C_DATE<=:ToDate'#6#27'and C.DETAIL'
+  +'_FUND=:FundParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'En'
+  +'vNo'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8
+  +'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'
+  +#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Na'
+  +'me'#6#8'FundParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#2'@'#3'top'#3#208
+  +#0#0#0#9'TSQLQuery'#10'QueryMulti'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoC'
+  +'alcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTrans'
+  +'actionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'Select P.* from Pledges P'#6
+  ,#21'where P.ENV_NO=:EnvNo'#6#21'and P.Type LIKE :TYPE'#0#6'Params'#14#1#8'Da'
+  +'taType'#7#9'ftUnknown'#4'Name'#6#5'EnvNo'#9'ParamType'#7#9'ptUnknown'#0#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#4'TYPE'#9'ParamType'#7#9'ptUnknown'#0#0#4
+  +'left'#3'x'#1#3'top'#3'`'#2#0#0#9'TSQLQuery'#12'QuerySummary'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11
+  +'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'$Sele'
+  +'ct Sum(C.Amount) from CBUTIONS C'#6#25'where C.C_DATE>=:FromDate'#6#21'and '
+  +'C.C_DATE<=:ToDate'#6#27'and C.DETAIL_FUND=:FundParm'#6#4'and '#6#17'(C.TYPE'
+  +'=:TypeParm'#6#17'or ''A''=:TypeParm)'#0#6'Params'#14#1#8'DataType'#7#9'ftUn'
+  +'known'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7
+  +#9'ftUnknown'#4'Name'#6#8'FundParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataTy'
+  +'pe'#7#9'ftUnknown'#4'Name'#6#8'TypeParm'#9'ParamType'#7#9'ptUnknown'#0#0#4
+  +'left'#3#232#0#3'top'#3'`'#2#0#0#9'TSQLQuery'#11'QueryFGroup'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'FBConne'
+  +'ctionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.String'
+  +'s'#1#6#23'Select F.* from FUNDS F'#6'!Where F.Detail_Fund_No>=:FundParm'#6
+  +'"and F.Detail_Fund_No<=:FundParm100'#6#0#0#6'Params'#14#1#8'DataType'#7#9'f'
+  +'tUnknown'#4'Name'#6#8'FundParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#11'FundParm100'#9'ParamType'#7#9'ptUnknown'#0#0#4
+  +'left'#3#232#0#3'top'#3'0'#1#0#0#9'TSQLQuery'#9'QueryCont'#9'IndexName'#6#13
+  +'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'FBConnecti'
+  +'onEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#26'Select C.* from CBUTIONS C'#6#25'where C.C_DATE>=:FromDate'#6#21'and C'
+  +'.C_DATE<=:ToDate'#6#29'and C.DETAIL_FUND>=:FundParm1'#6#29'and C.DETAIL_FUN'
+  +'D<=:FundParm2'#6#23'and C.ENV_NO>=:EnvParm1'#6#23'and C.ENV_NO<=:EnvParm2'#0
+  +#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'
+  +#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamTy'
+  +'pe'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'FundParm1'#9
+  +'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'FundPa'
+  +'rm2'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8
+  +'EnvParm1'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'
+  +#6#8'EnvParm2'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#2'@'#3'top'#3'0'#1#0
+  +#14'TSmallintField'#15'QueryContENV_NO'#12'DisplayWidth'#2#10#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#6'ENV_NO'#5'Index'#2#0#11'LookupCache'#8#13'Provid'
+  +'erFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0#14
+  +'TSmallintField'#20'QueryContDETAIL_FUND'#12'DisplayWidth'#2#10#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#11'DETAIL_FUND'#5'Index'#2#1#11'LookupCache'#8#13
+  +'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9
+  +#0#0#9'TBCDField'#15'QueryContAMOUNT'#12'DisplayWidth'#2#18#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#2#11'LookupCache'#8#13'Provider'
+  +'Flags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#9'Preci'
+  +'sion'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#10
+  +'TDateField'#15'QueryContC_DATE'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkDa'
+  +'ta'#9'FieldName'#6#6'C_DATE'#5'Index'#2#3#11'LookupCache'#8#13'ProviderFlag'
+  +'s'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0#12'TStr'
+  +'ingField'#13'QueryContTYPE'#12'DisplayWidth'#2#1#9'FieldKind'#7#6'fkData'#9
+  +'FieldName'#6#4'TYPE'#5'Index'#2#4#11'LookupCache'#8#13'ProviderFlags'#11#10
+  +'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2#1#0#0#0#11
+  +'TDatasource'#12'QueryContSrc'#7'DataSet'#7#9'QueryCont'#4'left'#3'x'#1#3'to'
+  +'p'#2'p'#0#0#11'TDatasource'#8'SrcEnvNo'#7'DataSet'#7#10'TableEnvNo'#4'left'
+  +#3'x'#1#3'top'#3'0'#1#0#0#9'TSQLQuery'#11'QueryPledge'#9'IndexName'#6#13'DEF'
+  +'AULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transa'
+  +'ction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'Select P'
+  +'.* from Pledges P'#6#21'where P.ENV_NO=:EnvNo'#6#0#0#6'Params'#14#1#8'DataT'
+  +'ype'#7#9'ftUnknown'#4'Name'#6#5'EnvNo'#9'ParamType'#7#9'ptUnknown'#0#0#4'le'
+  +'ft'#2'@'#3'top'#3#248#1#0#14'TSmallintField'#17'QueryPledgeENV_NO'#12'Displ'
+  +'ayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#6'ENV_NO'#5'Index'#2#0
+  +#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'Read'
+  +'Only'#8#8'Required'#9#0#0#14'TSmallintField'#15'QueryPledgeFUND'#12'Display'
+  +'Width'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'FUND'#5'Index'#2#1#11
+  +'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnl'
+  +'y'#8#8'Required'#9#0#0#12'TStringField'#15'QueryPledgeTYPE'#12'DisplayWidth'
+  +#2#1#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'TYPE'#5'Index'#2#2#11'LookupC'
+  ,'ache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8
+  +'Required'#9#4'Size'#2#1#0#0#10'TDateField'#16'QueryPledgeBDATE'#12'DisplayW'
+  +'idth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'BDATE'#5'Index'#2#3#11
+  +'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnl'
+  +'y'#8#8'Required'#8#0#0#10'TDateField'#16'QueryPledgeEDATE'#12'DisplayWidth'
+  +#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'EDATE'#5'Index'#2#4#11'Looku'
+  +'pCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8
+  +'Required'#8#0#0#9'TBCDField'#17'QueryPledgeAMOUNT'#12'DisplayWidth'#2#18#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#5#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#8#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Siz'
+  +'e'#2#2#0#0#0#11'TDatasource'#10'SrcQPledge'#7'DataSet'#7#11'QueryPledge'#4
+  +'left'#3#8#2#3'top'#2'p'#0#0#9'TSQLQuery'#14'QueryPledgeSum'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11
+  +'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'$Sele'
+  +'ct Sum(P.AMOUNT) from  PLEDGES P'#6#20'where P.FUND>=:Fund1'#6#18'and P.FUN'
+  +'D<=:Fund2'#6#4'and '#6#14'(P.TYPE=:Type1'#6#17'or P.TYPE=:Type2)'#0#6'Param'
+  +'s'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'Fund1'#9'ParamType'#7#9'ptUn'
+  +'known'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'Fund2'#9'ParamType'#7#9'p'
+  +'tUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'Type1'#9'ParamType'#7#9
+  +'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'Type2'#9'ParamType'#7
+  +#9'ptUnknown'#0#0#4'left'#3#8#2#3'top'#3#248#1#0#0#9'TSQLQuery'#9'TableCont'
+  +#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionE'
+  +'Z'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6
+  +#26'    SELECT * FROM CBUTIONS'#0#6'Params'#14#0#4'left'#3'0'#3#3'top'#2'p'#0
+  +#0#9'TSQLQuery'#15'TableFundGroups'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Activ'
+  +'e'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'
+  +#8'ReadOnly'#8#11'SQL.Strings'#1#6#28'    SELECT * FROM FUNDGROUPS'#0#6'Para'
+  +'ms'#14#0#4'left'#3'0'#3#3'top'#2' '#0#0#9'TSQLQuery'#12'QuerySumCont'#9'Ind'
+  +'exName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'FBConnect'
+  +'ionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'
+  +#1#6'$Select SUM(C.AMOUNT) from CBUTIONS C'#6#25'where C.C_DATE>=:FromDate'#6
+  +#21'and C.C_DATE<=:ToDate'#6#29'and C.DETAIL_FUND>=:FundParm1'#6#29'and C.DE'
+  +'TAIL_FUND<=:FundParm2'#6#23'and C.ENV_NO>=:EnvParm1'#6#23'and C.ENV_NO<=:En'
+  +'vParm2'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9
+  +'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'
+  +#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'Fund'
+  +'Parm1'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6
+  +#9'FundParm2'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'N'
+  +'ame'#6#8'EnvParm1'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknow'
+  +'n'#4'Name'#6#8'EnvParm2'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#8#2#3'to'
+  +'p'#3#144#1#0#0#9'TSQLQuery'#11'QueryMember'#9'IndexName'#6#13'DEFAULT_ORDER'
+  +#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16
+  +'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'$Select Sum(C.Amount) f'
+  +'rom CBUTIONS C'#6#21'where C.ENV_NO=:EnvNo'#6#23'and C.C_DATE>=:FromDate'#6
+  +#21'and C.C_DATE<=:ToDate'#6#27'and C.DETAIL_FUND=:FundParm'#0#6'Params'#14#1
+  +#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'EnvNo'#9'ParamType'#7#9'ptUnknown'#0
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnkno'
+  +'wn'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptU'
+  +'nknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FundParm'#9'ParamType'#7
+  +#9'ptUnknown'#0#0#4'left'#3'0'#3#3'top'#3#208#0#0#0#9'TSQLQuery'#13'QueryMem'
+  +'Print'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8
+  +'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6#13'   Select M.*'#6#20'      from MEMBERS M'#6
+  +#24'      where M.PRINT =''X'''#6#21'      order by ENV_NO'#6#0#0#6'Params'
+  +#14#0#4'left'#3'0'#3#3'top'#3'0'#1#0#13'TLongintField'#19'QueryMemPrintENV_N'
+  +'O'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#6'ENV_NO'#5
+  +'Index'#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWher'
+  +'e'#0#8'ReadOnly'#8#8'Required'#9#0#0#12'TStringField'#18'QueryMemPrintFNAME'
+  +#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'FNAME'#5'In'
+  +'dex'#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'
+  +#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#12'TStringField'#17'QueryMem'
+  +'PrintNAME'#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4
+  +'NAME'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9
+  ,'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#0#9'TSQLQuery'#15
+  +'QueryMemberData'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Da'
+  +'tabase'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadO'
+  +'nly'#8#11'SQL.Strings'#1#6'/Select * from MEMBERS where ENV_NO  =  :EnvParm'
+  +#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'EnvParm'#9'ParamTyp'
+  +'e'#7#9'ptUnknown'#0#0#4'left'#3#224#3#3'top'#2' '#0#0#9'TSQLQuery'#13'Query'
+  +'FundDesc'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8
+  +#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'R'
+  +'eadOnly'#8#11'SQL.Strings'#1#6'<Select DESCRIPTION  from GROUPS where GROUP'
+  +'_NO =  :GroupParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9
+  +'GroupParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#224#3#3'top'#2'p'#0#12
+  +'TStringField'#24'QueryFundDescDESCRIPTION'#12'DisplayWidth'#2' '#9'FieldKin'
+  +'d'#7#6'fkData'#9'FieldName'#6#11'DESCRIPTION'#5'Index'#2#0#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#8#4'Size'#2' '#0#0#0#9'TSQLQuery'#8'QueryNow'#9'IndexName'#6#13'DEFAULT_ORD'
+  +'ER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Tr'
+  +'ansaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'''Selec'
+  +'t C.ENV_NO,C.DETAIL_FUND,C.AMOUNT '#6#15'from CBUTIONS C'#6#21'where  C.ENV'
+  +'_NO=:NEnv'#6#19'and C.C_DATE=:NDate'#0#6'Params'#14#1#8'DataType'#7#9'ftUnk'
+  +'nown'#4'Name'#6#4'NEnv'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftU'
+  +'nknown'#4'Name'#6#5'NDate'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'0'#3#3
+  +'top'#3#144#1#0#14'TSmallintField'#14'QueryNowENV_NO'#12'DisplayWidth'#2#10#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#6'ENV_NO'#5'Index'#2#0#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#9#0#0#14'TSmallintField'#19'QueryNowDETAIL_FUND'#12'DisplayWidth'#2#10#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#11'DETAIL_FUND'#5'Index'#2#1#11'Looku'
+  +'pCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8
+  +'Required'#9#0#0#9'TBCDField'#14'QueryNowAMOUNT'#12'DisplayWidth'#2#18#9'Fie'
+  +'ldKind'#7#6'fkData'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#2#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#9#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2
+  +#2#0#0#0#9'TSQLQuery'#14'QueryEnvPledge'#9'IndexName'#6#13'DEFAULT_ORDER'#8
+  +'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6#23'  Select * from PLEDGES'#6#27'  where ENV_N'
+  +'O =  :EnvParm'''#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'En'
+  +'vParm'''#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#224#3#3'top'#3'0'#1#0#0#9
+  +'TSQLQuery'#10'TableLabel'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Da'
+  +'tabase'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadO'
+  +'nly'#8#11'SQL.Strings'#1#6#23'   Select * from Labels'#0#6'Params'#14#0#4'l'
+  +'eft'#3#224#3#3'top'#3#144#1#0#0#11'TDatasource'#6'SrcMem'#7'DataSet'#7#8'Qu'
+  +'eryMem'#12'OnDataChange'#7#16'SrcMemDataChange'#4'left'#3'0'#3#3'top'#3#248
+  +#1#0#0#11'TDatasource'#6'SrcNow'#7'DataSet'#7#8'QueryNow'#4'left'#3#224#3#3
+  +'top'#3#248#1#0#0#9'TSQLQuery'#8'TableMem'#9'IndexName'#6#13'DEFAULT_ORDER'#6
+  +'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'FBConnectionEZ'#11'Transact'
+  +'ion'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6')Select M.ENV'
+  +'_NO,M.Title, M.FNAME, M.NAME,'#6'*M.ADDRESS_1, M.ADDRESS_2, M.CITY, M.STATE'
+  +','#6#5'M.ZIP'#6#14'from MEMBERS M'#6#18'where M.ENV_NO > 0'#6#17'order by M'
+  +'.ENV_NO'#0#6'Params'#14#0#4'left'#3'0'#3#3'top'#3'`'#2#0#12'TStringField'#13
+  +'TableMemTITLE'#12'DisplayWidth'#2#14#9'FieldKind'#7#6'fkData'#9'FieldName'#6
+  +#5'TITLE'#5'Index'#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'
+  +#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2#14#0#0#12'TStringField'
+  +#13'TableMemFNAME'#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldNam'
+  +'e'#6#5'FNAME'#5'Index'#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUp'
+  +'date'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#12'TStrin'
+  +'gField'#12'TableMemNAME'#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'F'
+  +'ieldName'#6#4'NAME'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10
+  +'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#12
+  +'TStringField'#17'TableMemADDRESS_1'#12'DisplayWidth'#2'8'#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#9'ADDRESS_1'#5'Index'#2#3#11'LookupCache'#8#13'Provi'
+  +'derFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Si'
+  +'ze'#2'8'#0#0#12'TStringField'#17'TableMemADDRESS_2'#12'DisplayWidth'#2'8'#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#9'ADDRESS_2'#5'Index'#2#4#11'LookupCa'
+  +'che'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'R'
+  +'equired'#8#4'Size'#2'8'#0#0#12'TStringField'#12'TableMemCITY'#12'DisplayWid'
+  ,'th'#2'*'#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'CITY'#5'Index'#2#5#11'Lo'
+  +'okupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'
+  +#8#8'Required'#8#4'Size'#2'*'#0#0#12'TStringField'#13'TableMemSTATE'#12'Disp'
+  +'layWidth'#2#2#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'STATE'#5'Index'#2#6
+  +#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'Read'
+  +'Only'#8#8'Required'#8#4'Size'#2#2#0#0#12'TStringField'#11'TableMemZIP'#12'D'
+  +'isplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#3'ZIP'#5'Index'#2
+  +#7#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'Re'
+  +'adOnly'#8#8'Required'#8#4'Size'#2#10#0#0#0#9'TSQLQuery'#8'QueryMem'#9'Index'
+  +'Name'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14
+  +'FBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL'
+  +'.Strings'#1#6'!   Select M.ENV_NO,M.FNAME,M.NAME'#6#17'   from MEMBERS M'#6
+  +#21'   where M.PRINT =''X'''#6#18'   order by ENV_NO'#6#0#0#6'Params'#14#0#4
+  +'left'#3#224#3#3'top'#3'`'#2#0#13'TLongintField'#20'QueryMemPrintENV_NO1'#12
+  +'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#6'ENV_NO'#5'Inde'
+  +'x'#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0
+  +#8'ReadOnly'#8#8'Required'#9#0#0#12'TStringField'#19'QueryMemPrintFNAME1'#12
+  +'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'FNAME'#5'Index'
+  +#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8
+  +'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#12'TStringField'#18'QueryMemPrin'
+  +'tNAME1'#12'DisplayWidth'#2' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'NAM'
+  +'E'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfI'
+  +'nWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2' '#0#0#0#11'TDatasource'#9
+  +'SrcMemAll'#7'DataSet'#7#8'TableMem'#12'OnDataChange'#7#16'SrcMemDataChange'
+  +#4'left'#3#152#2#3'top'#3'`'#2#0#0#9'TSQLQuery'#10'QueryLabel'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQL'
+  +'TransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#27'   select L.* from LABE'
+  +'LS L'#6'!   where L.LABELSTYLE =:StyleParm'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#9'StyleParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3
+  +#8#2#3'top'#3'`'#2#0#0#9'TSQLQuery'#11'QueryDetail'#9'IndexName'#6#13'DEFAUL'
+  +'T_ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16
+  +'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#27'    Select F.* from '
+  +'Funds F'#6'''    where F.DETAIL_FUND_NO =:DetailParm'#6#0#0#6'Params'#14#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#10'DetailParm'#9'ParamType'#7#9'ptUnknow'
+  +'n'#0#0#4'left'#3#152#2#3'top'#3#168#2#0#14'TSmallintField'#25'QueryDetailDE'
+  +'TAIL_FUND_NO'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6
+  +#14'DETAIL_FUND_NO'#5'Index'#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'p'
+  +'fInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0#12'TStringField'
+  +#22'QueryDetailDESCRIPTION'#12'DisplayWidth'#2'$'#9'FieldKind'#7#6'fkData'#9
+  +'FieldName'#6#11'DESCRIPTION'#5'Index'#2#1#11'LookupCache'#8#13'ProviderFlag'
+  +'s'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#4'Size'#2'$'
+  +#0#0#14'TSmallintField'#18'QueryDetailACCOUNT'#12'DisplayWidth'#2#10#9'Field'
+  +'Kind'#7#6'fkData'#9'FieldName'#6#7'ACCOUNT'#5'Index'#2#2#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#9#0#0#0#9'TSQLQuery'#13'QueryIsMember'#9'IndexName'#6#13'DEFAULT_ORDER'#6'A'
+  +'ctive'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7#16'SQLTransacti'
+  +'onEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'%      Select COUNT(*) from MEMBERS'
+  +'  M'#6#30'      where M.ENV_NO =:EnvParm'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#7'EnvParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3
+  +#224#3#3'top'#3#208#0#0#13'TLongintField'#18'QueryIsMemberCOUNT'#12'DisplayW'
+  +'idth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'COUNT'#5'Index'#2#0#11
+  +'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnl'
+  +'y'#8#8'Required'#9#0#0#0#9'TSQLQuery'#11'TableChurch'#9'IndexName'#6#13'DEF'
+  +'AULT_ORDER'#6'Active'#9#8'Database'#7#14'FBConnectionEZ'#11'Transaction'#7
+  +#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#26'      Select * fr'
+  +'om Church'#0#6'Params'#14#0#4'left'#3'0'#3#3'top'#3#168#2#0#0#0
+]);
