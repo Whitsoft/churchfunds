@@ -1,0 +1,568 @@
+LazarusResources.Add('TDataMod','FORMDATA',[
+  'TPF0'#8'TDataMod'#7'DataMod'#14'OldCreateOrder'#8#6'Height'#3#16#3#16'Horizo'
+  +'ntalOffset'#2#11#14'VerticalOffset'#3#163#0#5'Width'#3#191#4#0#11'TDatasour'
+  +'ce'#12'QueryTranSrc'#7'DataSet'#7#11'ZQueryTrans'#4'left'#2'8'#3'top'#3#144
+  +#0#0#0#9'TSQLQuery'#8'ZQueryDP'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalc'
+  +'Fields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransact'
+  +'ionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'/Select D.POST_DATE,D.AMOUNT,D.MEM'
+  +'O From DPOST D'#6#18'Order by Post_Date'#0#6'Params'#14#0#4'left'#3'h'#2#3
+  +'top'#2'P'#0#0#9'TSQLQuery'#12'ZQueryReturn'#9'IndexName'#6#13'DEFAULT_ORDER'
+  +#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transa'
+  +'ction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6';select C.C'
+  +'heck_No,C.Vendor,C.Amount,C.Check_Date,C.Returned'#6#13'From Checks C'#6'6w'
+  +'here (C.Check_No>:RetParm and C.Returned IS NOT NULL)'#6'0or (C.Check_No<:R'
+  +'etParm and C.Returned IS  NULL)'#6#24'and C.Check_Date>=:BDate'#6#24'and C.'
+  +'Check_Date<=:EDate'#6#19'Order by C.Check_No'#0#6'Params'#14#1#8'DataType'#7
+  +#9'ftUnknown'#4'Name'#6#7'RetParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataTyp'
+  +'e'#7#9'ftUnknown'#4'Name'#6#5'BDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'Data'
+  +'Type'#7#9'ftUnknown'#4'Name'#6#5'EDate'#9'ParamType'#7#9'ptUnknown'#0#0#4'l'
+  +'eft'#2'8'#3'top'#3#216#1#0#0#9'TSQLQuery'#12'ZTblAccounts'#9'IndexName'#6#13
+  +'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnecti'
+  +'onEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#24'  Select * from ACCOUNTS'#0#6'Params'#14#0#4'left'#3#224#1#3'top'#3#152
+  +#1#0#0#13'TIBConnection'#14'IBConnectionEZ'#9'Connected'#9#11'LoginPrompt'#8
+  +#12'DatabaseName'#6#30'/home/don/firebird/ezfunds.fdb'#14'KeepConnection'#8#8
+  +'Password'#6#9'masterkey'#11'Transaction'#7#16'SQLTransactionEZ'#8'UserName'
+  +#6#6'SYSDBA'#4'left'#2'8'#3'top'#2#24#0#0#15'TSQLTransaction'#16'SQLTransact'
+  +'ionEZ'#6'Active'#9#6'Action'#7#8'caCommit'#8'Database'#7#14'IBConnectionEZ'
+  +#4'left'#2'8'#3'top'#2'P'#0#0#9'TSQLQuery'#15'ZQueryAccChecks'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11
+  +'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'+Sele'
+  +'ct Sum(C.Amount) from CHECKS C, TRANS T'#6#27'where C.CHECK_NO=T.CHECK_NO'#6
+  +#27'and C.CHECK_DATE>=:FromDate'#6#25'and C.CHECK_DATE<=:ToDate'#6#22'and T.'
+  +'ACCOUNT=:AccParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'F'
+  +'romDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'
+  +#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Na'
+  +'me'#6#7'AccParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'('#4#3'top'#3#144
+  +#0#0#0#9'TSQLQuery'#12'ZQueryEmpSum'#9'IndexName'#6#13'DEFAULT_ORDER'#14'Aut'
+  +'oCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTra'
+  +'nsactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6',Select SUM(P.HOURS),Sum(P.NE'
+  +'T),Sum(P.GROSS),'#6'/Sum(P.FED),Sum(P.FICA),Sum(P.MED),Sum(P.STATE),'#6'+Su'
+  +'m(P.LOCAL),Sum(P.PENSION),Sum(P.DEDUCT1),'#6'-Sum(P.DEDUCT2),Sum(P.DEDUCT3)'
+  +',Sum(P.DEDUCT4),'#6#14'Sum(P.DEDUCT5)'#6#15'From PayStubs P'#6#27'where P.P'
+  +'ay_Date>=:FromDate'#6#23'and P.Pay_Date<=:ToDate'#6#30'and P.Soc_Sec_No lik'
+  +'e :SocParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDat'
+  +'e'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'T'
+  +'oDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6
+  +#7'SocParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'X'#1#3'top'#3#216#1#0#0
+  +#9'TSQLQuery'#13'ZQueryTranAcc'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9
+  +#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16
+  +'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'!Select Sum(T.AMOUNT) f'
+  +'rom TRANS T'#6#5'where'#6#18'T.ACCOUNT=:AccParm'#6#22'and T.TRAN_TYPE=:PTyp'
+  +'e'#6#23'AND T.TRAN_DATE>=:BDate'#6#23'and T.TRAN_DATE<=:EDate'#0#6'Params'
+  +#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'AccParm'#9'ParamType'#7#9'ptUnk'
+  +'nown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'PType'#9'ParamType'#7#9'pt'
+  +'Unknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'BDate'#9'ParamType'#7#9
+  +'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'EDate'#9'ParamType'#7
+  +#9'ptUnknown'#0#0#4'left'#3#216#0#3'top'#3'h'#2#0#0#9'TSQLQuery'#13'ZQueryDP'
+  +'Total'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7
+  +#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11
+  +'SQL.Strings'#1#6'!Select Sum(D.Amount) from DPOST D'#6#28'where D.POST_DATE'
+  +'>=:FromDate'#6#24'and D.POST_DATE<=:ToDate'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3
+  +#0#3#3'top'#2#24#0#0#9'TSQLQuery'#15'ZQuerySumReturn'#9'IndexName'#6#13'DEFA'
+  +'ULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transac'
+  ,'tion'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#20'select SU'
+  +'M(C.Amount)'#6#13'From Checks C'#6'8where ((C.Check_No>:RetParm and C.Retur'
+  +'ned  IS NOT NULL)'#6'0or (C.Check_No<:RetParm and C.Returned IS NULL))'#6#24
+  +'and C.Check_Date>=:BDate'#6#24'and C.Check_Date<=:EDate'#6#0#6#0#0#6'Params'
+  +#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'RetParm'#9'ParamType'#7#9'ptUnk'
+  +'nown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'BDate'#9'ParamType'#7#9'pt'
+  +'Unknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'EDate'#9'ParamType'#7#9
+  +'ptUnknown'#0#0#4'left'#3#0#3#3'top'#3'X'#1#0#0#9'TSQLQuery'#13'ZQueryAccTyp'
+  +'e'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Data'
+  +'base'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnl'
+  +'y'#8#11'SQL.Strings'#1#6'!Select A.ACC_TYPE from ACCOUNTS A'#6#5'where'#6#17
+  +'  A.ACCOUNT =:Acc'#6#0#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6
+  +#3'Acc'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'0'#4#3'top'#3#16#1#0#14'TS'
+  +'mallintField'#21'ZQueryAccTypeACC_TYPE'#12'DisplayWidth'#2#10#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#8'ACC_TYPE'#5'Index'#2#0#11'LookupCache'#8#13'Prov'
+  +'iderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0
+  +#0#9'TSQLQuery'#13'ZQueryPayroll'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCa'
+  +'lcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransa'
+  +'ctionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#26'  Select * from PAYROLL  P'#6
+  +#30'  where P.SOC_SEC_NO =:SocParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnkno'
+  +'wn'#4'Name'#6#7'SocParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#224#1#3
+  +'top'#3#144#0#0#0#9'TSQLQuery'#14'ZQueryCheckSum'#9'IndexName'#6#13'DEFAULT_'
+  +'ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'
+  +#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'Select C.*  fro'
+  +'m Checks C'#6#26'Where Check_No>=:FromCheck'#6#24'and C.Check_No<=:ToCheck'
+  +#6#27'and C.Check_Date>=:FromDate'#6#25'and C.Check_Date<=:ToDate'#6#27'and '
+  +'C.Vendor like :VendParm'#6#0#6#0#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'
+  +#4'Name'#6#9'FromCheck'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUn'
+  +'known'#4'Name'#6#7'ToCheck'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataTy'
+  +'pe'#7#9'ftUnknown'#4'Name'#6#8'VendParm'#9'ParamType'#7#9'ptUnknown'#0#0#4
+  +'left'#3#0#3#3'top'#3#208#0#0#0#9'TSQLQuery'#16'ZQueryCheckTotal'#9'IndexNam'
+  +'e'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'
+  +#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'"S'
+  +'elect Sum(C.Amount) from CHECKS C'#6#29'where C.CHECK_DATE>=:FromDate'#6#25
+  +'and C.CHECK_DATE<=:ToDate'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Na'
+  +'me'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'
+  +#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#0#3#3'top'#2
+  +'P'#0#0#9'TSQLQuery'#15'ZQueryLiabTotal'#9'IndexName'#6#13'DEFAULT_ORDER'#14
+  +'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQL'
+  +'TransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'!Select Sum(T.AMOUNT) from'
+  +' TRANS T'#6#5'where'#6#16'(T.TRAN_TYPE>0) '#6#3'and'#6#24'((T.CHECK_NO=:Che'
+  +'ckParm)'#6#2'or'#6#13'(0=:CheckParm'#6#26'And T.TRAN_DATE>=:FromDate'#6#24
+  +'and T.TRAN_DATE<=:ToDate'#6#23'and T.ACCOUNT>=:FromACC'#6#23'and T.Account<'
+  +'=:ToACC))'#6#0#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'Chec'
+  +'kParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6
+  +#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Na'
+  +'me'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4
+  +'Name'#6#7'FromACC'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknow'
+  +'n'#4'Name'#6#5'ToACC'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#0#3#3'top'#3
+  +#144#0#0#0#9'TSQLQuery'#14'ZTblTempChecks'#9'IndexName'#6#13'DEFAULT_ORDER'#6
+  +'Active'#9#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransact'
+  +'ionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#27'  Select * from TEMP_CHECKS'#0
+  +#17'InsertSQL.Strings'#1#6#29'    INSERT INTO TEMP_CHECKS ('#6'!    CHECK_NO'
+  +', VENDOR, CHECK_DATE,'#6'"    AMOUNT, CHECKMEMO, CHECK_TYPE)'#6#12'    VALU'
+  +'ES ('#6'$    :CHECK_NO, :VENDOR, :CHECK_DATE,'#6'%    :AMOUNT, :CHECK_NO, :'
+  +'CHECK_TYPE);'#0#6'Params'#14#0#4'left'#3#216#0#3'top'#2'P'#0#0#9'TSQLQuery'
+  +#17'ZQueryDelTempTran'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8
+  +#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'R'
+  +'eadOnly'#8#11'SQL.Strings'#1#6'/delete from Temp_Trans where CHECK_NO=:Chec'
+  +'kPrm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'CheckPrm'#9'P'
+  +'aramType'#7#9'ptUnknown'#0#0#4'left'#3'('#4#3'top'#2#24#0#0#9'TSQLQuery'#19
+  +'ZQuerySumTempChecks'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8
+  ,'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6'(Select Sum(C.Amount) from TEMP_CHECKS  C'#0#6
+  +'Params'#14#0#4'left'#3#0#3#3'top'#3#152#1#0#0#9'TSQLQuery'#13'ZQueryTempCks'
+  +#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBCo'
+  +'nnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Str'
+  +'ings'#1#6#29'  Select * from TEMP_CHECKS C'#6#30'  where C.CHECK_NO =:Check'
+  +'Parm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'CheckParm'#9
+  +'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'h'#2#3'top'#2#24#0#0#9'TSQLQuery'#12
+  +'ZQueryPayAcc'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcField'
+  +'s'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'
+  +#8'ReadOnly'#8#11'SQL.Strings'#1#6'''Select A.Account,A.Name from Accounts A'
+  +#6#22'where A.Payroll=:PParm'#6#20'or A.ACC_TYPE=:PType'#6#0#6#0#0#6'Params'
+  +#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'PParm'#9'ParamType'#7#9'ptUnkno'
+  +'wn'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'PType'#9'ParamType'#7#9'ptUn'
+  +'known'#0#0#4'left'#3'X'#1#3'top'#3' '#2#0#0#9'TSQLQuery'#14'ZQueryPayCheck'
+  +#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Databas'
+  +'e'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8
+  +#11'SQL.Strings'#1#6'1Select  C.Check_No,C.Amount,C.Vendor,C.Check_Date'#6#26
+  +'From  Checks C, PayStubs P'#6' Where P.Soc_Sec_No Like :SocParm'#6#26'and C'
+  +'.Check_No=P.PCheck_No'#6#27'and C.Check_Date>=:FromDate'#6#25'and C.Check_D'
+  +'ate<=:ToDate'#6#19'order by C.Check_No'#6#0#6#0#0#6'Params'#14#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#7'SocParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataT'
+  +'ype'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#0
+  +#4'left'#3#224#1#3'top'#2'P'#0#0#9'TSQLQuery'#10'ZTblChecks'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConne'
+  +'ctionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.String'
+  +'s'#1#6#22'  Select * from CHECKS'#0#6'Params'#14#0#4'left'#3'X'#1#3'top'#2
+  +'P'#0#13'TLongintField'#18'ZTblChecksCHECK_NO'#12'DisplayWidth'#2#10#9'Field'
+  +'Kind'#7#6'fkData'#9'FieldName'#6#8'CHECK_NO'#5'Index'#2#0#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#9#0#0#9'TBCDField'#16'ZTblChecksAMOUNT'#12'DisplayWidth'#2#18#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#1#11'LookupCache'#8#13'Provid'
+  +'erFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Pre'
+  +'cision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0
+  +#12'TStringField'#16'ZTblChecksVENDOR'#12'DisplayWidth'#2#26#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#6'VENDOR'#5'Index'#2#2#11'LookupCache'#8#13'Provider'
+  +'Flags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'
+  +#2#26#0#0#10'TDateField'#20'ZTblChecksCHECK_DATE'#12'DisplayWidth'#2#10#9'Fi'
+  +'eldKind'#7#6'fkData'#9'FieldName'#6#10'CHECK_DATE'#5'Index'#2#3#11'LookupCa'
+  +'che'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'R'
+  +'equired'#8#0#0#12'TStringField'#19'ZTblChecksCHECKMEMO'#12'DisplayWidth'#2
+  +' '#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9'CHECKMEMO'#5'Index'#2#4#11'Loo'
+  +'kupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8
+  +#8'Required'#8#4'Size'#2' '#0#0#12'TStringField'#18'ZTblChecksRETURNED'#12'D'
+  +'isplayWidth'#2#1#9'FieldKind'#7#6'fkData'#9'FieldName'#6#8'RETURNED'#5'Inde'
+  +'x'#2#5#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0
+  +#8'ReadOnly'#8#8'Required'#8#4'Size'#2#1#0#0#14'TSmallintField'#19'ZTblCheck'
+  +'sVENDOR_NO'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9
+  +'VENDOR_NO'#5'Index'#2#6#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdat'
+  +'e'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#0#9'TSQLQuery'#16'ZQueryV'
+  +'oidChecks'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'
+  +#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11
+  +'SQL.Strings'#1#6#26'Select C.*  from CHECKS  C'#6#17'where C.AMOUNT<=0'#0#6
+  +'Params'#14#0#4'left'#3'X'#1#3'top'#3#208#0#0#0#9'TSQLQuery'#14'ZQueryPayStu'
+  +'bs'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'IBConnect'
+  +'ionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'
+  +#1#6#27'  Select * from PAYSTUBS  P'#6'   where P.PCHECK_NO = :CheckParm'#0#6
+  +'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'
+  +#7#9'ptUnknown'#0#0#10'UpdateMode'#7#10'upWhereAll'#4'left'#3#224#1#3'top'#3
+  +#208#0#0#0#11'TDatasource'#13'SrcCheckTrans'#7'DataSet'#7#14'ZTblCheckTrans'
+  +#4'left'#2'8'#3'top'#3' '#2#0#0#9'TSQLQuery'#13'ZQueryDelTran'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11
+  +'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'*dele'
+  ,'te from Trans where CHECK_NO=:CheckPrm'#0#6'Params'#14#1#8'DataType'#7#9'ft'
+  +'Unknown'#4'Name'#6#8'CheckPrm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'('
+  +#4#3'top'#2'P'#0#0#11'TDatasource'#9'VendorSrc'#7'DataSet'#7#10'ZTblVendor'#4
+  +'left'#3'X'#1#3'top'#3#16#1#0#0#9'TSQLQuery'#6'ZTblDP'#9'IndexName'#6#13'DEF'
+  +'AULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionE'
+  +'Z'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6
+  +#21'  Select * from DPOST'#0#6'Params'#14#0#4'left'#3#216#0#3'top'#3'X'#1#0
+  +#10'TDateField'#15'ZTblDPPOST_DATE'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'f'
+  +'kData'#9'FieldName'#6#9'POST_DATE'#5'Index'#2#0#11'LookupCache'#8#13'Provid'
+  +'erFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0#0#9
+  +'TBCDField'#12'ZTblDPAMOUNT'#12'DisplayWidth'#2#18#9'FieldKind'#7#6'fkData'#9
+  +'FieldName'#6#6'AMOUNT'#5'Index'#2#1#11'LookupCache'#8#13'ProviderFlags'#11
+  +#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#9'Precision'#2#18
+  +#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#12'TStringFie'
+  +'ld'#10'ZTblDPMEMO'#12'DisplayWidth'#3#128#0#9'FieldKind'#7#6'fkData'#9'Fiel'
+  +'dName'#6#4'MEMO'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfI'
+  +'nUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#3#128#0#0#0#0#9
+  +'TSQLQuery'#11'ZTblBalance'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'D'
+  +'atabase'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Read'
+  +'Only'#8#11'SQL.Strings'#1#6#25'  Select * from CKBALANCE'#0#17'UpdateSQL.St'
+  +'rings'#1#6#21'    Update  CKBalance'#6'     set BegBalance = :BegBalance'#0
+  +#6'Params'#14#0#10'UpdateMode'#7#10'upWhereAll'#4'left'#3'h'#2#3'top'#3#16#1
+  +#0#9'TBCDField'#21'ZTblBalanceBEGBALANCE'#12'DisplayWidth'#2#18#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#10'BEGBALANCE'#5'Index'#2#0#11'LookupCache'#8#13
+  +'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8
+  +#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2
+  +#0#0#13'TLongintField'#20'ZTblBalanceCHECKSEED'#12'DisplayWidth'#2#10#9'Fiel'
+  +'dKind'#7#6'fkData'#9'FieldName'#6#9'CHECKSEED'#5'Index'#2#1#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#8#0#0#9'TBCDField'#18'ZTblBalanceTEMPSUM'#12'DisplayWidth'#2#18#9'Field'
+  +'Kind'#7#6'fkData'#9'FieldName'#6#7'TEMPSUM'#5'Index'#2#2#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#8#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2
+  +#2#0#0#9'TBCDField'#18'ZTblBalanceBALANCE'#12'DisplayWidth'#2#18#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#7'BALANCE'#5'Index'#2#3#11'LookupCache'#8#13'Pro'
+  +'viderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9
+  +'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0
+  +#0#0#9'TSQLQuery'#8'ZTblFund'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFi'
+  +'elds'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactio'
+  +'nEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#21'  Select * from FUNDS'#0#6'Params'
+  +#14#0#4'left'#3'h'#2#3'top'#3#208#0#0#0#9'TSQLQuery'#6'ZTblXY'#9'IndexName'#6
+  +#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConne'
+  +'ctionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.String'
+  +'s'#1#6#23'  Select * from CHECKXY'#0#6'Params'#14#0#4'left'#3'h'#2#3'top'#3
+  +#144#0#0#0#9'TSQLQuery'#15'ZQueryPrintTran'#9'IndexName'#6#13'DEFAULT_ORDER'
+  +#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transa'
+  +'ction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#28'Select A'
+  +'.* from TEMP_TRANS A'#6#27'where A.CHECK_NO=:CheckParm'#0#6'Params'#14#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptUnknown'
+  +#0#0#4'left'#3#224#1#3'top'#3' '#2#0#0#11'TDatasource'#11'CheckingSrc'#7'Dat'
+  +'aSet'#7#10'ZTblChecks'#4'left'#3'X'#1#3'top'#2#24#0#0#11'TDatasource'#7'Src'
+  +'Void'#7'DataSet'#7#16'ZQueryVoidChecks'#4'left'#3'X'#1#3'top'#3#144#0#0#0#11
+  +'TDatasource'#6'EmpSrc'#7'DataSet'#7#12'ZQueryEmpSum'#4'left'#3'X'#1#3'top'#3
+  +#152#1#0#0#11'TDatasource'#5'DPSrc'#7'DataSet'#7#6'ZTblDP'#4'left'#3#216#0#3
+  +'top'#3#16#1#0#0#11'TDatasource'#14'SrcQueryChecks'#7'DataSet'#7#12'ZQueryCh'
+  +'ecks'#4'left'#2'8'#3'top'#3#16#1#0#0#11'TDatasource'#6'PaySrc'#7'DataSet'#7
+  +#11'ZTblPayroll'#4'left'#3#216#0#3'top'#3#152#1#0#0#9'TSQLQuery'#18'ZQuerySu'
+  +'mTempTrans'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Databas'
+  +'e'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8
+  +#11'SQL.Strings'#1#6'''Select Sum(T.Amount) from TEMP_TRANS  T'#6#18'where T'
+  +'.ACC_TYPE=1'#0#6'Params'#14#0#4'left'#3'0'#4#3'top'#3#208#0#0#0#9'TSQLQuery'
+  +#15'ZQueryTranTotal'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8
+  +'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6'!Select Sum(T.AMOUNT) from TRANS T'#6#6'where '
+  ,#6#15'(T.TRAN_TYPE=0)'#6#3'and'#6#24'((T.CHECK_NO=:CheckParm)'#6#2'or'#6#13
+  +'(0=:CheckParm'#6#26'And T.TRAN_DATE>=:FromDate'#6#24'and T.TRAN_DATE<=:ToDa'
+  +'te'#6#23'and T.ACCOUNT>=:FromACC'#6#23'and T.Account<=:ToACC))'#0#6'Params'
+  +#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptU'
+  +'nknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7
+  +#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'
+  +#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'FromACC'#9'ParamT'
+  +'ype'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'ToACC'#9'Par'
+  +'amType'#7#9'ptUnknown'#0#0#4'left'#3#0#3#3'top'#3#16#1#0#0#9'TSQLQuery'#14
+  +'ZQueryConTotal'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8'Dat'
+  +'abase'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOn'
+  +'ly'#8#11'SQL.Strings'#1#6'$Select Sum(C.Amount) from CBUTIONS C'#6#25'where'
+  +' C.C_DATE>=:FromDate'#6#21'and C.C_DATE<=:ToDate'#6#28'and C.Detail_Fund>=:'
+  +'FromFund'#6#26'and C.Detail_Fund<=:ToFund'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataTy'
+  +'pe'#7#9'ftUnknown'#4'Name'#6#8'FromFund'#9'ParamType'#7#9'ptUnknown'#0#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#6'ToFund'#9'ParamType'#7#9'ptUnknown'#0#0
+  +#4'left'#3'h'#2#3'top'#3'X'#1#0#0#11'TDatasource'#11'PayCheckSrc'#7'DataSet'
+  +#7#14'ZQueryPayCheck'#4'left'#3#216#0#3'top'#3' '#2#0#0#11'TDatasource'#6'Re'
+  +'tSrc'#7'DataSet'#7#12'ZQueryReturn'#4'left'#2'8'#3'top'#3#152#1#0#0#9'TSQLQ'
+  +'uery'#9'ZTblTrans'#9'IndexName'#6#13'DEFAULT_ORDER'#14'AutoCalcFields'#8#8
+  +'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6#21'  Select * from TRANS'#0#6'Params'#14#0#4'l'
+  +'eft'#3#224#1#3'top'#2#24#0#0#9'TSQLQuery'#10'ZQueryStub'#9'IndexName'#6#13
+  +'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnecti'
+  +'onEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#22'Select * from Paystubs'#6'''where Paystubs.SOC_SEC_NO LIKE :SocParm'#6
+  +'!and Paystubs.Pay_Date>=:StartParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnkn'
+  +'own'#4'Name'#6#7'SocParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'f'
+  +'tUnknown'#4'Name'#6#9'StartParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3
+  +#224#1#3'top'#3'X'#1#0#0#9'TSQLQuery'#14'ZTblCheckTrans'#9'IndexName'#6#13'D'
+  +'EFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectio'
+  +'nEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#21'  Select * from TRANS'#0#6'Params'#14#0#4'left'#2'8'#3'top'#3'h'#2#0#13
+  +'TLongintField'#22'ZTblCheckTransCHECK_NO'#12'DisplayWidth'#2#10#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#8'CHECK_NO'#5'Index'#2#0#11'LookupCache'#8#13'Pr'
+  +'oviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#0
+  +#0#14'TSmallintField'#21'ZTblCheckTransACCOUNT'#12'DisplayWidth'#2#10#9'Fiel'
+  +'dKind'#7#6'fkData'#9'FieldName'#6#7'ACCOUNT'#5'Index'#2#1#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#9#0#0#9'TBCDField'#20'ZTblCheckTransAMOUNT'#12'DisplayWidth'#2#18#9'FieldKi'
+  +'nd'#7#6'fkData'#9'FieldName'#6#6'AMOUNT'#5'Index'#2#2#11'LookupCache'#8#13
+  +'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8
+  +#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2
+  +#0#0#14'TSmallintField'#23'ZTblCheckTransTRAN_TYPE'#12'DisplayWidth'#2#10#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#9'TRAN_TYPE'#5'Index'#2#3#11'LookupCa'
+  +'che'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'R'
+  +'equired'#8#0#0#10'TDateField'#23'ZTblCheckTransTRAN_DATE'#12'DisplayWidth'#2
+  +#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9'TRAN_DATE'#5'Index'#2#4#11'Loo'
+  +'kupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8
+  +#8'Required'#8#0#0#0#9'TSQLQuery'#10'ZTblVendor'#9'IndexName'#6#13'DEFAULT_O'
+  +'RDER'#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'
+  +#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#26'     select * f'
+  +'rom VENDORS'#0#6'Params'#14#0#4'left'#3'X'#1#3'top'#3'X'#1#0#12'TStringFiel'
+  +'d'#21'ZTblVendorVENDOR_NAME'#12'DisplayWidth'#2'@'#9'FieldKind'#7#6'fkData'
+  +#9'FieldName'#6#11'VENDOR_NAME'#5'Index'#2#0#11'LookupCache'#8#13'ProviderFl'
+  +'ags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#4'Size'#2
+  +'@'#0#0#0#9'TSQLQuery'#13'ZTblFindTrans'#9'IndexName'#6#13'DEFAULT_ORDER'#14
+  +'AutoCalcFields'#8#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQL'
+  +'TransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#29'  Select * from TEMP_TR'
+  +'ANS  T'#6#30'  where T.CHECK_NO =:CheckParm'#0#6'Params'#14#1#8'DataType'#7
+  +#9'ftUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'
+  +#3#224#1#3'top'#3#216#1#0#0#9'TSQLQuery'#11'ZQueryTrans'#9'IndexName'#6#13'D'
+  ,'EFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectio'
+  +'nEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#6'Select'#6'8T.CHECK_NO,T.ACCOUNT, T.AMOUNT, T.TRAN_DATE, T.TRAN_TYPE'#6
+  +#31',A.NAME from TRANS T,ACCOUNTS A'#6#5'where'#6#19'A.ACCOUNT=T.ACCOUNT'#6#3
+  +'and'#6#23'(T.TRAN_TYPE>=:FromType'#6#25'and T.TRAN_TYPE<=:ToType)'#6#3'and'
+  +#6#24'((T.CHECK_NO=:CheckParm)'#6#2'or'#6#13'(0=:CheckParm'#6#26'And T.TRAN_'
+  +'DATE>=:FromDate'#6#24'and T.TRAN_DATE<=:ToDate'#6#23'and T.ACCOUNT>=:FromAC'
+  +'C'#6#23'and T.Account<=:ToACC))'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'
+  +#4'Name'#6#8'FromType'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnk'
+  +'nown'#4'Name'#6#6'ToType'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'f'
+  +'tUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'
+  +#7#9'ftUnknown'#4'Name'#6#8'FromDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'Data'
+  +'Type'#7#9'ftUnknown'#4'Name'#6#6'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8
+  +'DataType'#7#9'ftUnknown'#4'Name'#6#7'FromACC'#9'ParamType'#7#9'ptUnknown'#0
+  +#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#5'ToACC'#9'ParamType'#7#9'ptUnknown'
+  +#0#0#4'left'#2'8'#3'top'#3#208#0#0#13'TLongintField'#19'ZQueryTransCHECK_NO'
+  +#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#8'CHECK_NO'#5
+  +'Index'#2#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWher'
+  +'e'#0#8'ReadOnly'#8#8'Required'#9#0#0#14'TSmallintField'#18'ZQueryTransACCOU'
+  +'NT'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'ACCOUNT'
+  +#5'Index'#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWh'
+  +'ere'#0#8'ReadOnly'#8#8'Required'#9#0#0#9'TBCDField'#17'ZQueryTransAMOUNT'#12
+  +'DisplayWidth'#2#18#9'FieldKind'#7#6'fkData'#9'FieldName'#6#6'AMOUNT'#5'Inde'
+  +'x'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0
+  +#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#18#8'Currency'#8#8'MaxValue'#2#0
+  +#8'MinValue'#2#0#4'Size'#2#2#0#0#10'TDateField'#20'ZQueryTransTRAN_DATE'#12
+  +'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9'TRAN_DATE'#5'I'
+  +'ndex'#2#3#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'
+  +#0#8'ReadOnly'#8#8'Required'#8#0#0#14'TSmallintField'#20'ZQueryTransTRAN_TYP'
+  +'E'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9'TRAN_TYP'
+  +'E'#5'Index'#2#4#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfI'
+  +'nWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#12'TStringField'#15'ZQueryTransNA'
+  +'ME'#12'DisplayWidth'#2#24#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'NAME'#5
+  +'Index'#2#5#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWher'
+  +'e'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2#24#0#0#0#9'TSQLQuery'#12'ZQueryC'
+  +'hecks'#9'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8
+  +'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'Rea'
+  +'dOnly'#8#11'SQL.Strings'#1#6#25'Select C.*  from Checks C'#6#26'Where Check'
+  +'_No>=:FromCheck'#6#24'and C.Check_No<=:ToCheck'#6#27'and C.Check_Date>=:Fro'
+  +'mDate'#6#25'and C.Check_Date<=:ToDate'#6#27'and C.Vendor like :VendParm'#6#0
+  +#6#0#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#9'FromCheck'#9'Pa'
+  +'ramType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#7'ToCheck'
+  +#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#8'From'
+  +'Date'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6#6
+  +'ToDate'#9'ParamType'#7#9'ptUnknown'#0#1#8'DataType'#7#9'ftUnknown'#4'Name'#6
+  +#8'VendParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#2'8'#3'top'#3'X'#1#0#0
+  +#11'TDatasource'#13'SrcTempChecks'#7'DataSet'#7#14'ZTblTempChecks'#12'OnData'
+  +'Change'#7#23'SrcTempChecksDataChange'#4'left'#3#216#0#3'top'#2#24#0#0#11'TD'
+  +'atasource'#12'SrcTempTrans'#7'DataSet'#7#13'ZTblTempTrans'#4'left'#3#216#0#3
+  +'top'#3#144#0#0#0#9'TSQLQuery'#13'ZTblTempTrans'#9'IndexName'#6#13'DEFAULT_O'
+  +'RDER'#6'Active'#9#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQL'
+  +'TransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#31'  Select T.* from TEMP_'
+  +'TRANS  T'#6#30'  where T.CHECK_NO =:CheckParm'#0#17'InsertSQL.Strings'#1#6
+  +#23' INSERT INTO TEMP_TRANS'#6#22'   (CHECK_NO, ACCOUNT,'#6'    ACC_TYPE, CH'
+  +'ECK_DATE, AMOUNT)'#6#9'   Values'#6#24'   (:CHECK_NO, :ACCOUNT,'#6'$   :ACC'
+  +'_TYPE, :CHECK_DATE, :AMOUNT);'#6#0#6#0#0#6'Params'#14#1#8'DataType'#7#9'ftU'
+  +'nknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3#216
+  +#0#3'top'#3#208#0#0#0#9'TSQLQuery'#11'ZQueryAccNo'#9'IndexName'#6#13'DEFAULT'
+  +'_ORDER'#6'Active'#9#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'S'
+  +'QLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'"  select A.ACCOUNT from'
+  +' ACCOUNTS A'#6#24'  where A.ACCOUNT=:AParm'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#5'AParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'0'#4
+  +#3'top'#3'X'#1#0#0#9'TSQLQuery'#13'ZQueryAccName'#9'IndexName'#6#13'DEFAULT_'
+  +'ORDER'#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQLTransaction'
+  ,'EZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6'    select A.Name from ACCOUNTS A'#6
+  +#26'   where A.ACCOUNT =:AParm'#0#6'Params'#14#1#8'DataType'#7#9'ftUnknown'#4
+  +'Name'#6#5'AParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3'0'#4#3'top'#3#152
+  +#1#0#0#11'TDatasource'#10'DelTranSrc'#7'DataSet'#7#13'ZQueryDelTran'#4'left'
+  +#3#168#3#3'top'#3#216#1#0#0#9'TSQLQuery'#11'ZTblDelTran'#9'IndexName'#6#13'D'
+  +'EFAULT_ORDER'#6'Active'#9#14'AutoCalcFields'#8#8'Database'#7#14'IBConnectio'
+  +'nEZ'#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1
+  +#6#27'      Select * from Trans T'#0#6'Params'#14#0#10'DataSource'#7#11'Chec'
+  +'kingSrc'#4'left'#3'0'#4#3'top'#3#216#1#0#0#9'TSQLQuery'#12'ZTblPayStubs'#9
+  +'IndexName'#6#13'DEFAULT_ORDER'#6'Active'#9#8'Database'#7#14'IBConnectionEZ'
+  +#11'Transaction'#7#16'SQLTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#26
+  +' Select * from PAYSTUBS  P'#6'   where P.PCHECK_NO = :CheckParm'#0#17'Inser'
+  +'tSQL.Strings'#1#6#21' INSERT INTO PAYSTUBS'#6',   (PCHECK_NO, SOC_SEC_NO, H'
+  +'OURS, RATE, FED,'#6'$   FICA, MED, STATE, LOCAL, PENSION,'#6'    NET, GROSS'
+  +',PAY_DATE, DEDUCT1,'#6'&   DEDUCT2, DEDUCT3, DEDUCT4, DEDUCT5)'#6#9'   Valu'
+  +'es'#6'1   (:PCHECK_NO, :SOC_SEC_NO, :HOURS, :RATE, :FED,'#6'/   :FICA, :MED'
+  +', :STATE, :LOCAL, :PENSION, :NET,'#6')   :GROSS, :PAY_DATE, :DEDUCT1, :DEDU'
+  +'CT2,'#6'!   :DEDUCT3, :DEDUCT4, :DEDUCT5);'#0#6'Params'#14#1#8'DataType'#7#9
+  +'ftUnknown'#4'Name'#6#9'CheckParm'#9'ParamType'#7#9'ptUnknown'#0#0#4'left'#3
+  +#224#1#3'top'#3#16#1#0#13'TLongintField'#21'ZTblPayStubsPCHECK_NO'#12'Displa'
+  +'yWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#9'PCHECK_NO'#5'Index'#2
+  +#0#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'Re'
+  +'adOnly'#8#8'Required'#9#0#0#12'TStringField'#22'ZTblPayStubsSOC_SEC_NO'#12
+  +'DisplayWidth'#2#11#9'FieldKind'#7#6'fkData'#9'FieldName'#6#10'SOC_SEC_NO'#5
+  +'Index'#2#1#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWher'
+  +'e'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2#11#0#0#14'TSmallintField'#17'ZTb'
+  +'lPayStubsHOURS'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'
+  +#6#5'HOURS'#5'Index'#2#2#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdat'
+  +'e'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCDField'#16'ZTblPaySt'
+  +'ubsRATE'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#4'RAT'
+  +'E'#5'Index'#2#3#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfI'
+  +'nWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxV'
+  +'alue'#2#0#8'MinValue'#2#0#0#0#9'TBCDField'#17'ZTblPayStubsGROSS'#12'Display'
+  +'Width'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5'GROSS'#5'Index'#2#4#11
+  +'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnl'
+  +'y'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValu'
+  +'e'#2#0#4'Size'#2#3#0#0#9'TBCDField'#15'ZTblPayStubsFED'#12'DisplayWidth'#2#9
+  +#9'FieldKind'#7#6'fkData'#9'FieldName'#6#3'FED'#5'Index'#2#5#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'
+  +#2#3#0#0#9'TBCDField'#16'ZTblPayStubsFICA'#12'DisplayWidth'#2#9#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#4'FICA'#5'Index'#2#6#11'LookupCache'#8#13'Provid'
+  +'erFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Pre'
+  +'cision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9
+  +'TBCDField'#15'ZTblPayStubsMED'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'
+  +#9'FieldName'#6#3'MED'#5'Index'#2#7#11'LookupCache'#8#13'ProviderFlags'#11#10
+  +'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'C'
+  +'urrency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#17
+  +'ZTblPayStubsSTATE'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldNam'
+  +'e'#6#5'STATE'#5'Index'#2#8#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUp'
+  +'date'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currenc'
+  +'y'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#17'ZTblPa'
+  +'yStubsLOCAL'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#5
+  +'LOCAL'#5'Index'#2#9#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9
+  +'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'M'
+  +'axValue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsPE'
+  +'NSION'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'PENSI'
+  +'ON'#5'Index'#2#10#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'p'
+  +'fInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'Ma'
+  +'xValue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsDED'
+  +'UCT1'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT'
+  +'1'#5'Index'#2#11#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pf'
+  +'InWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'Max'
+  +'Value'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsDEDU'
+  ,'CT2'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT2'
+  +#5'Index'#2#12#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInW'
+  +'here'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxVal'
+  +'ue'#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsDEDUCT3'
+  +#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT3'#5'I'
+  +'ndex'#2#13#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWher'
+  +'e'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'
+  +#2#0#8'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsDEDUCT4'#12
+  +'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT4'#5'Inde'
+  +'x'#2#14#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0
+  +#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8
+  +'MinValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#19'ZTblPayStubsDEDUCT5'#12'Displ'
+  +'ayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT5'#5'Index'#2
+  +#15#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'R'
+  +'eadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'M'
+  +'inValue'#2#0#4'Size'#2#3#0#0#9'TBCDField'#15'ZTblPayStubsNET'#12'DisplayWid'
+  +'th'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#3'NET'#5'Index'#2#16#11'Loo'
+  +'kupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8
+  +#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0
+  +#4'Size'#2#3#0#0#10'TDateField'#20'ZTblPayStubsPAY_DATE'#12'DisplayWidth'#2
+  +#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#8'PAY_DATE'#5'Index'#2#17#11'Loo'
+  +'kupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8
+  +#8'Required'#8#0#0#0#9'TSQLQuery'#11'ZTblPayroll'#9'IndexName'#6#13'DEFAULT_'
+  +'ORDER'#6'Active'#9#8'Database'#7#14'IBConnectionEZ'#11'Transaction'#7#16'SQ'
+  +'LTransactionEZ'#8'ReadOnly'#8#11'SQL.Strings'#1#6#25'    Select * from PAYR'
+  +'OLL'#0#6'Params'#14#0#4'left'#3#216#0#3'top'#3#216#1#0#12'TStringField'#21
+  +'ZTblPayrollSOC_SEC_NO'#12'DisplayWidth'#2#11#9'FieldKind'#7#6'fkData'#9'Fie'
+  +'ldName'#6#10'SOC_SEC_NO'#5'Index'#2#0#11'LookupCache'#8#13'ProviderFlags'#11
+  +#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#9#4'Size'#2#11#0#0
+  +#12'TStringField'#15'ZTblPayrollNAME'#12'DisplayWidth'#2'*'#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#4'NAME'#5'Index'#2#1#11'LookupCache'#8#13'ProviderFl'
+  +'ags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#4'Size'#2
+  +'*'#0#0#9'TBCDField'#15'ZTblPayrollWAGE'#12'DisplayWidth'#2#9#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#4'WAGE'#5'Index'#2#2#11'LookupCache'#8#13'Provider'
+  +'Flags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Preci'
+  +'sion'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14
+  +'TSmallintField'#23'ZTblPayrollWAGE_ACCOUNT'#12'DisplayWidth'#2#10#9'FieldKi'
+  +'nd'#7#6'fkData'#9'FieldName'#6#12'WAGE_ACCOUNT'#5'Index'#2#3#11'LookupCache'
+  +#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Requir'
+  +'ed'#8#0#0#9'TBCDField'#14'ZTblPayrollFED'#12'DisplayWidth'#2#9#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#3'FED'#5'Index'#2#4#11'LookupCache'#8#13'Provide'
+  +'rFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Prec'
+  +'ision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14
+  +'TSmallintField'#22'ZTblPayrollFED_ACCOUNT'#12'DisplayWidth'#2#10#9'FieldKin'
+  +'d'#7#6'fkData'#9'FieldName'#6#11'FED_ACCOUNT'#5'Index'#2#5#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#8#0#0#9'TBCDField'#15'ZTblPayrollFICA'#12'DisplayWidth'#2#9#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#4'FICA'#5'Index'#2#6#11'LookupCache'#8#13'ProviderFl'
+  +'ags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precisi'
+  +'on'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TS'
+  +'mallintField'#23'ZTblPayrollFICA_ACCOUNT'#12'DisplayWidth'#2#10#9'FieldKind'
+  +#7#6'fkData'#9'FieldName'#6#12'FICA_ACCOUNT'#5'Index'#2#7#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#8#0#0#9'TBCDField'#14'ZTblPayrollMED'#12'DisplayWidth'#2#9#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#3'MED'#5'Index'#2#8#11'LookupCache'#8#13'ProviderFla'
+  +'gs'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precisio'
+  +'n'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TSm'
+  +'allintField'#22'ZTblPayrollMED_ACCOUNT'#12'DisplayWidth'#2#10#9'FieldKind'#7
+  +#6'fkData'#9'FieldName'#6#11'MED_ACCOUNT'#5'Index'#2#9#11'LookupCache'#8#13
+  +'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8
+  +#0#0#9'TBCDField'#16'ZTblPayrollSTATE'#12'DisplayWidth'#2#9#9'FieldKind'#7#6
+  +'fkData'#9'FieldName'#6#5'STATE'#5'Index'#2#10#11'LookupCache'#8#13'Provider'
+  +'Flags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Preci'
+  +'sion'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14
+  ,'TSmallintField'#24'ZTblPayrollSTATE_ACCOUNT'#12'DisplayWidth'#2#10#9'FieldK'
+  +'ind'#7#6'fkData'#9'FieldName'#6#13'STATE_ACCOUNT'#5'Index'#2#11#11'LookupCa'
+  +'che'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'R'
+  +'equired'#8#0#0#9'TBCDField'#16'ZTblPayrollLOCAL'#12'DisplayWidth'#2#9#9'Fie'
+  +'ldKind'#7#6'fkData'#9'FieldName'#6#5'LOCAL'#5'Index'#2#12#11'LookupCache'#8
+  +#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'
+  +#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2
+  +#0#0#14'TSmallintField'#24'ZTblPayrollLOCAL_ACCOUNT'#12'DisplayWidth'#2#10#9
+  +'FieldKind'#7#6'fkData'#9'FieldName'#6#13'LOCAL_ACCOUNT'#5'Index'#2#13#11'Lo'
+  +'okupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'
+  +#8#8'Required'#8#0#0#9'TBCDField'#18'ZTblPayrollPENSION'#12'DisplayWidth'#2#9
+  +#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'PENSION'#5'Index'#2#14#11'LookupC'
+  +'ache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8
+  +'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4
+  +'Size'#2#2#0#0#14'TSmallintField'#26'ZTblPayrollPENSION_ACCOUNT'#12'DisplayW'
+  +'idth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#15'PENSION_ACCOUNT'#5'In'
+  +'dex'#2#15#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'
+  +#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCDField'#18'ZTblPayrollDEDUCT1'#12'Di'
+  +'splayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT1'#5'Index'
+  +#2#16#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8
+  +'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxValue'#2#0#8
+  +'MinValue'#2#0#4'Size'#2#2#0#0#14'TSmallintField'#22'ZTblPayrollDEDUCT1_ACC'
+  +#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#11'DEDUCT1_AC'
+  +'C'#5'Index'#2#17#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pf'
+  +'InWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCDField'#18'ZTblPayrollDEDUC'
+  +'T2'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7'DEDUCT2'
+  +#5'Index'#2#18#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'#9'pfInW'
+  +'here'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8'MaxVal'
+  +'ue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TSmallintField'#22'ZTblPayrollDE'
+  +'DUCT2_ACC'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'#6#11
+  +'DEDUCT2_ACC'#5'Index'#2#19#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUp'
+  +'date'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCDField'#18'ZTblPa'
+  +'yrollDEDUCT3'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldName'#6#7
+  +'DEDUCT3'#5'Index'#2#20#11'LookupCache'#8#13'ProviderFlags'#11#10'pfInUpdate'
+  +#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Currency'#8#8
+  +'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TSmallintField'#22'ZTblPay'
+  +'rollDEDUCT3_ACC'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9'FieldName'
+  +#6#11'DEDUCT3_ACC'#5'Index'#2#21#11'LookupCache'#8#13'ProviderFlags'#11#10'p'
+  +'fInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCDField'#18'Z'
+  +'TblPayrollDEDUCT4'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'#9'FieldNam'
+  +'e'#6#7'DEDUCT4'#5'Index'#2#22#11'LookupCache'#8#13'ProviderFlags'#11#10'pfI'
+  +'nUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2#9#8'Curr'
+  +'ency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TSmallintField'
+  +#22'ZTblPayrollDEDUCT4_ACC'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'fkData'#9
+  +'FieldName'#6#11'DEDUCT4_ACC'#5'Index'#2#23#11'LookupCache'#8#13'ProviderFla'
+  +'gs'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0#0#9'TBCD'
+  +'Field'#18'ZTblPayrollDEDUCT5'#12'DisplayWidth'#2#9#9'FieldKind'#7#6'fkData'
+  +#9'FieldName'#6#7'DEDUCT5'#5'Index'#2#24#11'LookupCache'#8#13'ProviderFlags'
+  +#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#9'Precision'#2
+  +#9#8'Currency'#8#8'MaxValue'#2#0#8'MinValue'#2#0#4'Size'#2#2#0#0#14'TSmallin'
+  +'tField'#22'ZTblPayrollDEDUCT5_ACC'#12'DisplayWidth'#2#10#9'FieldKind'#7#6'f'
+  +'kData'#9'FieldName'#6#11'DEDUCT5_ACC'#5'Index'#2#25#11'LookupCache'#8#13'Pr'
+  +'oviderFlags'#11#10'pfInUpdate'#9'pfInWhere'#0#8'ReadOnly'#8#8'Required'#8#0
+  +#0#0#0
+]);
