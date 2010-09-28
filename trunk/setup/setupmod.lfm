@@ -1,0 +1,1057 @@
+object DataMod: TDataMod
+  OldCreateOrder = False
+  Height = 784
+  HorizontalOffset = 11
+  VerticalOffset = 163
+  Width = 1215
+  object IBConnectionEZ: TIBConnection
+    Connected = True
+    LoginPrompt = False
+    DatabaseName = '/home/don/firebird/ezfunds.fdb'
+    KeepConnection = False
+    Password = 'masterkey'
+    Transaction = SQLTransactionEZ
+    UserName = 'SYSDBA'
+    left = 80
+    top = 24
+  end
+  object SQLTransactionEZ: TSQLTransaction
+    Active = True
+    Action = caCommit
+    Database = IBConnectionEZ
+    left = 80
+    top = 104
+  end
+  object ZQueryLiabOwe: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select sum(AMOUNT)'
+      'from Trans T'
+      'where T.ACCOUNT=:AccParm'
+      'and'
+      'T.TRAN_TYPE>0'
+      'and T.TRAN_DATE<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 80
+    top = 664
+  end
+  object ZQueryTotalCont: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(C.Amount) from CButions C'
+      'where C.C_Date>=:BDate'
+      'and C.C_date<=:EDate'
+      'And C.Detail_Fund<200'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 664
+  end
+  object ZQueryDelOldCont: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'delete  from CBUTIONS'
+      'where C_DATE<:CDParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CDParm'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 664
+  end
+  object ZTblXY: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    select * from CHECKXY'
+    )
+    Params = <>
+    left = 552
+    top = 664
+  end
+  object ZTblVendor: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    SELECT * FROM VENDORS'
+    )
+    Params = <>
+    left = 704
+    top = 664
+  end
+  object ZQueryLiabPay: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'select sum(AMOUNT)'
+      'from Trans T'
+      'where T.ACCOUNT=:AccParm'
+      'and T.TRAN_TYPE=0'
+      'and T.TRAN_DATE<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 80
+    top = 552
+  end
+  object ZQuerySumCont: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(C.Amount) from CButions C,Funds F'
+      'where C.Detail_Fund=F.Detail_Fund_No'
+      'and F.Account=:AccParm'
+      'and C.C_Date>=:BDate'
+      'and C.C_date<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 552
+  end
+  object ZQuerySumOldCont: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'SELECT SUM(AMOUNT) from CBUTIONS'
+      'where C_DATE<:CDATE'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CDATE'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 552
+  end
+  object ZTblBal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    SELECT * FROM CKBALANCE'
+    )
+    Params = <>
+    left = 560
+    top = 552
+  end
+  object ZTblAccounts: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AfterDelete = ZTblAccountsAfterDelete
+    AfterPost = ZTblAccountsAfterPost
+    BeforePost = ZTblAccountsBeforePost
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Select * from ACCOUNTS'
+    )
+    UpdateSQL.Strings = (
+      '    Update  ACCOUNTS'
+      '       Set  BUDGET = :BUDGET, NAME = :NAME,'
+      '       ACC_TYPE = :ACC_TYPE, GROUP_NO = :GROUP_NO,'
+      '       PAYROLL = :PAYROLL'
+      '       where  ACCOUNT =:ACCOUNT'
+    )
+    DeleteSQL.Strings = (
+      ' delete from ACCOUNTS'
+      '   where ACCOUNT =:OLD_ACCOUNT'
+    )
+    Params = <>
+    left = 704
+    top = 552
+    object ZTblAccountsACCOUNT: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblAccountsNAME: TStringField
+      DisplayWidth = 24
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 24
+    end
+    object ZTblAccountsBUDGET: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'BUDGET'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblAccountsACC_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACC_TYPE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblAccountsGROUP_NO: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'GROUP_NO'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblAccountsPAYROLL: TStringField
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'PAYROLL'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1
+    end
+  end
+  object ZQueryGroupDesc: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select G.DESCRIPTION from GROUPS G'
+      '     where G.GROUP_NO =:GroupParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'GroupParm'
+        ParamType = ptUnknown
+      end>
+    left = 856
+    top = 552
+  end
+  object ZQueryLiab: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select A.ACCOUNT,A.NAME from ACCOUNTS A'
+      'where A.ACC_TYPE>1'
+    )
+    Params = <>
+    left = 80
+    top = 424
+  end
+  object ZQueryDelOldDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'delete  from DPost'
+      'where POST_DATE<:DParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'DParm'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 424
+  end
+  object ZQuerySumTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.Amount) from Trans T'
+      'where T.Account=:AccParm'
+      'and T.Tran_Date>=:BDate'
+      'and T.Tran_Date<=:EDate'
+      'and T.Tran_Type=:TypeParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'TypeParm'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 424
+  end
+  object ZTblBalance: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from CKBALANCE'
+    )
+    Params = <>
+    left = 552
+    top = 424
+  end
+  object ZTblPay: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from PAYROLL P'
+      '     where P.SOC_SEC_NO =:SocParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    left = 704
+    top = 416
+  end
+  object ZQueryFindKey: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    Params = <>
+    left = 856
+    top = 416
+  end
+  object ZQueryAccounts: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select A.Account,A.Name,A.Acc_Type,A.Budget from Accounts A'
+      'where A.Group_No=:Group '
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'Group'
+        ParamType = ptUnknown
+      end>
+    left = 80
+    top = 304
+    object ZQueryAccountsACCOUNT: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZQueryAccountsNAME: TStringField
+      DisplayWidth = 24
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 24
+    end
+    object ZQueryAccountsACC_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACC_TYPE'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZQueryAccountsBUDGET: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'BUDGET'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+  end
+  object ZQueryTotalDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(D.Amount) from DPost D'
+      'where D.Post_Date>=:BDate'
+      'and D.Post_Date<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 304
+  end
+  object ZQuerySumOldChk: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'SELECT SUM(AMOUNT) from CHECKS'
+      'where CHECK_DATE<:CDATE'
+      'and RETURNED=''X'''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CDATE'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 304
+  end
+  object ZTblGroup: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AfterDelete = ZTblGroupAfterDelete
+    AfterPost = ZTblGroupAfterPost
+    BeforePost = ZTblGroupBeforePost
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '      Select * from GROUPS'
+      '      order by GROUP_NO'
+    )
+    UpdateSQL.Strings = (
+      '    Update  FUNDGROUPS'
+      '       Set  DESCRIPTION =:DESCRIPTION'
+      '       where  GROUP_NO =:GROUP_NO'
+    )
+    InsertSQL.Strings = (
+      ' insert  into GROUPS'
+      '       (GROUP_NO, DESCRIPTION)'
+      '     values(:GROUP_NO, :DESCRIPTION)'
+    )
+    DeleteSQL.Strings = (
+      ' delete from GROUPS'
+      '   where GROUP_NO =:OLD_GROUP_NO'
+    )
+    Params = <>
+    left = 552
+    top = 304
+  end
+  object ZQueryPlusDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(D.Amount) from DPost D'
+      'where  D.Amount>=0'
+      'and D.Post_Date>=:BDate'
+      'and D.Post_Date<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 200
+  end
+  object ZQueryTotalTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.Amount) from Trans T'
+      'where T.Tran_Date>=:BDate'
+      'and T.Tran_Date<=:EDate'
+      'and T.Tran_Type=:TypeParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'TypeParm'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 200
+  end
+  object ZTblFundGroups: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AfterDelete = ZTblFundGroupsAfterDelete
+    AfterPost = ZTblFundGroupsAfterPost
+    BeforePost = ZTblFundGroupsBeforePost
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * FROM FUNDGROUPS'
+      '  order by FUND_GROUP'
+    )
+    UpdateSQL.Strings = (
+      '     Update  FUNDGROUPS'
+      '       Set  DESCRIPTION =:DESCRIPTION'
+      '       where  FUND_GROUP =:FUND_GROUP'
+    )
+    InsertSQL.Strings = (
+      '     insert  into FUNDGROUPS'
+      '       (FUND_GROUP, DESCRIPTION)'
+      '     values(:FUND_GROUP, :DESCRIPTION)'
+    )
+    DeleteSQL.Strings = (
+      '   delete from FUNDGROUPS'
+      '   where FUND_GROUP =:OLD_FUND_GROUP'
+      ''
+    )
+    Params = <>
+    UpdateMode = upWhereAll
+    left = 552
+    top = 200
+    object ZTblFundGroupsFUND_GROUP: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'FUND_GROUP'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblFundGroupsDESCRIPTION: TStringField
+      DisplayWidth = 56
+      FieldKind = fkData
+      FieldName = 'DESCRIPTION'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 56
+    end
+  end
+  object ZQueryNegDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(D.Amount) from DPost D'
+      'where  D.Amount<0'
+      'and D.Post_Date>=:BDate'
+      'and D.Post_Date<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 232
+    top = 104
+  end
+  object ZQueryDelOldChk: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'delete  from CHECKS'
+      'where CHECK_DATE<:CDParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CDParm'
+        ParamType = ptUnknown
+      end>
+    left = 392
+    top = 104
+  end
+  object ZTblFund: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Select * from Funds'
+    )
+    Params = <>
+    left = 560
+    top = 104
+    object ZTblFundDETAIL_FUND_NO: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DETAIL_FUND_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblFundDESCRIPTION: TStringField
+      DisplayWidth = 36
+      FieldKind = fkData
+      FieldName = 'DESCRIPTION'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 36
+    end
+    object ZTblFundACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object VendSrc: TDatasource
+    DataSet = ZTblVendor
+    left = 856
+    top = 304
+  end
+  object SrcGroup: TDatasource
+    DataSet = ZTblGroup
+    left = 856
+    top = 104
+  end
+  object SrcAccounts: TDatasource
+    DataSet = ZQueryAccounts
+    left = 80
+    top = 200
+  end
+  object SrcFundGroups: TDatasource
+    DataSet = ZTblFundGroups
+    left = 232
+    top = 24
+  end
+  object AccSrc: TDatasource
+    DataSet = ZTblAccounts
+    left = 712
+    top = 104
+  end
+  object PaySrc: TDatasource
+    DataSet = ZTblPayroll
+    left = 712
+    top = 200
+  end
+  object FundSrc: TDatasource
+    DataSet = ZTblFund
+    left = 856
+    top = 200
+  end
+  object SrcFunds: TDatasource
+    DataSet = ZTblFunds
+    left = 712
+    top = 304
+  end
+  object ZTblAcc: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Select * from ACCOUNTS'
+    )
+    Params = <>
+    left = 856
+    top = 664
+    object ZTblAccACCOUNT: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblAccNAME: TStringField
+      DisplayWidth = 24
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 24
+    end
+    object ZTblAccBUDGET: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'BUDGET'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblAccACC_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACC_TYPE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblAccGROUP_NO: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'GROUP_NO'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblAccPAYROLL: TStringField
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'PAYROLL'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1
+    end
+  end
+  object ZTblFunds: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Select * from Funds'
+    )
+    UpdateSQL.Strings = (
+      '    Update  FUNDS'
+      '       Set  DESCRIPTION = :DESCRIPTION,'
+      '            ACCOUNT = :ACCOUNT'
+      '       where DETAIL_FUND_NO = :DETAIL_FUND_NO'
+    )
+    DeleteSQL.Strings = (
+      ' delete from FUNDS'
+      ' where DETAIL_FUND_NO =:OLD_DETAIL_FUND_NO'
+    )
+    Params = <>
+    left = 1016
+    top = 104
+    object ZTblFundsDETAIL_FUND_NO: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DETAIL_FUND_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblFundsDESCRIPTION: TStringField
+      DisplayWidth = 36
+      FieldKind = fkData
+      FieldName = 'DESCRIPTION'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 36
+    end
+    object ZTblFundsACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object ZQueryAccName: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select A.NAME from ACCOUNTS A'
+      '  where A.ACCOUNT =:AccParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end>
+    left = 1023
+    top = 552
+  end
+  object TableChurch: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    Select * from CHURCH'
+    )
+    UpdateSQL.Strings = (
+      '  Update CHURCH'
+      '  set Name =:Name,'
+      '  ADDRESS_1 =:ADDRESS_1,'
+      '  ADDRESS_2 =:ADDRESS_2,'
+      '  CITY =:CITY,'
+      '  STATE =:STATE,'
+      '  ZIP =:ZIP,'
+      '  PHONE =:PHONE'
+    )
+    Params = <>
+    UpdateMode = upWhereAll
+    left = 1016
+    top = 200
+  end
+  object QueryPayName: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Select * from Payroll P'
+      '   where P.SOC_SEC_NO =:SocParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    left = 1016
+    top = 304
+  end
+  object TableSpecial: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from Deductions'
+    )
+    Params = <>
+    left = 1016
+    top = 416
+  end
+  object QueryUpdatePayroll: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    ReadOnly = False
+    UpdateSQL.Strings = (
+      '  Update  Payroll'
+      '    set  BegBlance = :BegBalance'
+    )
+    Params = <>
+    left = 1023
+    top = 664
+  end
+  object ZTblPayroll: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from PAYROLL'
+    )
+    Params = <>
+    left = 712
+    top = 38
+  end
+  object SrcChurch: TDatasource
+    DataSet = TableChurch
+    left = 1018
+    top = 31
+  end
+end

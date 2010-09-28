@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,  LResources, ezsetupunit,setupmod,SQLDBLaz, lhelpcontrolpkg
+  Forms,  LResources,setupmod,SQLDBLaz, lhelpcontrolpkg
   { you can add units after this };
 
 {$IFDEF WINDOWS}{$R projectEZTest.rc}{$ENDIF}
