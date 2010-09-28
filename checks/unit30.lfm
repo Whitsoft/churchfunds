@@ -1,0 +1,2069 @@
+object DataMod: TDataMod
+  OldCreateOrder = False
+  Height = 784
+  HorizontalOffset = 11
+  VerticalOffset = 163
+  Width = 1215
+  object QueryTranSrc: TDatasource
+    DataSet = ZQueryTrans
+    left = 56
+    top = 144
+  end
+  object ZQueryDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select D.POST_DATE,D.AMOUNT,D.MEMO From DPOST D'
+      'Order by Post_Date'
+    )
+    Params = <>
+    left = 616
+    top = 80
+  end
+  object ZQueryReturn: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'select C.Check_No,C.Vendor,C.Amount,C.Check_Date,C.Returned'
+      'From Checks C'
+      'where (C.Check_No>:RetParm and C.Returned IS NOT NULL)'
+      'or (C.Check_No<:RetParm and C.Returned IS  NULL)'
+      'and C.Check_Date>=:BDate'
+      'and C.Check_Date<=:EDate'
+      'Order by C.Check_No'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'RetParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 56
+    top = 472
+  end
+  object ZTblAccounts: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from ACCOUNTS'
+    )
+    Params = <>
+    left = 480
+    top = 408
+  end
+  object IBConnectionEZ: TIBConnection
+    Connected = True
+    LoginPrompt = False
+    DatabaseName = '/home/don/firebird/ezfunds.fdb'
+    KeepConnection = False
+    Password = 'masterkey'
+    Transaction = SQLTransactionEZ
+    UserName = 'SYSDBA'
+    left = 56
+    top = 24
+  end
+  object SQLTransactionEZ: TSQLTransaction
+    Active = True
+    Action = caCommit
+    Database = IBConnectionEZ
+    left = 56
+    top = 80
+  end
+  object ZQueryAccChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(C.Amount) from CHECKS C, TRANS T'
+      'where C.CHECK_NO=T.CHECK_NO'
+      'and C.CHECK_DATE>=:FromDate'
+      'and C.CHECK_DATE<=:ToDate'
+      'and T.ACCOUNT=:AccParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end>
+    left = 1064
+    top = 144
+  end
+  object ZQueryEmpSum: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select SUM(P.HOURS),Sum(P.NET),Sum(P.GROSS),'
+      'Sum(P.FED),Sum(P.FICA),Sum(P.MED),Sum(P.STATE),'
+      'Sum(P.LOCAL),Sum(P.PENSION),Sum(P.DEDUCT1),'
+      'Sum(P.DEDUCT2),Sum(P.DEDUCT3),Sum(P.DEDUCT4),'
+      'Sum(P.DEDUCT5)'
+      'From PayStubs P'
+      'where P.Pay_Date>=:FromDate'
+      'and P.Pay_Date<=:ToDate'
+      'and P.Soc_Sec_No like :SocParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    left = 344
+    top = 472
+  end
+  object ZQueryTranAcc: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.AMOUNT) from TRANS T'
+      'where'
+      'T.ACCOUNT=:AccParm'
+      'and T.TRAN_TYPE=:PType'
+      'AND T.TRAN_DATE>=:BDate'
+      'and T.TRAN_DATE<=:EDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AccParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'PType'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 216
+    top = 616
+  end
+  object ZQueryDPTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(D.Amount) from DPOST D'
+      'where D.POST_DATE>=:FromDate'
+      'and D.POST_DATE<=:ToDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 24
+  end
+  object ZQuerySumReturn: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'select SUM(C.Amount)'
+      'From Checks C'
+      'where ((C.Check_No>:RetParm and C.Returned  IS NOT NULL)'
+      'or (C.Check_No<:RetParm and C.Returned IS NULL))'
+      'and C.Check_Date>=:BDate'
+      'and C.Check_Date<=:EDate'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'RetParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'BDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'EDate'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 344
+  end
+  object ZQueryAccType: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select A.ACC_TYPE from ACCOUNTS A'
+      'where'
+      '  A.ACCOUNT =:Acc'
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'Acc'
+        ParamType = ptUnknown
+      end>
+    left = 1072
+    top = 272
+    object ZQueryAccTypeACC_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACC_TYPE'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object ZQueryPayroll: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from PAYROLL  P'
+      '  where P.SOC_SEC_NO =:SocParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 144
+  end
+  object ZQueryCheckSum: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select C.*  from Checks C'
+      'Where Check_No>=:FromCheck'
+      'and C.Check_No<=:ToCheck'
+      'and C.Check_Date>=:FromDate'
+      'and C.Check_Date<=:ToDate'
+      'and C.Vendor like :VendParm'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'VendParm'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 208
+  end
+  object ZQueryCheckTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(C.Amount) from CHECKS C'
+      'where C.CHECK_DATE>=:FromDate'
+      'and C.CHECK_DATE<=:ToDate'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 80
+  end
+  object ZQueryLiabTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.AMOUNT) from TRANS T'
+      'where'
+      '(T.TRAN_TYPE>0) '
+      'and'
+      '((T.CHECK_NO=:CheckParm)'
+      'or'
+      '(0=:CheckParm'
+      'And T.TRAN_DATE>=:FromDate'
+      'and T.TRAN_DATE<=:ToDate'
+      'and T.ACCOUNT>=:FromACC'
+      'and T.Account<=:ToACC))'
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromACC'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToACC'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 144
+  end
+  object ZTblTempChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from TEMP_CHECKS'
+    )
+    InsertSQL.Strings = (
+      '    INSERT INTO TEMP_CHECKS ('
+      '    CHECK_NO, VENDOR, CHECK_DATE,'
+      '    AMOUNT, CHECKMEMO, CHECK_TYPE)'
+      '    VALUES ('
+      '    :CHECK_NO, :VENDOR, :CHECK_DATE,'
+      '    :AMOUNT, :CHECK_NO, :CHECK_TYPE);'
+    )
+    Params = <>
+    left = 216
+    top = 80
+  end
+  object ZQueryDelTempTran: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'delete from Temp_Trans where CHECK_NO=:CheckPrm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckPrm'
+        ParamType = ptUnknown
+      end>
+    left = 1064
+    top = 24
+  end
+  object ZQuerySumTempChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(C.Amount) from TEMP_CHECKS  C'
+    )
+    Params = <>
+    left = 768
+    top = 408
+  end
+  object ZQueryTempCks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from TEMP_CHECKS C'
+      '  where C.CHECK_NO =:CheckParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    left = 616
+    top = 24
+  end
+  object ZQueryPayAcc: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select A.Account,A.Name from Accounts A'
+      'where A.Payroll=:PParm'
+      'or A.ACC_TYPE=:PType'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'PParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'PType'
+        ParamType = ptUnknown
+      end>
+    left = 344
+    top = 544
+  end
+  object ZQueryPayCheck: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select  C.Check_No,C.Amount,C.Vendor,C.Check_Date'
+      'From  Checks C, PayStubs P'
+      'Where P.Soc_Sec_No Like :SocParm'
+      'and C.Check_No=P.PCheck_No'
+      'and C.Check_Date>=:FromDate'
+      'and C.Check_Date<=:ToDate'
+      'order by C.Check_No'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 80
+  end
+  object ZTblChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from CHECKS'
+    )
+    Params = <>
+    left = 344
+    top = 80
+    object ZTblChecksCHECK_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblChecksAMOUNT: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblChecksVENDOR: TStringField
+      DisplayWidth = 26
+      FieldKind = fkData
+      FieldName = 'VENDOR'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 26
+    end
+    object ZTblChecksCHECK_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_DATE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblChecksCHECKMEMO: TStringField
+      DisplayWidth = 32
+      FieldKind = fkData
+      FieldName = 'CHECKMEMO'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 32
+    end
+    object ZTblChecksRETURNED: TStringField
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'RETURNED'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1
+    end
+    object ZTblChecksVENDOR_NO: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VENDOR_NO'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ZQueryVoidChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select C.*  from CHECKS  C'
+      'where C.AMOUNT<=0'
+    )
+    Params = <>
+    left = 344
+    top = 208
+  end
+  object ZQueryPayStubs: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from PAYSTUBS  P'
+      '  where P.PCHECK_NO = :CheckParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    UpdateMode = upWhereAll
+    left = 480
+    top = 208
+  end
+  object SrcCheckTrans: TDatasource
+    DataSet = ZTblCheckTrans
+    left = 56
+    top = 544
+  end
+  object ZQueryDelTran: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'delete from Trans where CHECK_NO=:CheckPrm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckPrm'
+        ParamType = ptUnknown
+      end>
+    left = 1064
+    top = 80
+  end
+  object VendorSrc: TDatasource
+    DataSet = ZTblVendor
+    left = 344
+    top = 272
+  end
+  object ZTblDP: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from DPOST'
+    )
+    Params = <>
+    left = 216
+    top = 344
+    object ZTblDPPOST_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'POST_DATE'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblDPAMOUNT: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblDPMEMO: TStringField
+      DisplayWidth = 128
+      FieldKind = fkData
+      FieldName = 'MEMO'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 128
+    end
+  end
+  object ZTblBalance: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from CKBALANCE'
+    )
+    UpdateSQL.Strings = (
+      '    Update  CKBalance'
+      '    set BegBalance = :BegBalance'
+    )
+    Params = <>
+    UpdateMode = upWhereAll
+    left = 616
+    top = 272
+    object ZTblBalanceBEGBALANCE: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'BEGBALANCE'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblBalanceCHECKSEED: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECKSEED'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblBalanceTEMPSUM: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'TEMPSUM'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblBalanceBALANCE: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'BALANCE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+  end
+  object ZTblFund: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from FUNDS'
+    )
+    Params = <>
+    left = 616
+    top = 208
+  end
+  object ZTblXY: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from CHECKXY'
+    )
+    Params = <>
+    left = 616
+    top = 144
+  end
+  object ZQueryPrintTran: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select A.* from TEMP_TRANS A'
+      'where A.CHECK_NO=:CheckParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 544
+  end
+  object CheckingSrc: TDatasource
+    DataSet = ZTblChecks
+    left = 344
+    top = 24
+  end
+  object SrcVoid: TDatasource
+    DataSet = ZQueryVoidChecks
+    left = 344
+    top = 144
+  end
+  object EmpSrc: TDatasource
+    DataSet = ZQueryEmpSum
+    left = 344
+    top = 408
+  end
+  object DPSrc: TDatasource
+    DataSet = ZTblDP
+    left = 216
+    top = 272
+  end
+  object SrcQueryChecks: TDatasource
+    DataSet = ZQueryChecks
+    left = 56
+    top = 272
+  end
+  object PaySrc: TDatasource
+    DataSet = ZTblPayroll
+    left = 216
+    top = 408
+  end
+  object ZQuerySumTempTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.Amount) from TEMP_TRANS  T'
+      'where T.ACC_TYPE=1'
+    )
+    Params = <>
+    left = 1072
+    top = 208
+  end
+  object ZQueryTranTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(T.AMOUNT) from TRANS T'
+      'where '
+      '(T.TRAN_TYPE=0)'
+      'and'
+      '((T.CHECK_NO=:CheckParm)'
+      'or'
+      '(0=:CheckParm'
+      'And T.TRAN_DATE>=:FromDate'
+      'and T.TRAN_DATE<=:ToDate'
+      'and T.ACCOUNT>=:FromACC'
+      'and T.Account<=:ToACC))'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromACC'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToACC'
+        ParamType = ptUnknown
+      end>
+    left = 768
+    top = 272
+  end
+  object ZQueryConTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select Sum(C.Amount) from CBUTIONS C'
+      'where C.C_DATE>=:FromDate'
+      'and C.C_DATE<=:ToDate'
+      'and C.Detail_Fund>=:FromFund'
+      'and C.Detail_Fund<=:ToFund'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromFund'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToFund'
+        ParamType = ptUnknown
+      end>
+    left = 616
+    top = 344
+  end
+  object PayCheckSrc: TDatasource
+    DataSet = ZQueryPayCheck
+    left = 216
+    top = 544
+  end
+  object RetSrc: TDatasource
+    DataSet = ZQueryReturn
+    left = 56
+    top = 408
+  end
+  object ZTblTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from TRANS'
+    )
+    Params = <>
+    left = 480
+    top = 24
+  end
+  object ZQueryStub: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select * from Paystubs'
+      'where Paystubs.SOC_SEC_NO LIKE :SocParm'
+      'and Paystubs.Pay_Date>=:StartParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'StartParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 344
+  end
+  object ZTblCheckTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from TRANS'
+    )
+    Params = <>
+    left = 56
+    top = 616
+    object ZTblCheckTransCHECK_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblCheckTransACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblCheckTransAMOUNT: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblCheckTransTRAN_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'TRAN_TYPE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblCheckTransTRAN_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'TRAN_DATE'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ZTblVendor: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     select * from VENDORS'
+    )
+    Params = <>
+    left = 344
+    top = 344
+    object ZTblVendorVENDOR_NAME: TStringField
+      DisplayWidth = 64
+      FieldKind = fkData
+      FieldName = 'VENDOR_NAME'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 64
+    end
+  end
+  object ZTblFindTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select * from TEMP_TRANS  T'
+      '  where T.CHECK_NO =:CheckParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 472
+  end
+  object ZQueryTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select'
+      'T.CHECK_NO,T.ACCOUNT, T.AMOUNT, T.TRAN_DATE, T.TRAN_TYPE'
+      ',A.NAME from TRANS T,ACCOUNTS A'
+      'where'
+      'A.ACCOUNT=T.ACCOUNT'
+      'and'
+      '(T.TRAN_TYPE>=:FromType'
+      'and T.TRAN_TYPE<=:ToType)'
+      'and'
+      '((T.CHECK_NO=:CheckParm)'
+      'or'
+      '(0=:CheckParm'
+      'And T.TRAN_DATE>=:FromDate'
+      'and T.TRAN_DATE<=:ToDate'
+      'and T.ACCOUNT>=:FromACC'
+      'and T.Account<=:ToACC))'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromType'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToType'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromACC'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToACC'
+        ParamType = ptUnknown
+      end>
+    left = 56
+    top = 208
+    object ZQueryTransCHECK_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZQueryTransACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ACCOUNT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZQueryTransAMOUNT: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZQueryTransTRAN_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'TRAN_DATE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZQueryTransTRAN_TYPE: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'TRAN_TYPE'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZQueryTransNAME: TStringField
+      DisplayWidth = 24
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 24
+    end
+  end
+  object ZQueryChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select C.*  from Checks C'
+      'Where Check_No>=:FromCheck'
+      'and C.Check_No<=:ToCheck'
+      'and C.Check_Date>=:FromDate'
+      'and C.Check_Date<=:ToDate'
+      'and C.Vendor like :VendParm'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'FromCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FromDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ToDate'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'VendParm'
+        ParamType = ptUnknown
+      end>
+    left = 56
+    top = 344
+  end
+  object SrcTempChecks: TDatasource
+    DataSet = ZTblTempChecks
+    OnDataChange = SrcTempChecksDataChange
+    left = 216
+    top = 24
+  end
+  object SrcTempTrans: TDatasource
+    DataSet = ZTblTempTrans
+    left = 216
+    top = 144
+  end
+  object ZTblTempTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select T.* from TEMP_TRANS  T'
+      '  where T.CHECK_NO =:CheckParm'
+    )
+    InsertSQL.Strings = (
+      ' INSERT INTO TEMP_TRANS'
+      '   (CHECK_NO, ACCOUNT,'
+      '   ACC_TYPE, CHECK_DATE, AMOUNT)'
+      '   Values'
+      '   (:CHECK_NO, :ACCOUNT,'
+      '   :ACC_TYPE, :CHECK_DATE, :AMOUNT);'
+      ''
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    left = 216
+    top = 208
+  end
+  object ZQueryAccNo: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  select A.ACCOUNT from ACCOUNTS A'
+      '  where A.ACCOUNT=:AParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AParm'
+        ParamType = ptUnknown
+      end>
+    left = 1072
+    top = 344
+  end
+  object ZQueryAccName: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   select A.Name from ACCOUNTS A'
+      '   where A.ACCOUNT =:AParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'AParm'
+        ParamType = ptUnknown
+      end>
+    left = 1072
+    top = 408
+  end
+  object DelTranSrc: TDatasource
+    DataSet = ZQueryDelTran
+    left = 936
+    top = 472
+  end
+  object ZTblDelTran: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '      Select * from Trans T'
+    )
+    Params = <>
+    DataSource = CheckingSrc
+    left = 1072
+    top = 472
+  end
+  object ZTblPayStubs: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      ' Select * from PAYSTUBS  P'
+      '  where P.PCHECK_NO = :CheckParm'
+    )
+    InsertSQL.Strings = (
+      ' INSERT INTO PAYSTUBS'
+      '   (PCHECK_NO, SOC_SEC_NO, HOURS, RATE, FED,'
+      '   FICA, MED, STATE, LOCAL, PENSION,'
+      '   NET, GROSS,PAY_DATE, DEDUCT1,'
+      '   DEDUCT2, DEDUCT3, DEDUCT4, DEDUCT5)'
+      '   Values'
+      '   (:PCHECK_NO, :SOC_SEC_NO, :HOURS, :RATE, :FED,'
+      '   :FICA, :MED, :STATE, :LOCAL, :PENSION, :NET,'
+      '   :GROSS, :PAY_DATE, :DEDUCT1, :DEDUCT2,'
+      '   :DEDUCT3, :DEDUCT4, :DEDUCT5);'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 272
+    object ZTblPayStubsPCHECK_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'PCHECK_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZTblPayStubsSOC_SEC_NO: TStringField
+      DisplayWidth = 11
+      FieldKind = fkData
+      FieldName = 'SOC_SEC_NO'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 11
+    end
+    object ZTblPayStubsHOURS: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'HOURS'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayStubsRATE: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'RATE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+    end
+    object ZTblPayStubsGROSS: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'GROSS'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsFED: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'FED'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsFICA: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'FICA'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsMED: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'MED'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsSTATE: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'STATE'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsLOCAL: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'LOCAL'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsPENSION: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'PENSION'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsDEDUCT1: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT1'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsDEDUCT2: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT2'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsDEDUCT3: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT3'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsDEDUCT4: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT4'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsDEDUCT5: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT5'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsNET: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'NET'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 3
+    end
+    object ZTblPayStubsPAY_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'PAY_DATE'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ZTblPayroll: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    Select * from PAYROLL'
+    )
+    Params = <>
+    left = 216
+    top = 472
+    object ZTblPayrollSOC_SEC_NO: TStringField
+      DisplayWidth = 11
+      FieldKind = fkData
+      FieldName = 'SOC_SEC_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 11
+    end
+    object ZTblPayrollNAME: TStringField
+      DisplayWidth = 42
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 42
+    end
+    object ZTblPayrollWAGE: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'WAGE'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollWAGE_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'WAGE_ACCOUNT'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollFED: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'FED'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollFED_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'FED_ACCOUNT'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollFICA: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'FICA'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollFICA_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'FICA_ACCOUNT'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollMED: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'MED'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollMED_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'MED_ACCOUNT'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollSTATE: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'STATE'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollSTATE_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'STATE_ACCOUNT'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollLOCAL: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'LOCAL'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollLOCAL_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'LOCAL_ACCOUNT'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollPENSION: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'PENSION'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollPENSION_ACCOUNT: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'PENSION_ACCOUNT'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollDEDUCT1: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT1'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollDEDUCT1_ACC: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DEDUCT1_ACC'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollDEDUCT2: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT2'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollDEDUCT2_ACC: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DEDUCT2_ACC'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollDEDUCT3: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT3'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollDEDUCT3_ACC: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DEDUCT3_ACC'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollDEDUCT4: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT4'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollDEDUCT4_ACC: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DEDUCT4_ACC'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object ZTblPayrollDEDUCT5: TBCDField
+      DisplayWidth = 9
+      FieldKind = fkData
+      FieldName = 'DEDUCT5'
+      Index = 24
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 9
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZTblPayrollDEDUCT5_ACC: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'DEDUCT5_ACC'
+      Index = 25
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+end
