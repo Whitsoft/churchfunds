@@ -7,13 +7,13 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,  LResources,setupmod,SQLDBLaz, lhelpcontrolpkg
+  Forms,  LResources,setupmod,SQLDBLaz,ezsetupunit, lhelpcontrolpkg
   { you can add units after this };
 
 {$IFDEF WINDOWS}{$R projectEZTest.rc}{$ENDIF}
 
 begin
-  {$I ezsetup.lrs}
+  {$I ezsetupunit.lrs}
   Application.initialize;
   Application.CreateForm(TFormSetup, FormSetup);
   Application.CreateForm(TDataMod, DataMod);

@@ -7,7 +7,7 @@
       <TargetFileExt Value=""/>
       <Title Value="ezsetup"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -42,38 +42,38 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="ezsetup.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ezsetup"/>
-        <CursorPos X="4" Y="16"/>
+        <CursorPos X="52" Y="10"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="179"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="../../../firebird/EZSetup/ezsetupunit.pas"/>
+        <Filename Value="ezsetupunit.pas"/>
         <ComponentName Value="FormSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
         <CursorPos X="51" Y="9"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="179"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../../../firebird/EZSetup/setupmod.pas"/>
+        <Filename Value="setupmod.pas"/>
         <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="setupmod"/>
         <CursorPos X="14" Y="166"/>
-        <TopLine Value="101"/>
-        <EditorIndex Value="3"/>
+        <TopLine Value="135"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="179"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -396,29 +396,40 @@
       <Unit47>
         <Filename Value="setupmod.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="setupmod"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <UsageCount Value="20"/>
         <SyntaxHighlighter Value="Text"/>
       </Unit47>
       <Unit48>
         <Filename Value="ezsetupunit.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSetup"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <UsageCount Value="20"/>
-        <SyntaxHighlighter Value="Text"/>
       </Unit48>
       <Unit49>
         <Filename Value="../../setup/ezsetup.lrs"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="ezsetupunit.lrs"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="2"/>
+        <UsageCount Value="10"/>
+      </Unit50>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
         <Filename Value="ezsetup.lpr"/>
         <Caret Line="10" Column="31" TopLine="1"/>
@@ -431,13 +442,37 @@
         <Filename Value="ezsetup.lpr"/>
         <Caret Line="4" Column="32" TopLine="1"/>
       </Position3>
+      <Position4>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="16" Column="18" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="8" Column="7" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="3" Column="27" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="18" Column="36" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="ezsetup.lpr"/>
+        <Caret Line="16" Column="2" TopLine="1"/>
+      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="8"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)/;$(LazarusDir)/lcl/;$(LazarusDir)/lcl/interfaces/$(LCLWidgetType)/"/>
-      <OtherUnitFiles Value="/home/don/firebird/;../../../../../usr/lib/lazarus/0.9.28.2/components/chmhelp/lhelp/;/home/don/churchfunds/setup/"/>
+      <OtherUnitFiles Value=".;../../../../../usr/lib/lazarus/0.9.28.2/components/chmhelp/lhelp/;/home/don/churchfunds/setup/"/>
     </SearchPaths>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
