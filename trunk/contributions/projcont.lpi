@@ -8,7 +8,7 @@
       <Title Value="projcont"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -46,7 +46,7 @@
         <UnitName Value="projcont"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="151"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -260,9 +260,7 @@
         <UnitName Value="cont"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="contmod.pas"/>
@@ -273,15 +271,16 @@
         <UnitName Value="contmod"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit28>
       <Unit29>
         <Filename Value="projcont.lrs"/>
         <IsPartOfProject Value="True"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
-        <SyntaxHighlighter Value="Text"/>
+        <Loaded Value="True"/>
       </Unit29>
     </Units>
     <JumpHistory Count="0" HistoryIndex="-1"/>
