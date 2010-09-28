@@ -1,0 +1,1832 @@
+object FormCont: TFormCont
+  Left = 95
+  Height = 801
+  Top = 151
+  Width = 1060
+  ActiveControl = NotebookCont
+  Caption = 'FormCont'
+  ClientHeight = 801
+  ClientWidth = 1060
+  Font.Height = -13
+  Font.Name = 'System'
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '0.9.28.2'
+  object Label8: TLabel
+    Left = 64
+    Height = 16
+    Top = 64
+    Width = 44
+    Caption = 'Label8'
+    ParentColor = False
+  end
+  object NotebookCont: TNotebook
+    Left = 0
+    Height = 801
+    Top = 0
+    Width = 1060
+    HelpContext = 10
+    Align = alClient
+    Font.Height = -20
+    Font.Name = 'System'
+    OnMouseDown = ShowContext
+    PageIndex = 0
+    ParentFont = False
+    TabOrder = 0
+    object PageEntry: TPage
+      Caption = 'Entry'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupCont: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 20
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label23: TLabel
+          Left = 451
+          Height = 33
+          Top = 20
+          Width = 291
+          Caption = 'Enter Contributions'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label4: TLabel
+          Left = 803
+          Height = 25
+          Top = 84
+          Width = 130
+          Caption = 'Name Search'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label1: TLabel
+          Left = 803
+          Height = 25
+          Top = 156
+          Width = 172
+          Caption = 'Envelope Number'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label2: TLabel
+          Left = 805
+          Height = 25
+          Top = 234
+          Width = 130
+          Caption = 'Fund Number'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label3: TLabel
+          Left = 811
+          Height = 25
+          Top = 316
+          Width = 76
+          Caption = 'Amount'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label5: TLabel
+          Left = 835
+          Height = 28
+          Top = 396
+          Width = 87
+          Caption = 'Posted'
+          Color = clSilver
+          Font.Color = clRed
+          Font.Height = -23
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          Visible = False
+        end
+        object LabelTitle: TLabel
+          Left = 427
+          Height = 25
+          Top = 316
+          Width = 11
+          Caption = '_'
+          Font.Color = clNavy
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label45: TLabel
+          Left = 35
+          Height = 25
+          Top = 400
+          Width = 93
+          Caption = 'Pick From'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label46: TLabel
+          Left = 35
+          Height = 25
+          Top = 44
+          Width = 195
+          Caption = 'Today''s Contribution'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object LabelName: TLabel
+          Left = 427
+          Height = 25
+          Top = 271
+          Width = 11
+          Caption = '_'
+          Font.Color = clNavy
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object EditSrchEnv: TEdit
+          Left = 805
+          Height = 34
+          Top = 108
+          Width = 184
+          HelpContext = 50
+          Color = clWhite
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          OnKeyDown = EditSrchEnvKeyDown
+          OnKeyPress = EditSrchEnvKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 0
+        end
+        object EditEnv: TEdit
+          Left = 805
+          Height = 34
+          Top = 180
+          Width = 121
+          HelpContext = 60
+          Color = clWhite
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EditEnvExit
+          OnKeyDown = EditEnvKeyDown
+          OnKeyPress = EditEnvKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 1
+        end
+        object EditAmount: TEdit
+          Left = 805
+          Height = 34
+          Top = 340
+          Width = 121
+          HelpContext = 80
+          Color = clWhite
+          Font.Height = -20
+          Font.Name = 'System'
+          OnKeyDown = EditAmountKeyDown
+          OnKeyPress = EditAmountKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnPost: TButton
+          Left = 835
+          Height = 33
+          Top = 444
+          Width = 89
+          HelpContext = 100
+          Caption = 'Post'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnPostClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object BtnCan: TButton
+          Left = 835
+          Height = 33
+          Top = 500
+          Width = 89
+          HelpContext = 110
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnCanClick
+          OnKeyPress = BtnCanKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
+        end
+        object GridSrchEnv: TDBGrid
+          Left = 35
+          Height = 304
+          Top = 428
+          Width = 701
+          HelpContext = 90
+          DataSource = DataMod.SrcSrchName
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentFont = False
+          TabOrder = 5
+          TabStop = False
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnDblClick = GridSrchEnvDblClick
+          OnMouseDown = ShowContext
+        end
+        object ComboDetail: TComboBox
+          Left = 805
+          Height = 36
+          Top = 260
+          Width = 191
+          HelpContext = 70
+          Font.Height = -20
+          Font.Name = 'System'
+          ItemHeight = 0
+          OnChange = ComboDetailChange
+          OnKeyDown = ComboDetailKeyDown
+          OnKeyPress = ComboDetailKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 2
+        end
+        object RadioCash: TRadioGroup
+          Left = 531
+          Height = 91
+          Top = 109
+          Width = 176
+          HelpContext = 120
+          AutoFill = True
+          Caption = 'Cash or Checks'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 65
+          ClientWidth = 172
+          Font.Height = -20
+          Font.Name = 'System'
+          Items.Strings = (
+            'Cash'
+            'Checks'
+          )
+          OnClick = RadioCashClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 7
+        end
+        object GridNow: TDBGrid
+          Left = 35
+          Height = 290
+          Top = 76
+          Width = 355
+          HelpContext = 90
+          DataSource = DataMod.SrcNow
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentFont = False
+          TabOrder = 6
+          TabStop = False
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
+        end
+      end
+    end
+    object PageDetail: TPage
+      Caption = 'DetailFunds'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupFunds: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 150
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label24: TLabel
+          Left = 355
+          Height = 32
+          Top = 20
+          Width = 254
+          Caption = 'Edit Detail Funds'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object GridDetail: TDBGrid
+          Left = 51
+          Height = 568
+          Top = 116
+          Width = 864
+          HelpContext = 160
+          Color = clAqua
+          DataSource = DataMod.FundSrc
+          Font.Height = -20
+          Font.Name = 'System'
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          ParentFont = False
+          TabOrder = 0
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
+        end
+      end
+    end
+    object PageContrib: TPage
+      Caption = 'Contributors'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupTors: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 40
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label13: TLabel
+          Left = 659
+          Height = 24
+          Top = 364
+          Width = 41
+          Caption = 'Title'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label47: TLabel
+          Left = 411
+          Height = 32
+          Top = 18
+          Width = 187
+          Caption = 'Contributors'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object DBNameGrid: TDBGrid
+          Left = 67
+          Height = 232
+          Top = 68
+          Width = 745
+          HelpContext = 190
+          Color = clAqua
+          DataSource = DataMod.SrcEnvNo
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'System'
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          ParentFont = False
+          TabOrder = 0
+          TabStop = False
+          TitleFont.Color = clBlack
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnDblClick = DBNameGridDblClick
+          OnMouseDown = ShowContext
+        end
+        object TitleCombo: TComboBox
+          Left = 659
+          Height = 35
+          Top = 388
+          Width = 168
+          HelpContext = 200
+          Color = clAqua
+          Font.Height = -20
+          Font.Name = 'System'
+          ItemHeight = 0
+          Items.Strings = (
+            'Mr. and Mrs.'
+            'Mrs.'
+            'Mr.'
+            'Mrs. and Mr.'
+            'Miss.'
+            'Ms.'
+            'Dr.'
+            'Dr. and Mrs.'
+            'Dr. and Mr.'
+            'Dr. and Dr.'
+            'Rev.'
+            'Rev. and Mrs.'
+            'Rev. and Mr.'
+          )
+          OnChange = TitleComboChange
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 1
+          TabStop = False
+        end
+        object GridEditEnv: TStringGrid
+          Left = 67
+          Height = 368
+          Top = 388
+          Width = 552
+          HelpContext = 180
+          ColCount = 2
+          DefaultColWidth = 267
+          DefaultRowHeight = 32
+          FixedColor = clAqua
+          Font.Height = -20
+          Font.Name = 'System'
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs]
+          ParentFont = False
+          RowCount = 11
+          TabOrder = 2
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnKeyPress = GridEditEnvKeyPress
+          OnMouseDown = ShowContext
+        end
+        object BtnPostTors: TButton
+          Left = 907
+          Height = 33
+          Top = 540
+          Width = 80
+          HelpContext = 210
+          Caption = 'Post'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnPostTorsClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnCanTors: TButton
+          Left = 907
+          Height = 33
+          Top = 604
+          Width = 80
+          HelpContext = 220
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnCanTorsClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object BtnDelTors: TButton
+          Left = 67
+          Height = 32
+          Top = 340
+          Width = 88
+          HelpContext = 230
+          Caption = 'Delete'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnDelTorsClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+      end
+    end
+    object PagePledge: TPage
+      Caption = 'Pledges'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupPledge: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 240
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label7: TLabel
+          Left = 739
+          Height = 24
+          Top = 588
+          Width = 47
+          Caption = 'Fund'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label26: TLabel
+          Left = 739
+          Height = 24
+          Top = 508
+          Width = 165
+          Caption = 'Envelope - Name'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label27: TLabel
+          Left = 459
+          Height = 32
+          Top = 12
+          Width = 207
+          Caption = 'Enter Pledges'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object DBGridPledge: TDBGrid
+          Left = 27
+          Height = 200
+          Top = 100
+          Width = 601
+          HelpContext = 260
+          Color = clAqua
+          DataSource = DataMod.SrcPledge
+          Font.Height = -20
+          Font.Name = 'System'
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          ParentFont = False
+          TabOrder = 0
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnDblClick = DBGridPledgeDblClick
+          OnMouseDown = ShowContext
+        end
+        object GridPledge: TStringGrid
+          Left = 27
+          Height = 262
+          Top = 372
+          Width = 367
+          HelpContext = 270
+          ColCount = 2
+          DefaultColWidth = 180
+          DefaultRowHeight = 32
+          FixedColor = clAqua
+          Font.Height = -20
+          Font.Name = 'System'
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs]
+          ParentFont = False
+          RowCount = 8
+          TabOrder = 1
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnKeyPress = GridPledgeKeyPress
+          OnMouseDown = ShowContext
+        end
+        object RadioType: TRadioGroup
+          Left = 459
+          Height = 91
+          Top = 356
+          Width = 146
+          HelpContext = 330
+          AutoFill = False
+          Caption = 'Pledge Type'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 87
+          ClientWidth = 142
+          Font.Height = -20
+          Font.Name = 'System'
+          Items.Strings = (
+            'Annual    '
+            'Fixed     '
+          )
+          OnClick = RadioTypeClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 2
+        end
+        object BtnCanPledge: TButton
+          Left = 739
+          Height = 33
+          Top = 428
+          Width = 89
+          HelpContext = 310
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnCanPledgeClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnInsPledge: TButton
+          Left = 739
+          Height = 33
+          Top = 364
+          Width = 89
+          HelpContext = 300
+          Caption = 'Post'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnInsPledgeClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object BtnAddYear: TButton
+          Left = 739
+          Height = 33
+          Top = 668
+          Width = 129
+          HelpContext = 320
+          Caption = 'Add Year'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnAddYearClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+        object FunAccBox: TComboBox
+          Left = 739
+          Height = 35
+          Top = 612
+          Width = 231
+          HelpContext = 290
+          ItemHeight = 0
+          OnClick = FunAccBoxClick
+          OnMouseDown = ShowContext
+          TabOrder = 6
+        end
+        object LookUpEnv: TComboBox
+          Left = 739
+          Height = 35
+          Top = 548
+          Width = 231
+          HelpContext = 280
+          ItemHeight = 0
+          OnClick = LookUpEnvClick
+          OnKeyPress = LookUpEnvKeyPress
+          OnMouseDown = ShowContext
+          TabOrder = 7
+        end
+        object BtnPledgeDel: TButton
+          Left = 27
+          Height = 33
+          Top = 324
+          Width = 99
+          HelpContext = 340
+          Caption = 'Delete'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnPledgeDelClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
+        end
+      end
+    end
+    object PageQuery: TPage
+      Caption = 'Queries'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupQuery: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 60
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label22: TLabel
+          Left = 355
+          Height = 32
+          Top = 12
+          Width = 300
+          Caption = 'Contribution Querys'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label14: TLabel
+          Left = 59
+          Height = 24
+          Top = 148
+          Width = 89
+          Caption = 'Envelope'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label15: TLabel
+          Left = 59
+          Height = 24
+          Top = 188
+          Width = 47
+          Caption = 'Fund'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label16: TLabel
+          Left = 59
+          Height = 24
+          Top = 231
+          Width = 99
+          Caption = 'Start Date'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label17: TLabel
+          Left = 59
+          Height = 24
+          Top = 268
+          Width = 93
+          Caption = 'Last Date'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label6: TLabel
+          Left = 363
+          Height = 24
+          Top = 124
+          Width = 173
+          Caption = 'Select from Funds'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label30: TLabel
+          Left = 907
+          Height = 24
+          Top = 532
+          Width = 46
+          Caption = 'Total'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object EditQEnv: TEdit
+          Left = 200
+          Height = 33
+          Top = 146
+          Width = 121
+          HelpContext = 370
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 0
+        end
+        object EditQFund: TEdit
+          Left = 200
+          Height = 33
+          Top = 184
+          Width = 121
+          HelpContext = 380
+          Font.Height = -20
+          Font.Name = 'System'
+          OnKeyPress = EditQFundKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 1
+        end
+        object EditQFromDate: TEdit
+          Left = 200
+          Height = 33
+          Top = 222
+          Width = 121
+          HelpContext = 390
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 2
+        end
+        object EditQToDate: TEdit
+          Left = 200
+          Height = 33
+          Top = 260
+          Width = 121
+          HelpContext = 400
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnQuery: TButton
+          Left = 883
+          Height = 33
+          Top = 300
+          Width = 89
+          HelpContext = 420
+          Caption = 'Query'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnQueryClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object BtnQueryClr: TButton
+          Left = 883
+          Height = 33
+          Top = 372
+          Width = 89
+          HelpContext = 430
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnQueryClrClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+        object GridQuery: TDBGrid
+          Left = 59
+          Height = 408
+          Top = 316
+          Width = 760
+          HelpContext = 410
+          Color = clAqua
+          DataSource = DataMod.QueryContSrc
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          TabOrder = 6
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
+        end
+        object QueryBox: TComboBox
+          Left = 363
+          Height = 35
+          Top = 146
+          Width = 207
+          HelpContext = 380
+          Font.Height = -20
+          Font.Name = 'System'
+          ItemHeight = 0
+          OnClick = QueryBoxClick
+          OnKeyPress = QueryBoxKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 7
+        end
+        object EditSumCont: TEdit
+          Left = 875
+          Height = 33
+          Top = 564
+          Width = 120
+          HelpContext = 440
+          Color = clAqua
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
+        end
+        object EdVuBox: TCheckBox
+          Left = 864
+          Height = 27
+          Top = 436
+          Width = 138
+          HelpContext = 415
+          Caption = 'View or Edit'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = EdVuBoxClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 9
+        end
+        object BtnFundClr: TButton
+          Left = 611
+          Height = 33
+          Top = 146
+          Width = 33
+          Caption = 'C'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnFundClrClick
+          ParentFont = False
+          TabOrder = 10
+        end
+      end
+    end
+    object PageReport: TPage
+      Caption = 'Reports'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupRep: TGroupBox
+        Left = 0
+        Height = 764
+        Top = 0
+        Width = 1054
+        HelpContext = 450
+        ClientHeight = 760
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label20: TLabel
+          Left = 307
+          Height = 32
+          Top = 20
+          Width = 441
+          Caption = 'Member Contribution Reports'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label9: TLabel
+          Left = 51
+          Height = 24
+          Top = 140
+          Width = 144
+          Caption = 'From Envelope'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label10: TLabel
+          Left = 51
+          Height = 24
+          Top = 198
+          Width = 116
+          Caption = 'To Envelope'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label11: TLabel
+          Left = 51
+          Height = 24
+          Top = 256
+          Width = 99
+          Caption = 'Start Date'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label12: TLabel
+          Left = 51
+          Height = 24
+          Top = 314
+          Width = 89
+          Caption = 'End Date'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label21: TLabel
+          Left = 323
+          Height = 32
+          Top = 420
+          Width = 369
+          Caption = 'Daily or Monthly Reports'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Bevel1: TBevel
+          Left = 43
+          Height = 40
+          Top = 364
+          Width = 984
+          Shape = bsBottomLine
+          Style = bsRaised
+        end
+        object MonLabel: TLabel
+          Left = 51
+          Height = 24
+          Top = 572
+          Width = 124
+          Caption = 'Select Month'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label28: TLabel
+          Left = 51
+          Height = 24
+          Top = 636
+          Width = 106
+          Caption = 'Select Year'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label31: TLabel
+          Left = 51
+          Height = 24
+          Top = 508
+          Width = 111
+          Caption = 'Select Date'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object BtnPrint: TButton
+          Left = 531
+          Height = 33
+          Top = 220
+          Width = 89
+          HelpContext = 500
+          Caption = 'Print'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnPrintClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object EditFromEnv: TEdit
+          Left = 211
+          Height = 33
+          Top = 139
+          Width = 121
+          HelpContext = 460
+          Font.Height = -20
+          Font.Name = 'System'
+          OnKeyPress = EditFromEnvKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 0
+        end
+        object EditToEnv: TEdit
+          Left = 211
+          Height = 33
+          Top = 195
+          Width = 121
+          HelpContext = 470
+          Font.Height = -20
+          Font.Name = 'System'
+          OnKeyPress = EditToEnvKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 1
+        end
+        object EditFromDate: TEdit
+          Left = 211
+          Height = 33
+          Top = 251
+          Width = 121
+          HelpContext = 480
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EditFromDateExit
+          OnKeyPress = EditFromDateKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 2
+        end
+        object EditToDate: TEdit
+          Left = 211
+          Height = 33
+          Top = 307
+          Width = 121
+          HelpContext = 490
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EditToDateExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnRepClr: TButton
+          Left = 531
+          Height = 33
+          Top = 300
+          Width = 89
+          HelpContext = 510
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 6
+        end
+        object BtnMonPrnt: TButton
+          Left = 531
+          Height = 33
+          Top = 596
+          Width = 89
+          HelpContext = 540
+          Caption = 'Print'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnMonPrntClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+        object ConRepBox: TComboBox
+          Left = 219
+          Height = 35
+          Top = 563
+          Width = 145
+          HelpContext = 520
+          Font.Height = -20
+          Font.Name = 'System'
+          ItemHeight = 0
+          Items.Strings = (
+            'January'
+            'February'
+            'March'
+            'April'
+            'May'
+            'June'
+            'July'
+            'August'
+            'September'
+            'October'
+            'November'
+            'December'
+            ''
+          )
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 7
+        end
+        object YearEd: TEdit
+          Left = 219
+          Height = 33
+          Top = 628
+          Width = 73
+          HelpContext = 530
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
+          Text = '1988'
+        end
+        object RadioRepType: TRadioGroup
+          Left = 739
+          Height = 105
+          Top = 523
+          Width = 224
+          HelpContext = 560
+          Anchors = []
+          AutoFill = False
+          Caption = 'Report Type'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.VerticalSpacing = 6
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 101
+          ClientWidth = 220
+          Font.Height = 12
+          Font.Name = 'System'
+          Items.Strings = (
+            'Daily Report             '
+            'Monthly Report        '
+          )
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 10
+        end
+        object RadioPreview: TRadioGroup
+          Left = 731
+          Height = 104
+          Top = 212
+          Width = 248
+          Anchors = []
+          AutoFill = False
+          Caption = 'Preview or Print'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.VerticalSpacing = 6
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclTopToBottomThenLeftToRight
+          ChildSizing.ControlsPerLine = 2
+          ClientHeight = 100
+          ClientWidth = 244
+          Font.Height = -20
+          Font.Name = 'System'
+          Items.Strings = (
+            'Preview           '
+            'Print                '
+          )
+          OnClick = RadioPreviewClick
+          ParentFont = False
+          TabOrder = 9
+          Visible = False
+        end
+        object PickerRep: TEdit
+          Left = 219
+          Height = 33
+          Top = 500
+          Width = 121
+          HelpContext = 550
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 11
+        end
+      end
+    end
+    object PageMisc: TPage
+      Caption = 'Pledge Sums'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupSum: TGroupBox
+        Left = 0
+        Height = 766
+        Top = 0
+        Width = 1054
+        HelpContext = 740
+        Align = alClient
+        ClientHeight = 762
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label25: TLabel
+          Left = 427
+          Height = 32
+          Top = 12
+          Width = 192
+          Caption = 'Pledge Sums'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label18: TLabel
+          Left = 152
+          Height = 24
+          Top = 196
+          Width = 47
+          Caption = 'Fund'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label19: TLabel
+          Left = 155
+          Height = 24
+          Top = 388
+          Width = 44
+          Caption = 'Sum'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label29: TLabel
+          Left = 587
+          Height = 24
+          Top = 196
+          Width = 173
+          Caption = 'Select from Funds'
+          Font.Height = -20
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
+        object EditPledgeFund: TEdit
+          Left = 155
+          Height = 33
+          Top = 228
+          Width = 121
+          HelpContext = 750
+          Font.Height = -20
+          Font.Name = 'System'
+          OnKeyPress = EditPledgeFundKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 0
+        end
+        object EditPledgeSum: TEdit
+          Left = 155
+          Height = 33
+          Top = 428
+          Width = 209
+          HelpContext = 760
+          Color = clAqua
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 1
+        end
+        object RadioSum: TRadioGroup
+          Left = 155
+          Height = 154
+          Top = 492
+          Width = 225
+          HelpContext = 770
+          AutoFill = True
+          Caption = 'Pledge Type'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 150
+          ClientWidth = 221
+          Font.Height = -20
+          Font.Name = 'System'
+          Items.Strings = (
+            'All Pledges'
+            'Annual Pledges'
+            'Fixed Pledges'
+          )
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 2
+        end
+        object BtnPledgeQuery: TButton
+          Left = 435
+          Height = 33
+          Top = 228
+          Width = 89
+          HelpContext = 780
+          Caption = 'Query'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnPledgeQueryClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object BtnClearSum: TButton
+          Left = 435
+          Height = 33
+          Top = 428
+          Width = 89
+          HelpContext = 790
+          Caption = 'Clear'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnClearSumClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 4
+        end
+        object ComboPledgeFund: TComboBox
+          Left = 584
+          Height = 35
+          Top = 228
+          Width = 200
+          HelpContext = 750
+          Font.Height = -20
+          Font.Name = 'System'
+          ItemHeight = 0
+          OnClick = ComboPledgeFundClick
+          OnKeyPress = ComboPledgeFundKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+        object BtnSumFund: TButton
+          Left = 827
+          Height = 33
+          Top = 228
+          Width = 35
+          HelpContext = 800
+          Caption = 'C'
+          Font.Height = -20
+          Font.Name = 'System'
+          OnClick = BtnSumFundClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 6
+        end
+      end
+    end
+    object PageLabels: TPage
+      Caption = 'Labels'
+      ClientWidth = 1054
+      ClientHeight = 766
+      object AGroupLabel: TGroupBox
+        Left = 21
+        Height = 764
+        Top = -10
+        Width = 1054
+        HelpContext = 570
+        ClientHeight = 760
+        ClientWidth = 1050
+        TabOrder = 0
+        OnMouseDown = ShowContext
+        object Label32: TLabel
+          Left = 83
+          Height = 25
+          Top = 293
+          Width = 102
+          Caption = 'Num Rows'
+          ParentColor = False
+        end
+        object Label33: TLabel
+          Left = 84
+          Height = 25
+          Top = 124
+          Width = 108
+          Caption = 'Avery Style'
+          ParentColor = False
+        end
+        object Label34: TLabel
+          Left = 83
+          Height = 25
+          Top = 252
+          Width = 135
+          Caption = 'Num Columns'
+          ParentColor = False
+        end
+        object Label35: TLabel
+          Left = 83
+          Height = 25
+          Top = 375
+          Width = 105
+          Caption = 'Margin Top'
+          ParentColor = False
+        end
+        object Label36: TLabel
+          Left = 83
+          Height = 25
+          Top = 334
+          Width = 109
+          Caption = 'Margin Left'
+          ParentColor = False
+        end
+        object Label37: TLabel
+          Left = 83
+          Height = 25
+          Top = 416
+          Width = 114
+          Caption = 'Label Width'
+          ParentColor = False
+        end
+        object Label38: TLabel
+          Left = 83
+          Height = 25
+          Top = 498
+          Width = 121
+          Caption = 'Label Height'
+          ParentColor = False
+        end
+        object Label39: TLabel
+          Left = 83
+          Height = 25
+          Top = 457
+          Width = 137
+          Caption = 'Spacing Width'
+          ParentColor = False
+        end
+        object Label40: TLabel
+          Left = 83
+          Height = 25
+          Top = 539
+          Width = 144
+          Caption = 'Spacing Height'
+          ParentColor = False
+        end
+        object Label41: TLabel
+          Left = 83
+          Height = 20
+          Top = 580
+          Width = 122
+          Caption = 'Text Start Left'
+          Color = clBtnFace
+          Font.Color = clTeal
+          Font.Height = -16
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+        object Label42: TLabel
+          Left = 83
+          Height = 20
+          Top = 614
+          Width = 117
+          Caption = 'Text Start Top'
+          Font.Color = clTeal
+          Font.Height = -16
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label43: TLabel
+          Left = 83
+          Height = 20
+          Top = 648
+          Width = 73
+          Caption = 'FontSize'
+          Font.Color = clTeal
+          Font.Height = -16
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label44: TLabel
+          Left = 403
+          Height = 33
+          Top = 20
+          Width = 303
+          Caption = 'Print PostNet Labels'
+          Font.Color = clRed
+          Font.Height = -26
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object LabelBox: TComboBox
+          Left = 259
+          Height = 36
+          Top = 124
+          Width = 210
+          HelpContext = 580
+          ItemHeight = 0
+          OnClick = LabelBoxClick
+          OnCloseUp = LabelBoxClick
+          OnMouseDown = ShowContext
+          TabOrder = 0
+        end
+        object EdNumRows: TEdit
+          Left = 259
+          Height = 34
+          Top = 286
+          Width = 121
+          HelpContext = 600
+          OnExit = EdNumRowsExit
+          OnMouseDown = ShowContext
+          TabOrder = 1
+          Text = '0'
+        end
+        object EdNumCols: TEdit
+          Left = 259
+          Height = 34
+          Top = 247
+          Width = 121
+          HelpContext = 590
+          OnExit = EdNumColsExit
+          OnMouseDown = ShowContext
+          TabOrder = 2
+          Text = '0'
+        end
+        object EdTopMargin: TEdit
+          Left = 259
+          Height = 34
+          Top = 364
+          Width = 121
+          HelpContext = 620
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EdTopMarginExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 3
+        end
+        object EdLeftMargin: TEdit
+          Left = 259
+          Height = 34
+          Top = 325
+          Width = 121
+          HelpContext = 610
+          OnExit = EdLeftMarginExit
+          OnMouseDown = ShowContext
+          TabOrder = 4
+        end
+        object EdLabelHigh: TEdit
+          Left = 259
+          Height = 34
+          Top = 481
+          Width = 121
+          HelpContext = 650
+          Font.Height = -20
+          Font.Name = 'System'
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 5
+        end
+        object EdLabelWide: TEdit
+          Left = 259
+          Height = 34
+          Top = 403
+          Width = 121
+          HelpContext = 630
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EdLabelWideExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 6
+        end
+        object EdSpaceWide: TEdit
+          Left = 259
+          Height = 34
+          Top = 442
+          Width = 121
+          HelpContext = 640
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EdSpaceWideExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 7
+        end
+        object EdSpaceHigh: TEdit
+          Left = 259
+          Height = 34
+          Top = 520
+          Width = 121
+          HelpContext = 660
+          Font.Height = -20
+          Font.Name = 'System'
+          OnExit = EdSpaceHighExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
+        end
+        object GridMem: TDBGrid
+          Left = 435
+          Height = 359
+          Top = 309
+          Width = 544
+          HelpContext = 730
+          DataSource = DataMod.SrcMem
+          TabOrder = 9
+          TitleFont.Height = -16
+          TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
+        end
+        object BtnLabel: TButton
+          Left = 539
+          Height = 33
+          Top = 243
+          Width = 91
+          HelpContext = 700
+          Caption = 'Print'
+          OnClick = BtnLabelClick
+          OnMouseDown = ShowContext
+          TabOrder = 10
+        end
+        object BtnLabClr: TButton
+          Left = 539
+          Height = 32
+          Top = 124
+          Width = 91
+          HelpContext = 710
+          Caption = 'Reset'
+          OnClick = BtnLabClrClick
+          OnMouseDown = ShowContext
+          TabOrder = 11
+        end
+        object EDXPos: TEdit
+          Left = 259
+          Height = 34
+          Top = 559
+          Width = 121
+          HelpContext = 670
+          Font.Color = clTeal
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 12
+        end
+        object EdYPos: TEdit
+          Left = 259
+          Height = 34
+          Top = 598
+          Width = 121
+          HelpContext = 680
+          Font.Color = clTeal
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          OnExit = EdSpaceHighExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 13
+        end
+        object EdFontSize: TEdit
+          Left = 259
+          Height = 34
+          Top = 637
+          Width = 121
+          HelpContext = 690
+          Font.Color = clTeal
+          Font.Height = -20
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          OnExit = EdFontSizeExit
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 14
+        end
+        object CheckBoxPostNet: TCheckBox
+          Left = 830
+          Height = 28
+          Top = 132
+          Width = 143
+          HelpContext = 720
+          Caption = 'Print Postnet'
+          OnChange = CheckBoxPostNetChange
+          OnMouseDown = ShowContext
+          TabOrder = 15
+        end
+        object BtnPrintAll: TButton
+          Left = 880
+          Height = 33
+          Top = 243
+          Width = 99
+          Caption = 'Print All'
+          OnClick = BtnPrintAllClick
+          OnMouseDown = ShowContext
+          TabOrder = 16
+        end
+      end
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    left = 1000
+    top = 744
+  end
+end
