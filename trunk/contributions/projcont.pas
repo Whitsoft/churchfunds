@@ -12,7 +12,5 @@ uses
 begin
   {$I projcont.lrs}
   Application.initialize;
-  Application.CreateForm(TFormCont, FormCont);
-  Application.CreateForm(TDataMod, DataMod);
   Application.Run;
 end.
