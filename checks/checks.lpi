@@ -11,7 +11,7 @@
       <Title Value="checks"/>
       <UseAppBundle Value="False"/>
       <Icon Value="0"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -49,7 +49,7 @@
         <UnitName Value="checks"/>
         <CursorPos X="4" Y="16"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="173"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -80,7 +80,7 @@
         <UnitName Value="accounts"/>
         <CursorPos X="1" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="163"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -843,16 +843,14 @@
         <Filename Value="accounts.lfm"/>
         <CursorPos X="73" Y="14"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit111>
       <Unit112>
         <Filename Value="unit30.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>

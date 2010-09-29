@@ -9,7 +9,7 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="ezsetup"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -42,7 +42,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="56">
+    <Units Count="57">
       <Unit0>
         <Filename Value="ezsetup.pas"/>
         <IsPartOfProject Value="True"/>
@@ -456,6 +456,13 @@
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit55>
+      <Unit56>
+        <Filename Value="ezsetup.lpi"/>
+        <CursorPos X="58" Y="112"/>
+        <TopLine Value="381"/>
+        <UsageCount Value="10"/>
+        <SyntaxHighlighter Value="XML"/>
+      </Unit56>
     </Units>
     <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
