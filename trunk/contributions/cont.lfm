@@ -1,7 +1,7 @@
 object FormCont: TFormCont
-  Left = 95
+  Left = 738
   Height = 801
-  Top = 151
+  Top = 141
   Width = 1060
   ActiveControl = NotebookCont
   Caption = 'FormCont'
@@ -14,14 +14,6 @@ object FormCont: TFormCont
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '0.9.28.2'
-  object Label8: TLabel
-    Left = 64
-    Height = 16
-    Top = 64
-    Width = 44
-    Caption = 'Label8'
-    ParentColor = False
-  end
   object NotebookCont: TNotebook
     Left = 0
     Height = 801
@@ -32,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -20
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 0
+    PageIndex = 1
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -297,7 +289,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 65
+          ClientHeight = 87
           ClientWidth = 172
           Font.Height = -20
           Font.Name = 'System'
@@ -345,7 +337,7 @@ object FormCont: TFormCont
         OnMouseDown = ShowContext
         object Label24: TLabel
           Left = 355
-          Height = 32
+          Height = 33
           Top = 20
           Width = 254
           Caption = 'Edit Detail Funds'

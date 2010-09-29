@@ -3,13 +3,14 @@
 {Make a function to get a last name for search in view pay checks}
 unit accounts;
 {$mode objfpc}{$H+}
+{$R accounts.lfm}
 //{$MODE Delphi}
 interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
-  IBConnection, db, Grids, Calendar, StrUtils, LHelpControl,unit30, NewPsClass;
+  IBConnection, db, Grids, Calendar, StrUtils, LHelpControl,unit30,NewPSClass;
 
 type
   PayInfo = record
@@ -686,7 +687,7 @@ type
   end;
 
 const
-  HelpFN: String='/home/don/lazarus/lhelp/ezcheckhelp.chm';
+  HelpFN: String='data/ezcheckhelp.chm';
   HelpCK: String='./CKHelp';
 var
   CheckForm: TCheckForm;
@@ -762,6 +763,7 @@ begin
    Help := TLHelpConnection.Create;
    SocList:=TStringList.Create;
    EZPSClass := TPostscriptClass.Create;
+     EZPSCLass.ClosePrintFile;
   // Application.HelpFile := 'EZFUND.HLP>EZFund';
   // ShowMessage(IntToStr(integer(Datamod)));
  end;
@@ -3409,6 +3411,7 @@ const
    VendX,VendY,MemoX,MemoY,AmountX,AmountY: Double;
    CheckFont: FontType;
  begin
+
    With EZPSClass do
      begin
        if PrintFileOpen then
@@ -3510,7 +3513,7 @@ const
            PrintXY(AmountX,DupY+AmountY,MonStr);
            PrintXY(MemoX,DupY+MemoY,Note);
            If CheckNo<>GlobEndCheck then
-              ShowPage;
+               EZPSCLass.PSProcs;
        end; //{With sender}
        If not GlobTrial then
          try
@@ -3561,7 +3564,7 @@ const
     except
       ShowMessage('Check printing error');
     end;
-    EZPSClass.ShowPage;
+    EZPSClass.PSPRocs;
     EZPSClass.ClosePrintFile;
 end;
 
@@ -5557,8 +5560,8 @@ begin
  Help.OpenContext(helpFN,hContext);
 end;
 
-initialization
-  {$I accounts.lrs}
+//initialization
+//  {$I accounts.lrs}
 
 end.
 

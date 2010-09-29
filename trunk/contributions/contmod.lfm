@@ -7,7 +7,7 @@ object DataMod: TDataMod
   object FBConnectionEZ: TIBConnection
     Connected = True
     LoginPrompt = False
-    DatabaseName = '/home/don/firebird/ezfunds.fdb'
+    DatabaseName = '/home/don/churchfunds/trunk/data/ezfunds.fdb'
     KeepConnection = False
     Password = 'masterkey'
     Transaction = SQLTransactionEZ
@@ -53,7 +53,6 @@ object DataMod: TDataMod
   end
   object QuerySrchName: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -171,7 +170,6 @@ object DataMod: TDataMod
   end
   object QuerySrchFund: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -354,7 +352,6 @@ object DataMod: TDataMod
   end
   object QueryRCbutions: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -531,7 +528,6 @@ object DataMod: TDataMod
   end
   object QueryFGroup: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -558,7 +554,6 @@ object DataMod: TDataMod
   end
   object QueryCont: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -915,7 +910,6 @@ object DataMod: TDataMod
   end
   object QueryMemPrint: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -983,7 +977,6 @@ object DataMod: TDataMod
   end
   object QueryFundDesc: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1013,7 +1006,6 @@ object DataMod: TDataMod
   end
   object QueryNow: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1117,7 +1109,6 @@ object DataMod: TDataMod
   end
   object TableMem: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1224,7 +1215,6 @@ object DataMod: TDataMod
   end
   object QueryMem: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1298,7 +1288,6 @@ object DataMod: TDataMod
   end
   object QueryDetail: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1349,7 +1338,6 @@ object DataMod: TDataMod
   end
   object QueryIsMember: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1378,7 +1366,6 @@ object DataMod: TDataMod
   end
   object TableChurch: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

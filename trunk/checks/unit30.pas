@@ -1,6 +1,7 @@
 unit Unit30; 
 
 {$mode objfpc}{$H+}
+{$R unit30.lfm}
 
 interface
 
@@ -175,8 +176,8 @@ begin
     end;
 end;
 
-initialization
-  {$I unit30.lrs}
+//initialization
+//  {$I unit30.lrs}
 
 end.
 

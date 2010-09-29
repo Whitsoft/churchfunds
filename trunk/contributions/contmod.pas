@@ -1,6 +1,7 @@
 unit contmod;
 
 {$mode objfpc}{$H+}
+{$R contmod.lfm}
 
 interface
 
@@ -135,9 +136,9 @@ begin
 
 end;
 
-initialization
+//initialization
 
-  {$I contmod.lrs}
+//  {$I contmod.lrs}
 end.
 
 {function TDataMod.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;

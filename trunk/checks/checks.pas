@@ -12,8 +12,8 @@ uses
 {$IFDEF WINDOWS}{$R checks.rc}{$ENDIF}
 
 begin
-  {$I checks.lrs}
-  Application.Initialize;
+ // {$I Checks.lrs}
+ // Application.Initialize;
   Application.CreateForm(TCheckForm, CheckForm);
   Application.CreateForm(TDataMod, DataMod);
   Application.Run;
