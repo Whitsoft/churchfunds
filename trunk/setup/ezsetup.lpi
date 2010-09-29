@@ -42,7 +42,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="52">
+    <Units Count="54">
       <Unit0>
         <Filename Value="ezsetup.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -50,17 +50,16 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="180"/>
+        <UsageCount Value="182"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="../../../firebird/EZSetup/ezsetupunit.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="FormSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <CursorPos X="61" Y="399"/>
+        <CursorPos X="39" Y="398"/>
         <TopLine Value="396"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="180"/>
@@ -68,7 +67,6 @@
       </Unit1>
       <Unit2>
         <Filename Value="../../../firebird/EZSetup/setupmod.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
@@ -400,7 +398,7 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit47>
@@ -409,7 +407,7 @@
         <CursorPos X="49" Y="7"/>
         <TopLine Value="1"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit48>
@@ -432,6 +430,22 @@
         <UsageCount Value="10"/>
         <SyntaxHighlighter Value="None"/>
       </Unit51>
+      <Unit52>
+        <Filename Value="ezsetupunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ezsetupunit"/>
+        <UsageCount Value="22"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="setupmod.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataMod"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="setupmod"/>
+        <UsageCount Value="22"/>
+      </Unit53>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
