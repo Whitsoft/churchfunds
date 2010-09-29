@@ -283,7 +283,6 @@
       </Unit28>
       <Unit29>
         <Filename Value="projcont.lrs"/>
-        <IsPartOfProject Value="True"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="20"/>

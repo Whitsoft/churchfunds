@@ -14,6 +14,9 @@ uses
 
 begin
  // {$I ezsetup.lrs}
+ / Application.Initialize;
+  Application.CreateForm(TFormSetup, FormSetup);
+  Application.CreateForm(TDataMod, DataMod);
   Application.Run;
 end.
 
