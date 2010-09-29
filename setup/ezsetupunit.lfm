@@ -16,7 +16,6 @@ object FormSetup: TFormSetup
   OnClose = FormClose
   OnCreate = FormCreate
   LCLVersion = '0.9.28.2'
-  WindowState = wsMaximized
   object Label80: TLabel
     Left = 435
     Height = 25
@@ -1632,7 +1631,7 @@ object FormSetup: TFormSetup
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 80
+          ClientHeight = 102
           ClientWidth = 189
           Font.Height = -20
           Font.Name = 'System'
