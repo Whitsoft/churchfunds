@@ -17,22 +17,6 @@ object FormSetup: TFormSetup
   OnCreate = FormCreate
   LCLVersion = '0.9.28.2'
   WindowState = wsMaximized
-  object Label8: TLabel
-    Left = 28
-    Height = 16
-    Top = 176
-    Width = 44
-    Caption = 'Label8'
-    ParentColor = False
-  end
-  object Label15: TLabel
-    Left = 20
-    Height = 16
-    Top = 312
-    Width = 52
-    Caption = 'Label15'
-    ParentColor = False
-  end
   object Label80: TLabel
     Left = 435
     Height = 25
@@ -55,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -20
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 8
+    PageIndex = 2
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -93,6 +77,7 @@ object FormSetup: TFormSetup
           Width = 712
           HelpContext = 17
           Anchors = []
+          DataSource = DataMod.SrcFundGroups
           DefaultRowHeight = 24
           TabOrder = 0
           TitleFont.Height = -13
@@ -135,6 +120,7 @@ object FormSetup: TFormSetup
           Width = 657
           HelpContext = 200
           Anchors = []
+          DataSource = DataMod.SrcGroup
           DefaultRowHeight = 24
           TabOrder = 0
           TitleFont.Height = -13
@@ -285,6 +271,7 @@ object FormSetup: TFormSetup
           Width = 1040
           HelpContext = 220
           Anchors = []
+          DataSource = DataMod.AccSrc
           DefaultRowHeight = 24
           TabOrder = 4
           TitleFont.Height = -13
@@ -304,6 +291,7 @@ object FormSetup: TFormSetup
           KeyField = 'GROUP_NO'
           ListField = 'DESCRIPTION'
           ListFieldIndex = 0
+          ListSource = DataMod.SrcGroup
           LookupCache = False
           OnMouseDown = ShowContext
           ParentFont = False
@@ -378,6 +366,7 @@ object FormSetup: TFormSetup
           Width = 930
           HelpContext = 290
           Anchors = []
+          DataSource = DataMod.SrcFunds
           DefaultRowHeight = 24
           TabOrder = 1
           TitleFont.Height = -13
@@ -480,6 +469,7 @@ object FormSetup: TFormSetup
           Top = 324
           Width = 624
           Anchors = []
+          DataSource = DataMod.VendSrc
           DefaultRowHeight = 24
           TabOrder = 3
           TitleFont.Height = -13
@@ -523,6 +513,7 @@ object FormSetup: TFormSetup
           Width = 1009
           Anchors = []
           Color = clAqua
+          DataSource = DataMod.PaySrc
           Font.Height = -16
           Font.Name = 'System'
           ParentFont = False

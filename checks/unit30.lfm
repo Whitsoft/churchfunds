@@ -25,7 +25,6 @@ object DataMod: TDataMod
   end
   object ZQueryReturn: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -75,7 +74,7 @@ object DataMod: TDataMod
   object IBConnectionEZ: TIBConnection
     Connected = True
     LoginPrompt = False
-    DatabaseName = '/home/don/firebird/ezfunds.fdb'
+    DatabaseName = '~/churchfunds/trunk/data/ezfunds.fdb'
     KeepConnection = False
     Password = 'masterkey'
     Transaction = SQLTransactionEZ
@@ -160,7 +159,6 @@ object DataMod: TDataMod
   end
   object ZQueryTranAcc: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -259,7 +257,6 @@ object DataMod: TDataMod
   end
   object ZQueryAccType: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -500,7 +497,6 @@ object DataMod: TDataMod
   end
   object ZQueryPayAcc: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -671,7 +667,6 @@ object DataMod: TDataMod
   end
   object ZQueryPayStubs: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -842,6 +837,7 @@ object DataMod: TDataMod
   end
   object ZTblFund: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -869,7 +865,6 @@ object DataMod: TDataMod
   end
   object ZQueryPrintTran: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1028,6 +1023,7 @@ object DataMod: TDataMod
   end
   object ZTblTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1041,7 +1037,6 @@ object DataMod: TDataMod
   end
   object ZQueryStub: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1136,6 +1131,7 @@ object DataMod: TDataMod
   end
   object ZTblVendor: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1160,6 +1156,7 @@ object DataMod: TDataMod
   end
   object ZTblFindTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1179,7 +1176,6 @@ object DataMod: TDataMod
   end
   object ZQueryTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1366,7 +1362,6 @@ object DataMod: TDataMod
   end
   object ZTblTempTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1395,7 +1390,6 @@ object DataMod: TDataMod
   end
   object ZQueryAccNo: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1437,7 +1431,6 @@ object DataMod: TDataMod
   end
   object ZTblDelTran: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1452,7 +1445,6 @@ object DataMod: TDataMod
   end
   object ZTblPayStubs: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

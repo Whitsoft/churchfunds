@@ -1,6 +1,7 @@
 unit cont;
 
   {$mode objfpc}{$H+}
+  {$R cont.lfm}
 
 interface
 
@@ -146,7 +147,6 @@ type
     Label44: TLabel;
  //   ReportSystemCon: TRvSystem;
     RadioPreview: TRadioGroup;
-    Label8: TLabel;
     EdVuBox: TCheckBox;
     LabelTitle: TLabel;
     PickerRep: TEdit;
@@ -329,7 +329,8 @@ type
   {procedure ShowOrdinal (pti: PTypeInfo; sList: TStrings);
   procedure ListEnum (pti: PTypeInfo; sList: TStrings);  }
 const
-  HelpFN: String='/home/don/firebird/ezcont/ContOld/ezconthelp.chm';
+  HelpFN: String='data/ezconthelp.chm';
+  //HelpFN: String='/home/don/firebird/ezcont/ContOld/ezconthelp.chm';
   HelpCK: String='./CKHelp';
 var
   FormCont: TFormCont;
@@ -2965,8 +2966,8 @@ begin
   EditAmount.Text:='';
 end;
 
-initialization
-  {$i cont.lrs}
+//initialization
+//  {$i cont.lrs}
 
 end.
 

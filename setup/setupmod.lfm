@@ -7,7 +7,7 @@ object DataMod: TDataMod
   object IBConnectionEZ: TIBConnection
     Connected = True
     LoginPrompt = False
-    DatabaseName = '/home/don/firebird/ezfunds.fdb'
+    DatabaseName = '~/churchfunds/trunk/data/ezfunds.fdb'
     KeepConnection = False
     Password = 'masterkey'
     Transaction = SQLTransactionEZ

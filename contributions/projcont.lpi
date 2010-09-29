@@ -3,6 +3,9 @@
   <ProjectOptions>
     <Version Value="7"/>
     <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="projcont"/>
@@ -39,14 +42,14 @@
         <PackageName Value="lhelpcontrolpkg"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="30">
+    <Units Count="34">
       <Unit0>
         <Filename Value="projcont.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="projcont"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="29" Y="14"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="151"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -255,12 +258,15 @@
       <Unit27>
         <Filename Value="cont.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormCont"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <CursorPos X="1" Y="556"/>
+        <TopLine Value="541"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="contmod.pas"/>
@@ -271,25 +277,150 @@
         <UnitName Value="contmod"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
       </Unit28>
       <Unit29>
         <Filename Value="projcont.lrs"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="contmod.lfm"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <SyntaxHighlighter Value="LFM"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="cont.lfm"/>
+        <CursorPos X="44" Y="3"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <SyntaxHighlighter Value="LFM"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../../../../../usr/lib/lazarus/0.9.28.2/lcl/include/application.inc"/>
+        <CursorPos X="1" Y="1257"/>
+        <TopLine Value="1242"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../../contributions/projcont.pas"/>
+        <UnitName Value="projcont"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit33>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="23" HistoryIndex="22">
+      <Position1>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="cont.pas"/>
+        <Caret Line="10" Column="60" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="cont.pas"/>
+        <Caret Line="20" Column="45" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="cont.pas"/>
+        <Caret Line="310" Column="24" TopLine="295"/>
+      </Position4>
+      <Position5>
+        <Filename Value="cont.pas"/>
+        <Caret Line="311" Column="23" TopLine="295"/>
+      </Position5>
+      <Position6>
+        <Filename Value="cont.pas"/>
+        <Caret Line="332" Column="17" TopLine="317"/>
+      </Position6>
+      <Position7>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="cont.pas"/>
+        <Caret Line="149" Column="1" TopLine="134"/>
+      </Position8>
+      <Position9>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="cont.pas"/>
+        <Caret Line="2969" Column="3" TopLine="2943"/>
+      </Position10>
+      <Position11>
+        <Filename Value="contmod.pas"/>
+        <Caret Line="4" Column="17" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="contmod.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="cont.pas"/>
+        <Caret Line="4" Column="8" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="cont.pas"/>
+        <Caret Line="204" Column="24" TopLine="189"/>
+      </Position14>
+      <Position15>
+        <Filename Value="cont.pas"/>
+        <Caret Line="552" Column="30" TopLine="517"/>
+      </Position15>
+      <Position16>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position16>
+      <Position17>
+        <Filename Value="cont.pas"/>
+        <Caret Line="222" Column="25" TopLine="207"/>
+      </Position17>
+      <Position18>
+        <Filename Value="projcont.pas"/>
+        <Caret Line="13" Column="1" TopLine="1"/>
+      </Position18>
+      <Position19>
+        <Filename Value="projcont.pas"/>
+        <Caret Line="15" Column="1" TopLine="1"/>
+      </Position19>
+      <Position20>
+        <Filename Value="contmod.pas"/>
+        <Caret Line="141" Column="3" TopLine="124"/>
+      </Position20>
+      <Position21>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1029" Column="1" TopLine="1014"/>
+      </Position21>
+      <Position22>
+        <Filename Value="contmod.pas"/>
+        <Caret Line="141" Column="3" TopLine="124"/>
+      </Position22>
+      <Position23>
+        <Filename Value="contmod.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position23>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="8"/>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)/;$(LazarusDir)/lcl/;$(LazarusDir)/lcl/interfaces/$(LCLWidgetType)/"/>
-      <OtherUnitFiles Value="/usr/lib/lazarus/0.9.28.2/components/chmhelp/lhelp/"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2/;$(LazarusDir)/lcl/units/i386-linux/;../../../churchfunds/trunk/"/>
+      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2/"/>
+      <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Other>
       <CompilerPath Value="$(CompPath)"/>

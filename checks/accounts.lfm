@@ -130,7 +130,7 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Panel1: TPanel
-          Left = 3
+          Left = -5
           Height = 372
           Top = -4
           Width = 845
