@@ -329,9 +329,9 @@ type
   {procedure ShowOrdinal (pti: PTypeInfo; sList: TStrings);
   procedure ListEnum (pti: PTypeInfo; sList: TStrings);  }
 const
-  HelpFN: String='data/ezconthelp.chm';
-  //HelpFN: String='/home/don/firebird/ezcont/ContOld/ezconthelp.chm';
-  HelpCK: String='./CKHelp';
+   HelpFN: String='../help/ezconthelp.chm';
+   HelpCK: String='./CKHelp';
+
 var
   FormCont: TFormCont;
   Help: TLHelpConnection;
@@ -1061,8 +1061,7 @@ begin
       exit;
     Rewrite(LogFile);
     Writeln(LogFile, A);
-    Help.StartHelpServer('lhelpServer', '/home/don/firebird/ezcont/ContOld/lhelp --display=:0.0');
-    //Help.StartHelpServer('lhelpServer', '/home/don/lazarus/lhelp/lhelp --display=:0.0');
+    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);

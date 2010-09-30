@@ -42,7 +42,7 @@
         <PackageName Value="lhelpcontrolpkg"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="34">
+    <Units Count="35">
       <Unit0>
         <Filename Value="projcont.pas"/>
         <IsPartOfProject Value="True"/>
@@ -262,8 +262,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
-        <CursorPos X="1" Y="556"/>
-        <TopLine Value="541"/>
+        <CursorPos X="1" Y="1049"/>
+        <TopLine Value="1041"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -291,18 +291,14 @@
         <Filename Value="contmod.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit30>
       <Unit31>
         <Filename Value="cont.lfm"/>
         <CursorPos X="44" Y="3"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit31>
       <Unit32>
@@ -318,8 +314,18 @@
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit33>
+      <Unit34>
+        <Filename Value="../setup/ezsetupunit.pas"/>
+        <ComponentName Value="FormSetup"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ezsetupunit"/>
+        <CursorPos X="1" Y="2943"/>
+        <TopLine Value="2929"/>
+        <UsageCount Value="10"/>
+      </Unit34>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="26" HistoryIndex="25">
       <Position1>
         <Filename Value="cont.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
@@ -412,6 +418,18 @@
         <Filename Value="contmod.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position23>
+      <Position24>
+        <Filename Value="cont.pas"/>
+        <Caret Line="556" Column="1" TopLine="541"/>
+      </Position24>
+      <Position25>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="cont.pas"/>
+        <Caret Line="335" Column="1" TopLine="317"/>
+      </Position26>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
