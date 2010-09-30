@@ -20,6 +20,7 @@ type
     PaySrc: TDatasource;
     QueryPayName: TSQLQuery;
     QueryUpdatePayroll: TSQLQuery;
+    ZQuerySumOldDP: TSQLQuery;
     ZTblPayroll: TSQLQuery;
     TableSpecial: TSQLQuery;
     TableChurch: TSQLQuery;
@@ -76,7 +77,6 @@ type
     ZTblFundGroupsDESCRIPTION: TStringField;
     ZTblFundGroupsFUND_GROUP: TSmallintField;
     SQLTransactionEZ: TSQLTransaction;
-    ZQuerySumOldDP: TSQLQuery;
     ZTblFundsACCOUNT: TSmallintField;
     ZTblFundsDESCRIPTION: TStringField;
     ZTblFundsDETAIL_FUND_NO: TSmallintField;

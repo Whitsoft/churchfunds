@@ -202,6 +202,8 @@ Type
     Label78: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure DBEditPostChange(Sender: TObject);
+    procedure GridFundGroupsMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure UpdateChurchEdits;
     procedure EditFICAEnter(Sender: TObject);
     procedure EditFITEnter(Sender: TObject);
@@ -368,7 +370,7 @@ Type
   End;
 
   const
-   HelpFN: String='../help/ezsetup.chm';
+   HelpFN: String='../help/ezsetupShlwContsxt.chm';
    HelpCK: String='./CKHelp';
 
 Var 
@@ -2773,6 +2775,12 @@ begin
       DataMod.SQLTransactionEZ.commit;
       UpdateChurchEdits;
     end;
+end;
+
+procedure TFormSetup.GridFundGroupsMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 

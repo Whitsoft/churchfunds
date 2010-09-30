@@ -21,10 +21,10 @@ object FormCont: TFormCont
     Width = 1060
     HelpContext = 10
     Align = alClient
-    Font.Height = -20
+    Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 7
+    PageIndex = 1
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -165,13 +165,13 @@ object FormCont: TFormCont
         end
         object EditSrchEnv: TEdit
           Left = 805
-          Height = 34
+          Height = 29
           Top = 108
           Width = 184
           HelpContext = 50
           Color = clWhite
           Font.Color = clBlack
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
           OnKeyDown = EditSrchEnvKeyDown
@@ -182,12 +182,12 @@ object FormCont: TFormCont
         end
         object EditEnv: TEdit
           Left = 805
-          Height = 34
+          Height = 29
           Top = 180
           Width = 121
           HelpContext = 60
           Color = clWhite
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EditEnvExit
           OnKeyDown = EditEnvKeyDown
@@ -198,12 +198,12 @@ object FormCont: TFormCont
         end
         object EditAmount: TEdit
           Left = 805
-          Height = 34
+          Height = 29
           Top = 340
           Width = 121
           HelpContext = 80
           Color = clWhite
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnKeyDown = EditAmountKeyDown
           OnKeyPress = EditAmountKeyPress
@@ -218,7 +218,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 100
           Caption = 'Post'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnPostClick
           OnMouseDown = ShowContext
@@ -232,7 +232,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 110
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnCanClick
           OnKeyPress = BtnCanKeyPress
@@ -247,7 +247,7 @@ object FormCont: TFormCont
           Width = 701
           HelpContext = 90
           DataSource = DataMod.SrcSrchName
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
           TabOrder = 5
@@ -259,11 +259,11 @@ object FormCont: TFormCont
         end
         object ComboDetail: TComboBox
           Left = 805
-          Height = 36
+          Height = 31
           Top = 260
           Width = 191
           HelpContext = 70
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ItemHeight = 0
           OnChange = ComboDetailChange
@@ -289,9 +289,9 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 87
+          ClientHeight = 70
           ClientWidth = 172
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Items.Strings = (
             'Cash'
@@ -309,7 +309,7 @@ object FormCont: TFormCont
           Width = 355
           HelpContext = 90
           DataSource = DataMod.SrcNow
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
           TabOrder = 6
@@ -429,12 +429,12 @@ object FormCont: TFormCont
         end
         object TitleCombo: TComboBox
           Left = 659
-          Height = 36
+          Height = 31
           Top = 388
           Width = 168
           HelpContext = 200
           Color = clAqua
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ItemHeight = 0
           Items.Strings = (
@@ -486,7 +486,7 @@ object FormCont: TFormCont
           Width = 80
           HelpContext = 210
           Caption = 'Post'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnPostTorsClick
           OnMouseDown = ShowContext
@@ -500,7 +500,7 @@ object FormCont: TFormCont
           Width = 80
           HelpContext = 220
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnCanTorsClick
           OnMouseDown = ShowContext
@@ -514,7 +514,7 @@ object FormCont: TFormCont
           Width = 88
           HelpContext = 230
           Caption = 'Delete'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnDelTorsClick
           OnMouseDown = ShowContext
@@ -581,7 +581,7 @@ object FormCont: TFormCont
           HelpContext = 260
           Color = clAqua
           DataSource = DataMod.SrcPledge
-          Font.Height = -17
+          Font.Height = -15
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
           ParentFont = False
@@ -601,7 +601,7 @@ object FormCont: TFormCont
           DefaultColWidth = 180
           DefaultRowHeight = 32
           FixedColor = clAqua
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs]
           ParentFont = False
@@ -626,9 +626,9 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 87
+          ClientHeight = 70
           ClientWidth = 142
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Items.Strings = (
             'Annual    '
@@ -646,7 +646,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 310
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnCanPledgeClick
           OnMouseDown = ShowContext
@@ -660,7 +660,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 300
           Caption = 'Post'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnInsPledgeClick
           OnMouseDown = ShowContext
@@ -674,7 +674,7 @@ object FormCont: TFormCont
           Width = 129
           HelpContext = 320
           Caption = 'Add Year'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnAddYearClick
           OnMouseDown = ShowContext
@@ -816,11 +816,11 @@ object FormCont: TFormCont
         end
         object EditQEnv: TEdit
           Left = 200
-          Height = 34
+          Height = 29
           Top = 146
           Width = 121
           HelpContext = 370
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -828,11 +828,11 @@ object FormCont: TFormCont
         end
         object EditQFund: TEdit
           Left = 200
-          Height = 34
+          Height = 29
           Top = 184
           Width = 121
           HelpContext = 380
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnKeyPress = EditQFundKeyPress
           OnMouseDown = ShowContext
@@ -841,11 +841,11 @@ object FormCont: TFormCont
         end
         object EditQFromDate: TEdit
           Left = 200
-          Height = 34
+          Height = 29
           Top = 222
           Width = 121
           HelpContext = 390
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -853,11 +853,11 @@ object FormCont: TFormCont
         end
         object EditQToDate: TEdit
           Left = 200
-          Height = 34
+          Height = 29
           Top = 260
           Width = 121
           HelpContext = 400
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -870,7 +870,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 420
           Caption = 'Query'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnQueryClick
           OnMouseDown = ShowContext
@@ -884,7 +884,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 430
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnQueryClrClick
           OnMouseDown = ShowContext
@@ -910,11 +910,11 @@ object FormCont: TFormCont
         end
         object QueryBox: TComboBox
           Left = 363
-          Height = 36
+          Height = 31
           Top = 146
           Width = 207
           HelpContext = 380
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ItemHeight = 0
           OnClick = QueryBoxClick
@@ -925,12 +925,12 @@ object FormCont: TFormCont
         end
         object EditSumCont: TEdit
           Left = 875
-          Height = 34
+          Height = 29
           Top = 564
           Width = 120
           HelpContext = 440
           Color = clAqua
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -938,12 +938,12 @@ object FormCont: TFormCont
         end
         object EdVuBox: TCheckBox
           Left = 864
-          Height = 28
+          Height = 24
           Top = 436
-          Width = 138
+          Width = 126
           HelpContext = 415
           Caption = 'View or Edit'
-          Font.Height = -20
+          Font.Height = -17
           Font.Name = 'System'
           OnClick = EdVuBoxClick
           OnMouseDown = ShowContext
@@ -956,7 +956,7 @@ object FormCont: TFormCont
           Top = 146
           Width = 33
           Caption = 'C'
-          Font.Height = -20
+          Font.Height = -17
           Font.Name = 'System'
           OnClick = BtnFundClrClick
           ParentFont = False
@@ -1096,7 +1096,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 500
           Caption = 'Print'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnPrintClick
           OnMouseDown = ShowContext
@@ -1105,11 +1105,11 @@ object FormCont: TFormCont
         end
         object EditFromEnv: TEdit
           Left = 211
-          Height = 34
+          Height = 29
           Top = 139
           Width = 121
           HelpContext = 460
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnKeyPress = EditFromEnvKeyPress
           OnMouseDown = ShowContext
@@ -1118,11 +1118,11 @@ object FormCont: TFormCont
         end
         object EditToEnv: TEdit
           Left = 211
-          Height = 34
+          Height = 29
           Top = 195
           Width = 121
           HelpContext = 470
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnKeyPress = EditToEnvKeyPress
           OnMouseDown = ShowContext
@@ -1131,11 +1131,11 @@ object FormCont: TFormCont
         end
         object EditFromDate: TEdit
           Left = 211
-          Height = 34
+          Height = 29
           Top = 251
           Width = 121
           HelpContext = 480
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EditFromDateExit
           OnKeyPress = EditFromDateKeyPress
@@ -1145,11 +1145,11 @@ object FormCont: TFormCont
         end
         object EditToDate: TEdit
           Left = 211
-          Height = 34
+          Height = 29
           Top = 307
           Width = 121
           HelpContext = 490
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EditToDateExit
           OnMouseDown = ShowContext
@@ -1163,7 +1163,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 510
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -1176,7 +1176,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 540
           Caption = 'Print'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnMonPrntClick
           OnMouseDown = ShowContext
@@ -1185,11 +1185,11 @@ object FormCont: TFormCont
         end
         object ConRepBox: TComboBox
           Left = 219
-          Height = 36
+          Height = 31
           Top = 563
           Width = 145
           HelpContext = 520
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ItemHeight = 0
           Items.Strings = (
@@ -1213,11 +1213,11 @@ object FormCont: TFormCont
         end
         object YearEd: TEdit
           Left = 219
-          Height = 34
+          Height = 29
           Top = 628
           Width = 73
           HelpContext = 530
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -1240,9 +1240,9 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 101
+          ClientHeight = 84
           ClientWidth = 220
-          Font.Height = 12
+          Font.Height = -15
           Font.Name = 'System'
           Items.Strings = (
             'Daily Report             '
@@ -1267,9 +1267,9 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclTopToBottomThenLeftToRight
           ChildSizing.ControlsPerLine = 2
-          ClientHeight = 100
+          ClientHeight = 83
           ClientWidth = 244
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Items.Strings = (
             'Preview           '
@@ -1282,11 +1282,11 @@ object FormCont: TFormCont
         end
         object PickerRep: TEdit
           Left = 219
-          Height = 34
+          Height = 29
           Top = 500
           Width = 121
           HelpContext = 550
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -1357,11 +1357,11 @@ object FormCont: TFormCont
         end
         object EditPledgeFund: TEdit
           Left = 155
-          Height = 34
+          Height = 29
           Top = 228
           Width = 121
           HelpContext = 750
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnKeyPress = EditPledgeFundKeyPress
           OnMouseDown = ShowContext
@@ -1370,12 +1370,12 @@ object FormCont: TFormCont
         end
         object EditPledgeSum: TEdit
           Left = 155
-          Height = 34
+          Height = 29
           Top = 428
           Width = 209
           HelpContext = 760
           Color = clAqua
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -1397,9 +1397,9 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 128
+          ClientHeight = 133
           ClientWidth = 221
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Items.Strings = (
             'All Pledges'
@@ -1417,7 +1417,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 780
           Caption = 'Query'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnPledgeQueryClick
           OnMouseDown = ShowContext
@@ -1431,7 +1431,7 @@ object FormCont: TFormCont
           Width = 89
           HelpContext = 790
           Caption = 'Clear'
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnClick = BtnClearSumClick
           OnMouseDown = ShowContext
@@ -1440,11 +1440,11 @@ object FormCont: TFormCont
         end
         object ComboPledgeFund: TComboBox
           Left = 584
-          Height = 36
+          Height = 31
           Top = 228
           Width = 200
           HelpContext = 750
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           ItemHeight = 0
           OnClick = ComboPledgeFundClick
@@ -1611,45 +1611,54 @@ object FormCont: TFormCont
         end
         object LabelBox: TComboBox
           Left = 259
-          Height = 36
+          Height = 31
           Top = 124
           Width = 210
           HelpContext = 580
+          Font.Height = -15
+          Font.Name = 'System'
           ItemHeight = 0
           OnClick = LabelBoxClick
           OnCloseUp = LabelBoxClick
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 0
         end
         object EdNumRows: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 286
           Width = 121
           HelpContext = 600
+          Font.Height = -15
+          Font.Name = 'System'
           OnExit = EdNumRowsExit
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 1
           Text = '0'
         end
         object EdNumCols: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 247
           Width = 121
           HelpContext = 590
+          Font.Height = -15
+          Font.Name = 'System'
           OnExit = EdNumColsExit
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 2
           Text = '0'
         end
         object EdTopMargin: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 364
           Width = 121
           HelpContext = 620
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EdTopMarginExit
           OnMouseDown = ShowContext
@@ -1658,21 +1667,24 @@ object FormCont: TFormCont
         end
         object EdLeftMargin: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 325
           Width = 121
           HelpContext = 610
+          Font.Height = -15
+          Font.Name = 'System'
           OnExit = EdLeftMarginExit
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 4
         end
         object EdLabelHigh: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 481
           Width = 121
           HelpContext = 650
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
@@ -1680,11 +1692,11 @@ object FormCont: TFormCont
         end
         object EdLabelWide: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 403
           Width = 121
           HelpContext = 630
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EdLabelWideExit
           OnMouseDown = ShowContext
@@ -1693,11 +1705,11 @@ object FormCont: TFormCont
         end
         object EdSpaceWide: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 442
           Width = 121
           HelpContext = 640
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EdSpaceWideExit
           OnMouseDown = ShowContext
@@ -1706,11 +1718,11 @@ object FormCont: TFormCont
         end
         object EdSpaceHigh: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 520
           Width = 121
           HelpContext = 660
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           OnExit = EdSpaceHighExit
           OnMouseDown = ShowContext
@@ -1736,8 +1748,11 @@ object FormCont: TFormCont
           Width = 91
           HelpContext = 700
           Caption = 'Print'
+          Font.Height = -15
+          Font.Name = 'System'
           OnClick = BtnLabelClick
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 10
         end
         object BtnLabClr: TButton
@@ -1747,18 +1762,21 @@ object FormCont: TFormCont
           Width = 91
           HelpContext = 710
           Caption = 'Reset'
+          Font.Height = -15
+          Font.Name = 'System'
           OnClick = BtnLabClrClick
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 11
         end
         object EDXPos: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 559
           Width = 121
           HelpContext = 670
           Font.Color = clTeal
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
           OnMouseDown = ShowContext
@@ -1767,12 +1785,12 @@ object FormCont: TFormCont
         end
         object EdYPos: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 598
           Width = 121
           HelpContext = 680
           Font.Color = clTeal
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
           OnExit = EdSpaceHighExit
@@ -1782,12 +1800,12 @@ object FormCont: TFormCont
         end
         object EdFontSize: TEdit
           Left = 259
-          Height = 34
+          Height = 29
           Top = 637
           Width = 121
           HelpContext = 690
           Font.Color = clTeal
-          Font.Height = -20
+          Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
           OnExit = EdFontSizeExit
@@ -1812,16 +1830,19 @@ object FormCont: TFormCont
           Top = 243
           Width = 99
           Caption = 'Print All'
+          Font.Height = -15
+          Font.Name = 'System'
           OnClick = BtnPrintAllClick
           OnMouseDown = ShowContext
+          ParentFont = False
           TabOrder = 16
         end
       end
     end
   end
   object Timer1: TTimer
-    Enabled = False
-    left = 1000
-    top = 744
+    OnTimer = Timer1Timer
+    left = 950
+    top = 723
   end
 end

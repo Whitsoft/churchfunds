@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 0
+    PageIndex = 1
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -1122,9 +1122,9 @@ object CheckForm: TCheckForm
           end
           object PayLabel: TLabel
             Left = 88
-            Height = 67
+            Height = 69
             Top = 116
-            Width = 62
+            Width = 64
             Font.Color = clWhite
             Font.Height = 9
             Font.Name = 'System'
@@ -1133,9 +1133,9 @@ object CheckForm: TCheckForm
           end
           object PayeeLabel: TLabel
             Left = 88
-            Height = 66
+            Height = 68
             Top = 88
-            Width = 61
+            Width = 63
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1145,9 +1145,9 @@ object CheckForm: TCheckForm
           end
           object PayDateLabel: TLabel
             Left = 390
-            Height = 66
+            Height = 68
             Top = 50
-            Width = 61
+            Width = 63
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -2527,9 +2527,9 @@ object CheckForm: TCheckForm
       ClientHeight = 882
       object AccLab: TLabel
         Left = 544
-        Height = 66
+        Height = 68
         Top = 398
-        Width = 54
+        Width = 56
         ParentColor = False
         OnClick = AccLabClick
       end
@@ -2680,7 +2680,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 570
           Anchors = []
-          Font.Height = -17
+          Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
           TabOrder = 1
@@ -2781,7 +2781,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 580
           Anchors = []
-          Font.Height = -17
+          Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
           TabOrder = 8
