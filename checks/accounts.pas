@@ -687,8 +687,8 @@ type
   end;
 
 const
-  HelpFN: String='data/ezcheckhelp.chm';
-  HelpCK: String='./CKHelp';
+   HelpFN: String='../help/ezcheckhelp.chm';
+   HelpCK: String='./CKHelp';
 var
   CheckForm: TCheckForm;
   Help: TLHelpConnection;
@@ -5461,14 +5461,17 @@ procedure TCheckForm.CheckHelpOpen;
 var
   S: String;
 begin
-  try
     AssignFile(LogFile,HelpCK);
-    Reset(LogFile);
-    Readln(LogFile,S);
+  try
+    try
+      Reset(LogFile);
+      Readln(LogFile,S);
+    except
+      Rewrite(LogFile);
+    end;
     CloseFile(LogFile);
     if S <> '' then exit;
-    Help.StartHelpServer('lhelpServer', '/home/don/firebird/EZTest/lhelp --display=:0.0');
-    //Help.StartHelpServer('lhelpServer', '/home/don/lazarus/lhelp/lhelp --display=:0.0');
+    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);

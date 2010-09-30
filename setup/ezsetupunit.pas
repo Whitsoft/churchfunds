@@ -368,8 +368,8 @@ Type
   End;
 
   const
-  HelpFN: String='/home/don/firebird/EZSetup/ezsetup.chm';
-  HelpCK: String='./CKHelp';
+   HelpFN: String='../help/ezsetup.chm';
+   HelpCK: String='./CKHelp';
 
 Var 
   FormSetup: TFormSetup;
@@ -2925,18 +2925,26 @@ begin
  Help.OpenContext(helpFN,hContext);
 end;
 
+
 procedure TFormSetup.CheckHelpOpen;
 var
   S: String;
+  A: String;
 begin
+  A := 'ACTIVE';
+  AssignFile(LogFile,HelpCK);
   try
-    AssignFile(LogFile,HelpCK);
-    Reset(LogFile);
-    Readln(LogFile,S);
+    try
+      Reset(LogFile);
+      Readln(LogFile,S);
+    except
+      Rewrite(LogFile);
+      Writeln(LogFile, A);
+    end;
+   // Readln(LogFile,S);
     CloseFile(LogFile);
     if S <> '' then exit;
-    //Help.StartHelpServer('lhelpServer', '/home/don/firebird/EZTest/lhelp --display=:0.0');
-    Help.StartHelpServer('lhelpServer', '/home/don/lazarus/lhelp/lhelp --display=:0.0');
+       Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);
