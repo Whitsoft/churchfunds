@@ -27,7 +27,6 @@ type
     PageReport: TPage;
     PageMisc: TPage;
     PageLabels: TPage;
-    Timer1: TTimer;
     Label23: TLabel;
     Label4: TLabel;
     EditSrchEnv: TEdit;
@@ -46,6 +45,7 @@ type
     AGroupTors: TGroupBox;
     DBNameGrid: TDBGrid;
     Label13: TLabel;
+    Timer1: TTimer;
     TitleCombo: TComboBox;
     GridEditEnv: TStringGrid;
     BtnPostTors: TButton;
@@ -555,7 +555,7 @@ var
  begin
    If GlobRun then exit;
    ScaleScreen;
-   WindowState := wsMaximized;
+   WindowState := wsNormal;
 
   GlobLabel:=False;
   GlobFontSize:=10;
