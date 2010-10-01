@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
-  HorizontalOffset = 11
-  VerticalOffset = 163
+  HorizontalOffset = 13
+  VerticalOffset = 202
   Width = 1215
   object QueryTranSrc: TDatasource
     DataSet = ZQueryTrans
