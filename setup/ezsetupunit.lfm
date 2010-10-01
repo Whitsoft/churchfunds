@@ -38,7 +38,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 0
+    PageIndex = 4
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -76,7 +76,6 @@ object FormSetup: TFormSetup
           Width = 712
           HelpContext = 170
           Anchors = []
-          DataSource = DataMod.SrcFundGroups
           TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -119,7 +118,6 @@ object FormSetup: TFormSetup
           Width = 657
           HelpContext = 200
           Anchors = []
-          DataSource = DataMod.SrcGroup
           TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -269,7 +267,6 @@ object FormSetup: TFormSetup
           Width = 1040
           HelpContext = 220
           Anchors = []
-          DataSource = DataMod.AccSrc
           TabOrder = 4
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -363,7 +360,6 @@ object FormSetup: TFormSetup
           Width = 930
           HelpContext = 290
           Anchors = []
-          DataSource = DataMod.SrcFunds
           TabOrder = 1
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -469,7 +465,6 @@ object FormSetup: TFormSetup
           Width = 624
           HelpContext = 330
           Anchors = []
-          DataSource = DataMod.VendSrc
           TabOrder = 3
           TitleFont.Height = -13
           TitleFont.Name = 'System'

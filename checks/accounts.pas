@@ -10,7 +10,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
-  IBConnection, db, Grids, Calendar, StrUtils, LHelpControl,unit30,NewPSClass;
+  IBConnection, db, Grids, Calendar, StrUtils, LHelpControl,unit30,NewPSClass, Process;
 
 type
   PayInfo = record
@@ -416,7 +416,6 @@ type
     procedure AGroupPrintClick(Sender: TObject);
     procedure AGroupRetClick(Sender: TObject);
     procedure AGroupWriteClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
    // function  CallHelp(XY: TPoint): Boolean;
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -527,7 +526,6 @@ type
     procedure EdClrBtnClick(Sender: TObject);
     procedure VoidBtnClick(Sender: TObject);
 
-    procedure Button2Click(Sender: TObject);
     procedure TableViewTranAfterPost(DataSet: TDataset);
     procedure BtnDed1Click(Sender: TObject);
     procedure BtnDed2Click(Sender: TObject);
@@ -690,6 +688,7 @@ const
    HelpFN: String='../help/ezcheckhelp.chm';
    HelpCK: String='./CKHelp';
 var
+  AProcess: TProcess;
   CheckForm: TCheckForm;
   Help: TLHelpConnection;
   SocList        :TStringList;
@@ -2003,11 +2002,6 @@ begin
        end;
 end;
 
-procedure TCheckForm.Button2Click(Sender: TObject);
-begin
-  EditTranStart.Text:='';
-  EditTranEnd.Text:='';
-end;
 
 procedure TCheckForm.TableViewTranAfterPost(DataSet: TDataset);
 begin
@@ -2662,7 +2656,7 @@ end;
 procedure TCheckForm.FormClose(Sender: TObject);
 begin
 try
-   Help.Destroy;
+ //  CloseFile(LogFile);
     {  SQLTransactionEZ.RollBack;  }
 finally
 end;
@@ -2770,10 +2764,6 @@ begin
 
 end;
 
-procedure TCheckForm.Button1Click(Sender: TObject);
-begin
-
-end;
 
 function  TCheckForm.Inside(X,Y: Integer;CControl: TComponent): Boolean;
 var
@@ -3666,6 +3656,16 @@ begin
    end;
 end;
 
+procedure clearlogfile(fname: String);
+begin
+   try
+    AssignFile(LogFile,fname);
+    Rewrite(LogFile);
+    CloseFile(LogFile);
+  finally
+  end;
+end;
+
 procedure TCheckForm.FormActivate(Sender: TObject);
 var
    Chk:   Integer;
@@ -3676,6 +3676,7 @@ With CheckForm do
 begin
    If activated then exit;
    activated := true;
+   clearlogfile(HelpCK);
    initDates;
    AccTypeDesc[1]:='Expense';
    AccTypeDesc[2]:='Federal Tax';
@@ -5458,25 +5459,24 @@ begin
 end;
 
 procedure TCheckForm.CheckHelpOpen;
+//Note: lhelp core modified to write to logfile - version of LHelp in svn package has this modification
 var
   S: String;
 begin
-    AssignFile(LogFile,HelpCK);
   try
-    try
-      Reset(LogFile);
-      Readln(LogFile,S);
-    except
-      Rewrite(LogFile);
-    end;
-    CloseFile(LogFile);
-    if S <> '' then exit;
+    AssignFile(LogFile,HelpCK);
+    Reset(LogFile);
+    Readln(LogFile,S);
+
+    if S <> '' then
+      exit;
     Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);
   end;
 end;
+
 
 procedure TCheckForm.ShowGroupHelp(Context: Integer);
 begin

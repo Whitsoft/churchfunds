@@ -336,6 +336,7 @@ var
   FormCont: TFormCont;
   Help: TLHelpConnection;
   LogFile: Text;
+  Activated: Boolean;
   EZPClass: TPostScriptClass;
   GlobRun: Boolean;
   GlobLabel: Boolean;
@@ -549,14 +550,27 @@ begin
       end;
 end;
 
+procedure clearlogfile(fname: String);
+begin
+   try
+    AssignFile(LogFile,fname);
+    Rewrite(LogFile);
+    CloseFile(LogFile);
+  finally
+  end;
+end;
+
 procedure TFormCont.FormActivate(Sender: TObject);
 var
   Year, Month, Day: Word;
  begin
+   if activated then exit;
+   Activated := true;
+   clearlogfile(HelpCK);
    If GlobRun then exit;
    ScaleScreen;
    WindowState := wsNormal;
-
+   Activated := true;
   GlobLabel:=False;
   GlobFontSize:=10;
   RadioSum.ItemIndex:=0;
@@ -1026,6 +1040,7 @@ procedure TFormCont.FormCreate(Sender: TObject);
 var
   IDX: Integer;
 begin
+  Activated := False;
   GlobFrom:='';
   GlobThru:='';
   ConList:=TStringList.Create;
@@ -1053,7 +1068,7 @@ var
 begin
   A := 'ACTIVE';
   try
-  //  AssignFile(LogFile,HelpCK);
+    AssignFile(LogFile,HelpCK);
     Reset(LogFile);
     Readln(LogFile,S);
 
@@ -2271,6 +2286,7 @@ end;
 procedure TFormCont.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
    CloseFile(LogFile);
+   Help.Destroy;
 end;
 
 procedure TFormCont.BtnLabelClick(Sender: TObject);

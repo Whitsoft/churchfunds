@@ -370,7 +370,7 @@ Type
   End;
 
   const
-   HelpFN: String='../help/ezsetupShlwContsxt.chm';
+   HelpFN: String='../help/ezsetup.chm';
    HelpCK: String='./CKHelp';
 
 Var 
@@ -415,6 +415,17 @@ begin
     Result := Money+'  ';
 end;
 
+procedure clearlogfile(fname: String);
+begin
+   try
+    AssignFile(LogFile,fname);
+    Rewrite(LogFile);
+    CloseFile(LogFile);
+  finally
+  end;
+end;
+
+
 Procedure TFormSetup.FormActivate(Sender: TObject);
 
 Var 
@@ -423,6 +434,8 @@ Begin
   If Activated Then
     exit;
   Activated := True;
+  clearlogfile(HelpCK);
+
   BegOfTime := EncodeDate(1990,1,1);
   PageNo := 0;
   DecodeDate(Date,Year,Month,Day);
@@ -2935,26 +2948,20 @@ end;
 
 
 procedure TFormSetup.CheckHelpOpen;
+//Note: lhelp core modified to write to logfile - version of LHelp in svn package has this modification
 var
   S: String;
-  A: String;
 begin
-  A := 'ACTIVE';
-  AssignFile(LogFile,HelpCK);
   try
-    try
-      Reset(LogFile);
-      Readln(LogFile,S);
-    except
-      Rewrite(LogFile);
-      Writeln(LogFile, A);
-    end;
-   // Readln(LogFile,S);
-    CloseFile(LogFile);
-    if S <> '' then exit;
-       Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
+    AssignFile(LogFile,HelpCK);
+    Reset(LogFile);
+    Readln(LogFile,S);
+
+    if S <> '' then
+      exit;
+    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
-  except
+   except
       CloseFile(LogFile);
   end;
 end;

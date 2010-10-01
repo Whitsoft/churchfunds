@@ -11,7 +11,7 @@
       <Title Value="checks"/>
       <UseAppBundle Value="False"/>
       <Icon Value="0"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -42,15 +42,15 @@
         <MinVersion Major="1" Release="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="114">
+    <Units Count="123">
       <Unit0>
         <Filename Value="checks.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="checks"/>
-        <CursorPos X="4" Y="16"/>
+        <CursorPos X="48" Y="10"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="174"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="181"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -78,10 +78,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="accounts"/>
-        <CursorPos X="122" Y="6"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="164"/>
+        <CursorPos X="72" Y="5401"/>
+        <TopLine Value="5381"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -232,10 +232,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="Unit30"/>
-        <CursorPos X="94" Y="12"/>
-        <TopLine Value="1"/>
+        <CursorPos X="1" Y="173"/>
+        <TopLine Value="154"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="135"/>
+        <UsageCount Value="142"/>
         <Loaded Value="True"/>
       </Unit24>
       <Unit25>
@@ -850,9 +850,7 @@
         <Filename Value="unit30.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit112>
       <Unit113>
@@ -861,128 +859,157 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <CursorPos X="1" Y="371"/>
-        <TopLine Value="356"/>
+        <CursorPos X="24" Y="2965"/>
+        <TopLine Value="2950"/>
         <UsageCount Value="10"/>
       </Unit113>
+      <Unit114>
+        <Filename Value="../../../firebird/EZSetup/ezsetupunit.pas"/>
+        <ComponentName Value="FormSetup"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ezsetupunit"/>
+        <CursorPos X="34" Y="416"/>
+        <TopLine Value="361"/>
+        <UsageCount Value="10"/>
+      </Unit114>
+      <Unit115>
+        <Filename Value="../contributions/cont.pas"/>
+        <ComponentName Value="FormCont"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="cont"/>
+        <CursorPos X="1" Y="553"/>
+        <TopLine Value="542"/>
+        <UsageCount Value="10"/>
+      </Unit115>
+      <Unit116>
+        <Filename Value="../../../lazarus/lhelp/lhelp.pas"/>
+        <UnitName Value="lhelp"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="12"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="lhelpcontrol.pas"/>
+        <UnitName Value="LHelpControl"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="12"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="../../checks/accounts.pas"/>
+        <ComponentName Value="CheckForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="accounts"/>
+        <CursorPos X="23" Y="5366"/>
+        <TopLine Value="5350"/>
+        <UsageCount Value="10"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="../../setup/ezsetupunit.pas"/>
+        <ComponentName Value="FormSetup"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ezsetupunit"/>
+        <CursorPos X="20" Y="2762"/>
+        <TopLine Value="2747"/>
+        <UsageCount Value="10"/>
+      </Unit119>
+      <Unit120>
+        <Filename Value="../../../firebird/ezcont/CONT.PAS"/>
+        <UnitName Value="Cont"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit120>
+      <Unit121>
+        <Filename Value="../../../firebird/ezcont/ContOld/cont.pas"/>
+        <ComponentName Value="FormCont"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="cont"/>
+        <CursorPos X="1" Y="2269"/>
+        <TopLine Value="2254"/>
+        <UsageCount Value="11"/>
+      </Unit121>
+      <Unit122>
+        <Filename Value="../../../lazarus/lhelp/lhelpcore.pas"/>
+        <ComponentName Value="HelpForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="lhelpcore"/>
+        <CursorPos X="20" Y="205"/>
+        <TopLine Value="184"/>
+        <UsageCount Value="10"/>
+      </Unit122>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="accounts.pas"/>
-        <Caret Line="605" Column="6" TopLine="581"/>
+        <Caret Line="5462" Column="106" TopLine="5453"/>
       </Position1>
       <Position2>
         <Filename Value="accounts.pas"/>
-        <Caret Line="649" Column="6" TopLine="634"/>
+        <Caret Line="5467" Column="23" TopLine="5453"/>
       </Position2>
       <Position3>
         <Filename Value="accounts.pas"/>
-        <Caret Line="650" Column="7" TopLine="634"/>
+        <Caret Line="5468" Column="18" TopLine="5453"/>
       </Position3>
       <Position4>
         <Filename Value="accounts.pas"/>
-        <Caret Line="651" Column="6" TopLine="634"/>
+        <Caret Line="5469" Column="19" TopLine="5453"/>
       </Position4>
       <Position5>
-        <Filename Value="unit30.lfm"/>
-        <Caret Line="13" Column="75" TopLine="1"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="5458" Column="37" TopLine="5453"/>
       </Position5>
       <Position6>
-        <Filename Value="unit30.lfm"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3359" Column="3" TopLine="3355"/>
       </Position6>
       <Position7>
         <Filename Value="accounts.pas"/>
-        <Caret Line="680" Column="42" TopLine="674"/>
+        <Caret Line="2197" Column="5" TopLine="2195"/>
       </Position7>
       <Position8>
         <Filename Value="accounts.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position8>
       <Position9>
-        <Filename Value="unit30.lfm"/>
-        <Caret Line="78" Column="57" TopLine="63"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="161" Column="10" TopLine="146"/>
       </Position9>
       <Position10>
-        <Filename Value="unit30.pas"/>
-        <Caret Line="24" Column="97" TopLine="22"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="605" Column="20" TopLine="590"/>
       </Position10>
       <Position11>
         <Filename Value="accounts.pas"/>
-        <Caret Line="5563" Column="3" TopLine="5538"/>
+        <Caret Line="1116" Column="8" TopLine="1101"/>
       </Position11>
       <Position12>
-        <Filename Value="unit30.pas"/>
-        <Caret Line="179" Column="3" TopLine="153"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="1126" Column="8" TopLine="1101"/>
       </Position12>
       <Position13>
         <Filename Value="accounts.pas"/>
-        <Caret Line="5" Column="40" TopLine="1"/>
+        <Caret Line="1151" Column="8" TopLine="1136"/>
       </Position13>
       <Position14>
         <Filename Value="accounts.pas"/>
-        <Caret Line="690" Column="9" TopLine="675"/>
+        <Caret Line="1185" Column="13" TopLine="1170"/>
       </Position14>
       <Position15>
         <Filename Value="accounts.pas"/>
-        <Caret Line="2730" Column="39" TopLine="2715"/>
+        <Caret Line="1238" Column="15" TopLine="1223"/>
       </Position15>
       <Position16>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5481" Column="7" TopLine="5457"/>
+        <Filename Value="unit30.pas"/>
+        <Caret Line="5" Column="57" TopLine="154"/>
       </Position16>
-      <Position17>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position17>
-      <Position18>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="692" Column="1" TopLine="675"/>
-      </Position18>
-      <Position19>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="2730" Column="39" TopLine="2715"/>
-      </Position19>
-      <Position20>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5477" Column="25" TopLine="5462"/>
-      </Position20>
-      <Position21>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position21>
-      <Position22>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="690" Column="19" TopLine="675"/>
-      </Position22>
-      <Position23>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="2730" Column="39" TopLine="2715"/>
-      </Position23>
-      <Position24>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5476" Column="50" TopLine="5462"/>
-      </Position24>
-      <Position25>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5460" Column="40" TopLine="5453"/>
-      </Position25>
-      <Position26>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5473" Column="1" TopLine="5458"/>
-      </Position26>
-      <Position27>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5474" Column="1" TopLine="5459"/>
-      </Position27>
-      <Position28>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5476" Column="1" TopLine="5461"/>
-      </Position28>
-      <Position29>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5468" Column="40" TopLine="5462"/>
-      </Position29>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
