@@ -246,6 +246,7 @@ object FormCont: TFormCont
           Top = 428
           Width = 701
           HelpContext = 90
+          DataSource = DataMod.SrcEditEnv
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
@@ -353,6 +354,7 @@ object FormCont: TFormCont
           Width = 864
           HelpContext = 160
           Color = clAqua
+          DataSource = DataMod.SrcEditDetail
           Font.Height = -17
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -410,6 +412,7 @@ object FormCont: TFormCont
           Width = 745
           HelpContext = 180
           Color = clAqua
+          DataSource = DataMod.SrcSeditCont
           Font.Color = clBlack
           Font.Height = -17
           Font.Name = 'System'
@@ -576,6 +579,7 @@ object FormCont: TFormCont
           Width = 601
           HelpContext = 260
           Color = clAqua
+          DataSource = DataMod.SrcPledge
           Font.Height = -15
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -621,7 +625,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 87
+          ClientHeight = 70
           ClientWidth = 142
           Font.Height = -15
           Font.Name = 'System'
@@ -893,6 +897,7 @@ object FormCont: TFormCont
           Width = 760
           HelpContext = 410
           Color = clAqua
+          DataSource = DataMod.SrcQPledge
           Font.Height = -17
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -1463,6 +1468,17 @@ object FormCont: TFormCont
           ParentFont = False
           TabOrder = 6
         end
+        object DBComboBox1: TDBComboBox
+          Left = 594
+          Height = 31
+          Top = 288
+          Width = 156
+          DataField = 'DETAIL_FUND_NO'
+          DataSource = DataMod.FundSrc
+          ItemHeight = 0
+          MaxLength = 0
+          TabOrder = 7
+        end
       end
     end
     object PageLabels: TPage
@@ -1726,11 +1742,12 @@ object FormCont: TFormCont
           TabOrder = 8
         end
         object GridMem: TDBGrid
-          Left = 435
+          Left = 430
           Height = 359
-          Top = 309
+          Top = 304
           Width = 544
           HelpContext = 730
+          DataSource = DataMod.SrcLabel
           TabOrder = 9
           TitleFont.Height = -16
           TitleFont.Name = 'System'

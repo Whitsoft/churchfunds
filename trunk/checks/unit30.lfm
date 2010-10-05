@@ -1176,6 +1176,7 @@ object DataMod: TDataMod
   end
   object ZQueryTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -2057,5 +2058,24 @@ object DataMod: TDataMod
       ReadOnly = False
       Required = False
     end
+  end
+  object ZQuerySocPay: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select P.SOC_SEC_NO from PAYROLL  P'
+      '  where P.NAME  LIKE :NameParm'
+    )
+    Params = <    
+      item
+        DataType = ftString
+        Name = 'NameParm'
+        ParamType = ptUnknown
+      end>
+    left = 480
+    top = 616
   end
 end

@@ -17,6 +17,7 @@ type
   TFormCont = class(TForm)
     BtnPrintAll: TButton;
     CheckBoxPostNet: TCheckBox;
+    DBComboBox1: TDBComboBox;
     Label47: TLabel;
     NotebookCont: TNotebook;
     PageEntry: TPage;
@@ -310,6 +311,8 @@ type
     procedure CheckHelpOpen;
     procedure ShowHelp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+   procedure initPledges;
+   procedure initfunds;
    { procedure ConReportHeader;
     procedure ConReportTitle;
     procedure ConReportNewPage;
@@ -568,7 +571,7 @@ var
    Activated := true;
    clearlogfile(HelpCK);
    If GlobRun then exit;
-   ScaleScreen;
+  // ScaleScreen;
    WindowState := wsNormal;
    Activated := true;
   GlobLabel:=False;
@@ -681,7 +684,8 @@ var
         SaveFontName(2, HELVETICA);
         SaveFontSize(1,10);
       end;
-
+   initPledges;
+   initFunds;
   AssignFile(LogFile,HelpCK);
   Rewrite(LogFile);
   {ShowOrdinal(PTypeInfo(TypeInfo(TLabelBrand)),LabelBox.Items);  }
@@ -1986,6 +1990,7 @@ procedure TFormCont.FunAccBoxClick(Sender: TObject);
 begin
   {Edit4.Text:=DataMod.TableDetail.FieldByName('Description').AsString;   }
   GridPledge.Cells[1,2]:=copy(FunAccBox.Text,1,Pos(' ',FunAccBox.Text)-1);
+  //GridPledge.Cells[1,2]:=copy(FunAccBox.Text,1,Pos(' ',FunAccBox/desda.Text)-1);
   GridPledge.SetFocus;
   GridPledge.Row:=4;
 end;
@@ -2972,8 +2977,42 @@ begin
     end; }
 end;
 
+procedure TFormCont.initPledges;
+var
+  EnvNo: String;
+begin
+  DataMod.TableEnvNo.First;
+  With DataMod.TableEnvNo do
+    while not EOF do
+      begin
+        EnvNo:=FieldByName('Env_No').AsString;
+        EnvNo:=EnvNo+copy('  ',1,8-Length(EnvNo))+
+           FieldByName('Name').AsString;
+        LookUpEnv.Items.Add(EnvNo+' ,'+
+           (FieldByName('TITLE').AsString)+' '+
+           (FieldByName('FNAME').AsString));
+        Next;
+      end;
+end;
 
-
+procedure TFormCont.initFunds;
+var
+  Fund: String;
+begin
+  DataMod.TableDetail.First;
+  With DataMod.TableDetail do
+    while not EOF do
+      begin
+        Fund:=FieldByName('Detail_Fund_No').AsString;
+        Fund:=Fund+copy('        ',1,8-Length(Fund))+
+           FieldByName('Description').AsString;
+        FunAccBox.Items.Add(Fund);
+        ComboDetail.Items.Add(Fund);
+        ComboPledgeFund.Items.Add(Fund);
+        QueryBox.Items.Add(Fund);
+        Next;
+      end;
+end;
 
 
 procedure TFormCont.ComboDetailChange(Sender: TObject);

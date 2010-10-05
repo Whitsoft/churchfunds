@@ -1376,4 +1376,9 @@ object DataMod: TDataMod
     left = 816
     top = 680
   end
+  object SrcLabel: TDatasource
+    DataSet = TableLabel
+    left = 992
+    top = 688
+  end
 end

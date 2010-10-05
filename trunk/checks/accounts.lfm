@@ -2675,6 +2675,7 @@ object CheckForm: TCheckForm
           BevelOuter = bvNone
           ClientHeight = 33
           ClientWidth = 240
+          DataSource = DataMod.CheckingSrc
           OnMouseDown = ShowContext
           TabOrder = 0
           VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
@@ -2788,6 +2789,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 540
           Anchors = []
+          DataSource = DataMod.SrcCheckTrans
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
@@ -3092,6 +3094,7 @@ object CheckForm: TCheckForm
           Width = 952
           HelpContext = 710
           Anchors = []
+          DataSource = DataMod.QueryTranSrc
           TabOrder = 9
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -3611,7 +3614,7 @@ object CheckForm: TCheckForm
             ParentColor = False
           end
           object Btn941: TButton
-            Left = 280
+            Left = 281
             Height = 33
             Top = 195
             Width = 75
@@ -4210,78 +4213,76 @@ object CheckForm: TCheckForm
         TabOrder = 0
         OnMouseDown = ShowContext
         object LabelRDed5: TLabel
-          Left = 96
-          Height = 19
-          Top = 798
-          Width = 155
+          Left = 58
+          Height = 20
+          Top = 802
+          Width = 164
           Anchors = []
-          AutoSize = False
-          Caption = 'Deduction 5'
+          Caption = 'Deduction 5              '
           ParentColor = False
           Visible = False
         end
         object LabelRDed4: TLabel
-          Left = 94
+          Left = 58
           Height = 20
-          Top = 757
-          Width = 94
+          Top = 755
+          Width = 139
           Anchors = []
-          Caption = 'Deduction 4'
+          Caption = 'Deduction 4         '
           ParentColor = False
           Visible = False
         end
         object LabelRDed3: TLabel
-          Left = 94
+          Left = 58
           Height = 20
-          Top = 709
-          Width = 94
+          Top = 708
+          Width = 134
           Anchors = []
-          Caption = 'Deduction 3'
+          Caption = 'Deduction 3        '
           ParentColor = False
           Visible = False
         end
         object LabelRDed2: TLabel
-          Left = 94
+          Left = 58
           Height = 20
           Top = 661
-          Width = 94
+          Width = 134
           Anchors = []
-          Caption = 'Deduction 2'
+          Caption = 'Deduction 2        '
           ParentColor = False
           Visible = False
         end
         object LabelRDed1: TLabel
-          Left = 94
+          Left = 58
           Height = 20
-          Top = 612
-          Width = 94
+          Top = 614
+          Width = 134
           Anchors = []
-          Caption = 'Deduction 1'
+          Caption = 'Deduction 1        '
           ParentColor = False
           Visible = False
         end
         object Label122: TLabel
-          Left = 94
-          Height = 19
+          Left = 58
+          Height = 20
           Top = 567
-          Width = 177
+          Width = 210
           Anchors = []
-          AutoSize = False
-          Caption = 'Pension to Date'
+          Caption = 'Pension to Date                  '
           ParentColor = False
           Visible = False
         end
         object Label123: TLabel
-          Left = 96
+          Left = 58
           Height = 20
-          Top = 521
+          Top = 520
           Width = 102
           Anchors = []
           Caption = 'State to Date'
           ParentColor = False
         end
         object Label130: TLabel
-          Left = 97
+          Left = 58
           Height = 20
           Top = 473
           Width = 100
@@ -4290,45 +4291,45 @@ object CheckForm: TCheckForm
           ParentColor = False
         end
         object Label131: TLabel
-          Left = 95
+          Left = 58
           Height = 20
-          Top = 425
+          Top = 426
           Width = 94
           Anchors = []
           Caption = 'Med to Date'
           ParentColor = False
         end
         object Label132: TLabel
-          Left = 96
+          Left = 58
           Height = 20
-          Top = 378
+          Top = 379
           Width = 95
           Anchors = []
           Caption = 'FICA to Date'
           ParentColor = False
         end
         object Label133: TLabel
-          Left = 95
+          Left = 58
           Height = 20
-          Top = 330
+          Top = 332
           Width = 89
           Anchors = []
           Caption = 'Fed to Date'
           ParentColor = False
         end
         object Label134: TLabel
-          Left = 96
+          Left = 58
           Height = 20
-          Top = 235
+          Top = 238
           Width = 88
           Anchors = []
           Caption = 'Net to Date'
           ParentColor = False
         end
         object Label135: TLabel
-          Left = 97
+          Left = 58
           Height = 20
-          Top = 283
+          Top = 285
           Width = 105
           Anchors = []
           Caption = 'Gross to Date'
@@ -4355,6 +4356,18 @@ object CheckForm: TCheckForm
           Font.Height = -26
           Font.Name = 'System'
           Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object PayName: TLabel
+          Left = 75
+          Height = 21
+          Top = 87
+          Width = 196
+          Anchors = []
+          Caption = '                                       '
+          Font.Height = -17
+          Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
@@ -4542,11 +4555,10 @@ object CheckForm: TCheckForm
         object EmpLookUp: TDBLookupListBox
           Left = 571
           Height = 574
-          Top = 248
+          Top = 246
           Width = 304
           HelpContext = 1110
           Anchors = []
-          DataField = 'NAME'
           KeyField = 'SOC_SEC_NO'
           ListField = 'NAME'
           ListFieldIndex = 0
@@ -4555,6 +4567,7 @@ object CheckForm: TCheckForm
           OnClick = EmpLookUpClick
           OnDblClick = EmpLookUpDblClick
           OnMouseDown = ShowContext
+          Sorted = True
           TabOrder = 14
         end
         object EditStubDate: TEdit

@@ -16,6 +16,7 @@ type
   TDataMod = class(TDataModule)
     CheckingSrc: TDatasource;
     DelTranSrc: TDatasource;
+    ZQuerySocPay: TSQLQuery;
     ZTblPayroll: TSQLQuery;
     ZTblPayrollDEDUCT1: TBCDField;
     ZTblPayrollDEDUCT1_ACC: TSmallintField;
