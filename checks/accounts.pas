@@ -44,6 +44,7 @@ type
     AGroupChecks: TGroupBox;
     AGroupPayroll: TGroupBox;
     BtnChkDel: TButton;
+    PayName: TLabel;
     PayAmountLabel: TLabel;
     BtnDed1: TButton;
     BtnDed2: TButton;
@@ -419,6 +420,7 @@ type
    // function  CallHelp(XY: TPoint): Boolean;
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure EmpLookUpClick(Sender: TObject);
     procedure EmpLookUpDblClick(Sender: TObject);
     procedure RetGridDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -453,6 +455,7 @@ type
     function  GetAccType(Acc: Integer): Integer;
     function  AtoFloat(MonStr: String):Double;
     function  GetNameFromSoc(SocNo: String): String;
+    function  GetSocFromName(NM: String): String;
     procedure doPayStubLabels(D1,D2,D3,D4,D5: Double);
     function  GetChecks(SDate, EDate: TDateTime): Double;
     function  GetCon(SDate, EDate: TDateTime; SFund, EFund: Integer): Double;
@@ -505,7 +508,7 @@ type
     procedure PaySrchBtnClick(Sender: TObject);
     procedure BalBtnClick(Sender: TObject);
     procedure DoBalance;
-      procedure FormActivate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
 
     procedure FirstDateP(var Str1: String);
     procedure LastDateP(var Str2: String);
@@ -520,7 +523,6 @@ type
     procedure NotCheckClick(Sender: TObject);
     procedure RetCheckClick(Sender: TObject);
     procedure BalSrcDataChange(Sender: TObject; Field: TField);
-    procedure EmpLookUPClick(Sender: TObject);
   {  procedure Button1Click(Sender: TObject);}
     procedure PrintBtnClick(Sender: TObject);
     procedure EdClrBtnClick(Sender: TObject);
@@ -1671,111 +1673,6 @@ begin
      EditRDed5.Visible:=False;
 end;
 
-procedure TCheckForm.EmpLookUpClick(Sender: TObject);
-var
-  BegDate,EndDate: TDateTime;
-  GrossDt,NetDt,FedDt,FICADt,D1,D2,D3,D4,D5: double;
-  MedDt,StateDt,LocalDt,PenDt,Hours: Double;
-  Year,Month,Day: Word;
-  SocNum: String;
-begin
-   try
-      EndDate:=StrToDate(EditStubDate.Text);
-      DecodeDate(EndDate,Year,Month,Day);
-      BegDate:=BegMonth(Year,1);
-    except
-      EndDate:=EndMonth(StrToInt(YearEd.Text),12);
-      BegDate:=BegMonth(StrToInt(YearEd.Text),1);
-    end;
-    GrossDt:=0.0;NetDt:=0.0;FedDt:=0.0;
-    FICADt:=0.0;MedDt:=0.0;StateDt:=0.0;
-    LocalDt:=0.0;PenDt:=0.0;
-    D1:=0.0;D2:=0.0;D3:=0.0;D4:=0.0;D5:=0.0;
-    SocNum:=DataMod.ZTblPayroll.FieldByName('SOC_SEC_NO').AsString;
-    With DataMod.ZQueryEmpSum do
-      begin
-        Close;
-        Params[0].AsDateTime:=BegDate;  //FromDate
-        Params[1].AsDateTime:=EndDate;    //ToDate
-        Params[2].AsString:=SocNum;
-       // Params[2].AsString:=EmpLookUp.Field.AsString; //Soc
-        Open;
-         // If not locate('CHECK_NO',DataMod.ZQueryReturn.FieldByName('CHECK_NO').AsInteger,[]) then
-        //If not DataMod.ZQueryPayroll.FindKey([EmpLookup.Value]) then
-        //  begin
-         //   ShowMessage('Cannot find this employee in payroll Query');
-         //   exit;
-        //  end;
-        NetDt:=FieldByName('Sum_1').AsFloat;
-        GrossDt:=FieldByName('Sum_2').AsFloat;
-        FedDt:=FieldByName('Sum_3').AsFloat;
-        FICADt:=FieldByName('Sum_4').AsFloat;
-        MedDt:=FieldByName('Sum_5').AsFloat;
-        StateDt:=FieldByName('Sum_6').AsFloat;
-        LocalDt:=FieldByName('Sum_7').AsFloat;
-        PenDt:=FieldByName('Sum_8').AsFloat;
-        Hours:=FieldByName('Sum').AsFloat;
-        D1:=FieldByName('Sum_9').AsFloat;
-        D2:=FieldByName('Sum_10').AsFloat;
-        D3:=FieldByName('Sum_11').AsFloat;
-        D4:=FieldByName('Sum_12').AsFloat;
-        D5:=FieldByName('Sum_13').AsFloat;
-    end;
-    GrossEd.Text:=FormatFloat('0.00',GrossDt);
-    NetEd.Text:=FormatFloat('0.00',NetDt);
-    FedEd.Text:=FormatFloat('0.00',FedDt);
-    FICAEd.Text:=FormatFloat('0.00',FICADt);
-    MedEd.Text:=FormatFloat('0.00',MedDt);
-    StEd.Text:=FormatFloat('0.00',StateDt);
-    LocEd.Text:=FormatFloat('0.00',LocalDt);
-    PenEd.Text:=FormatFloat('0.00',PenDt);
-    If PenDt>0.00 then
-      begin
-        Label122.Visible:=True;
-        PenEd.Visible:=True;
-      end
-    else
-      begin
-        Label122.Visible:=False;
-        PenEd.Visible:=False;
-      end;
-    EditRDed1.Text:=FormatFloat('0.00',D1);
-    EditRDed2.Text:=FormatFloat('0.00',D2);
-    EditRDed3.Text:=FormatFloat('0.00',D3);
-    EditRDed4.Text:=FormatFloat('0.00',D4);
-    EditRDed5.Text:=FormatFloat('0.00',D5);
-    doPayStubLabels(D1,D2,D3,D4,D5);
-    PayStubInfo.PYTDTotal:=FedDt+FICADt+MedDt+StateDt+LocalDt;
-    With DataMod.ZQueryStub do
-      begin
-        Close;
-        DataMod.ZQueryStub.Params[0].AsString:=SocNum;
-        DataMod.ZQueryStub.Params[1].AsDateTime:=BegDate;
-        Open;
-        Last;
-        PayStubInfo.PGross:=FieldByName('GROSS').AsFloat;
-        PayStubInfo.PNet:=FieldByName('NET').AsFloat;
-        PayStubInfo.PFed:=FieldByName('FED').AsFloat;
-        PayStubInfo.PFICA:=FieldByName('FICA').AsFloat;
-        PayStubInfo.PMed:=FieldByName('MED').AsFloat;
-        PayStubInfo.PStait:=FieldByName('STATE').AsFloat;
-        PayStubInfo.PLocal:=FieldByName('LOCAL').AsFloat;
-        PayStubInfo.PPen:=FieldByName('PENSION').AsFloat;
-        PayStubInfo.PRate:=FieldByName('RATE').AsFloat;
-        PayStubInfo.PHours:=FieldByName('HOURS').AsFloat;
-        PayStubInfo.PSocNo:=FieldByName('SOC_SEC_NO').AsString;
-        PayStubInfo.PCheckNo:=FieldByName('PCHECK_NO').AsInteger;
-        PayStubInfo.PDate:=DateToStr(FieldByName('PAY_DATE').AsDateTime);
-        //PayStubInfo.PName:=GetNameFromSoc(PayStubInfo.PSocNo);
-        PayStubInfo.PName := EmpLookup.Items[EmpLookup.ItemIndex];
-        doPayLabel(PayStubInfo.PSocNo);
-        PayStubInfo.PD1:=FieldByName('DEDUCT1').AsFloat;
-        PayStubInfo.PD2:=FieldByName('DEDUCT2').AsFloat;
-        PayStubInfo.PD3:=FieldByName('DEDUCT3').AsFloat;
-        PayStubInfo.PD4:=FieldByName('DEDUCT4').AsFloat;
-        PayStubInfo.PD5:=FieldByName('DEDUCT5').AsFloat;
-      end;
-end;
 
 function TCHeckForm.GetNameFromSoc(SocNo: String): String;
 begin
@@ -2763,6 +2660,7 @@ procedure TCheckForm.AGroupWriteClick(Sender: TObject);
 begin
 
 end;
+
 
 
 function  TCheckForm.Inside(X,Y: Integer;CControl: TComponent): Boolean;
@@ -3757,6 +3655,7 @@ begin
    SepDate := DateSeparator;
    StrDate := ShortDateFormat;
    SearchReturn;
+   EmpLookup.MultiSelect:=false;
 end;
 end;
 
@@ -3825,9 +3724,119 @@ begin
     end;
 end;
 
-procedure TCheckForm.EmpLookUpDblClick(Sender: TObject);
+procedure TCheckForm.EmpLookUpClick(Sender: TObject);
 begin
-EmpLookUpClick(Sender);
+
+end;
+
+procedure TCheckForm.EmpLookUpDblClick(Sender: TObject);
+var
+  BegDate,EndDate: TDateTime;
+  GrossDt,NetDt,FedDt,FICADt,D1,D2,D3,D4,D5: double;
+  MedDt,StateDt,LocalDt,PenDt,Hours: Double;
+  Year,Month,Day: Word;
+  SocNum: String;
+begin
+   try
+      EndDate:=StrToDate(EditStubDate.Text);
+      DecodeDate(EndDate,Year,Month,Day);
+      BegDate:=BegMonth(Year,1);
+    except
+      EndDate:=EndMonth(StrToInt(YearEd.Text),12);
+      BegDate:=BegMonth(StrToInt(YearEd.Text),1);
+    end;
+    GrossDt:=0.0;NetDt:=0.0;FedDt:=0.0;
+    FICADt:=0.0;MedDt:=0.0;StateDt:=0.0;
+    LocalDt:=0.0;PenDt:=0.0;
+    D1:=0.0;D2:=0.0;D3:=0.0;D4:=0.0;D5:=0.0;
+    SocNum:=DataMod.ZTblPayroll.FieldByName('SOC_SEC_NO').AsString;
+    SocNum:=getSocFromName(EmpLookup.Items[EmpLookup.ItemIndex]);
+    PayName.Caption := EmpLookup.Items[EmpLookup.ItemIndex];
+    With DataMod.ZQueryEmpSum do
+      begin
+        Close;
+        Params[0].AsDateTime:=BegDate;  //FromDate
+        Params[1].AsDateTime:=EndDate;    //ToDate
+        Params[2].AsString:=SocNum;
+       // Params[2].AsString:=EmpLookUp.Field.AsString; //Soc
+        Open;
+         // If not locate('CHECK_NO',DataMod.ZQueryReturn.FieldByName('CHECK_NO').AsInteger,[]) then
+        //If not DataMod.ZQueryPayroll.FindKey([EmpLookup.Value]) then
+        //  begin
+         //   ShowMessage('Cannot find this employee in payroll Query');
+         //   exit;
+        //  end;
+        NetDt:=FieldByName('Sum_1').AsFloat;
+        GrossDt:=FieldByName('Sum_2').AsFloat;
+        FedDt:=FieldByName('Sum_3').AsFloat;
+        FICADt:=FieldByName('Sum_4').AsFloat;
+        MedDt:=FieldByName('Sum_5').AsFloat;
+        StateDt:=FieldByName('Sum_6').AsFloat;
+        LocalDt:=FieldByName('Sum_7').AsFloat;
+        PenDt:=FieldByName('Sum_8').AsFloat;
+        Hours:=FieldByName('Sum').AsFloat;
+        D1:=FieldByName('Sum_9').AsFloat;
+        D2:=FieldByName('Sum_10').AsFloat;
+        D3:=FieldByName('Sum_11').AsFloat;
+        D4:=FieldByName('Sum_12').AsFloat;
+        D5:=FieldByName('Sum_13').AsFloat;
+    end;
+    GrossEd.Text:=FormatFloat('0.00',GrossDt);
+    NetEd.Text:=FormatFloat('0.00',NetDt);
+    FedEd.Text:=FormatFloat('0.00',FedDt);
+    FICAEd.Text:=FormatFloat('0.00',FICADt);
+    MedEd.Text:=FormatFloat('0.00',MedDt);
+    StEd.Text:=FormatFloat('0.00',StateDt);
+    LocEd.Text:=FormatFloat('0.00',LocalDt);
+    PenEd.Text:=FormatFloat('0.00',PenDt);
+    If PenDt>0.00 then
+      begin
+        Label122.Visible:=True;
+        PenEd.Visible:=True;
+      end
+    else
+      begin
+        Label122.Visible:=False;
+        PenEd.Visible:=False;
+      end;
+    EditRDed1.Text:=FormatFloat('0.00',D1);
+    EditRDed2.Text:=FormatFloat('0.00',D2);
+    EditRDed3.Text:=FormatFloat('0.00',D3);
+    EditRDed4.Text:=FormatFloat('0.00',D4);
+    EditRDed5.Text:=FormatFloat('0.00',D5);
+    doPayStubLabels(D1,D2,D3,D4,D5);
+    PayStubInfo.PYTDTotal:=FedDt+FICADt+MedDt+StateDt+LocalDt;
+    With DataMod.ZQueryStub do
+      begin
+        Close;
+        DataMod.ZQueryStub.Params[0].AsString:=SocNum;
+        DataMod.ZQueryStub.Params[1].AsDateTime:=BegDate;
+        Open;
+        Last;
+        PayStubInfo.PGross:=FieldByName('GROSS').AsFloat;
+        PayStubInfo.PNet:=FieldByName('NET').AsFloat;
+        PayStubInfo.PFed:=FieldByName('FED').AsFloat;
+        PayStubInfo.PFICA:=FieldByName('FICA').AsFloat;
+        PayStubInfo.PMed:=FieldByName('MED').AsFloat;
+        PayStubInfo.PStait:=FieldByName('STATE').AsFloat;
+        PayStubInfo.PLocal:=FieldByName('LOCAL').AsFloat;
+        PayStubInfo.PPen:=FieldByName('PENSION').AsFloat;
+        PayStubInfo.PRate:=FieldByName('RATE').AsFloat;
+        PayStubInfo.PHours:=FieldByName('HOURS').AsFloat;
+        PayStubInfo.PSocNo:=FieldByName('SOC_SEC_NO').AsString;
+        PayStubInfo.PCheckNo:=FieldByName('PCHECK_NO').AsInteger;
+        PayStubInfo.PDate:=DateToStr(FieldByName('PAY_DATE').AsDateTime);
+        //PayStubInfo.PName:=GetNameFromSoc(PayStubInfo.PSocNo);
+        PayStubInfo.PName := EmpLookup.Items[EmpLookup.ItemIndex];
+        doPayLabel(PayStubInfo.PSocNo);
+        PayStubInfo.PD1:=FieldByName('DEDUCT1').AsFloat;
+        PayStubInfo.PD2:=FieldByName('DEDUCT2').AsFloat;
+        PayStubInfo.PD3:=FieldByName('DEDUCT3').AsFloat;
+        PayStubInfo.PD4:=FieldByName('DEDUCT4').AsFloat;
+        PayStubInfo.PD5:=FieldByName('DEDUCT5').AsFloat;
+      end;
+    Datamod.ZTblPayroll.close;
+     Datamod.ZTblPayroll.open;
 end;
 
 
@@ -3957,6 +3966,17 @@ begin
   Result:=ScriptMoney(LeftN,RiteN);
 end;
 
+function TCheckForm.getSocFromName(NM: String): String;
+begin
+   With DataMod.ZQuerySocPay do
+     begin
+      If not Prepared then Prepare;
+      Close;
+      Params[0].AsString := NM;
+      Open;
+      result := Fields[0].AsString;
+    end;
+end;
 function TCheckForm.FindPayroll(SocNo: String):Boolean;
 begin
   With DataMod.ZQueryPayroll do
@@ -4414,6 +4434,10 @@ procedure TCheckForm.doAccCancel;
       FixTranGrid.Enabled:=False;
       try
         DataMod.SQLTransactionEZ.RollBack;
+        FixChkGrid.Enabled:=true;
+        FIxTranGrid.Enabled:=true;
+        FixChkGrid.Datasource.DataSet.Active:=true;
+        FixTranGrid.Datasource.DataSet.Active:=true;
       finally
     end;
 

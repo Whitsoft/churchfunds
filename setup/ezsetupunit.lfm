@@ -38,7 +38,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 4
+    PageIndex = 2
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -76,6 +76,7 @@ object FormSetup: TFormSetup
           Width = 712
           HelpContext = 170
           Anchors = []
+          DataSource = DataMod.SrcFundGroups
           TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -118,6 +119,7 @@ object FormSetup: TFormSetup
           Width = 657
           HelpContext = 200
           Anchors = []
+          DataSource = DataMod.SrcGroup
           TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -267,6 +269,7 @@ object FormSetup: TFormSetup
           Width = 1040
           HelpContext = 220
           Anchors = []
+          DataSource = DataMod.AccSrc
           TabOrder = 4
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -285,6 +288,7 @@ object FormSetup: TFormSetup
           KeyField = 'GROUP_NO'
           ListField = 'DESCRIPTION'
           ListFieldIndex = 0
+          ListSource = DataMod.SrcGroup
           LookupCache = False
           OnMouseDown = ShowContext
           ParentFont = False
@@ -360,6 +364,7 @@ object FormSetup: TFormSetup
           Width = 930
           HelpContext = 290
           Anchors = []
+          DataSource = DataMod.SrcFunds
           TabOrder = 1
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -465,6 +470,7 @@ object FormSetup: TFormSetup
           Width = 624
           HelpContext = 330
           Anchors = []
+          DataSource = DataMod.VendSrc
           TabOrder = 3
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -501,7 +507,7 @@ object FormSetup: TFormSetup
           ParentFont = False
         end
         object PayGrid: TDBGrid
-          Left = 107
+          Left = 99
           Height = 578
           Top = 182
           Width = 1009
@@ -1666,9 +1672,9 @@ object FormSetup: TFormSetup
       ClientHeight = 882
       object Label68: TLabel
         Left = 44
-        Height = 46
+        Height = 50
         Top = 336
-        Width = 34
+        Width = 38
         ParentColor = False
       end
       object AGroupYear: TGroupBox

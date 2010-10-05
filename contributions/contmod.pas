@@ -14,6 +14,7 @@ type
   { TDataMod }
 
   TDataMod = class(TDataModule)
+    SrcLabel: TDatasource;
     QueryDetailACCOUNT: TSmallintField;
     QueryDetailDESCRIPTION: TStringField;
     QueryDetailDETAIL_FUND_NO: TSmallintField;

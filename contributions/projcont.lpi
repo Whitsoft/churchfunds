@@ -11,7 +11,7 @@
       <Title Value="projcont"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -42,14 +42,16 @@
         <PackageName Value="lhelpcontrolpkg"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="35">
+    <Units Count="37">
       <Unit0>
         <Filename Value="projcont.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="projcont"/>
-        <CursorPos X="29" Y="14"/>
+        <CursorPos X="62" Y="17"/>
         <TopLine Value="1"/>
-        <UsageCount Value="152"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="159"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="../firebird/ezcont/CONT.PAS"/>
@@ -59,20 +61,20 @@
         <UnitName Value="Cont"/>
         <CursorPos X="41" Y="153"/>
         <TopLine Value="41"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit1>
       <Unit2>
         <Filename Value="../firebird/ezcont/ContOld/contmod.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
         <Filename Value="../firebird/ezcont/unitcontmod.lfm"/>
         <CursorPos X="16" Y="768"/>
         <TopLine Value="737"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit3>
       <Unit4>
@@ -83,13 +85,13 @@
         <UnitName Value="cont"/>
         <CursorPos X="95" Y="713"/>
         <TopLine Value="708"/>
-        <UsageCount Value="142"/>
+        <UsageCount Value="141"/>
       </Unit4>
       <Unit5>
         <Filename Value="../firebird/ezcont/ContOld/CONT.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit5>
       <Unit6>
@@ -100,7 +102,7 @@
         <UnitName Value="contmod"/>
         <CursorPos X="37" Y="124"/>
         <TopLine Value="121"/>
-        <UsageCount Value="149"/>
+        <UsageCount Value="148"/>
       </Unit6>
       <Unit7>
         <Filename Value="../firebird/EZSetup/EZSet.pas"/>
@@ -108,7 +110,7 @@
         <UnitName Value="Ezset"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit7>
       <Unit8>
         <Filename Value="../firebird/EZSetup/EZSetup.pas"/>
@@ -116,7 +118,7 @@
         <UnitName Value="EZSetup"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit8>
       <Unit9>
         <Filename Value="../firebird/EZSetup/ezsetupunit.pas"/>
@@ -126,7 +128,7 @@
         <UnitName Value="ezsetupunit"/>
         <CursorPos X="52" Y="2482"/>
         <TopLine Value="2468"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
       </Unit9>
       <Unit10>
         <Filename Value="../firebird/EZSetup/setupmod.pas"/>
@@ -136,27 +138,27 @@
         <UnitName Value="setupmod"/>
         <CursorPos X="1" Y="118"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit10>
       <Unit11>
         <Filename Value="../firebird/EZSetup/ezsetup.lpr"/>
         <UnitName Value="ezsetup"/>
         <CursorPos X="1" Y="17"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit11>
       <Unit12>
         <Filename Value="../firebird/ezcont/ContOld/cont.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit12>
       <Unit13>
         <Filename Value="../firebird/ezcont/ContOld/projcont.lrs"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="149"/>
+        <UsageCount Value="148"/>
       </Unit13>
       <Unit14>
         <Filename Value="../firebird/ezcont/ContOld/unit1.pas"/>
@@ -165,26 +167,26 @@
         <UnitName Value="Unit1"/>
         <CursorPos X="34" Y="4"/>
         <TopLine Value="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../../media/windows/Program Files/Borland/Delphi5/Projects/EZCont/ContMod.dfm"/>
         <CursorPos X="19" Y="1318"/>
         <TopLine Value="1302"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit15>
       <Unit16>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/include/customform.inc"/>
         <CursorPos X="1" Y="498"/>
         <TopLine Value="483"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit16>
       <Unit17>
         <Filename Value="../../../media/windows/ECN/ECN/Source/ACC/EZCont/CONT.lfm"/>
         <CursorPos X="20" Y="1970"/>
         <TopLine Value="1949"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit17>
       <Unit18>
@@ -192,14 +194,14 @@
         <UnitName Value="newpsclass"/>
         <CursorPos X="63" Y="207"/>
         <TopLine Value="1"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="61"/>
       </Unit18>
       <Unit19>
         <Filename Value="../firebird/ezcont/ContOld/labelunit.pas"/>
         <UnitName Value="labelclass"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="35"/>
       </Unit19>
       <Unit20>
         <Filename Value="../../../media/windows/ECN/ECN/Source/ACC/EZCont/CONT.PAS"/>
@@ -207,7 +209,7 @@
         <UnitName Value="Cont"/>
         <CursorPos X="25" Y="1588"/>
         <TopLine Value="1588"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="22"/>
       </Unit20>
       <Unit21>
         <Filename Value="../firebird/EZTest/accounts.pas"/>
@@ -217,26 +219,26 @@
         <UnitName Value="accounts"/>
         <CursorPos X="30" Y="5461"/>
         <TopLine Value="5440"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit21>
       <Unit22>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/include/control.inc"/>
         <CursorPos X="1" Y="3391"/>
         <TopLine Value="3376"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit22>
       <Unit23>
         <Filename Value="../firebird/EZSetup/setuphlp.txt"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <SyntaxHighlighter Value="None"/>
       </Unit23>
       <Unit24>
         <Filename Value="../firebird/ezcont/ContOld/conthlp.txt"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
         <SyntaxHighlighter Value="None"/>
       </Unit24>
       <Unit25>
@@ -244,14 +246,14 @@
         <UnitName Value="LHelpControl"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="11"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit25>
       <Unit26>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/grids.pas"/>
         <UnitName Value="Grids"/>
         <CursorPos X="1" Y="5032"/>
         <TopLine Value="5017"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit26>
       <Unit27>
         <Filename Value="cont.pas"/>
@@ -260,10 +262,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
-        <CursorPos X="3" Y="1058"/>
-        <TopLine Value="1054"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="21"/>
+        <CursorPos X="1" Y="316"/>
+        <TopLine Value="301"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
@@ -273,44 +275,44 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="contmod"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="63" Y="16"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="21"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit28>
       <Unit29>
         <Filename Value="projcont.lrs"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
       </Unit29>
       <Unit30>
         <Filename Value="contmod.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit30>
       <Unit31>
         <Filename Value="cont.lfm"/>
         <CursorPos X="44" Y="3"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit31>
       <Unit32>
         <Filename Value="../../../../../usr/lib/lazarus/0.9.28.2/lcl/include/application.inc"/>
         <CursorPos X="1" Y="1257"/>
         <TopLine Value="1242"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit32>
       <Unit33>
         <Filename Value="../../contributions/projcont.pas"/>
         <UnitName Value="projcont"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit33>
       <Unit34>
         <Filename Value="../setup/ezsetupunit.pas"/>
@@ -320,130 +322,44 @@
         <UnitName Value="ezsetupunit"/>
         <CursorPos X="1" Y="2943"/>
         <TopLine Value="2929"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit34>
+      <Unit35>
+        <Filename Value="../../../../../usr/lib/lazarus/0.9.28.2/lcl/lclproc.pas"/>
+        <UnitName Value="LCLProc"/>
+        <CursorPos X="1" Y="1505"/>
+        <TopLine Value="1490"/>
+        <UsageCount Value="13"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZCont/CONT.PAS"/>
+        <UnitName Value="Cont"/>
+        <CursorPos X="29" Y="2456"/>
+        <TopLine Value="2441"/>
+        <UsageCount Value="10"/>
+      </Unit36>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="cont.pas"/>
-        <Caret Line="1049" Column="1" TopLine="1041"/>
+        <Caret Line="3003" Column="21" TopLine="2989"/>
       </Position1>
       <Position2>
         <Filename Value="cont.pas"/>
-        <Caret Line="1048" Column="1" TopLine="1041"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="cont.pas"/>
-        <Caret Line="468" Column="32" TopLine="453"/>
+        <Caret Line="316" Column="23" TopLine="299"/>
       </Position3>
       <Position4>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="3028" Column="1" TopLine="2999"/>
       </Position4>
       <Position5>
         <Filename Value="cont.pas"/>
-        <Caret Line="207" Column="21" TopLine="192"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position5>
-      <Position6>
-        <Filename Value="cont.pas"/>
-        <Caret Line="468" Column="13" TopLine="453"/>
-      </Position6>
-      <Position7>
-        <Filename Value="cont.pas"/>
-        <Caret Line="777" Column="27" TopLine="762"/>
-      </Position7>
-      <Position8>
-        <Filename Value="cont.pas"/>
-        <Caret Line="779" Column="9" TopLine="762"/>
-      </Position8>
-      <Position9>
-        <Filename Value="cont.pas"/>
-        <Caret Line="780" Column="9" TopLine="762"/>
-      </Position9>
-      <Position10>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position10>
-      <Position11>
-        <Filename Value="cont.pas"/>
-        <Caret Line="558" Column="27" TopLine="543"/>
-      </Position11>
-      <Position12>
-        <Filename Value="cont.pas"/>
-        <Caret Line="535" Column="62" TopLine="529"/>
-      </Position12>
-      <Position13>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position13>
-      <Position14>
-        <Filename Value="cont.pas"/>
-        <Caret Line="332" Column="10" TopLine="317"/>
-      </Position14>
-      <Position15>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1056" Column="1" TopLine="1041"/>
-      </Position15>
-      <Position16>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1057" Column="1" TopLine="1042"/>
-      </Position16>
-      <Position17>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1058" Column="1" TopLine="1043"/>
-      </Position17>
-      <Position18>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1060" Column="1" TopLine="1045"/>
-      </Position18>
-      <Position19>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1062" Column="1" TopLine="1047"/>
-      </Position19>
-      <Position20>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1065" Column="1" TopLine="1050"/>
-      </Position20>
-      <Position21>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1069" Column="1" TopLine="1054"/>
-      </Position21>
-      <Position22>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position22>
-      <Position23>
-        <Filename Value="cont.pas"/>
-        <Caret Line="332" Column="28" TopLine="317"/>
-      </Position23>
-      <Position24>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2004" Column="3" TopLine="2000"/>
-      </Position24>
-      <Position25>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1984" Column="3" TopLine="1980"/>
-      </Position25>
-      <Position26>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2004" Column="3" TopLine="2000"/>
-      </Position26>
-      <Position27>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2032" Column="34" TopLine="2019"/>
-      </Position27>
-      <Position28>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1733" Column="3" TopLine="1729"/>
-      </Position28>
-      <Position29>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1058" Column="3" TopLine="1054"/>
-      </Position29>
-      <Position30>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2288" Column="1" TopLine="2286"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -458,7 +374,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="3">
+    <BreakPoints Count="5">
       <Item1>
         <Source Value="../firebird/ezcont/ContOld/cont.pas"/>
         <Line Value="725"/>
@@ -471,6 +387,14 @@
         <Source Value="../firebird/ezcont/ContOld/cont.pas"/>
         <Line Value="718"/>
       </Item3>
+      <Item4>
+        <Source Value="cont.pas"/>
+        <Line Value="903"/>
+      </Item4>
+      <Item5>
+        <Source Value="cont.pas"/>
+        <Line Value="721"/>
+      </Item5>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
