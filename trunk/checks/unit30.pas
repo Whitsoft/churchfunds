@@ -15,8 +15,35 @@ type
 
   TDataMod = class(TDataModule)
     CheckingSrc: TDatasource;
+    BalanceSrc: TDatasource;
     DelTranSrc: TDatasource;
+    ZEditCheckSeed: TSQLQuery;
+    ZPostChecks1: TSQLQuery;
+    ZPostTempChecks: TSQLQuery;
+    ZPostPayStubs: TSQLQuery;
+    ZPostTrans: TSQLQuery;
+    ZPostChecks: TSQLQuery;
+    ZPostStub: TSQLQuery;
+    ZPostTempTrans: TSQLQuery;
+    ZQFindKey: TSQLQuery;
+    ZQueryDelTempCk: TSQLQuery;
     ZQuerySocPay: TSQLQuery;
+    ZQueryTempCksAMOUNT: TBCDField;
+    ZQueryTempCksCHECKMEMO: TStringField;
+    ZQueryTempCksCHECK_DATE: TDateField;
+    ZQueryTempCksCHECK_NO: TLongintField;
+    ZQueryTempCksCHECK_TYPE: TStringField;
+    ZQueryTempCksVENDOR: TStringField;
+    ZQueryTempCksVENDOR_NO: TSmallintField;
+    ZIncCheckSeed: TSQLQuery;
+    ZTblBalanceBALANCE1: TBCDField;
+    ZTblBalanceBALANCE2: TBCDField;
+    ZTblBalanceBEGBALANCE1: TBCDField;
+    ZTblBalanceBEGBALANCE2: TBCDField;
+    ZTblBalanceCHECKSEED1: TLongintField;
+    ZTblBalanceCHECKSEED2: TLongintField;
+    ZTblBalanceTEMPSUM1: TBCDField;
+    ZTblBalanceTEMPSUM2: TBCDField;
     ZTblPayroll: TSQLQuery;
     ZTblPayrollDEDUCT1: TBCDField;
     ZTblPayrollDEDUCT1_ACC: TSmallintField;
@@ -176,6 +203,8 @@ begin
       open;
     end;
 end;
+
+
 
 //initialization
 //  {$I unit30.lrs}
