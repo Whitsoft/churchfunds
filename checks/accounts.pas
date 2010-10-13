@@ -7,6 +7,12 @@ unit accounts;
 //{$MODE Delphi}
 interface
 
+{UPDATE books
+SET title = :title,
+autor = :autor,
+description = :description
+WHERE id = :id}
+
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
@@ -147,9 +153,7 @@ type
     PayBal: TEdit;
     PayCheck: TEdit;
     PayCheckDate: TEdit;
-    PayDateLabel: TLabel;
-    PayeeLabel: TLabel;
-    PayLabel: TLabel;
+   // PayLabel: TLabel;
     PayLookUp: TComboBox;
     PenEdit: TEdit;
     ScriptLabel1: TLabel;
@@ -451,7 +455,7 @@ type
     procedure doPrintOther(Sender: TObject;BDate,EDate: TDateTime);
     procedure doPrint941(Sender: TObject;BDate,EDate: TDateTime);
 
-
+    function  ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
     function  GetAccType(Acc: Integer): Integer;
     function  AtoFloat(MonStr: String):Double;
     function  GetNameFromSoc(SocNo: String): String;
@@ -603,12 +607,13 @@ type
     procedure DoCheckCancel(Chek: Integer);
     procedure doRetSearch(SDate,EDate: TDateTime);
     procedure doRefresh;
+    procedure incCheckSeed;
    // function  getAccName(Acc,Ded: Integer): String;
     procedure fixCheckAmount;
-    procedure doCheckPost(Chek: Integer;Amnt: Double);
+    function  doTempCheckPost(Chek: Integer;Amnt: Double):Boolean;
     function  doAccountPost(Chk,Acc: Integer;
                      ChkDate: TDateTime; Amnt: Double): Boolean;
-    procedure SumPay(FDate,EDate: TDateTime);
+    procedure SumPay(SocNum: String; FDate,EDate: TDateTime);
     function  prnMoney(MonStr: String):String;
     procedure doDedArray(GrossAmnt: Double);
     procedure WriteScript(FAmnt: Double);
@@ -624,7 +629,9 @@ type
     procedure ClearPay;
     procedure FillPayCheck;
     function  MonDate(D: String):String;
-    function  TransferAcc(ChekNo: String): Boolean;
+    function  TransferCheck(ChekNo: String): Boolean;
+    function  DeleteTempTrans(CheckNo: Integer): Boolean;
+    function  DeleteTempCheck(CheckNo: Integer): Boolean;
     procedure doAccCancel;
      { procedure  NewLine(Ct: Integer; Var F:TextFile);  }
     procedure doPayCheck;
@@ -632,7 +639,7 @@ type
     function TextToFloat(InStr: String): Double;
    {procedure CheckAmountEnter(Sender: TObject); }
     procedure InitDates;
-    function  FinalPostAcc(ChekNo: Integer):Boolean;
+    function  PostCheckPlusTrans(ChekNo: Integer):Boolean;
     { procedure CkDateEditExit(Sender: TObject); }
     function  getAccountNo(Const Account: String): Integer;
     function  FmtAccountNo(Const Account: String): Integer;
@@ -1266,17 +1273,38 @@ begin
 end;
 
 procedure TCheckForm.BtnSeedPostClick(Sender: TObject);
+var
+  CkSeed: String;
 begin
-   DataMod.ZTblBalance.First;
-   DataMod.ZTblBalance.Edit;
-   DataMod.ZTblBalance.Post;
+  CkSeed := DBEditSeed.Text;
+  With DataMod do
+    begin
+      If not ZEditCheckSeed.active then ZEditCheckSeed.open;
+      ZEditCheckSeed.First;
+      ZEditCheckSeed.Edit;
+      ZEditCheckSeed.FieldByName('CHECKSEED').AsString := CkSeed;
+      ZEditCheckSeed.Post;
+      ZEditCheckSeed.ApplyUpdates;
+      SQLTransactionEZ.Commit;
+      ZTblBalance.Close;
+      ZTblBalance.Open;
+      ZTblTempChecks.Close;
+      ZTblTempChecks.Open;
+      ZTblTempTrans.Close;
+      ZTblTempTrans.Open;
+      CheckEdit.Text := CkSeed;
+    end;
 end;
 
 procedure TCheckForm.HoursEditExit(Sender: TObject);
 begin
   If HoursEdit.Text<>'' then
-     PayLookup.Enabled:=True
-  else
+    begin
+       PayLookup.Enabled:=True;
+       if PayLookup.Text <> '' then
+         PayLookUpChange(Sender);
+     end
+   else
      PayLookUp.Enabled:=False;
 end;
 
@@ -1305,14 +1333,13 @@ var
   Year, Month, Day: Word;
   SocNum: String;
 begin
-
 FromDt.Text := ParseDate(FromDt.Text);
 ToDt.Text := ParseDate(ToDt.Text);
 If (FromDt.Text = '') or (ToDt.Text = '') then exit;
   If (Pos('Every',EmpCombo.Text)>0) or (EmpCombo.Text='') then
       SocNum:='%'
   else
-      SocNum:=SocList.Strings[EmpCombo.ItemIndex];
+      SocNum:=SocList.Strings[EmpCombo.ItemIndex - 1];
 
   DecodeDate(Date,Year, Month, Day);
   doPayLabel(SocNum);
@@ -1333,7 +1360,7 @@ If (FromDt.Text = '') or (ToDt.Text = '') then exit;
          Open;
          first;
         end;
-    SumPay(FromDate,ToDate);
+    SumPay(SocNum,FromDate,ToDate);
 end;
 
 procedure TCheckForm.BalBtnClick(Sender: TObject);
@@ -2048,12 +2075,22 @@ begin
 end;
 
 function TCheckForm.getAccountNo(Const Account: String): Integer;
+var
+  AccStr: String;
+  SPtr: Integer;
 begin
+  AccStr:='';
+  SPtr:=1;
+  While((Account[SPtr] >= '0') and (Account[SPtr] <= '9')) do
+    begin
+      AccStr:=AccStr+Account[SPtr];
+      inc(SPtr);
+    end;
   With DataMod.ZQueryAccNo do
     begin
       If not prepared then prepare;
         Close;
-        Params[0].AsString := Account; //Account Number
+        Params[0].AsString := AccStr; //Account Number
         Open;
         if RecordCount = 0 then
           result := -1
@@ -2769,8 +2806,8 @@ begin
   If MessageDlg(' Ok to print '+Start+' through '+Stop,
          mtInformation,[mbOk,mbCancel],0)=mrOk then
      begin
-       ShowMessage('Please make sure checks are lined up in printer from '
-               +Start+' To '+Stop);
+      // ShowMessage('Please make sure checks are lined up in printer from '
+        //      +Start+' To '+Stop);
      try
          //CheckPrinter.Execute;
        except
@@ -2847,7 +2884,7 @@ begin
    If (PayLookUp.Text='') or (HoursEdit.Text='') then
       exit;
    Occ:=0;
-   If MessageDlg(' Ok to post $'+GrossEdit.Text+
+   If MessageDlg(' Ok to post $'+NetEdit.Text+
            ' to Check '+PayCheck.Text+' for '+PayLookUp.Text,
          mtInformation,[mbOk,mbCancel],0)<> mrOk then exit;
    With DataMod do begin
@@ -2877,16 +2914,19 @@ begin
 
          Account:=ZQueryPayroll.FieldByName('WAGE_ACCOUNT').AsString;
 
-         ZTblTempChecks.Insert;
-         ZTblTempChecks.FieldByName('CHECK_NO').AsString:=Chek;
-         ZTblTempChecks.FieldByName('VENDOR').AsString:=PName;
-         ZTblTempChecks.FieldByName('CHECK_DATE').AsString:=CkDate;
-         ZTblTempChecks.FieldByName('AMOUNT').AsString:=PayAmount;
-         ZTblTempChecks.FieldByName('CHECKMEMO').AsString:='Payroll';
-         ZTblTempChecks.FieldByName('CHECK_TYPE').AsString:='P';
+         ZPostTempChecks.Insert;
+         ZPostTempChecks.FieldByName('CHECK_NO').AsString:=Chek;
+         ZPostTempChecks.FieldByName('VENDOR').AsString:=PName;
+         ZPostTempChecks.FieldByName('CHECK_DATE').AsString:=CkDate;
+         ZPostTempChecks.FieldByName('AMOUNT').AsString:=PayAmount;
+         ZPostTempChecks.FieldByName('CHECKMEMO').AsString:='Payroll';
+         ZPostTempChecks.FieldByName('CHECK_TYPE').AsString:='P';
+         ZPostTempChecks.Post;
+         ZPostTempChecks.ApplyUpdates;
 
          With ZTblPayStubs do
            try
+             if not active then open;
              Insert;
              FieldByName('PCHECK_NO').AsString:=Chek;
              FieldByName('SOC_SEC_NO').AsString:=SocNum;
@@ -2921,9 +2961,10 @@ begin
              ShowMessage('Could not post paystub ');
              exit;
            end;
-         With ZTblTempTrans do
+         With ZPostTempTrans do
            try
              {Net Pay}
+             if not active then open;
              Insert;
              TmpAcc:=StrToInt(Account);
              FieldByName('CHECK_NO').AsString:=Chek;
@@ -3010,7 +3051,7 @@ begin
              For IDX:=1 to 5 do
                If Deduction[IDX]>0.01 then
                 begin
-                  Insert;   {Pension}
+                  Insert;   {Special deductions}
                   FieldByName('CHECK_NO').AsString:=Chek;
                   TmpAcc:=DedAccounts[IDX];
                   FieldByName('ACCOUNT').AsInteger:=TmpAcc;
@@ -3039,16 +3080,8 @@ begin
              exit;
            end;
 
-         ZTblTempChecks.Post;
-         ZTblTempChecks.ApplyUpdates;
-
         // TmpStr:=ZQueryPayroll.FieldByName('Name').AsString;
-         ZTblBalance.First;
-         ZTblBalance.Edit;
-         ZTblBalance.FieldByName('CHECKSEED').AsInteger:=
-          ZTblBalance.FieldByName('CHECKSEED').AsInteger+1;
-         ZTblBalance.Post;
-         ZTblBalance.ApplyUpdates;
+         incCheckSeed;
          ZTblBalance.Close;
          ZTblBalance.Open;
          SQLTransactionEZ.commit;
@@ -3073,7 +3106,7 @@ begin
          ZTblPayStubs.Open;
          ZTblBalance.Open;
          ZTblBalance.First;
-      Except
+      except
          ZTblTempChecks.Cancel;
          ZTblTempTrans.Cancel;
          ZTblPayStubs.Cancel;
@@ -3083,7 +3116,7 @@ begin
          ShowMessage('There was an error for this paycheck');
       end;
      end;
-           Screen.Cursor:=crDefault;
+    Screen.Cursor:=crDefault;
 end;
 
 procedure TCheckForm.BtnPayCanClick(Sender: TObject);
@@ -3104,16 +3137,16 @@ procedure TCheckForm.NetEditChange(Sender: TObject);
 begin
    If NetEdit.Text<>'' then
       try
-        MonLabel.Caption:='$'+NetEdit.Text;
-        PayLabel.Caption:=MonToStr(StrToFloat(NetEdit.Text));
-        PayeeLabel.Caption:=PayLookup.Text;
+        PayAmountLabel.Caption:='$'+NetEdit.Text;
+        ScriptLabel1.Caption:=MonToStr(StrToFloat(NetEdit.Text));
+        VendorLabel1.Caption:=PayLookup.Text;
       except
       end
    else
       begin
-        MonLabel.Caption:='';
-        PayLabel.Caption:='';
-        PayeeLabel.Caption:='';
+        ScriptLabel1.Caption:='';
+        PayAmountLabel.Caption:='';
+        VendorLabel1.Caption:='';
      end;
 end;
 
@@ -3124,7 +3157,7 @@ end;
 
 procedure TCheckForm.DBEdit2Exit(Sender: TObject);
 begin
-  PayDateLabel.Caption:=PayCheckDate.Text;
+  DateLabel1.Caption:=PayCheckDate.Text;
 
 end;
 
@@ -3167,6 +3200,7 @@ procedure TCheckForm.ChkPostBtnClick(Sender: TObject);
 var
    Chk,TmpLeft,TmpRite,TmpInt,IDX: Integer;
    TmpFloat:  Double;
+   ChekStr: String;
  begin
    If GlobalPost=False then
      begin
@@ -3179,7 +3213,12 @@ var
          try
            GlobalPost:=True;
            ComboVendor.Enabled:=True;
-           doCheckPost(StrToInt(CheckEdit.Text),StrToFloat(AmountLabel.Caption));
+           if not doTempCheckPost(StrToInt(CheckEdit.Text),StrToFloat(AmountLabel.Caption)) then
+             begin
+               DataMod.SQLTransactionEZ.RollBack;
+               ShowMessage('Could not post check ');
+               exit;
+             end;
            {doBalPost(StrToFloat(AmountLabel.Caption)); }
            AccPtr:=0;
            GlobalLeft:=0;
@@ -3191,7 +3230,11 @@ var
         {   VendorNoEdit.Text:='';   }
            ScriptLabel.Caption:='';
            If GlobalPost=True then
-              DataMod.SQLTransactionEZ.Commit
+             begin
+                incCheckSeed;
+                DataMod.SQLTransactionEZ.Commit;
+                ChekStr:=DataMod.ZIncCheckSeed.FieldByName('CHECKSEED').AsString;
+             end
            else
               begin
                 DataMod.SQLTransactionEZ.RollBack;
@@ -3220,6 +3263,103 @@ var
            ComboVendor.Text:='';
  end;
 
+procedure TCheckForm.incCheckSeed;
+begin
+  With DataMod.ZIncCheckSeed do
+    begin
+      if not active then
+        open;
+      edit;
+      //FieldByName('CHECKSEED').AsInteger := FieldByName('CHECKSEED').AsInteger+1;
+      Post;
+      ApplyUpdates;
+    end;
+end;
+
+function TCheckForm.doTempCheckPost(Chek: Integer;Amnt: Double): boolean;
+begin
+  try
+    If GlobalPost=true then
+      With DataMod.ZPostTempChecks do
+        begin
+          If ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', Chek) then  // look for at least one transaction
+            begin
+              Edit;
+              FieldByName('CHECKMEMO').AsString:=MemoLabel.Caption;
+              FieldByName('Amount').AsFloat:=Amnt;
+              Post;
+              ApplyUpdates;
+              Result := True;
+            end
+          else
+            begin
+              ShowMessage('You must post at least one transaction before posting a check.');
+              DataMod.SQLTransactionEZ.Rollback;
+              Result := False;
+            end;
+       end;
+ except
+     ShowMessage('Could not Post Check '+CheckEdit.Text);
+     DataMod.SQLTransactionEZ.Rollback;
+     GlobalPost:=False;
+     result := false;
+ end;
+end;
+
+function TCheckForm.doAccountPost(Chk,Acc: Integer;
+                     ChkDate: TDateTime; Amnt: Double): Boolean;
+var
+  DidPost: Boolean;
+begin
+  DidPost:=False;
+  try
+     DataMod.ZTblTempTrans.First;  //See if transactions have already been posted
+     With DataMod.ZTblTempTrans do
+        While not EOF do
+          begin
+            If (FieldByName('CHECK_NO'). asInteger=Chk) and
+               (FieldByName('ACCOUNT').AsInteger=Acc) then
+                DidPost:=True;
+            next;
+         end;
+     If DidPost=True then
+       begin
+         Result:=False;
+         ShowMessage('Account '+IntToStr(Acc)+' has already been posted'+
+                     ' to this check');
+         if MessageDlg('Ok to add this amount to it?',
+            mtInformation, [mbYes, mbNo], 0) =0  then
+            exit
+         else
+            begin   //Add another amount to account already posted to temp trans table
+              DataMod.ZPostTempTrans.edit;
+              DataMod.ZPostTempTrans.FieldByName('AMOUNT').AsFloat:=
+                 DataMod.ZPostTempTrans.FieldByName('AMOUNT').AsFloat+Amnt;
+              DataMod.ZPostTempTrans.Post;
+              DataMod.ZPostTempTrans.ApplyUpdates;
+              result := true;
+            end;
+       end
+    else
+       begin  //Inset a new post into temporary trans table
+         DataMod.ZPostTempTrans.insert;
+         DataMod.ZPostTempTrans.FieldByName('AMOUNT').AsFloat:=Amnt;
+         DataMod.ZPostTempTrans.FieldByName('CHECK_NO').AsInteger:=Chk;
+         DataMod.ZPostTempTrans.FieldByName('ACCOUNT').AsInteger:=Acc;
+         DataMod.ZPostTempTrans.FieldByName('ACC_TYPE').AsInteger:=EXPENSE;
+         DataMod.ZPostTempTrans.FieldByName('CHECK_DATE').AsDateTime:=ChkDate;
+         DataMOd.ZPostTempTrans.Post;
+         DataMod.ZPostTempTrans.ApplyUpdates;
+         result := true;
+       end;
+   except
+     Showmessage('Could not post to account '+IntToStr(Acc));
+     DataMod.ZPostTempTrans.Cancel;
+     DataMod.SQLTransactionEZ.RollBack;
+     GlobalPost:=False;
+     Result:=False;
+   end;
+ end;
 
 procedure TCheckForm.CheckAmountEnter(Sender: TObject);
 begin
@@ -3256,7 +3396,7 @@ var
 begin
   GlobTrial:=False;
   If DataMod.ZTblTempChecks.RecordCount<=0 then exit;
-  ShowMessage('Please make sure check is inserted correctly in printer. ');
+ // ShowMessage('Please make sure check is inserted correctly in printer. ');
   If InputQuery('Check Number','Input a Check Number',CheckValue) then
      try
        GlobStCheck:=StrToInt(CheckValue);
@@ -3319,21 +3459,15 @@ const
        Font := CheckFont;
        setTabBoxHeight(1,LineSpacing);
      end;  //With EZPSClass do
-   for CheckNo:=GlobStCheck to GlobEndCheck do
+   for CheckNo:=GlobStCheck to GlobEndCheck do   //one check or a range of checks
      try
-       With DataMod.ZQueryTempCks do begin
-         if not prepared then prepare;
-         close;
-         params[0].AsInteger := CheckNo;
-         Open;
-         if recordcount = 0 then
-           begin
+       If not ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', CheckNo) then
+         begin
              EZPSClass.ClosePrintFile;
              exit;
            end;
-       end;
        Cnt:=0;
-       With DataMod.ZTblXY do
+       With DataMod.ZTblXY do   //get check format parameters
           begin
             First;
             VendX:=FieldByName('PAYX').AsFloat;
@@ -3349,18 +3483,26 @@ const
             AmountY:=FieldByName('AmountY').AsFloat;
             AccY:=FieldByName('AccountY').AsFloat;
           end;
-       If not GlobTrial then
-         if not FinalPostAcc(CheckNo) then
+      With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
+        begin
+          Close;
+          Params[0].AsInteger:=CheckNo;
+          Open;
+          First;
+          Vend:=FieldByName('VENDOR').AsString;
+          CkDate:=FieldByName('CHECK_DATE').AsString;
+          CkAmount:=FieldByName('AMOUNT').AsFloat;
+          Note:=FieldByName('CHECKMEMO').AsString;
+          MonStr:=Format('%m',[CkAmount]);
+          MonText:=MonToStr(CkAmount);
+        end;
+
+       If not GlobTrial then     //if not a trial check
+         if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
            begin
              EZPSCLass.ClosePrintFile;
              exit;
            end;
-       Vend:=DataMod.ZTblTempChecks.FieldByName('VENDOR').AsString;
-       CkDate:=DataMod.ZTblTempChecks.FieldByName('CHECK_DATE').AsString;
-       CkAmount:=DataMod.ZTblTempChecks.FieldByName('AMOUNT').AsFloat;
-       Note:=DataMod.ZTblTempChecks.FieldByName('CHECKMEMO').AsString;
-       MonStr:=Format('%m',[CkAmount]);
-       MonText:=MonToStr(CkAmount);
        With EZPSClass do
       // With sender as TBaseReport do
          begin
@@ -3405,46 +3547,33 @@ const
        end; //{With sender}
        If not GlobTrial then
          try
-           with DataMod.ZQueryPayStubs do
+           {If ZFindKey('PAYSTUBS', 'PCHECK_NO', 'FALSE', CheckNo) then
              begin
-               if not prepared then prepare;
-               close;
-               params[0].AsInteger := CheckNo;
-               open;
-              { if recordcount > 0 then
-                 begin
-                   DataMod.ZQueryPayStubs.Edit;
-                   DataMod.ZQueryPayStubs.FieldByName('PCheck_No').AsInteger:=0;
-                   DataMod.ZQueryPayStubs.Post;
-                   ApplyUpdates;
-                 end;}
-               end;
-           DataMod.ZQueryDelTempTran.Prepare;
-           DataMod.ZQueryDelTempTran.Params[0].AsInteger:= CheckNo;
-           DataMod.ZQueryDelTempTran.ExecSQL;
-           DataMod.ZQueryDelTempTran.Close;
-           DataMod.SQLTransactionEZ.Commit;
-           with DataMod.ZQueryPayStubs do
-             begin
-               if not prepared then prepare;
-               close;
-               params[0].AsInteger := 0;
-               open;
-               if recordcount > 0 then
-                 begin
-                   DataMod.ZQueryPayStubs.Edit;
-                   DataMod.ZQueryPayStubs.FieldByName('PCheck_No').AsInteger:=CheckNo;
-                   DataMod.ZQueryPayStubs.Post;
-                 end;
-               end;
+               DataMod.ZTblPayStubs.Edit;
+               DataMod.ZTblPayStubs.FieldByName('PCheck_No').AsInteger:=0;
+               DataMod.ZTblPayStubs.Post;
+             end;}
 
-           DataMod.ZTblTempTrans.Close;
-           DataMod.ZTblTempTrans.Open;
-           DataMod.ZTblTempChecks.Close;
-           DataMod.ZTblTempChecks.Open;
-           DataMod.ZTblBalance.Close;
-           DataMod.ZTblBalance.Open;
-           DataMod.ZTblBalance.First;
+           if DeleteTempTrans(CheckNo) then
+              DataMod.SQLTransactionEZ.Commit
+           else
+              DataMod.SQLTransactionEZ.RollBack;
+           With DataMod do      //Refresh for grids
+             begin
+               ZTblTrans.Close;
+               ZTblTrans.Open;
+               ZTblChecks.Close;
+               ZTblChecks.Open;
+               ZTblCheckTrans.Close;
+               ZTblCheckTrans.Open;
+               ZTblTemptrans.Close;
+               ZTblTempTrans.Open;
+               ZTblTempChecks.Close;
+               ZTblTempChecks.Open;
+               ZTblBalance.Close;
+               ZTblBalance.Open;
+               ZTblBalance.First;
+             end;
         except
           ShowMessage('Could not transfer data from temp to final accounts');
           DataMod.SQLTransactionEZ.RollBack;
@@ -3454,6 +3583,158 @@ const
     end;
     EZPSClass.PSPRocs;
     EZPSClass.ClosePrintFile;
+end;
+
+
+function TCheckForm.PostCheckPlusTrans(ChekNo: Integer):Boolean;
+// post the transactions then the checks frim tenporary to permanent tables
+var
+  TranNo:   LongInt;
+  Acc,AccType:   Integer;
+  AccStr,TrType: String;
+  Amnt: Double;
+  PayChek: Boolean;
+  TranDate: TDateTime;
+begin
+  PayChek:=False;
+  Result:=False;
+  AccType:=0;
+  DataMod.ZTblTrans.Open;
+  DataMod.ZTblTrans.Last;
+  if ZFindKey('PAYSTUBS', 'PCHECK_NO', 'FALSE', ChekNo) then
+    PayChek:=True;
+  With DataMod.ZQueryPrintTran do      //do transactions first
+     try
+       Close;
+       Params[0].AsInteger:=ChekNo;   //Get transactions from TEMP_TRANS for this check
+       Open;
+       First;
+       DataMod.ZPostTrans.Open;       //Open query to insert temp transactions to permanent transactions
+       While not EOF do               //Insert transactions - one by one - to permanent table
+         try
+           Amnt:=FieldByName('Amount').AsFloat;
+           Acc:=FieldByName('ACCOUNT').AsInteger;
+           AccType:=FieldByName('ACC_TYPE').AsInteger;
+           TranDate := FieldByName('CHECK_DATE').AsDateTime;
+           If AccType<0 then
+              begin
+                ShowMessage('Can not find account and/or type for '+
+                           IntToStr(Acc)+' in account ZQuery');
+                 DataMod.SQLTransactionEZ.RollBack;
+               exit;
+             end;
+           If (AccType>1) and (PayChek) then
+             AccType:=1
+           else
+             AccType:=0;
+
+           With DataMod do   //Post temp transactions to permanent - one by one
+             begin
+               if not ZPostTrans.Prepared then
+                  ZPostTrans.Prepare;
+                ZPostTrans.Insert;
+                ZPostTrans.FieldByName('CHECK_NO').AsInteger := ChekNo;
+                ZPostTrans.FieldByName('ACCOUNT').AsInteger:=Acc;
+                ZPostTrans.FieldByName('AMOUNT').AsFloat := Amnt;
+                ZPostTrans.FieldByName('TRAN_TYPE').AsInteger := AccType;
+                ZPostTrans.FieldByName('TRAN_DATE').AsDateTime:= TranDate;
+                ZPostTrans.Post;
+                ZPostTrans.ApplyUpdates;
+             end;
+             next;
+         except
+           DataMod.SQLTransactionEZ.Rollback;
+           ShowMessage('Could not print check '+IntToStr(ChekNo));
+           result := false;
+           exit;
+         end;
+
+          If not TransferCheck(IntToStr(ChekNo)) then  {do check last}
+            begin
+              DataMod.SQLTransactionEZ.Rollback;
+              result := false;
+              exit;
+            end;
+     except
+        DataMod.SQLTransactionEZ.Rollback;
+        ShowMessage('Could not print check '+IntToStr(ChekNo));
+        result := false;
+     end;
+   result := true;
+end;
+
+function TCheckForm.TransferCheck(ChekNo: String): Boolean;
+ {Transfer from Temporary Check to Checking}
+var
+  CkFound: Boolean;
+begin
+  Result:=False;
+  With DataMod do
+    try
+      If  ZFindKey('TEMP_CHECKS', 'CHECK_NO', ChekNo, StrToInt(ChekNo)) then
+         With DataMod do
+           begin
+             ZPostChecks.Open;
+             if not ZPostChecks.Prepared then
+               ZPostChecks.Prepare;
+             ZPostChecks.Insert;
+             ZPostChecks.FieldByName('CHECK_NO').AsInteger:= ZQueryTempCks.FieldByName('CHECK_NO').AsInteger;
+             ZPostChecks.FieldByName('AMOUNT').AsFloat:= ZQueryTempCks.FieldByName('AMOUNT').AsFloat;
+             ZPostChecks.FieldByName('VENDOR').AsString:= ZQueryTempCks.FieldByName('VENDOR').AsString;
+             ZPostChecks.FieldByName('CHECK_DATE').AsDateTime:= ZQueryTempCks.FieldByName('CHECK_DATE').AsDateTime;
+             ZPostChecks.FieldByName('CHECKMEMO').AsString:= ZQueryTempCks.FieldByName('CHECKMEMO').AsString;
+             ZPostChecks.FieldByName('VENDOR_NO').AsInteger:= ZQueryTempCks.FieldByName('VENDOR_NO').AsInteger;
+             ZPostChecks.Post;
+             ZPostChecks.ApplyUpdates;
+             Result:=True;
+         end  //end if ZFindKey
+      else
+         begin
+           DataMod.SQLTransactionEZ.RollBack;
+           Result := false;
+           ShowMessage('Can not find check '+DataMod.ZTblTempChecks.FieldByName('CHECK_NO').AsString);
+        end; //end else if ZFindkey
+    except
+      DataMod.SQLTransactionEZ.RollBack;
+      result := false;
+      ShowMessage('Could not post '+ChekNo+' to Checks/Transactions');
+    end;
+    Result := true;
+end;
+
+
+function TCheckForm.DeleteTempTrans(CheckNo: Integer): Boolean; //Checks and transactions from temp tables
+begin
+  With DataMod do
+    try
+      ZQueryDelTempTran.Close;
+      ZQueryDelTempTran.Params[0].AsInteger:= CheckNo;
+      ZQueryDelTempTran.open;
+      ZQueryDelTempTran.Delete;
+      ZQueryDelTempTran.ApplyUpdates;
+      Result := DeleteTempCheck(CheckNo);
+    except
+      ShowMessage('Error: Can not delete check '+IntToStr(CheckNo));
+      DataMod.SQLTransactionEZ.Rollback;
+      Result := false;
+    end;
+end;
+
+function TCheckForm.DeleteTempCheck(CheckNo: Integer): Boolean; //Checks and transactions from temp tables
+begin
+  With DataMod do
+    try
+      ZQueryDelTempCk.Close;
+      ZQueryDelTempCk.Params[0].AsInteger:= CheckNo;
+      ZQueryDelTempCk.open;
+      ZQueryDelTempCk.Delete;
+      ZQueryDelTempCk.ApplyUpdates;
+      Result := true;
+    except
+      ShowMessage('Error: Can not delete check '+IntToStr(CheckNo));
+      DataMod.SQLTransactionEZ.Rollback;
+      Result := false;
+    end;
 end;
 
 procedure TCheckForm.BtnClearViewPayClick(Sender: TObject);
@@ -3683,7 +3964,8 @@ end;
 
 procedure TCheckForm.PayLookUpChange(Sender: TObject);
 begin
-  doPayCheck;
+  If HoursEdit.Text <>'' then
+    doPayCheck;
 end;
 
 procedure TCheckForm.DPQueryAfterDelete(DataSet: TDataset);
@@ -3836,67 +4118,7 @@ begin
         PayStubInfo.PD5:=FieldByName('DEDUCT5').AsFloat;
       end;
     Datamod.ZTblPayroll.close;
-     Datamod.ZTblPayroll.open;
-end;
-
-
-function TCheckForm.FinalPostAcc(ChekNo: Integer):Boolean;
-var
-  TranNo:   LongInt;
-  Acc,AccType:   Integer;
-  AccStr,TrType: String;
-  Amnt: Double;
-  PayChek: Boolean;
-begin
-  PayChek:=False;
-  Result:=False;
-  AccType:=0;
-  DataMod.ZTblTrans.Open;
-  DataMod.ZTblTrans.Last;
-  //DataMod.IBConnectionEZ.StartTransaction;
-  If not TransferAcc(IntToStr(ChekNo)) then  {Update checks ZQuery}
-    exit;
-  if 1 = 1 then //FIX THIS If ZQueryPayStubs.FindKey([ChekNo]) then
-    PayChek:=True;
-  With DataMod.ZQueryPrintTran do
-     try
-       Close;
-       Params[0].AsInteger:=ChekNo;
-       Open;
-       First;
-       While not EOF do
-         begin
-           Amnt:=FieldByName('Amount').AsFloat;
-           DataMod.ZTblTrans.Insert;
-           DataMod.ZTblTrans.FieldByName('CHECK_NO').AsInteger:=ChekNo;
-           Acc:=FieldByName('ACCOUNT').AsInteger;
-           AccType:=FieldByName('ACC_TYPE').AsInteger;
-           If AccType<0 then
-              begin
-                ShowMessage('Can not find account and/or type for '+
-                           IntToStr(Acc)+' in account ZQuery');
-                 DataMod.SQLTransactionEZ.RollBack;
-               exit;
-             end;
-           If (AccType>1) and (PayChek) then
-             AccType:=1
-           else
-             AccType:=0;
-           DataMod.ZTblTrans.FieldByName('TRAN_TYPE').AsInteger:=AccType;
-           DataMod.ZTblTrans.FieldByName('ACCOUNT').AsFloat:=
-                      FieldByName('ACCOUNT').AsFloat;
-           DataMod.ZTblTrans.FieldByName('AMOUNT').AsFloat:=
-                      FieldByName('AMOUNT').AsFloat;
-           DataMod.ZTblTrans.FieldByName('TRAN_DATE').AsDateTime:=
-                      FieldByName('CHECK_DATE').AsDateTime;
-           DataMod.ZTblTrans.Post;
-           Next;
-         end;
-         Result:=True;
-   except
-       DataMod.SQLTransactionEZ.Rollback;
-      ShowMessage('Could not print check '+IntToStr(ChekNo));
-     end;
+    Datamod.ZTblPayroll.open;
 end;
 
 Function TCheckForm.ScriptMoney(MLeft,MRite: Integer):String;
@@ -4407,9 +4629,9 @@ begin
       StateEdit.Text:='';
       LocalEdit.Text:='';
       NetEdit.Text:='';
-      MonLabel.Caption:='';
-      PayLabel.Caption:='';
-      PayeeLabel.Caption:='';
+      ScriptLabel1.Caption:='';
+      PayAmountLabel.Caption:='';
+      VendorLabel1.Caption:='';
 
      { DataMod.ZTblTempChecks.Last;
       Chk:=DataMod.ZTblChecks.Fields[0].AsInteger+1;
@@ -4501,27 +4723,17 @@ TmpRes:=(CheckEdit.Text<>'') and (CheckAmount.Text<>'') and (CheckDate.Text<>'')
    and (ComboVendor.Text<>'') and (ComboAcc.Text<>'');
  GlobalPost:=False;
  If TmpRes=True then
-    With DataMod.ZTblFindTrans do
-          begin
-            close;
-            params[0].AsInteger := StrToInt(CheckEdit.Text);
-            Open;
-            if RecordCount > 0 then
-              CkFound := true
-            else
-            CkFound := false;
-          end;
+     CkFound :=ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', StrToInt(CheckEdit.Text));
  If TmpRes=True then
-    With DataMod.ZTblTempTrans do
+    With DataMod.ZPostTempTrans do
      try
-         if CkFound then // FIX THIS If FindKey([StrToInt(CheckEdit.Text)]) then
+         if CkFound then
            begin
              ShowMessage('Check number '+CheckEdit.Text+' has already been used!');
              TmpRes:=False;
            end
         else
            try
-             //DataMod.SQLTransactionEZ.StartTransaction;
              Insert;
              FieldByName('CHECK_NO').AsString:=CheckEdit.Text;
              FieldByName('VENDOR').AsString:=ComboVendor.Text;
@@ -4530,6 +4742,7 @@ TmpRes:=(CheckEdit.Text<>'') and (CheckAmount.Text<>'') and (CheckDate.Text<>'')
              FieldByName('CHECK_DATE').AsString:=CheckDate.Text;
              FieldByName('AMOUNT').AsFloat:=0.0;
              Post;
+             ApplyUpdates;
              GlobalPost:=True;
              TmpRes:=True;
            except
@@ -4579,123 +4792,6 @@ begin
   DataMod.ZTblTempChecks.Last;
 end;
 
-function TCheckForm.doAccountPost(Chk,Acc: Integer;
-                     ChkDate: TDateTime; Amnt: Double): Boolean;
-var
-  DidPost: Boolean;
-begin
-  DidPost:=False;
-  try
-    DataMod.ZTblTempTrans.First;
-    With DataMod.ZTblTempTrans do
-      While not EOF do
-        begin
-           If (FieldByName('CHECK_NO'). asInteger=Chk) and
-               (FieldByName('ACCOUNT').AsInteger=Acc) then
-               DidPost:=True;
-            next;
-         end;
-    If DidPost=True then
-       begin
-         Result:=False;
-         ShowMessage('Account '+IntToStr(Acc)+' has already been posted'+
-                     ' to this check');
-         if MessageDlg('Ok to add this amount to it?',
-            mtInformation, [mbYes, mbNo], 0) =0  then
-            exit
-         else
-            begin
-              DataMod.ZTblTempTrans.edit;
-              DataMod.ZTblTempTrans.FieldByName('AMOUNT').AsFloat:=
-                 DataMod.ZTblTempTrans.FieldByName('AMOUNT').AsFloat+Amnt;
-            end;
-       end
-    else
-       begin
-         DataMod.ZTblTempTrans.insert;
-         DataMod.ZTblTempTrans.FieldByName('AMOUNT').AsFloat:=Amnt;
-         DataMod.ZTblTempTrans.FieldByName('CHECK_NO').AsInteger:=Chk;
-         DataMod.ZTblTempTrans.FieldByName('ACCOUNT').AsInteger:=Acc;
-         DataMod.ZTblTempTrans.FieldByName('ACC_TYPE').AsInteger:=EXPENSE;
-         DataMod.ZTblTempTrans.FieldByName('CHECK_DATE').AsDateTime:=ChkDate;
-       end;
-    DataMod.ZTblTempTrans.Post;
-    Result:=True;
-   except
-     Showmessage('Could not post to account '+IntToStr(Acc));
-     DataMod.ZTblTempTrans.Cancel;
-     DataMod.SQLTransactionEZ.RollBack;
-     GlobalPost:=False;
-     Result:=False;
-   end;
- end;
-
-procedure TCheckForm.doCheckPost(Chek: Integer;Amnt: Double);
-begin
-  try
-    If GlobalPost=true then
-      With DataMod.ZTblTempChecks do
-        begin
-          if 1 = 2 then // FIX THIS If FindKey([Chek]) then
-          Edit;
-          FieldByName('CHECKMEMO').AsString:=MemoLabel.Caption;
-          FieldByName('Amount').AsFloat:=Amnt;
-          Post;
-        end
-    else
-      ShowMessage('You must post at least one transaction before posting a check.');
- except
-     ShowMessage('Could not Post Check '+CheckEdit.Text);
-     GlobalPost:=False;
- end
-end;
-
-function TCheckForm.TransferAcc(ChekNo: String): Boolean;
- {Transfer from Check to Checking}
-var
-  CkFound: Boolean;
-begin
-  Result:=False;
-  With DataMod.ZTblTempChecks do
-    try
-      With DataMod.ZQueryTempCks do
-        begin
-          close;
-          params[0].AsInteger := StrToInt(ChekNo);
-          open;
-          If RecordCount > 0 then
-             CkFound := true
-          else
-             CkFound := false;
-        end;
-      If CkFound then //FIX THIS FindKey([StrToInt(ChekNo)]) then
-         Begin
-           DataMod.ZTblChecks.Insert;
-           DataMod.ZTblChecks.FieldByName('CHECK_NO').AsInteger:=
-                       FieldByName('CHECK_NO').AsInteger;
-           DataMod.ZTblChecks.FieldByName('AMOUNT').AsFloat:=
-                       FieldByName('AMOUNT').AsFloat;
-           DataMod.ZTblChecks.FieldByName('VENDOR').AsString:=
-                       FieldByName('VENDOR').AsString;
-           DataMod.ZTblChecks.FieldByName('CHECK_DATE').AsDateTime:=
-                       FieldByName('CHECK_DATE').AsDateTime;
-           DataMod.ZTblChecks.FieldByName('CHECKMEMO').AsString:=
-                       FieldByName('CHECKMEMO').AsString;
-           DataMod.ZTblChecks.FieldByName('VENDOR_NO').AsInteger:=
-                       FieldByName('VENDOR_NO').AsInteger;
-           DataMod.ZTblChecks.Post;
-           Result:=True;
-         end
-      else
-         begin
-           DataMod.SQLTransactionEZ.RollBack;
-         ShowMessage('Can not find check '+FieldByName('CHECK_NO').AsString);
-        end;
-    except
-      DataMod.SQLTransactionEZ.RollBack;
-      ShowMessage('Could not post '+ChekNo+' to Checks/Transactions');
-    end;
-end;
 
 procedure TCheckForm.hideDeduct;
 begin
@@ -4880,7 +4976,7 @@ begin
        Hours:=StrToFloat(HoursEdit.Text);
        PName:=PayLookup.Text;
        SocNo:=SocList.Strings[PayLookUp.ItemIndex];
-       PayeeLabel.Caption:=PName;
+       VendorLabel1.Caption:=PName;
        With DataMod.ZTblPayRoll do
           begin
             if not FindSocNo(SocNo) then exit;
@@ -4932,11 +5028,13 @@ begin
 procedure TCheckForm.FillPayCheck;
 begin
    try
-      PayLabel.Caption:=MonToStr(StrToFloat(NetEdit.Text));
+      PayAmountLabel.Caption:=NetEdit.Text;
    finally
      CheckLabel.Caption:=PayCheck.Text;
-     PayDateLabel.Caption:=PayCheckDate.Text;
+     DateLabel1.Caption:=PayCheckDate.Text;
      LabelPayMemo.Caption:='Pay Check';
+     VendorLabel1.Caption := PayLookup.Text;
+     ScriptLabel1.Caption:=MonToStr(StrToFloat(NetEdit.Text));
    end;
 end;
 
@@ -5029,14 +5127,14 @@ begin
         Emp:=FieldByName('Name').AsString;
         SocNo:=FieldByName('Soc_Sec_No').AsString;
         PayLookUp.Items.Add(Emp);
-        EmpCombo.Items.Append(Emp);
-        EmpCombo.Items[IDX]:=PayLookUp.Items[IDX];
-        SocList.Append(SocNo);
+        EmpCombo.Items.Add(Emp);
+        //EmpCombo.Items[IDX]:=PayLookUp.Items[IDX];
+        SocList.Add(SocNo);
         inc(IDX);
         Next;
       end;
-    EmpCombo.Items.Append('Everyone');
-    EmpCombo.Items[IDX]:='Everyone';
+    EmpCombo.Items.Add('Everyone');
+  //  EmpCombo.Items[IDX]:='Everyone';
 end;
 
 procedure TCheckForm.initVendor;
@@ -5128,11 +5226,10 @@ begin
     end;
 end;   }
 
-procedure TCheckForm.SumPay(FDate,EDate: TDateTime);
+procedure TCheckForm.SumPay(SocNum: String; FDate,EDate: TDateTime);
 var
   Year, Month, Day: Word;
   YDate,FromDate,ToDate: TDateTime;
-  SocStr: String;
   GrossAmnt,NetAmnt,E941Amnt,FedAmnt,FICAAmnt,HourAmnt: Double;
   MedAmnt,StateAmnt,LocalAmnt,FedTot,NetTot,PenAmnt: Double;
   Ded1Amnt,Ded2Amnt,Ded3Amnt,Ded4Amnt,Ded5Amnt: Double;
@@ -5140,10 +5237,6 @@ var
   TranNo,TmpAccount: Integer;
 begin
   {Screen.Cursor:=crHourGlass;  }
-  If (Pos('Every',EmpCombo.Text)>0) or (EmpCombo.Text='') then
-     SocStr:='%'
-  else
-     SocStr:=DataMod.ZTblPayRoll.FieldByName('Soc_Sec_No').AsString;
   DecodeDate(Date,Year, Month, Day);
   PenAmnt:=0.0;GrossAmnt:=0.0;NetAmnt:=0.0;
   E941Amnt:=0.0;FedAmnt:=0.0;FICAAmnt:=0.0;
@@ -5157,7 +5250,7 @@ begin
       Close;
       Params[0].AsDateTime:=FDate;
       Params[1].AsDateTime:=EDate;
-      Params[2].AsString:=SocStr;
+      Params[2].AsString:=SocNum;
       Open;
       First;
       HourAmnt:=Fields[0].AsFloat;
@@ -5587,6 +5680,27 @@ begin
  Help.OpenContext(helpFN,hContext);
 end;
 
+function TCheckForm.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
+var
+  Q: String;
+begin
+ If UpperCase(Key) = 'FALSE' then
+   Q := 'Select Count(*) from ' + TName + ' where ' + fld + ' = ' + IntToStr(IntKey)
+  else
+   Q := 'Select Count(*) from ' + TName + ' where ' + fld + ' like ' + Key;
+
+  With DataMod.ZQFindkey do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add(Q);
+      Open;
+      if Fields[0].value = 0 then
+        result := false
+      else
+        result := true;
+     end;
+end;
 //initialization
 //  {$I accounts.lrs}
 

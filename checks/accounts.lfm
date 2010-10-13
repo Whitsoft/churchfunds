@@ -129,9 +129,9 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Panel1: TPanel
-          Left = -5
+          Left = 11
           Height = 372
-          Top = -4
+          Top = 19
           Width = 845
           HelpContext = 1120
           BevelInner = bvLowered
@@ -291,7 +291,7 @@ object CheckForm: TCheckForm
           object AmountLabel: TLabel
             Left = 555
             Height = 20
-            Top = 160
+            Top = 166
             Width = 68
             Caption = 'Amount'
             Font.Color = clNavy
@@ -1126,22 +1126,11 @@ object CheckForm: TCheckForm
             ParentColor = False
             ParentFont = False
           end
-          object PayLabel: TLabel
-            Left = 88
-            Height = 75
-            Top = 116
-            Width = 70
-            Font.Color = clWhite
-            Font.Height = 9
-            Font.Name = 'System'
-            ParentColor = False
-            ParentFont = False
-          end
           object PayeeLabel: TLabel
-            Left = 88
-            Height = 74
-            Top = 88
-            Width = 69
+            Left = 83
+            Height = 80
+            Top = 226
+            Width = 75
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1151,9 +1140,9 @@ object CheckForm: TCheckForm
           end
           object PayDateLabel: TLabel
             Left = 390
-            Height = 74
+            Height = 80
             Top = 50
-            Width = 69
+            Width = 75
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1254,7 +1243,7 @@ object CheckForm: TCheckForm
           object PayAmountLabel: TLabel
             Left = 555
             Height = 20
-            Top = 160
+            Top = 168
             Width = 68
             Caption = 'Amount'
             Font.Color = clNavy
@@ -1278,11 +1267,11 @@ object CheckForm: TCheckForm
             ParentFont = False
           end
           object VendorLabel1: TLabel
-            Left = 184
+            Left = 187
             Height = 20
-            Top = 168
-            Width = 61
-            Caption = 'Vendor'
+            Top = 170
+            Width = 7
+            Caption = '.'
             Font.Color = clNavy
             Font.Height = -16
             Font.Name = 'MS Sans Serif'
@@ -1292,12 +1281,12 @@ object CheckForm: TCheckForm
           end
           object ScriptLabel1: TLabel
             Left = 187
-            Height = 20
+            Height = 16
             Top = 216
-            Width = 51
-            Caption = 'Script'
+            Width = 6
+            Caption = '.'
             Font.Color = clNavy
-            Font.Height = -16
+            Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold, fsUnderline]
             ParentColor = False
@@ -1610,7 +1599,7 @@ object CheckForm: TCheckForm
           TabOrder = 4
         end
         object PanelSpc: TPanel
-          Left = 747
+          Left = 771
           Height = 320
           Top = 452
           Width = 387
@@ -1625,12 +1614,12 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
           object LabelPen: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 20
-            Width = 74
+            Width = 56
             Caption = 'Pension'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1638,12 +1627,12 @@ object CheckForm: TCheckForm
           end
           object LabelDed1: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 68
-            Width = 74
+            Width = 56
             Caption = 'Pension'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1651,12 +1640,12 @@ object CheckForm: TCheckForm
           end
           object LabelDed2: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 116
-            Width = 104
+            Width = 78
             Caption = 'LabelDed2'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1664,12 +1653,12 @@ object CheckForm: TCheckForm
           end
           object LabelDed3: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 164
-            Width = 74
+            Width = 56
             Caption = 'Pension'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1677,12 +1666,12 @@ object CheckForm: TCheckForm
           end
           object LabelDed4: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 212
-            Width = 74
+            Width = 56
             Caption = 'Pension'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1690,12 +1679,12 @@ object CheckForm: TCheckForm
           end
           object LabelDed5: TLabel
             Left = 23
-            Height = 25
+            Height = 18
             Top = 260
-            Width = 74
+            Width = 56
             Caption = 'Pension'
             Font.Color = clWhite
-            Font.Height = -20
+            Font.Height = -14
             Font.Name = 'System'
             ParentColor = False
             ParentFont = False
@@ -1798,7 +1787,7 @@ object CheckForm: TCheckForm
             Top = 68
             Width = 30
             Caption = 'D'
-            Font.Height = -16
+            Font.Height = -14
             Font.Name = 'System'
             OnClick = BtnDed1Click
             ParentFont = False
@@ -1811,7 +1800,7 @@ object CheckForm: TCheckForm
             Top = 117
             Width = 30
             Caption = 'D'
-            Font.Height = -16
+            Font.Height = -14
             Font.Name = 'System'
             OnClick = BtnDed2Click
             ParentFont = False
@@ -1824,7 +1813,7 @@ object CheckForm: TCheckForm
             Top = 166
             Width = 30
             Caption = 'D'
-            Font.Height = -16
+            Font.Height = -14
             Font.Name = 'System'
             OnClick = BtnDed3Click
             ParentFont = False
@@ -1837,7 +1826,7 @@ object CheckForm: TCheckForm
             Top = 215
             Width = 30
             Caption = 'D'
-            Font.Height = -16
+            Font.Height = -14
             Font.Name = 'System'
             OnClick = BtnDed4Click
             ParentFont = False
@@ -1850,7 +1839,7 @@ object CheckForm: TCheckForm
             Top = 264
             Width = 30
             Caption = 'D'
-            Font.Height = -16
+            Font.Height = -14
             Font.Name = 'System'
             OnClick = BtnDed5Click
             ParentFont = False
@@ -1875,9 +1864,9 @@ object CheckForm: TCheckForm
           ParentFont = False
           TabOrder = 6
           object PayBtn: TButton
-            Left = 29
+            Left = 32
             Height = 36
-            Top = 16
+            Top = 18
             Width = 83
             HelpContext = 400
             Caption = 'Post'
@@ -2533,9 +2522,9 @@ object CheckForm: TCheckForm
       ClientHeight = 882
       object AccLab: TLabel
         Left = 544
-        Height = 74
+        Height = 86
         Top = 398
-        Width = 62
+        Width = 74
         ParentColor = False
         OnClick = AccLabClick
       end
@@ -3838,6 +3827,7 @@ object CheckForm: TCheckForm
             Width = 155
             HelpContext = 880
             DataField = 'CHECKSEED'
+            DataSource = DataMod.BalanceSrc
             Anchors = []
             Font.Height = -15
             Font.Name = 'System'
@@ -4339,7 +4329,7 @@ object CheckForm: TCheckForm
           Left = 571
           Height = 24
           Top = 122
-          Width = 89
+          Width = 105
           Anchors = []
           AutoSize = False
           Caption = 'End Date'
