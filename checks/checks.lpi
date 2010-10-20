@@ -44,12 +44,11 @@
         <MinVersion Major="1" Release="1" Valid="True"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="31">
+    <Units Count="34">
       <Unit0>
         <Filename Value="checks.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="checks"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
@@ -186,8 +185,8 @@
         <UnitName Value="accounts"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <TopLine Value="5642"/>
+        <CursorPos X="1" Y="5663"/>
         <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -292,13 +291,44 @@
       <Unit30>
         <Filename Value="../contributions/projcont.pas"/>
         <UnitName Value="projcont"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="2" Y="13"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit30>
+      <Unit31>
+        <Filename Value="../../contributions/projcont.pas"/>
+        <UnitName Value="projcont"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../contributions/cont.pas"/>
+        <UnitName Value="cont"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="4"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../help/lhelpcontrol.pas"/>
+        <UnitName Value="LHelpControl"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="43"/>
+        <CursorPos X="1" Y="64"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit33>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="checks.pas"/>
         <Caret Line="15" Column="1" TopLine="1"/>
@@ -315,6 +345,54 @@
         <Filename Value="accounts.pas"/>
         <Caret Line="773" Column="32" TopLine="752"/>
       </Position4>
+      <Position5>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="19" Column="8" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="428" Column="25" TopLine="407"/>
+      </Position7>
+      <Position8>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="712" Column="15" TopLine="691"/>
+      </Position8>
+      <Position9>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="782" Column="83" TopLine="760"/>
+      </Position9>
+      <Position10>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="2638" Column="17" TopLine="2617"/>
+      </Position10>
+      <Position11>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="2642" Column="30" TopLine="2617"/>
+      </Position11>
+      <Position12>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="2681" Column="61" TopLine="2660"/>
+      </Position12>
+      <Position13>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="5647" Column="24" TopLine="5640"/>
+      </Position13>
+      <Position14>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="6" Column="13" TopLine="1"/>
+      </Position14>
+      <Position15>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="778" Column="1" TopLine="757"/>
+      </Position15>
+      <Position16>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="5663" Column="1" TopLine="5642"/>
+      </Position16>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -351,14 +429,14 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="8">
+    <BreakPoints Count="6">
       <Item1>
         <Source Value="accounts.pas"/>
-        <Line Value="2111"/>
+        <Line Value="2113"/>
       </Item1>
       <Item2>
         <Source Value="accounts.pas"/>
-        <Line Value="1477"/>
+        <Line Value="1479"/>
       </Item2>
       <Item3>
         <Source Value="lhelpcontrol.pas"/>
@@ -374,16 +452,8 @@
       </Item5>
       <Item6>
         <Source Value="accounts.pas"/>
-        <Line Value="783"/>
+        <Line Value="778"/>
       </Item6>
-      <Item7>
-        <Source Value="accounts.pas"/>
-        <Line Value="5661"/>
-      </Item7>
-      <Item8>
-        <Source Value="accounts.pas"/>
-        <Line Value="776"/>
-      </Item8>
     </BreakPoints>
     <Watches Count="2">
       <Item1>

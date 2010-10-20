@@ -1080,8 +1080,8 @@ begin
   ConList:=TStringList.Create;
   {LabelList.Create;
   EditList.Create;}
-  Help := TLHelpConnection.Create;
-  Help.ProcessWhileWaiting := @Application.ProcessMessages;
+ Help := TLHelpConnection.Create;
+ // Help.ProcessWhileWaiting := @Application.ProcessMessages; new version of lhelp
   EZPClass := TPostscriptClass.Create;
  // Application.OnMessage:=AppMessage;
 end;
@@ -1111,7 +1111,7 @@ begin
       exit;
     Rewrite(LogFile);
     Writeln(LogFile, A);
-    if Help.ServerRunning = false then
+    //if Help.ServerRunning = false then new version of lhelp
       Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
