@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
-  HorizontalOffset = 0
-  VerticalOffset = 28
+  HorizontalOffset = 71
+  VerticalOffset = 322
   Width = 1215
   object QueryTranSrc: TDatasource
     DataSet = ZQueryTrans
@@ -19,12 +19,17 @@ object DataMod: TDataMod
       'Select D.POST_DATE,D.AMOUNT,D.MEMO From DPOST D'
       'Order by Post_Date'
     )
+    InsertSQL.Strings = (
+      ''
+    )
     Params = <>
+    UpdateMode = upWhereAll
     left = 616
     top = 80
   end
   object ZQueryReturn: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -806,11 +811,24 @@ object DataMod: TDataMod
     IndexName = 'DEFAULT_ORDER'
     Active = True
     AutoCalcFields = False
+    AfterDelete = ZTblDPAfterDelete
+    AfterInsert = ZTblDPAfterInsert
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
       '  Select * from DPOST'
+    )
+    InsertSQL.Strings = (
+      '  INSERT INTO DPOST ('
+      '    POST_DATE, AMOUNT, MEMO)'
+      '    VALUES ('
+      '    :POST_DATE, :AMOUNT, :MEMO);'
+    )
+    DeleteSQL.Strings = (
+      'delete from DPOST where AMOUNT=:AMOUNT'
+      'and POST_DATE=:OLD_POST_DATE'
+      'and MEMO LIKE :OLD_MEMO'
     )
     Params = <>
     left = 216
@@ -863,7 +881,8 @@ object DataMod: TDataMod
     )
     UpdateSQL.Strings = (
       '    Update  CKBalance'
-      '    set BegBalance = :BegBalance'
+      '    set BegBalance = :BegBalance,'
+      '      Balance = :Balance'
     )
     Params = <>
     UpdateMode = upWhereAll
@@ -1454,6 +1473,7 @@ object DataMod: TDataMod
   end
   object ZTblTempTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

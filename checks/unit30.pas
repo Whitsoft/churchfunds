@@ -176,6 +176,8 @@ type
     ZTblXY: TSQLQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure SrcTempChecksDataChange(Sender: TObject; Field: TField);
+    procedure ZTblDPAfterDelete(DataSet: TDataSet);
+    procedure ZTblDPAfterInsert(DataSet: TDataSet);
   private
     { private declarations }
   public
@@ -186,6 +188,7 @@ var
   DataMod: TDataMod;
 
 implementation
+uses accounts;
 
 { TDataMod }
 
@@ -204,6 +207,48 @@ begin
     end;
 end;
 
+procedure TDataMod.ZTblDPAfterDelete(DataSet: TDataSet);
+begin
+  //ZTblDP.Post;
+  ZTblDP.ApplyUpdates;
+  SQLTransactionEZ.commit;
+  ZTblDP.Open;
+  With CheckForm do
+    begin
+       doBalance;
+       DPSumEditClick(CheckForm as TObject);
+       EditCkBalClick(CheckForm as TObject);
+    end;
+end;
+
+procedure TDataMod.ZTblDPAfterInsert(DataSet: TDataSet);
+begin
+      with CheckForm do
+       begin
+         if (EditDPAmnt.Text = '') or (MemoDP.Text = '') or (PDEd.Text = '') then
+           begin
+             ZTblDP.Cancel;
+             SQLTransactionEZ.RollBack;
+             ZTblDP.Open;
+             exit;
+           end;
+          try
+            ZTblDP.FieldByName('AMOUNT').AsFloat := StrToFloat(EditDPAmnt .Text);
+            ZTblDP.FieldByName('MEMO').AsString := MemoDP.Text;
+            ZTblDP.FieldByName('POST_DATE').AsDateTime :=StrToDateTime(PDEd.Text);
+            ZTblDP.Post;
+            ZTblDP.ApplyUpdates;
+            SQLTransactionEZ.Commit;
+            ZTblDP.Open;
+            DPSumEditClick(CheckForm as TObject);
+            EditCkBalClick(CheckForm as TObject);
+          except
+            ZTblDP.Cancel;
+            SQLTransactionEZ.RollBack;
+            ZTblDP.Open;
+          end;
+       end;
+end;
 
 
 //initialization

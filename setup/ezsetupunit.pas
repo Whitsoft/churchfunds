@@ -1549,6 +1549,7 @@ Begin
   //NoteBook.PageIndex:=TabSet1.TabIndex;
   Activated := False;
   Help := TLHelpConnection.Create;
+  //Help.ProcessWhileWaiting := @Application.ProcessMessages;
   EZPClass := TPostscriptClass.Create;
 End;
 
@@ -2959,7 +2960,8 @@ begin
 
     if S <> '' then
       exit;
-    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
+   // if Help.ServerRunning = false then
+       Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
    except
       CloseFile(LogFile);

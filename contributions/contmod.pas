@@ -29,6 +29,7 @@ type
     QueryIsMember: TSQLQuery;
     TableChurch: TSQLQuery;
     SrcMemAll: TDatasource;
+    QueryEnvNo: TSQLQuery;
     TableMem: TSQLQuery;
     SrcNow: TDatasource;
     SrcMem: TDatasource;

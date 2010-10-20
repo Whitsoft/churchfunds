@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="7"/>
+    <Version Value="9"/>
     <General>
       <Flags>
         <SaveClosedFiles Value="False"/>
@@ -10,13 +10,15 @@
       </Flags>
       <MainUnit Value="0"/>
       <AutoCreateForms Value="False"/>
-      <TargetFileExt Value=""/>
       <Title Value="ezsetup"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
-      <ProjectVersion Value=""/>
+      <StringTable ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
       <IgnoreBinaries Value="False"/>
@@ -32,6 +34,7 @@
     <RequiredPackages Count="4">
       <Item1>
         <PackageName Value="lhelpcontrolpkg"/>
+        <MinVersion Minor="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="FCL"/>
@@ -50,11 +53,14 @@
         <Filename Value="ezsetup.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ezsetup"/>
-        <CursorPos X="31" Y="16"/>
-        <TopLine Value="1"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="193"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="18" Y="10"/>
+        <UsageCount Value="194"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="ezsetupunit.pas"/>
@@ -63,11 +69,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <CursorPos X="28" Y="1495"/>
-        <TopLine Value="1480"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="33"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2942"/>
+        <CursorPos X="6" Y="2963"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="setupmod.pas"/>
@@ -76,21 +84,28 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="setupmod"/>
-        <CursorPos X="70" Y="80"/>
-        <TopLine Value="65"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="33"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="70" Y="80"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="8"/>
+    <Version Value="9"/>
     <SearchPaths>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2/;$(LazarusDir)/lcl/units/i386-linux/;../../../churchfunds/trunk/"/>
-      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2/"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2;$(LazarusDir)/lcl/units/i386-linux;../../../churchfunds/trunk"/>
+      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
     </Other>

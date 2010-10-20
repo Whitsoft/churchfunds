@@ -216,7 +216,7 @@ object DataMod: TDataMod
     )
     Params = <>
     left = 64
-    top = 400
+    top = 384
   end
   object SrcSeditCont: TDatasource
     DataSet = TableEditCont
@@ -1006,6 +1006,7 @@ object DataMod: TDataMod
   end
   object QueryNow: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1380,5 +1381,23 @@ object DataMod: TDataMod
     DataSet = TableLabel
     left = 992
     top = 688
+  end
+  object QueryEnvNo: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Database = FBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    SELECT * FROM MEMBERS  M'
+      '    where M.ENV_NO =:EnvParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'EnvParm'
+        ParamType = ptUnknown
+      end>
+    left = 672
+    top = 256
   end
 end

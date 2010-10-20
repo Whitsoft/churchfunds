@@ -3,7 +3,7 @@
 {Make a function to get a last name for search in view pay checks}
 unit accounts;
 {$mode objfpc}{$H+}
-{$R accounts.lfm}
+//{$R accounts.lfm}
 //{$MODE Delphi}
 interface
 
@@ -13,10 +13,12 @@ autor = :autor,
 description = :description
 WHERE id = :id}
 
+
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  LHelpControl,
   StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
-  IBConnection, db, Grids, Calendar, StrUtils, LHelpControl,unit30,NewPSClass, Process;
+  IBConnection, db, Grids, Calendar, StrUtils,unit30,NewPSClass;
 
 type
   PayInfo = record
@@ -50,6 +52,10 @@ type
     AGroupChecks: TGroupBox;
     AGroupPayroll: TGroupBox;
     BtnChkDel: TButton;
+    Label148: TLabel;
+    Label93: TLabel;
+    PayDateLabel: TLabel;
+    PayeeLabel: TLabel;
     PayName: TLabel;
     PayAmountLabel: TLabel;
     BtnDed1: TButton;
@@ -415,8 +421,6 @@ type
 
     procedure AccBalEditMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure AccBalEditMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure AccLabClick(Sender: TObject);
     procedure AGroupPrintClick(Sender: TObject);
     procedure AGroupRetClick(Sender: TObject);
@@ -424,8 +428,13 @@ type
    // function  CallHelp(XY: TPoint): Boolean;
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DPNavClick(Sender: TObject; Button: TDBNavButtonType);
+    procedure DPSumEditChange(Sender: TObject);
+    procedure EditCkBalChange(Sender: TObject);
     procedure EmpLookUpClick(Sender: TObject);
     procedure EmpLookUpDblClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure NoteBookPageChanged(Sender: TObject);
     procedure RetGridDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure FixAccGridDrawColumnCell(Sender: TObject;
@@ -440,7 +449,7 @@ type
               procedure CheckAmountEnter(Sender: TObject);
               procedure NoteBookChangeBounds(Sender: TObject);
     {*}
-    procedure SearchReturn;
+    procedure SearchReturn(Ret: Boolean);
     procedure ShowHelp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure TimerActTimer(Sender: TObject);
@@ -595,6 +604,7 @@ type
     procedure PayLookUpChange(Sender: TObject);
     procedure DPQueryAfterDelete(DataSet: TDataset);
     procedure initDisplay;
+    procedure initOpen;
     function  getGroup:Integer;
     procedure doClearViewPay;
     procedure GetDedType(var D1,D2,D3,D4,D5: Integer);
@@ -697,7 +707,7 @@ const
    HelpFN: String='../help/ezcheckhelp.chm';
    HelpCK: String='./CKHelp';
 var
-  AProcess: TProcess;
+ // AProcess: TProcess;
   CheckForm: TCheckForm;
   Help: TLHelpConnection;
   SocList        :TStringList;
@@ -769,6 +779,7 @@ begin
    ChkBal:=0.0;
    GlobalAct:=False;
    Help := TLHelpConnection.Create;
+   Help.ProcessWhileWaiting := @Application.ProcessMessages;
    SocList:=TStringList.Create;
    EZPSClass := TPostscriptClass.Create;
      EZPSCLass.ClosePrintFile;
@@ -1404,7 +1415,6 @@ begin
       ZQueryDPTotal.Params[1].AsDateTime:=EDate;
       ZQueryDPTotal.Open;
       DPTotal:=ZQueryDPTotal.Fields[0].AsFloat;
-      ZTblBalance.First;
       If ZTblBalance.Active=False then
         ZTblBalance.Open;
       ZTblBalance.First;
@@ -1412,13 +1422,24 @@ begin
             ZTblBalance.FieldByName('BEGBALANCE').AsFloat;
 
       GridDP.Datasource:=DPSrc;
-      BalEd.Text:=Format('%m',[BalTotal]);
-      CheckEd.Text:=Format('%m',[CheckTotal]);
-      ConEd.Text:=Format('%m',[ConTotal]);
-      DPEd.Text:=Format('%m',[DPTotal]);;
       ZTblBalance.Edit;
       ZTblBalance.FieldByName('BALANCE').AsFloat:=BalTotal;
       ZTblBalance.Post;
+      ZTblBalance.ApplyUpdates;
+      DataMod.SQLTransactionEZ.Commit;
+      ZTblBalance.Open;
+      ZTblDP.Open;
+      BalEd.Text:=Format('%m',[BalTotal]);
+      CkBal1.Text := Format('%m',[BalTotal]);
+      EditCkBal.Text := Format('%m',[BalTotal]);
+      PayBal.Text := Format('%m',[BalTotal]);
+      CheckEd.Text:=Format('%m',[CheckTotal]);
+      RetCheckEdit.Text:=Format('%m',[CheckTotal]);
+      ConEd.Text:=Format('%m',[ConTotal]);
+      RetConEdit.Text:=Format('%m',[ConTotal]);
+      DPEd.Text:=Format('%m',[DPTotal]);
+      DPSumEdit.Text := Format('%m',[DPTotal]);
+      RetDPEdit.Text:=Format('%m',[DPTotal]);
     end; //with
 end;
 
@@ -1453,9 +1474,12 @@ procedure TCheckForm.DPSumEditClick(Sender: TObject);
 var
   DPSum: Double;
 begin
+  doBalance;
+  exit;
   DPSum:=0.0;
   With DataMod.ZQueryDP do
     try
+      if not active then open;
       DisableControls;
       first;
         While not EOF do
@@ -1596,6 +1620,7 @@ var
   EndMon:=BegBal+ConSum + DPSum - ChkSum+NotRet;
 
   RetCheckEdit.Text:=FormatFloat('0.00',ChkSum);
+  if not DataMod.ZQueryDP.active then DataMod.ZQueryDP.open;
   DataMod.ZQueryDP.First;
   {DBGrid7.Datasource:=DPSrc; }
   doRetSearch(SDate,EDate);
@@ -1605,7 +1630,7 @@ var
   AccBalEdit.Text:=FormatFloat('0.00',EndMon);
 end;
 
-procedure TCheckForm.SearchReturn;
+procedure TCheckForm.SearchReturn(Ret: Boolean);
 var
   EDate,SDate: TDateTime;
   Year, Month, Day: Word;
@@ -1615,7 +1640,10 @@ begin
   Month:=RetCombo.ItemIndex+1;
   If (Month>0) and (Month<=12) then
      EDate:=EndMonth(Year,Month);
-  SDate:=EncodeDate(1980,1,1);
+  If Ret then
+     SDate:=EncodeDate(StrToInt(EditRetYear.Text),1,1)   //Look for returned checks this year
+  else
+     SDate:=EncodeDate(1980,1,1);         //Look for un-returned checks for ever
   doRetSearch(SDate,EDate);
 end;
 
@@ -1634,14 +1662,14 @@ procedure TCheckForm.NotCheckClick(Sender: TObject);
 begin
   If (NotCheck.Checked=True) and (RetCheck.Checked=True) then
      RetCheck.Checked:=False;
-  SearchReturn;
+  SearchReturn(RetCheck.Checked);
 end;
 
 procedure TCheckForm.RetCheckClick(Sender: TObject);
 begin
   If (RetCheck.Checked=True) and (NotCheck.Checked=True) then
      NotCheck.Checked:=False;
-  SearchReturn;
+  SearchReturn(RetCheck.Checked);
 end;
 
 procedure TCheckForm.BalSrcDataChange(Sender: TObject; Field: TField);
@@ -2557,11 +2585,7 @@ end;
 
 procedure TCheckForm.EditCkBalClick(Sender: TObject);
 begin
-  With DataMod.ZTblBalance do
-    begin
-      First;
-      EditCkBal.Text:=FormatFloat('0.00',FieldByName('Balance').asFloat);
-    end;
+  doBalance;
 end;
 
 procedure TCheckForm.HoursEditKeyPress(Sender: TObject; var Key: Char);
@@ -2682,12 +2706,6 @@ begin
 end;
 
 procedure TCheckForm.AccBalEditMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-
-end;
-
-procedure TCheckForm.AccBalEditMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 
@@ -3368,8 +3386,7 @@ end;
 
 procedure TCheckForm.NoteBookChangeBounds(Sender: TObject);
 begin
-
-end;
+  end;
 
 Procedure PrintSpace(Ct: Integer; Var F:TextFile);
 var
@@ -3935,11 +3952,25 @@ begin
    ShortDateFormat := 'd/m/y';
    SepDate := DateSeparator;
    StrDate := ShortDateFormat;
-   SearchReturn;
+   SearchReturn(RetCheck.Checked);
    EmpLookup.MultiSelect:=false;
+   initOpen;
 end;
 end;
 
+procedure TCheckForm.initOpen;
+begin
+  With DataMod do
+   begin
+     ZTblTempChecks.Open;
+     ZTblTempTrans.Open;
+     ZTblChecks.Open;
+     ZTblCheckTrans.Open;
+     ZQueryTrans.Open;
+     ZTblDP.Open;
+     ZQueryReturn.Open;
+   end;
+end;
 
 procedure TCheckForm.BtnChkDelClick(Sender: TObject);
 begin
@@ -4005,6 +4036,23 @@ begin
            end;
     end;
 end;
+
+procedure TCheckForm.DPNavClick(Sender: TObject; Button: TDBNavButtonType);
+begin
+  if not DataMod.ZTblDP.active then DataMod.ZTblDP.Open;
+end;
+
+procedure TCheckForm.DPSumEditChange(Sender: TObject);
+begin
+
+end;
+
+procedure TCheckForm.EditCkBalChange(Sender: TObject);
+begin
+
+end;
+
+
 
 procedure TCheckForm.EmpLookUpClick(Sender: TObject);
 begin
@@ -4119,6 +4167,15 @@ begin
       end;
     Datamod.ZTblPayroll.close;
     Datamod.ZTblPayroll.open;
+end;
+
+procedure TCheckForm.FormDestroy(Sender: TObject);
+begin
+  Help.free;
+end;
+
+procedure TCheckForm.NoteBookPageChanged(Sender: TObject);
+begin
 end;
 
 Function TCheckForm.ScriptMoney(MLeft,MRite: Integer):String;
@@ -5416,9 +5473,9 @@ begin
   else
      RetSum.Text:=FormatFloat('0.00',GetRet(SDate,EDate,15000));
 
-  With DataMod.ZQuerySumReturn do
+  With DataMod.ZQueryReturn do
      begin
-       DisableControls;
+       //DisableControls;
        Close;
        Params[1].AsDateTime:=SDate;
        Params[2].AsDateTime:=EDate;
@@ -5428,8 +5485,21 @@ begin
           Params[0].AsInteger:=15000;
        Open;
        First;
-
-       EnableControls;
+       //EnableControls;
+    end;
+     With DataMod.ZQuerySumReturn do
+     begin
+       //DisableControls;
+       Close;
+       Params[1].AsDateTime:=SDate;
+       Params[2].AsDateTime:=EDate;
+       If RetCheck.Checked=True then
+          Params[0].AsInteger:=0
+       else
+          Params[0].AsInteger:=15000;
+       Open;
+       First;
+       //EnableControls;
     end;
 end;
 
@@ -5587,7 +5657,8 @@ begin
 
     if S <> '' then
       exit;
-    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
+    if Help.ServerRunning = false then
+    Help.StartHelpServer('lhelpServer', '../help/lhelp');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);
@@ -5673,7 +5744,7 @@ procedure TCheckForm.ShowContext(Sender: TObject; Button: TMouseButton;
 var
   hcontext: Integer;
 begin
-  Label15.Caption:=TComponent(Sender).name;
+ // Label15.Caption:=TComponent(Sender).name;
  if (Button = mbRight) or (Button = mbLeft) then exit;
  CheckHelpOpen;
  hcontext:=TControl(Sender).HelpContext;

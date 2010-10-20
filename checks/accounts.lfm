@@ -19,7 +19,8 @@ object CheckForm: TCheckForm
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '0.9.28.2'
+  OnDestroy = FormDestroy
+  LCLVersion = '0.9.29'
   object NoteBook: TNotebook
     Left = 0
     Height = 917
@@ -32,7 +33,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 10
+    PageIndex = 0
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -63,67 +64,67 @@ object CheckForm: TCheckForm
         end
         object Label14: TLabel
           Left = 28
-          Height = 20
+          Height = 18
           Top = 448
-          Width = 77
+          Width = 72
           Caption = 'Check No.'
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
         object Label15: TLabel
           Left = 31
-          Height = 20
+          Height = 18
           Top = 515
-          Width = 88
+          Width = 83
           Caption = 'Check Date'
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
         object Label16: TLabel
           Left = 31
-          Height = 20
+          Height = 18
           Top = 576
-          Width = 61
+          Width = 57
           Caption = 'Amount'
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
         object Label19: TLabel
           Left = 31
-          Height = 20
+          Height = 18
           Top = 636
-          Width = 47
+          Width = 45
           Caption = 'Memo'
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
         object Label18: TLabel
           Left = 348
-          Height = 20
+          Height = 18
           Top = 515
-          Width = 62
+          Width = 59
           Caption = 'Account'
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
         end
         object Label20: TLabel
           Left = 348
-          Height = 20
+          Height = 18
           Top = 451
-          Width = 54
+          Width = 52
           Caption = 'Vendor'
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -14
           Font.Name = 'System'
           ParentColor = False
           ParentFont = False
@@ -654,6 +655,7 @@ object CheckForm: TCheckForm
           Width = 1016
           HelpContext = 170
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcTempChecks
           Font.Height = -15
           Font.Name = 'System'
@@ -670,6 +672,7 @@ object CheckForm: TCheckForm
           Width = 1016
           HelpContext = 230
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcTempTrans
           Font.Height = -15
           Font.Name = 'System'
@@ -688,6 +691,12 @@ object CheckForm: TCheckForm
           HelpContext = 190
           Anchors = []
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 180
           OnMouseDown = ShowContext
@@ -843,6 +852,12 @@ object CheckForm: TCheckForm
           HelpContext = 260
           Anchors = []
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 180
           Font.Height = -20
@@ -925,6 +940,7 @@ object CheckForm: TCheckForm
           Width = 1136
           HelpContext = 300
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcTempChecks
           Font.Height = -15
           Font.Name = 'System'
@@ -1097,6 +1113,17 @@ object CheckForm: TCheckForm
           ParentColor = False
           ParentFont = False
         end
+        object Label93: TLabel
+          Left = 955
+          Height = 21
+          Top = 62
+          Width = 80
+          Caption = 'Checking'
+          Font.Height = -17
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
         object Panel6: TPanel
           Left = 0
           Height = 372
@@ -1128,9 +1155,9 @@ object CheckForm: TCheckForm
           end
           object PayeeLabel: TLabel
             Left = 83
-            Height = 80
+            Height = 84
             Top = 226
-            Width = 75
+            Width = 79
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1140,9 +1167,9 @@ object CheckForm: TCheckForm
           end
           object PayDateLabel: TLabel
             Left = 390
-            Height = 80
+            Height = 84
             Top = 50
-            Width = 75
+            Width = 79
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1983,6 +2010,12 @@ object CheckForm: TCheckForm
           Width = 217
           HelpContext = 470
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 30
           ClientWidth = 217
           Font.Height = -20
@@ -2001,6 +2034,7 @@ object CheckForm: TCheckForm
           Width = 776
           HelpContext = 520
           AutoEdit = False
+          Columns = <>
           Font.Height = -20
           Font.Name = 'System'
           ParentFont = False
@@ -2522,9 +2556,9 @@ object CheckForm: TCheckForm
       ClientHeight = 882
       object AccLab: TLabel
         Left = 544
-        Height = 86
+        Height = 90
         Top = 398
-        Width = 74
+        Width = 78
         ParentColor = False
         OnClick = AccLabClick
       end
@@ -2662,6 +2696,12 @@ object CheckForm: TCheckForm
           HelpContext = 520
           Anchors = []
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 240
           DataSource = DataMod.CheckingSrc
@@ -2676,6 +2716,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 530
           Anchors = []
+          Columns = <>
           DataSource = DataMod.CheckingSrc
           Font.Height = -15
           Font.Name = 'System'
@@ -2778,6 +2819,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 540
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcCheckTrans
           Font.Height = -15
           Font.Name = 'System'
@@ -3083,6 +3125,7 @@ object CheckForm: TCheckForm
           Width = 952
           HelpContext = 710
           Anchors = []
+          Columns = <>
           DataSource = DataMod.QueryTranSrc
           TabOrder = 9
           TitleFont.Height = -13
@@ -3244,13 +3287,21 @@ object CheckForm: TCheckForm
           HelpContext = 740
           Anchors = []
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 360
+          DataSource = DataMod.DPSrc
+          OnClick = DPNavClick
           OnMouseDown = ShowContext
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbPost, nbCancel]
+          VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbCancel]
         end
         object PDEd: TEdit
           Left = 706
@@ -3318,15 +3369,15 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object DPCanBtn: TButton
-          Left = 978
+          Left = 793
           Height = 31
           Hint = 'Cancel direct post'
-          Top = 645
-          Width = 62
+          Top = 342
+          Width = 50
           HelpContext = 800
           Anchors = []
           AutoSize = True
-          Caption = 'Cancel'
+          Caption = 'Clear'
           Font.Height = -15
           Font.Name = 'System'
           OnClick = DPCanBtnClick
@@ -3346,6 +3397,7 @@ object CheckForm: TCheckForm
           Color = clAqua
           Font.Height = -15
           Font.Name = 'System'
+          OnChange = EditCkBalChange
           OnClick = EditCkBalClick
           OnMouseDown = ShowContext
           ParentFont = False
@@ -3379,6 +3431,8 @@ object CheckForm: TCheckForm
           Width = 704
           HelpContext = 750
           Anchors = []
+          Columns = <>
+          DataSource = DataMod.DPSrc
           Font.Height = -15
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -3447,6 +3501,7 @@ object CheckForm: TCheckForm
             Width = 592
             HelpContext = 840
             Anchors = []
+            Columns = <>
             TabOrder = 0
             TitleFont.Height = -13
             TitleFont.Name = 'System'
@@ -3829,8 +3884,10 @@ object CheckForm: TCheckForm
             DataField = 'CHECKSEED'
             DataSource = DataMod.BalanceSrc
             Anchors = []
+            CharCase = ecNormal
             Font.Height = -15
             Font.Name = 'System'
+            MaxLength = 0
             ParentFont = False
             TabOrder = 0
             OnMouseDown = ShowContext
@@ -4006,6 +4063,15 @@ object CheckForm: TCheckForm
           ParentColor = False
           ParentFont = False
         end
+        object Label148: TLabel
+          Left = 941
+          Height = 20
+          Top = 157
+          Width = 70
+          Anchors = []
+          Caption = 'Returned'
+          ParentColor = False
+        end
         object RetSum: TEdit
           Left = 51
           Height = 29
@@ -4078,6 +4144,8 @@ object CheckForm: TCheckForm
           Width = 1096
           HelpContext = 930
           Anchors = []
+          Columns = <>
+          DataSource = DataMod.RetSrc
           TabOrder = 2
           TitleFont.Height = -13
           TitleFont.Name = 'System'
@@ -4559,6 +4627,7 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
           Sorted = True
           TabOrder = 14
+          TopIndex = -1
         end
         object EditStubDate: TEdit
           Left = 571
