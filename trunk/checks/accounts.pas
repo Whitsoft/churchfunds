@@ -3,6 +3,8 @@
 {Make a function to get a last name for search in view pay checks}
 unit accounts;
 {$mode objfpc}{$H+}
+{$R accounts.lfm}
+
 //{$R accounts.lfm}
 //{$MODE Delphi}
 interface
@@ -779,7 +781,7 @@ begin
    ChkBal:=0.0;
    GlobalAct:=False;
    Help := TLHelpConnection.Create;
-   Help.ProcessWhileWaiting := @Application.ProcessMessages;
+   //Help.ProcessWhileWaiting := @Application.ProcessMessages;   new lhelp version
    SocList:=TStringList.Create;
    EZPSClass := TPostscriptClass.Create;
      EZPSCLass.ClosePrintFile;
@@ -5657,7 +5659,7 @@ begin
 
     if S <> '' then
       exit;
-    if Help.ServerRunning = false then
+   // if Help.ServerRunning = false then    new lhelp version
     Help.StartHelpServer('lhelpServer', '../help/lhelp');
     Help.OpenFile(helpFN);
   except

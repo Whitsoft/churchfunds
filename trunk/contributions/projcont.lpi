@@ -266,10 +266,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1093"/>
-        <CursorPos X="1" Y="1114"/>
+        <TopLine Value="1062"/>
+        <CursorPos X="2" Y="1083"/>
         <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -364,11 +365,10 @@
       <Unit39>
         <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/packages/help/lhelpcontrol.pas"/>
         <UnitName Value="LHelpControl"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="58"/>
-        <CursorPos X="1" Y="79"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -381,70 +381,70 @@
         <UsageCount Value="10"/>
       </Unit40>
     </Units>
-    <JumpHistory Count="22" HistoryIndex="21">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="cont.pas"/>
-        <Caret Line="2185" Column="1" TopLine="2170"/>
+        <Caret Line="2186" Column="1" TopLine="2171"/>
       </Position1>
       <Position2>
         <Filename Value="cont.pas"/>
-        <Caret Line="2186" Column="1" TopLine="2171"/>
+        <Caret Line="2188" Column="1" TopLine="2173"/>
       </Position2>
       <Position3>
         <Filename Value="cont.pas"/>
-        <Caret Line="2188" Column="1" TopLine="2173"/>
+        <Caret Line="2189" Column="1" TopLine="2174"/>
       </Position3>
       <Position4>
         <Filename Value="cont.pas"/>
-        <Caret Line="2189" Column="1" TopLine="2174"/>
+        <Caret Line="2191" Column="1" TopLine="2176"/>
       </Position4>
       <Position5>
         <Filename Value="cont.pas"/>
-        <Caret Line="2191" Column="1" TopLine="2176"/>
+        <Caret Line="958" Column="1" TopLine="943"/>
       </Position5>
       <Position6>
         <Filename Value="cont.pas"/>
-        <Caret Line="958" Column="1" TopLine="943"/>
+        <Caret Line="959" Column="1" TopLine="944"/>
       </Position6>
       <Position7>
         <Filename Value="cont.pas"/>
-        <Caret Line="959" Column="1" TopLine="944"/>
+        <Caret Line="960" Column="1" TopLine="945"/>
       </Position7>
       <Position8>
         <Filename Value="cont.pas"/>
-        <Caret Line="960" Column="1" TopLine="945"/>
+        <Caret Line="2251" Column="1" TopLine="2236"/>
       </Position8>
       <Position9>
         <Filename Value="cont.pas"/>
-        <Caret Line="2251" Column="1" TopLine="2236"/>
+        <Caret Line="942" Column="1" TopLine="927"/>
       </Position9>
       <Position10>
         <Filename Value="cont.pas"/>
-        <Caret Line="942" Column="1" TopLine="927"/>
+        <Caret Line="726" Column="1" TopLine="711"/>
       </Position10>
       <Position11>
         <Filename Value="cont.pas"/>
-        <Caret Line="726" Column="1" TopLine="711"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position11>
       <Position12>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="183" Column="26" TopLine="168"/>
       </Position12>
       <Position13>
         <Filename Value="cont.pas"/>
-        <Caret Line="183" Column="26" TopLine="168"/>
+        <Caret Line="936" Column="44" TopLine="929"/>
       </Position13>
       <Position14>
         <Filename Value="cont.pas"/>
-        <Caret Line="936" Column="44" TopLine="929"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position14>
       <Position15>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="11" Column="51" TopLine="1"/>
       </Position15>
       <Position16>
         <Filename Value="cont.pas"/>
-        <Caret Line="11" Column="51" TopLine="1"/>
+        <Caret Line="340" Column="2" TopLine="330"/>
       </Position16>
       <Position17>
         <Filename Value="cont.pas"/>
@@ -452,24 +452,56 @@
       </Position17>
       <Position18>
         <Filename Value="cont.pas"/>
-        <Caret Line="340" Column="2" TopLine="330"/>
+        <Caret Line="345" Column="15" TopLine="330"/>
       </Position18>
       <Position19>
         <Filename Value="cont.pas"/>
-        <Caret Line="345" Column="15" TopLine="330"/>
+        <Caret Line="1084" Column="2" TopLine="1062"/>
       </Position19>
       <Position20>
         <Filename Value="cont.pas"/>
-        <Caret Line="1084" Column="2" TopLine="1062"/>
+        <Caret Line="1115" Column="6" TopLine="1093"/>
       </Position20>
       <Position21>
         <Filename Value="cont.pas"/>
-        <Caret Line="1115" Column="6" TopLine="1093"/>
+        <Caret Line="1114" Column="1" TopLine="1093"/>
       </Position21>
       <Position22>
+        <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/packages/help/lhelpcontrol.pas"/>
+        <Caret Line="67" Column="36" TopLine="58"/>
+      </Position22>
+      <Position23>
         <Filename Value="cont.pas"/>
         <Caret Line="1114" Column="1" TopLine="1093"/>
-      </Position22>
+      </Position23>
+      <Position24>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position24>
+      <Position25>
+        <Filename Value="cont.pas"/>
+        <Caret Line="11" Column="51" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="cont.pas"/>
+        <Caret Line="345" Column="15" TopLine="324"/>
+      </Position26>
+      <Position27>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1083" Column="58" TopLine="1062"/>
+      </Position27>
+      <Position28>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1098" Column="17" TopLine="1094"/>
+      </Position28>
+      <Position29>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position29>
+      <Position30>
+        <Filename Value="cont.pas"/>
+        <Caret Line="1084" Column="87" TopLine="1063"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
