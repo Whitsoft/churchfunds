@@ -15,7 +15,7 @@ object FormSetup: TFormSetup
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '0.9.28.2'
+  LCLVersion = '0.9.29'
   object Label80: TLabel
     Left = 435
     Height = 25
@@ -76,6 +76,7 @@ object FormSetup: TFormSetup
           Width = 712
           HelpContext = 170
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcFundGroups
           TabOrder = 0
           TitleFont.Height = -13
@@ -119,6 +120,7 @@ object FormSetup: TFormSetup
           Width = 657
           HelpContext = 200
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcGroup
           TabOrder = 0
           TitleFont.Height = -13
@@ -269,6 +271,7 @@ object FormSetup: TFormSetup
           Width = 1040
           HelpContext = 220
           Anchors = []
+          Columns = <>
           DataSource = DataMod.AccSrc
           TabOrder = 4
           TitleFont.Height = -13
@@ -364,6 +367,7 @@ object FormSetup: TFormSetup
           Width = 930
           HelpContext = 290
           Anchors = []
+          Columns = <>
           DataSource = DataMod.SrcFunds
           TabOrder = 1
           TitleFont.Height = -13
@@ -470,6 +474,7 @@ object FormSetup: TFormSetup
           Width = 624
           HelpContext = 330
           Anchors = []
+          Columns = <>
           DataSource = DataMod.VendSrc
           TabOrder = 3
           TitleFont.Height = -13
@@ -514,6 +519,7 @@ object FormSetup: TFormSetup
           HelpContext = 410
           Anchors = []
           Color = clAqua
+          Columns = <>
           DataSource = DataMod.PaySrc
           Font.Height = -16
           Font.Name = 'System'
@@ -1596,6 +1602,12 @@ object FormSetup: TFormSetup
           HelpContext = 810
           Anchors = []
           BevelOuter = bvNone
+          ChildSizing.EnlargeHorizontal = crsScaleChilds
+          ChildSizing.EnlargeVertical = crsScaleChilds
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 100
           ClientHeight = 32
           ClientWidth = 220
           OnMouseDown = ShowContext
@@ -1610,6 +1622,7 @@ object FormSetup: TFormSetup
           HelpContext = 800
           Anchors = []
           Color = clAqua
+          Columns = <>
           Font.Height = -16
           Font.Name = 'System'
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -1651,7 +1664,7 @@ object FormSetup: TFormSetup
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 102
+          ClientHeight = 85
           ClientWidth = 189
           Font.Height = -15
           Font.Name = 'System'

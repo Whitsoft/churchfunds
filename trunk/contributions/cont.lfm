@@ -13,7 +13,7 @@ object FormCont: TFormCont
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '0.9.28.2'
+  LCLVersion = '0.9.29'
   object NotebookCont: TNotebook
     Left = 0
     Height = 801
@@ -24,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 7
+    PageIndex = 3
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -174,6 +174,7 @@ object FormCont: TFormCont
           Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
+          OnExit = EditSrchEnvExit
           OnKeyDown = EditSrchEnvKeyDown
           OnKeyPress = EditSrchEnvKeyPress
           OnMouseDown = ShowContext
@@ -246,6 +247,7 @@ object FormCont: TFormCont
           Top = 428
           Width = 701
           HelpContext = 90
+          Columns = <>
           DataSource = DataMod.SrcEditEnv
           Font.Height = -15
           Font.Name = 'System'
@@ -289,7 +291,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 87
+          ClientHeight = 70
           ClientWidth = 172
           Font.Height = -15
           Font.Name = 'System'
@@ -308,6 +310,8 @@ object FormCont: TFormCont
           Top = 76
           Width = 355
           HelpContext = 130
+          Columns = <>
+          DataSource = DataMod.SrcNow
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
@@ -354,6 +358,7 @@ object FormCont: TFormCont
           Width = 864
           HelpContext = 160
           Color = clAqua
+          Columns = <>
           DataSource = DataMod.SrcEditDetail
           Font.Height = -17
           Font.Name = 'System'
@@ -412,6 +417,7 @@ object FormCont: TFormCont
           Width = 745
           HelpContext = 180
           Color = clAqua
+          Columns = <>
           DataSource = DataMod.SrcSeditCont
           Font.Color = clBlack
           Font.Height = -17
@@ -579,6 +585,7 @@ object FormCont: TFormCont
           Width = 601
           HelpContext = 260
           Color = clAqua
+          Columns = <>
           DataSource = DataMod.SrcPledge
           Font.Height = -15
           Font.Name = 'System'
@@ -698,8 +705,7 @@ object FormCont: TFormCont
           Width = 231
           HelpContext = 280
           ItemHeight = 0
-          OnClick = LookUpEnvClick
-          OnKeyPress = LookUpEnvKeyPress
+          OnChange = LookUpEnvChange
           OnMouseDown = ShowContext
           TabOrder = 7
         end
@@ -897,6 +903,7 @@ object FormCont: TFormCont
           Width = 760
           HelpContext = 410
           Color = clAqua
+          Columns = <>
           DataSource = DataMod.SrcQPledge
           Font.Height = -17
           Font.Name = 'System'
@@ -1239,7 +1246,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 101
+          ClientHeight = 84
           ClientWidth = 220
           Font.Height = -15
           Font.Name = 'System'
@@ -1267,7 +1274,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclTopToBottomThenLeftToRight
           ChildSizing.ControlsPerLine = 2
-          ClientHeight = 100
+          ClientHeight = 83
           ClientWidth = 244
           Font.Height = -15
           Font.Name = 'System'
@@ -1398,7 +1405,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 150
+          ClientHeight = 133
           ClientWidth = 221
           Font.Height = -15
           Font.Name = 'System'
@@ -1467,17 +1474,6 @@ object FormCont: TFormCont
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 6
-        end
-        object DBComboBox1: TDBComboBox
-          Left = 594
-          Height = 31
-          Top = 288
-          Width = 156
-          DataField = 'DETAIL_FUND_NO'
-          DataSource = DataMod.FundSrc
-          ItemHeight = 0
-          MaxLength = 0
-          TabOrder = 7
         end
       end
     end
@@ -1747,6 +1743,7 @@ object FormCont: TFormCont
           Top = 304
           Width = 544
           HelpContext = 730
+          Columns = <>
           DataSource = DataMod.SrcLabel
           TabOrder = 9
           TitleFont.Height = -16

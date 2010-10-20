@@ -17,7 +17,6 @@ type
   TFormCont = class(TForm)
     BtnPrintAll: TButton;
     CheckBoxPostNet: TCheckBox;
-    DBComboBox1: TDBComboBox;
     Label47: TLabel;
     NotebookCont: TNotebook;
     PageEntry: TPage;
@@ -161,10 +160,15 @@ type
     procedure BtnLabelClick(Sender: TObject);
     procedure BtnPrintAllClick(Sender: TObject);
     procedure CheckBoxPostNetChange(Sender: TObject);
+    procedure DBNameGridColEnter(Sender: TObject);
+    procedure DBNameGridSelectEditor(Sender: TObject; Column: TColumn;
+      var Editor: TWinControl);
     procedure EditFromDateExit(Sender: TObject);
+    procedure EditSrchEnvExit(Sender: TObject);
     procedure EditToDateExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure LabelBoxClick(Sender: TObject);
+    procedure LookUpEnvChange(Sender: TObject);
     procedure RadioCashClick(Sender: TObject);
     procedure ScaleScreen;
     function  getValues(IDX,IDY: Integer):Integer;
@@ -174,13 +178,14 @@ type
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure srchEnvelope;
+    procedure SrcSeditContDataChange(Sender: TObject; Field: TField);
     procedure sumCont;
     procedure findContributor(Env: String);
   //  procedure LabelChange(Lab: Integer);
    // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     procedure upPledgeList(EnvNo,Title,FName,GName: String);
 
-    procedure FindPledge;
+    procedure FindPledge(Env: Integer);
     procedure doEnvKey(Key: Char);
     function  TitleOK(Title: String): Boolean;
     function  GetInt(INStr: String): Integer;
@@ -530,13 +535,17 @@ begin
        else
          FieldByName('TYPE').AsString:='C';
        Post;
+       ApplyUpdates;
+       DataMod.SQLTransactionEZ.commit;
        Result:=True;
      end;
  except
    ShowMessage('Error: Check your entries.');
+   DataMod.SQLTransactionEZ.RollBack;
    Result:=False;
  end;
   EditSrchEnv.SetFocus;
+  DataMod.TableEditEnv.Open;
 end;
 
 procedure TFormCont.getLabels;
@@ -915,19 +924,40 @@ begin
   TitleCombo.SetFocus;
 end;
 
-procedure TFormCont.FindPledge;
+procedure TFormCont.FindPledge(Env: Integer);
+var
+  EnvNo, Fund: Integer;
+  FundDescript: String;
 begin
- With DataMod.QueryPledge do
-   If GridPledge.Cells[1,1]<>'' then
+ With DataMod.QueryEnvPledge do
+   If Env >= 0 then
       begin
         Close;
-        Params[0].AsInteger:=StrToInt(GridPledge.Cells[1,1]);
+        Params[0].AsInteger:=Env;
         Open;
+        try
+           If not GlobRun then exit;
+           GridPledge.Cells[1,1]:=IntToStr(Env);
+           Fund:=FieldByName('FUND').AsInteger;
+           FundDescript := getDetailDesc(Fund);
+              If FundDescript <> '' then
+              GridPledge.Cells[1,2]:= DataMod.QueryDetail.FieldByName('DETAIL_FUND_NO').AsString;
+           If FieldByName('TYPE').AsString='A' then
+              GridPledge.Cells[1,3]:='Annual'
+           else
+              GridPledge.Cells[1,3]:='Fixed';
+           GridPledge.Cells[1,4]:=DateToStr(FieldByName('BDATE').AsDateTime);
+           GridPledge.Cells[1,5]:=DateToStr(FieldByName('EDATE').AsDateTime);
+           GridPledge.Cells[1,6]:=FieldByName('Amount').AsString;
+           GridPledge.SetFocus;
+           GridPledge.Row:=6;
+          // findContributor(Env);
+      except
       end;
+    end;
    GridPledge.SetFocus;
    GridPledge.Row:=4;
 end;
-
 
 procedure TFormCont.BtnPrintClick(Sender: TObject);
 var
@@ -1051,6 +1081,7 @@ begin
   {LabelList.Create;
   EditList.Create;}
   Help := TLHelpConnection.Create;
+  Help.ProcessWhileWaiting := @Application.ProcessMessages;
   EZPClass := TPostscriptClass.Create;
  // Application.OnMessage:=AppMessage;
 end;
@@ -1080,7 +1111,8 @@ begin
       exit;
     Rewrite(LogFile);
     Writeln(LogFile, A);
-    Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
+    if Help.ServerRunning = false then
+      Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
     Help.OpenFile(helpFN);
   except
       CloseFile(LogFile);
@@ -1527,6 +1559,7 @@ begin
        GridSrchEnv.Visible:=True;
        EditEnv.SetFocus;
      end;
+    SrchEnvelope;
 end;
 
 procedure TFormCont.TitleComboChange(Sender: TObject);
@@ -1881,10 +1914,18 @@ begin
 end;
 
 procedure TFormCont.DBNameGridDblClick(Sender: TObject);
+var
+  IDX, envNo: Integer;
 begin
-  With DataMod.TableEnvNo do
+   IDX := DBNameGrid.selectedIndex;
+   If IDX <> 0 then exit;
+   EnvNo := DBNameGrid.SelectedField.AsInteger;
+  With DataMod.QueryEnvNo do
     try
-      GridEditEnv.Cells[1,1]:=IntToStr(FieldByName('ENV_NO').AsInteger);
+      close;
+      Params[0].AsInteger := EnvNo;
+      open;
+      GridEditEnv.Cells[1,1]:=IntToStr(EnvNo);
       GridEditEnv.Cells[1,2]:=FieldByName('TITLE').AsString;
       GridEditEnv.Cells[1,3]:=FieldByName('FNAME').AsString;
       GridEditEnv.Cells[1,4]:=FieldByName('NAME').AsString;
@@ -1951,39 +1992,11 @@ begin
 end;
 
 procedure TFormCont.LookUpEnvClick(Sender: TObject);
-var
-  EnvNo: Integer;
 begin
- try
-   EnvNo:=GetInt(LookUpEnv.Text);
-   If EnvNo>0 then
-     begin
-       GridPledge.Cells[1,1]:=IntToStr(EnvNo);
-       FindPledge;
-     end;
- except
- end;
 end;
 
 procedure TFormCont.LookUpEnvKeyPress(Sender: TObject; var Key: Char);
-var
-  EnvNo: Integer;
 begin
-   If Key<>#13 then exit;
-   EnvNo:=GetInt(LookUpEnv.Text);
-   If EnvNo<=0 then exit;
-   With DataMod.QueryEnvPledge do
-     begin
-       close;
-       params[0].AsInteger := EnvNo;
-       open;
-       If FieldByName('ENV_NO').AsInteger = EnvNo then
-         begin
-           GridPledge.Cells[1,1]:=DataMod.TableEnvNo.FieldByName('ENV_NO').AsString;
-           LookupEnv.Text:=findName(EnvNo);
-           FindPledge;
-         end;
-     end;    
 end;
 
 procedure TFormCont.FunAccBoxClick(Sender: TObject);
@@ -2005,6 +2018,7 @@ begin
   If ComboPledgeFund.Text='' then
     begin
       ComboPledgeFund.SetFocus;
+
       Exit;
     end;
   I:=GetInt(ComboPledgeFund.Text);
@@ -2223,6 +2237,21 @@ begin
     end;
 end;
 
+procedure TFormCont.LookUpEnvChange(Sender: TObject);
+  var
+  EnvNo: Integer;
+begin
+ try
+   EnvNo:=GetInt(LookUpEnv.Text);
+   If EnvNo>0 then
+     begin
+       GridPledge.Cells[1,1]:=IntToStr(EnvNo);
+       FindPledge(EnvNo);
+     end;
+ except
+ end;
+end;
+
 procedure TFormCont.RadioCashClick(Sender: TObject);
 begin
 
@@ -2278,9 +2307,28 @@ begin
 
 end;
 
+
+procedure TFormCont.DBNameGridColEnter(Sender: TObject);
+begin
+
+end;
+
+procedure TFormCont.DBNameGridSelectEditor(Sender: TObject; Column: TColumn;
+  var Editor: TWinControl);
+begin
+
+end;
+
+
+
 procedure TFormCont.EditFromDateExit(Sender: TObject);
 begin
   EditFromDate.Text := FormatDate(EditFromDate.Text);
+end;
+
+procedure TFormCont.EditSrchEnvExit(Sender: TObject);
+begin
+
 end;
 
 procedure TFormCont.EditToDateExit(Sender: TObject);
@@ -2898,6 +2946,11 @@ begin
       end;
   except
   end;
+end;
+
+procedure TFormCont.SrcSeditContDataChange(Sender: TObject; Field: TField);
+begin
+
 end;
 
 procedure TFormCont.GridSrchEnvDblClick(Sender: TObject);
