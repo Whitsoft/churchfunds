@@ -1081,7 +1081,7 @@ begin
   {LabelList.Create;
   EditList.Create;}
  Help := TLHelpConnection.Create;
- // Help.ProcessWhileWaiting := @Application.ProcessMessages; new version of lhelp
+  //Help.ProcessWhileWaiting := @Application.ProcessMessages; new version of lhelp
   EZPClass := TPostscriptClass.Create;
  // Application.OnMessage:=AppMessage;
 end;
