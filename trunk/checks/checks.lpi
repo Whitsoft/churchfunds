@@ -27,24 +27,21 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="lhelpcontrolpkg"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item3>
-      <Item4>
         <PackageName Value="SQLDBLaz"/>
         <MinVersion Major="1" Release="1" Valid="True"/>
-      </Item4>
+      </Item3>
     </RequiredPackages>
-    <Units Count="34">
+    <Units Count="42">
       <Unit0>
         <Filename Value="checks.pas"/>
         <IsPartOfProject Value="True"/>
@@ -52,7 +49,7 @@
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="39" Y="11"/>
+        <CursorPos X="49" Y="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -77,7 +74,7 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="43" Y="5"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -185,9 +182,9 @@
         <UnitName Value="accounts"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5642"/>
-        <CursorPos X="1" Y="5663"/>
-        <UsageCount Value="29"/>
+        <TopLine Value="5523"/>
+        <CursorPos X="1" Y="5556"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit17>
@@ -245,8 +242,8 @@
         <Filename Value="../../../fpc/fpc_svn/packages/chm/src/chmreader.pas"/>
         <UnitName Value="chmreader"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <TopLine Value="462"/>
+        <CursorPos X="1" Y="483"/>
         <UsageCount Value="13"/>
       </Unit24>
       <Unit25>
@@ -291,12 +288,10 @@
       <Unit30>
         <Filename Value="../contributions/projcont.pas"/>
         <UnitName Value="projcont"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="2" Y="13"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="../../contributions/projcont.pas"/>
@@ -309,100 +304,220 @@
       <Unit32>
         <Filename Value="../contributions/cont.pas"/>
         <UnitName Value="cont"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="4"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit32>
       <Unit33>
         <Filename Value="../help/lhelpcontrol.pas"/>
         <UnitName Value="LHelpControl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../help/chelp.pas"/>
+        <ComponentName Value="HelpForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="chelp"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="43"/>
-        <CursorPos X="1" Y="64"/>
+        <TopLine Value="399"/>
+        <CursorPos X="1" Y="423"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit33>
+        <LoadedDesigner Value="True"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../../pascal/TestLaz/unittestchm.pas"/>
+        <UnitName Value="Unittestchm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="102"/>
+        <CursorPos X="78" Y="103"/>
+        <UsageCount Value="10"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/widgetset/wsproc.pp"/>
+        <UnitName Value="WSProc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="24"/>
+        <CursorPos X="24" Y="32"/>
+        <UsageCount Value="10"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../../checks/accounts.pas"/>
+        <UnitName Value="accounts"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5441"/>
+        <CursorPos X="1" Y="5482"/>
+        <UsageCount Value="10"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../../../lazarus/lazarus_svn/ide/sourcemarks.pas"/>
+        <UnitName Value="SourceMarks"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="291"/>
+        <CursorPos X="16" Y="299"/>
+        <UsageCount Value="10"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../../../lazarus/lazarus_svn/components/turbopower_ipro/iphtmlpv.pas"/>
+        <UnitName Value="IpHtmlPv"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/packages/help/chelp.pas"/>
+        <UnitName Value="chelp"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="68" Y="6"/>
+        <UsageCount Value="10"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/packages/help/lhelpcontrol.pas"/>
+        <UnitName Value="LHelpControl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="41" Y="5"/>
+        <UsageCount Value="20"/>
+      </Unit41>
     </Units>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="checks.pas"/>
-        <Caret Line="15" Column="1" TopLine="1"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="100" Column="24" TopLine="79"/>
       </Position1>
       <Position2>
-        <Filename Value="checks.pas"/>
-        <Caret Line="16" Column="1" TopLine="1"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="101" Column="26" TopLine="79"/>
       </Position2>
       <Position3>
-        <Filename Value="checks.pas"/>
-        <Caret Line="3" Column="21" TopLine="1"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="107" Column="22" TopLine="79"/>
       </Position3>
       <Position4>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="773" Column="32" TopLine="752"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="166" Column="15" TopLine="145"/>
       </Position4>
       <Position5>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="172" Column="36" TopLine="145"/>
       </Position5>
       <Position6>
         <Filename Value="accounts.pas"/>
-        <Caret Line="19" Column="8" TopLine="1"/>
+        <Caret Line="5506" Column="3" TopLine="5506"/>
       </Position6>
       <Position7>
         <Filename Value="accounts.pas"/>
-        <Caret Line="428" Column="25" TopLine="407"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position7>
       <Position8>
         <Filename Value="accounts.pas"/>
-        <Caret Line="712" Column="15" TopLine="691"/>
+        <Caret Line="714" Column="8" TopLine="693"/>
       </Position8>
       <Position9>
         <Filename Value="accounts.pas"/>
-        <Caret Line="782" Column="83" TopLine="760"/>
+        <Caret Line="5489" Column="62" TopLine="5482"/>
       </Position9>
       <Position10>
         <Filename Value="accounts.pas"/>
-        <Caret Line="2638" Column="17" TopLine="2617"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position10>
       <Position11>
         <Filename Value="accounts.pas"/>
-        <Caret Line="2642" Column="30" TopLine="2617"/>
+        <Caret Line="653" Column="26" TopLine="632"/>
       </Position11>
       <Position12>
         <Filename Value="accounts.pas"/>
-        <Caret Line="2681" Column="61" TopLine="2660"/>
+        <Caret Line="5544" Column="33" TopLine="5523"/>
       </Position12>
       <Position13>
         <Filename Value="accounts.pas"/>
-        <Caret Line="5647" Column="24" TopLine="5640"/>
+        <Caret Line="5555" Column="1" TopLine="5523"/>
       </Position13>
       <Position14>
         <Filename Value="accounts.pas"/>
-        <Caret Line="6" Column="13" TopLine="1"/>
+        <Caret Line="5556" Column="1" TopLine="5523"/>
       </Position14>
       <Position15>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="778" Column="1" TopLine="757"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="376" Column="1" TopLine="355"/>
       </Position15>
       <Position16>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="5663" Column="1" TopLine="5642"/>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="431" Column="1" TopLine="410"/>
       </Position16>
+      <Position17>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="378" Column="1" TopLine="357"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="379" Column="1" TopLine="357"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="381" Column="1" TopLine="357"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="386" Column="1" TopLine="357"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="388" Column="1" TopLine="357"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="395" Column="1" TopLine="373"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="409" Column="1" TopLine="387"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="412" Column="1" TopLine="387"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="413" Column="1" TopLine="387"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="414" Column="1" TopLine="387"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="415" Column="1" TopLine="387"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="416" Column="1" TopLine="387"/>
+      </Position28>
+      <Position29>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="417" Column="1" TopLine="387"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../help/chelp.pas"/>
+        <Caret Line="421" Column="1" TopLine="399"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)/lcl/include"/>
-      <Libraries Value="/usr/local/lib/fpc/2.5.1/"/>
-      <OtherUnitFiles Value="../help"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../help;../../../lazarus/lazarus_svn/components/chmhelp/lhelp;../../../lazarus/lazarus_svn/components/printers/lib/i386-linux/gtk2;../../../lazarus/lazarus_svn/components/turbopower_ipro;../../../lazarus/lazarus_svn/components/chmhelp/packages/help"/>
       <UnitOutputDirectory Value="/home/don/churchfunds/trunk/checks"/>
-      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/lcl;$(LazarusDir)/lcl/interfaces/$(LCLWidgetType)"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -429,31 +544,27 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="6">
+    <BreakPoints Count="5">
       <Item1>
         <Source Value="accounts.pas"/>
-        <Line Value="2113"/>
+        <Line Value="1461"/>
       </Item1>
       <Item2>
-        <Source Value="accounts.pas"/>
-        <Line Value="1479"/>
-      </Item2>
-      <Item3>
         <Source Value="lhelpcontrol.pas"/>
         <Line Value="64"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <Source Value="../../../fpc/packages/fcl-process/src/unix/simpleipc.inc"/>
         <Line Value="139"/>
+      </Item3>
+      <Item4>
+        <Source Value="accounts.pas"/>
+        <Line Value="5555"/>
       </Item4>
       <Item5>
-        <Source Value="../../../fpc/fpc_svn/packages/chm/src/chmreader.pas"/>
-        <Line Value="483"/>
+        <Source Value="../help/chelp.pas"/>
+        <Line Value="421"/>
       </Item5>
-      <Item6>
-        <Source Value="accounts.pas"/>
-        <Line Value="778"/>
-      </Item6>
     </BreakPoints>
     <Watches Count="2">
       <Item1>

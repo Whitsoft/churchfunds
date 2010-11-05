@@ -7,7 +7,7 @@ interface
 
 Uses
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
+StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp,
 IBConnection, db, Grids, Calendar, StrUtils, LHelpControl, newpsclass, Keyboard;
 
 type
@@ -170,10 +170,6 @@ type
     procedure LabelBoxClick(Sender: TObject);
     procedure LookUpEnvChange(Sender: TObject);
     procedure RadioCashClick(Sender: TObject);
-    procedure ScaleScreen;
-    function  getValues(IDX,IDY: Integer):Integer;
-    function  IndexOfName(IName: String;ArrDex: Integer): Integer;
-    function  getGroup:Integer;
     function  findName(EnvNo: Integer): String;
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -185,6 +181,7 @@ type
    // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     procedure upPledgeList(EnvNo,Title,FName,GName: String);
 
+    procedure OpenAfterPost;
     procedure FindPledge(Env: Integer);
     procedure doEnvKey(Key: Char);
     function  TitleOK(Title: String): Boolean;
@@ -314,8 +311,6 @@ type
     procedure setConTabs;
     procedure setMonthDayTabs;
     procedure CheckHelpOpen;
-    procedure ShowHelp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
    procedure initPledges;
    procedure initfunds;
    { procedure ConReportHeader;
@@ -337,12 +332,11 @@ type
   {procedure ShowOrdinal (pti: PTypeInfo; sList: TStrings);
   procedure ListEnum (pti: PTypeInfo; sList: TStrings);  }
 const
-   HelpFN: String='../help/ezconthelp.chm';
-   HelpCK: String='./CKHelp';
+   HelpFN: String='../help/ezcont.chm';
 
 var
   FormCont: TFormCont;
-  Help: TLHelpConnection;
+  HForm: THelpForm;
   LogFile: Text;
   Activated: Boolean;
   EZPClass: TPostScriptClass;
@@ -359,8 +353,6 @@ var
   GlobFrom,GlobThru: String;
   GlobEnv: Integer;
   GlobTitle,GlobName,GlobFName: String;
-  HelpArr: array[0..7] of TStringList;
-  ContainerArr: array[0..7] of TWinControl;
   GroupTotal,GroupTotalYear,ReportTotal,ReportTotalYear: Double;
   CashGroupTotal,CashReportTotal: Double;
 
@@ -544,9 +536,9 @@ begin
    DataMod.SQLTransactionEZ.RollBack;
    Result:=False;
  end;
-  EditSrchEnv.SetFocus;
-  DataMod.TableEditEnv.Open;
-end;
+   OpenAfterPost;
+   EditSrchEnv.SetFocus;
+ end;
 
 procedure TFormCont.getLabels;
 var
@@ -562,23 +554,12 @@ begin
       end;
 end;
 
-procedure clearlogfile(fname: String);
-begin
-   try
-    AssignFile(LogFile,fname);
-    Rewrite(LogFile);
-    CloseFile(LogFile);
-  finally
-  end;
-end;
-
 procedure TFormCont.FormActivate(Sender: TObject);
 var
   Year, Month, Day: Word;
  begin
    if activated then exit;
    Activated := true;
-   clearlogfile(HelpCK);
    If GlobRun then exit;
   // ScaleScreen;
    WindowState := wsNormal;
@@ -695,8 +676,6 @@ var
       end;
    initPledges;
    initFunds;
-  AssignFile(LogFile,HelpCK);
-  Rewrite(LogFile);
   {ShowOrdinal(PTypeInfo(TypeInfo(TLabelBrand)),LabelBox.Items);  }
 end;
 
@@ -1078,62 +1057,40 @@ begin
   GlobFrom:='';
   GlobThru:='';
   ConList:=TStringList.Create;
-  {LabelList.Create;
-  EditList.Create;}
- Help := TLHelpConnection.Create;
-  //Help.ProcessWhileWaiting := @Application.ProcessMessages; new version of lhelp
   EZPClass := TPostscriptClass.Create;
- // Application.OnMessage:=AppMessage;
 end;
 
 procedure TFormCont.FormDestroy(Sender: TObject);
 var
   IDX: Integer;
 begin
-  For IDX:=0 to 8 do
-    HelpArr[IDX].Free;
   ConList.Free;
-  {LabelList.Free;  }
 end;
 
 procedure TFormCont.CheckHelpOpen;
-var
-  S: String;
-  A: String;
 begin
-  A := 'ACTIVE';
-  try
-    AssignFile(LogFile,HelpCK);
-    Reset(LogFile);
-    Readln(LogFile,S);
+  if HForm <> nil then
+    if not HForm.visible then
+       HForm.visible := true;
 
-    if S <> '' then
-      exit;
-    Rewrite(LogFile);
-    Writeln(LogFile, A);
-    //if Help.ServerRunning = false then new version of lhelp
-      Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
-    Help.OpenFile(helpFN);
-  except
-      CloseFile(LogFile);
-  end;
+  if HForm = nil then
+       HForm := THelpForm.Create(Self);
+  HForm.ShowOnTop;
 end;
 
-procedure TFormCont.ShowHelp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
 
-end;
-
-procedure TFormCOnt.ShowContext(Sender: TObject; Button: TMouseButton;
+procedure TFormCont.ShowContext(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   hcontext: Integer;
+  URL: String;
 begin
+  URL := 'file://'+HelpFN;
  if (Button = mbRight) or (Button = mbLeft) then exit;
-   CheckHelpOpen;
+ CheckHelpOpen;
  hcontext:=TControl(Sender).HelpContext;
- Help.OpenContext(helpFN,hContext);
+ If HForm <> nil then
+    HForm.OpenUrl(Url,hContext);
 end;
 
 procedure TFormCont.LastDateP(var Str2: String);
@@ -2122,26 +2079,6 @@ begin
 end;
 
 
-function TFormCont.getGroup:Integer;
-var
-  IDX: Integer;
-begin
-  IDX:=NoteBookCont.PageIndex;
-  Case IDX of
-    0: result:=AGroupCont.HelpContext;
-    1: result:=AGroupFunds.HelpContext;
-    2: result:=AGroupTors.HelpContext;
-    3: result:=AGroupPledge.HelpContext;
-    4: result:=AGroupQuery.HelpContext;
-    5: result:=AGroupRep.HelpContext;
-    6: result:=AGroupSum.HelpContext;
-    7: result:=AGroupLabel.HelpContext;
-   else
-     result:=-1;
-   end;
-
-end;
-
 {procedure TFormCont.AppMessage(var Msg: TMsg; var Handled: Boolean);
 begin
   If msg.message = wm_RBUTTONDOWN then
@@ -2338,8 +2275,6 @@ end;
 
 procedure TFormCont.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-   CloseFile(LogFile);
-   Help.Destroy;
 end;
 
 procedure TFormCont.BtnLabelClick(Sender: TObject);
@@ -2861,42 +2796,6 @@ begin
     end;
 end;
 
-function TFormCont.IndexOfName(IName: String; ArrDex: Integer): Integer;
-var
-  IX,IY,Equal,St,En: Integer;
-  SubStr: String;
-begin
-  Result:=-1;
-  With HelpArr[ArrDex] do
-     For IX:=0 to HelpArr[ArrDex].Count-1 do
-       begin
-         SubStr:=HelpArr[ArrDex].Strings[IX];
-         Equal:=Pos('=',SubStr);
-         If IName=copy(SubStr,1,Equal-1) then
-           begin
-             Result:=IX;
-             Exit;
-           end;
-       end;
-end;
-
-function TFormCont.getValues(IDX,IDY: Integer):Integer;
-var
-  Str1,Str2: String;
-  Equal: Integer;
-begin
-  With HelpArr[IDY] do
-     begin
-        Str1:=Strings[IDX];
-        Equal:=Pos('=',Str1);
-        Str2:=Copy(Str1,Equal+1,32);
-        try
-          Result:=StrToInt(Str2);
-        except
-          Result:=-1;
-        end;
-    end;
-end;
 
 procedure TFormCont.GridQueryDrawDataCell(Sender: TObject; const Rect: TRect;
   Field: TField; State: TGridDrawState);
@@ -3009,26 +2908,6 @@ begin
   Result := Res;
 end;
 
-procedure TFormCont.ScaleScreen;
-var
-  X,Y: Integer;
-  NewX,NewY: Double;
-begin
-{  FormCont.Scaled:=True;
-  X:=getSystemMetrics(SM_CXSCREEN);
-  Y:=getSystemMetrics(SM_CYSCREEN);
-  NewX:=100.0*(FormCont.Width/X);
-  NewY:=100.0*(FormCont.Height/Y);
-  If NewX>=NewY then
-     ScaleControls(100,trunc(NewX))
-  else
-     ScaleControls(100,trunc(NewY));
-  if (X<>Screen.Height) or (Y<>Screen.Width) then
-    begin
-      FormCont.Height:=FormCont.Height*X DIV Screen.Width;
-      FormCont.Width:=FormCont.Width*Y DIV Screen.Height;
-    end; }
-end;
 
 procedure TFormCont.initPledges;
 var
@@ -3067,6 +2946,19 @@ begin
       end;
 end;
 
+procedure TFormCont.OpenAfterPost;
+begin
+   With DataMod do
+     begin
+       TableEditDetail.Open;
+       TableEditCont.Open;
+       TablePledge.Open;
+       TableLabel.Open;
+       TableCont.Open;
+       TableEditEnv.Open;
+       QueryPledge.Open;
+     end;
+end;
 
 procedure TFormCont.ComboDetailChange(Sender: TObject);
 begin

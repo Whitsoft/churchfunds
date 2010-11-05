@@ -2,7 +2,7 @@ object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
   HorizontalOffset = 71
-  VerticalOffset = 322
+  VerticalOffset = 239
   Width = 1215
   object QueryTranSrc: TDatasource
     DataSet = ZQueryTrans
@@ -10,7 +10,6 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -95,7 +94,6 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryAccChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -127,7 +125,6 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryEmpSum: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -163,7 +160,6 @@ object DataMod: TDataMod
     top = 472
   end
   object ZQueryTranAcc: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -201,7 +197,6 @@ object DataMod: TDataMod
     top = 616
   end
   object ZQueryDPTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -226,7 +221,6 @@ object DataMod: TDataMod
     top = 24
   end
   object ZQuerySumReturn: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -261,7 +255,6 @@ object DataMod: TDataMod
     top = 344
   end
   object ZQueryAccType: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -292,7 +285,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryPayroll: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -311,7 +303,6 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryCheckSum: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -356,7 +347,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryCheckTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -381,7 +371,6 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryLiabTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -451,7 +440,6 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryDelTempTran: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -472,7 +460,6 @@ object DataMod: TDataMod
     top = 624
   end
   object ZQuerySumTempChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -583,7 +570,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryPayAcc: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -747,7 +733,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryVoidChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -761,7 +746,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryPayStubs: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -785,7 +769,6 @@ object DataMod: TDataMod
     top = 544
   end
   object ZQueryDelTran: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1023,7 +1006,6 @@ object DataMod: TDataMod
     top = 408
   end
   object ZQuerySumTempTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1037,7 +1019,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryTranTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1085,7 +1066,6 @@ object DataMod: TDataMod
     top = 272
   end
   object ZQueryConTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1146,7 +1126,6 @@ object DataMod: TDataMod
     top = 24
   end
   object ZQueryStub: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1501,7 +1480,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryAccNo: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1519,7 +1497,6 @@ object DataMod: TDataMod
     top = 344
   end
   object ZQueryAccName: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1542,7 +1519,6 @@ object DataMod: TDataMod
     top = 472
   end
   object ZTblDelTran: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1556,7 +1532,6 @@ object DataMod: TDataMod
     top = 472
   end
   object ZTblPayStubs: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2171,7 +2146,6 @@ object DataMod: TDataMod
     end
   end
   object ZQuerySocPay: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -2190,7 +2164,6 @@ object DataMod: TDataMod
     top = 616
   end
   object ZQFindKey: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2204,7 +2177,6 @@ object DataMod: TDataMod
     top = 612
   end
   object ZPostChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2226,7 +2198,6 @@ object DataMod: TDataMod
     top = 560
   end
   object ZPostTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2246,7 +2217,6 @@ object DataMod: TDataMod
     top = 632
   end
   object ZQueryDelTempCk: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -2267,7 +2237,6 @@ object DataMod: TDataMod
     top = 688
   end
   object ZPostStub: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2287,7 +2256,6 @@ object DataMod: TDataMod
     top = 696
   end
   object ZPostTempTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2403,7 +2371,6 @@ object DataMod: TDataMod
     end
   end
   object ZPostPayStubs: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2437,7 +2404,6 @@ object DataMod: TDataMod
     top = 712
   end
   object ZEditCheckSeed: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

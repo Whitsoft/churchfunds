@@ -1,7 +1,7 @@
 object FormCont: TFormCont
-  Left = 738
+  Left = 387
   Height = 801
-  Top = 141
+  Top = 165
   Width = 1060
   ActiveControl = NotebookCont
   Caption = 'FormCont'
@@ -24,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 3
+    PageIndex = 6
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -1368,7 +1368,7 @@ object FormCont: TFormCont
           Height = 29
           Top = 228
           Width = 121
-          HelpContext = 750
+          HelpContext = 745
           Font.Height = -15
           Font.Name = 'System'
           OnKeyPress = EditPledgeFundKeyPress
