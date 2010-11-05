@@ -7,7 +7,7 @@
         <LRSInOutputDirectory Value="False"/>
       </Flags>
       <MainUnit Value="0"/>
-      <Title Value="projcont"/>
+      <Title Value="contributions"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
       <ActiveWindowIndexAtStart Value="0"/>
@@ -30,7 +30,7 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="3">
       <Item1>
         <PackageName Value="FCL"/>
       </Item1>
@@ -40,19 +40,16 @@
       <Item3>
         <PackageName Value="SQLDBLaz"/>
       </Item3>
-      <Item4>
-        <PackageName Value="lhelpcontrolpkg"/>
-      </Item4>
     </RequiredPackages>
     <Units Count="42">
       <Unit0>
-        <Filename Value="projcont.pas"/>
+        <Filename Value="contributions.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="projcont"/>
+        <UnitName Value="contributions"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="62" Y="17"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="171"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -269,8 +266,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3053"/>
-        <CursorPos X="21" Y="3071"/>
+        <TopLine Value="2779"/>
+        <CursorPos X="1" Y="2800"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -368,17 +365,19 @@
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="9" Y="13"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit39>
       <Unit40>
         <Filename Value="../checks/accounts.pas"/>
         <UnitName Value="accounts"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5628"/>
-        <CursorPos X="5" Y="5660"/>
+        <TopLine Value="5529"/>
+        <CursorPos X="24" Y="5550"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit40>
       <Unit41>
         <Filename Value="/media/windows/Help/ezcont.txt"/>
@@ -389,134 +388,127 @@
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit41>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
         <Filename Value="cont.pas"/>
-        <Caret Line="1084" Column="2" TopLine="1062"/>
+        <Caret Line="10" Column="63" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="cont.pas"/>
-        <Caret Line="1076" Column="46" TopLine="1063"/>
+        <Caret Line="11" Column="51" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="315" Column="24" TopLine="294"/>
       </Position3>
       <Position4>
-        <Filename Value="cont.pas"/>
-        <Caret Line="11" Column="51" TopLine="1"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="2559" Column="1" TopLine="2539"/>
       </Position4>
       <Position5>
-        <Filename Value="cont.pas"/>
-        <Caret Line="345" Column="15" TopLine="324"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position5>
       <Position6>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1083" Column="16" TopLine="1062"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="22" Column="61" TopLine="1"/>
       </Position6>
       <Position7>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1084" Column="83" TopLine="1062"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="637" Column="24" TopLine="616"/>
       </Position7>
       <Position8>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1114" Column="62" TopLine="1093"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="693" Column="1" TopLine="671"/>
       </Position8>
       <Position9>
         <Filename Value="cont.pas"/>
-        <Caret Line="1115" Column="57" TopLine="1093"/>
+        <Caret Line="338" Column="1" TopLine="316"/>
       </Position9>
       <Position10>
-        <Filename Value="cont.pas"/>
-        <Caret Line="726" Column="1" TopLine="705"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="707" Column="15" TopLine="671"/>
       </Position10>
       <Position11>
-        <Filename Value="cont.pas"/>
-        <Caret Line="383" Column="79" TopLine="371"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5094" Column="12" TopLine="5073"/>
       </Position11>
       <Position12>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5095" Column="23" TopLine="5073"/>
       </Position12>
       <Position13>
-        <Filename Value="cont.pas"/>
-        <Caret Line="198" Column="22" TopLine="177"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5097" Column="22" TopLine="5073"/>
       </Position13>
       <Position14>
-        <Filename Value="cont.pas"/>
-        <Caret Line="373" Column="10" TopLine="352"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5112" Column="12" TopLine="5073"/>
       </Position14>
       <Position15>
         <Filename Value="cont.pas"/>
-        <Caret Line="462" Column="28" TopLine="453"/>
+        <Caret Line="341" Column="15" TopLine="316"/>
       </Position15>
       <Position16>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="358" Column="1" TopLine="337"/>
       </Position16>
       <Position17>
-        <Filename Value="cont.pas"/>
-        <Caret Line="197" Column="21" TopLine="176"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5466" Column="31" TopLine="5445"/>
       </Position17>
       <Position18>
-        <Filename Value="cont.pas"/>
-        <Caret Line="475" Column="12" TopLine="454"/>
+        <Filename Value="../checks/accounts.pas"/>
+        <Caret Line="5473" Column="22" TopLine="5445"/>
       </Position18>
       <Position19>
         <Filename Value="cont.pas"/>
-        <Caret Line="548" Column="1" TopLine="466"/>
+        <Caret Line="2798" Column="38" TopLine="2786"/>
       </Position19>
       <Position20>
         <Filename Value="cont.pas"/>
-        <Caret Line="188" Column="31" TopLine="157"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position20>
       <Position21>
         <Filename Value="cont.pas"/>
-        <Caret Line="3080" Column="25" TopLine="3039"/>
+        <Caret Line="174" Column="26" TopLine="153"/>
       </Position21>
       <Position22>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="2801" Column="31" TopLine="2780"/>
       </Position22>
       <Position23>
         <Filename Value="cont.pas"/>
-        <Caret Line="188" Column="28" TopLine="167"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position23>
       <Position24>
         <Filename Value="cont.pas"/>
-        <Caret Line="3070" Column="24" TopLine="3049"/>
+        <Caret Line="174" Column="1" TopLine="153"/>
       </Position24>
       <Position25>
         <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="2800" Column="1" TopLine="2779"/>
       </Position25>
       <Position26>
         <Filename Value="cont.pas"/>
-        <Caret Line="198" Column="21" TopLine="177"/>
+        <Caret Line="2798" Column="25" TopLine="2785"/>
       </Position26>
       <Position27>
         <Filename Value="cont.pas"/>
-        <Caret Line="476" Column="12" TopLine="455"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position27>
       <Position28>
         <Filename Value="cont.pas"/>
-        <Caret Line="548" Column="16" TopLine="527"/>
+        <Caret Line="173" Column="1" TopLine="152"/>
       </Position28>
-      <Position29>
-        <Filename Value="cont.pas"/>
-        <Caret Line="3079" Column="13" TopLine="3053"/>
-      </Position29>
-      <Position30>
-        <Filename Value="cont.pas"/>
-        <Caret Line="188" Column="15" TopLine="167"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2;$(LazarusDir)/lcl/units/i386-linux;../../../churchfunds/trunk"/>
-      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../help;../../../lazarus/lazarus_svn/components/chmhelp/lhelp;../../../lazarus/lazarus_svn/components/printers/lib/i386-linux/gtk2;../../../lazarus/lazarus_svn/components/turbopower_ipro;../../../lazarus/lazarus_svn/components/chmhelp/packages/help"/>
+      <UnitOutputDirectory Value="/home/don/churchfunds/trunk/contributions"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -525,6 +517,9 @@
       </SyntaxOptions>
     </Parsing>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
@@ -544,7 +539,7 @@
       </Item3>
       <Item4>
         <Source Value="cont.pas"/>
-        <Line Value="913"/>
+        <Line Value="891"/>
       </Item4>
     </BreakPoints>
     <Exceptions Count="3">
