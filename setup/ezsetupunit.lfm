@@ -213,7 +213,7 @@ object FormSetup: TFormSetup
           Height = 29
           Top = 171
           Width = 121
-          HelpContext = 215
+          HelpContext = 245
           Anchors = []
           Font.Height = -16
           Font.Name = 'System'

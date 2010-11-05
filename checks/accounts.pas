@@ -18,9 +18,8 @@ WHERE id = :id}
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  LHelpControl,
   StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
-  IBConnection, db, Grids, Calendar, StrUtils,unit30,NewPSClass;
+  IBConnection, db, Grids, Calendar, StrUtils, unit30, cHelp, NewPSClass;
 
 type
   PayInfo = record
@@ -420,14 +419,6 @@ type
 
 
     NavEditTran: TDBNavigator;
-
-    procedure AccBalEditMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure AccLabClick(Sender: TObject);
-    procedure AGroupPrintClick(Sender: TObject);
-    procedure AGroupRetClick(Sender: TObject);
-    procedure AGroupWriteClick(Sender: TObject);
-   // function  CallHelp(XY: TPoint): Boolean;
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DPNavClick(Sender: TObject; Button: TDBNavButtonType);
@@ -452,9 +443,6 @@ type
               procedure NoteBookChangeBounds(Sender: TObject);
     {*}
     procedure SearchReturn(Ret: Boolean);
-    procedure ShowHelp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure TimerActTimer(Sender: TObject);
     procedure TrialCheckBtnClick(Sender: TObject);
    // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     function  Inside(X,Y: Integer;CControl: TComponent): Boolean;
@@ -607,7 +595,6 @@ type
     procedure DPQueryAfterDelete(DataSet: TDataset);
     procedure initDisplay;
     procedure initOpen;
-    function  getGroup:Integer;
     procedure doClearViewPay;
     procedure GetDedType(var D1,D2,D3,D4,D5: Integer);
    // function  getValues(IDX,IDY: Integer):Integer;
@@ -663,12 +650,8 @@ type
     function  ParseDate(Dt: String): String;
     function  FindPayroll(SocNo: String):Boolean;
     function  FindSocNo(Soc: String): Boolean;
-    procedure ShowGroupHelp(Context: Integer);
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-   // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
-    //procedure GridTransDrawDataCell(Sender: TObject; const Rect: TRect;
-   //   Field: TField; State: TGridDrawState);
 
            { Private declarations }
   private
@@ -707,14 +690,10 @@ type
 
 const
    HelpFN: String='../help/ezcheckhelp.chm';
-   HelpCK: String='./CKHelp';
 var
- // AProcess: TProcess;
   CheckForm: TCheckForm;
-  Help: TLHelpConnection;
   SocList        :TStringList;
   fName: String;
-  LogFile: Text;
   EZPSClass: TPostscriptClass;
   PayStubInfo: PayInfo;
 
@@ -725,8 +704,7 @@ var
   Deduction: Array[0..5] of Double;
   FlatTax: Array[0..5] of Double;
   DedAccounts: Array[0..5] of Integer;
- // HelpArr: Array[0..17] of TStringList;
- // ContainerArr: array[0..17] of TWinControl;
+  HForm: THelpForm;
   FedTax,FICATax,MedTax,StateTax,LocalTax,GrossWage,NetWage,Pension:  Double;
 implementation
 //{$R *.DFM}
@@ -774,19 +752,14 @@ Const
 
 procedure TCheckForm.FormCreate(Sender: TObject);
 begin
-   //Application.OnMessage := AppMessage;
    NoteBook.PageIndex:=0;
    Activated:=False;
    AccPtr:=0;
    ChkBal:=0.0;
    GlobalAct:=False;
-   Help := TLHelpConnection.Create;
-   //Help.ProcessWhileWaiting := @Application.ProcessMessages;   new lhelp version
    SocList:=TStringList.Create;
    EZPSClass := TPostscriptClass.Create;
-     EZPSCLass.ClosePrintFile;
-  // Application.HelpFile := 'EZFUND.HLP>EZFund';
-  // ShowMessage(IntToStr(integer(Datamod)));
+   EZPSCLass.ClosePrintFile;
  end;
 
 
@@ -1649,16 +1622,6 @@ begin
   doRetSearch(SDate,EDate);
 end;
 
-procedure TCheckForm.ShowHelp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-
-end;
-
-procedure TCheckForm.TimerActTimer(Sender: TObject);
-begin
-end;
-
 
 procedure TCheckForm.NotCheckClick(Sender: TObject);
 begin
@@ -1846,15 +1809,6 @@ begin
         Params[4].AsDateTime:=EndDate;
         Params[5].AsInteger:=FromAccount;
         Params[6].AsInteger:=ToAccount;
-
-
-      {  ParamByName('FromType').AsInteger:=FromPType;
-        ParamByName('ToType').AsInteger:=ToPType;
-        ParamByName('FromDate').AsDateTime:=BegDate;
-        ParamByName('ToDate').AsDateTime:=EndDate;
-        ParamByName('FromAcc').AsInteger:=FromAccount;
-        ParamByName('ToAcc').AsInteger:=ToAccount;
-        ParamByName('CheckParm').AsInteger:=FCheck;  }
         Open;
       end;
       With DataMod.ZQueryLiabTotal do
@@ -1866,14 +1820,6 @@ begin
         Params[2].AsDateTime:=EndDate;
         Params[3].AsInteger:=FromAccount;
         Params[4].AsInteger:=ToAccount;
-
-
-        { ParamByName('CheckParm').AsInteger:=FCheck;
-        ParamByName('FromDate').AsDateTime:=BegDate;
-        ParamByName('ToDate').AsDateTime:=EndDate;
-        ParamByName('FromAcc').AsInteger:=FromAccount;
-        ParamByName('ToAcc').AsInteger:=ToAccount;}
-
         Open;
         Liab:=FieldByName('SUM').AsFloat;
       end;
@@ -1886,12 +1832,6 @@ begin
         Params[2].AsDateTime:=EndDate;
         Params[3].AsInteger:=FromAccount;
         Params[4].AsInteger:=ToAccount;
-        {ParamByName('CheckParm').AsInteger:=FCheck;
-        ParamByName('FromDate').AsDateTime:=BegDate;
-        ParamByName('ToDate').AsDateTime:=EndDate;
-        ParamByName('FromAcc').AsInteger:=FromAccount;
-        ParamByName('ToAcc').AsInteger:=ToAccount; }
-
         Open;
         EditSumExp.Text:= Format('%m',[FieldByName('SUM').AsFloat]);
         EditSumLiab.Text:=Format('%m',[Liab]);
@@ -2615,11 +2555,6 @@ end;
 
 procedure TCheckForm.FormClose(Sender: TObject);
 begin
-try
- //  CloseFile(LogFile);
-    {  SQLTransactionEZ.RollBack;  }
-finally
-end;
 end;
 
 
@@ -2632,92 +2567,6 @@ begin
   else
   EditDPAmnt.Font.Color:=clBlue;
 end;
-
-
-{procedure TCheckForm.AppMessage(var Msg: TMsg; var Handled: Boolean);
-begin
- If msg.message = wm_RBUTTONDOWN then
-     If CallHelp(Msg.Pt) then
-       Handled:=true;
-end;   }
-
-{function TCheckForm.CallHelp(XY: TPoint):Boolean;
-var
-  HelpID,IDX,IDY: Integer;
-  CName: String;
-  HelpControl: TControl;
-begin
-  Result:=False;
-  CName:='';
-  IDY:=NoteBook.PageIndex;
-  With ContainerArr[IDY] do
-    For IDX:=0 to ControlCount-1 do
-      begin
-      //  If PtInRect(Controls[IDX].BoundsRect,ScreenToClient(XY)) then
-           begin
-             CName:=Controls[IDX].Name;
-             Break;
-           end;
-      end;
-  If CName='' then
-    begin
-      result:=False;
-      HelpId:=getGroup;
-      If HelpId <0 then
-        exit
-      else
-        begin
-          Application.HelpContext(HelpID);
-          result:=True;
-          exit;
-        end;
-    end;
-  With HelpArr[IDY] do
-     try
-       IDX:=IndexOfName(CName);
-       If IDX>=0 then
-         begin
-           HelpID:=getValues(IDX,IDY);
-           If HelpID>0 then
-             begin
-              Help.StartHelpServer('letstestagain', './lhelp --display=:0.0');
-               Help.OpenContext(HelpFN,HelpID);//; Context: THelpContext);
-               Application.HelpContext(HelpID);
-               Result:=True;
-             end;
-         end;
-     except
-       Result:=False;
-     end;
-end;  }
-
-
-procedure TCheckForm.AGroupRetClick(Sender: TObject);
-begin
-
-end;
-
-procedure TCheckForm.AGroupPrintClick(Sender: TObject);
-begin
-
-end;
-
-procedure TCheckForm.AccLabClick(Sender: TObject);
-begin
-
-end;
-
-procedure TCheckForm.AccBalEditMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-
-end;
-
-procedure TCheckForm.AGroupWriteClick(Sender: TObject);
-begin
-
-end;
-
 
 
 function  TCheckForm.Inside(X,Y: Integer;CControl: TComponent): Boolean;
@@ -3854,16 +3703,6 @@ begin
    end;
 end;
 
-procedure clearlogfile(fname: String);
-begin
-   try
-    AssignFile(LogFile,fname);
-    Rewrite(LogFile);
-    CloseFile(LogFile);
-  finally
-  end;
-end;
-
 procedure TCheckForm.FormActivate(Sender: TObject);
 var
    Chk:   Integer;
@@ -3874,7 +3713,6 @@ With CheckForm do
 begin
    If activated then exit;
    activated := true;
-   clearlogfile(HelpCK);
    initDates;
    AccTypeDesc[1]:='Expense';
    AccTypeDesc[2]:='Federal Tax';
@@ -4173,7 +4011,6 @@ end;
 
 procedure TCheckForm.FormDestroy(Sender: TObject);
 begin
-  Help.free;
 end;
 
 procedure TCheckForm.NoteBookPageChanged(Sender: TObject);
@@ -5625,53 +5462,16 @@ begin
  HrTextEdit.Text:='';
 end;
 
-function TCheckForm.getGroup:Integer;
-var
-  IDX: Integer;
-begin
-   IDX:=NoteBook.PageIndex;
-  Case IDX of
-    0: result:=AGroupWrite.HelpContext;
-    1: result:=AGroupEdit.HelpContext;
-    2: result:=AGroupPrint.HelpContext;
-    3: result:=AGroupPayroll.HelpContext;
-    4: result:=AGroupPayVu.HelpContext;
-    5: result:=AGroupChecks.HelpContext;
-    6: result:=AGroupTrans.HelpContext;
-    7: result:=AGroupDP.HelpContext;
-    8: result:=APanelTools.HelpContext;
-    9: result:=AGroupRet.HelpContext;
-    10: result:=AGroupStub.HelpContext;
-   else
-     result:=-1;
-   end;
-end;
 
 procedure TCheckForm.CheckHelpOpen;
-//Note: lhelp core modified to write to logfile - version of LHelp in svn package has this modification
-var
-  S: String;
 begin
-  try
-    AssignFile(LogFile,HelpCK);
-    Reset(LogFile);
-    Readln(LogFile,S);
+  if HForm <> nil then
+    if not HForm.visible then
+       HForm.visible := true;
 
-    if S <> '' then
-      exit;
-   // if Help.ServerRunning = false then    new lhelp version
-    Help.StartHelpServer('lhelpServer', '../help/lhelp');
-    Help.OpenFile(helpFN);
-  except
-      CloseFile(LogFile);
-  end;
-end;
-
-
-procedure TCheckForm.ShowGroupHelp(Context: Integer);
-begin
- CheckHelpOpen;
- Help.OpenContext(helpFN,Context);
+  if HForm = nil then
+       HForm := THelpForm.Create(Self);
+  HForm.ShowOnTop;
 end;
 
 procedure TCheckForm.initDisplay;
@@ -5745,12 +5545,15 @@ procedure TCheckForm.ShowContext(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   hcontext: Integer;
+  URL: String;
 begin
+  URL := 'file://'+HelpFN;
  // Label15.Caption:=TComponent(Sender).name;
  if (Button = mbRight) or (Button = mbLeft) then exit;
  CheckHelpOpen;
  hcontext:=TControl(Sender).HelpContext;
- Help.OpenContext(helpFN,hContext);
+ If HForm <> nil then
+    HForm.OpenUrl(Url,hContext);
 end;
 
 function TCheckForm.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;

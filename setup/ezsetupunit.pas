@@ -5,8 +5,8 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, LCLType,
-IBConnection, db, Grids, Calendar, StrUtils, LHelpControl, newpsclass;
+StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, LCLType, chelp,
+IBConnection, db, Grids, Calendar, StrUtils, newpsclass;
 
    { TFormSetup }
 
@@ -287,8 +287,7 @@ Type
     Function  getAccountName(AccNo: Integer): String;
     Function  getLiability(Account: Integer): Double;
     Function  getType(TypeNo: Integer): String;
-    Function  getValues(IDX,IDY: Integer): Integer;
-    Function  IndexOfName(IName: String;ArrDex: Integer): Integer;
+
     Function  TwoYears: TDateTime;
     Function  toFloat(FStr: String): String;
     Function  getAccount(Const Account: String): String;
@@ -371,15 +370,11 @@ Type
 
   const
    HelpFN: String='../help/ezsetup.chm';
-   HelpCK: String='./CKHelp';
 
 Var 
   FormSetup: TFormSetup;
-  Help: TLHelpConnection;
-  LogFile: Text;
+  HForm: THelpForm;
   AccNum: Integer;
-  HelpArr: Array[0..10] Of TStringList;
-  ContainerArr: array[0..10] Of TWinControl;
   Activated: Boolean;
   EZPSClass: TPostscriptClass;
 
@@ -417,12 +412,6 @@ end;
 
 procedure clearlogfile(fname: String);
 begin
-   try
-    AssignFile(LogFile,fname);
-    Rewrite(LogFile);
-    CloseFile(LogFile);
-  finally
-  end;
 end;
 
 
@@ -434,7 +423,6 @@ Begin
   If Activated Then
     exit;
   Activated := True;
-  clearlogfile(HelpCK);
 
   BegOfTime := EncodeDate(1990,1,1);
   PageNo := 0;
@@ -1548,8 +1536,6 @@ Begin
   //Application.OnMessage := AppMessage;
   //NoteBook.PageIndex:=TabSet1.TabIndex;
   Activated := False;
-  Help := TLHelpConnection.Create;
-  //Help.ProcessWhileWaiting := @Application.ProcessMessages;
   EZPClass := TPostscriptClass.Create;
 End;
 
@@ -1990,10 +1976,6 @@ Procedure TFormSetup.FormClose(Sender: TObject);
 Var 
   IDX: Integer;
 Begin
-  For IDX:=0 To 0 Do
-    Begin
-      HelpArr[IDX].Free
-    End;
 End;
 
 
@@ -2609,47 +2591,6 @@ Begin
     End;
 End;
 
-Function TFormSetup.IndexOfName(IName: String; ArrDex: Integer): Integer;
-
-Var 
-  IX,IY,Equal,St,En: Integer;
-  SubStr: String;
-Begin
-  Result := -1;
-  With HelpArr[ArrDex] Do
-    Begin
-      For IX:=0 To HelpArr[ArrDex].Count Do
-        Begin
-          SubStr := HelpArr[ArrDex].Strings[IX];
-          Equal := Pos('=',SubStr);
-          If IName=copy(SubStr,1,Equal-1) Then
-            Begin
-              Result := IX;
-              Exit;
-            End;
-        End
-    End;
-End;
-
-Function TFormSetup.getValues(IDX,IDY: Integer): Integer;
-
-Var 
-  Str1,Str2: String;
-  Equal: Integer;
-Begin
-  With HelpArr[IDY] Do
-    Begin
-      Str1 := Strings[IDX];
-      Equal := Pos('=',Str1);
-      Str2 := Copy(Str1,Equal+1,32);
-      Try
-        Result := StrToInt(Str2);
-      Except
-        Result := -1;
-    End;
-End;
-End;
-
 
 Procedure TFormSetup.BtnDelPayClick(Sender: TObject);
 Begin
@@ -2939,33 +2880,27 @@ procedure TFormSetup.ShowContext(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   hcontext: Integer;
+  URL: String;
 begin
-  //Label15.Caption:=TComponent(Sender).name;
+  URL := 'file://'+HelpFN;
+ // Label15.Caption:=TComponent(Sender).name;
  if (Button = mbRight) or (Button = mbLeft) then exit;
  CheckHelpOpen;
  hcontext:=TControl(Sender).HelpContext;
- Help.OpenContext(helpFN,hContext);
+ If HForm <> nil then
+    HForm.OpenUrl(Url,hContext);
 end;
 
 
 procedure TFormSetup.CheckHelpOpen;
-//Note: lhelp core modified to write to logfile - version of LHelp in svn package has this modification
-var
-  S: String;
 begin
-  try
-    AssignFile(LogFile,HelpCK);
-    Reset(LogFile);
-    Readln(LogFile,S);
+  if HForm <> nil then
+    if not HForm.visible then
+       HForm.visible := true;
 
-    if S <> '' then
-      exit;
-   // if Help.ServerRunning = false then
-       Help.StartHelpServer('lhelpServer', '../help/lhelp --display=:0.0');
-    Help.OpenFile(helpFN);
-   except
-      CloseFile(LogFile);
-  end;
+  if HForm = nil then
+       HForm := THelpForm.Create(Self);
+  HForm.ShowOnTop;
 end;
 
 initialization

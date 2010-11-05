@@ -31,29 +31,24 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="lhelpcontrolpkg"/>
-        <MinVersion Minor="1" Valid="True"/>
-      </Item1>
-      <Item2>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item2>
-      <Item3>
+      </Item1>
+      <Item2>
         <PackageName Value="SQLDBLaz"/>
         <MinVersion Major="1" Release="1" Valid="True"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <PackageName Value="LCL"/>
-      </Item4>
+      </Item3>
     </RequiredPackages>
     <Units Count="3">
       <Unit0>
         <Filename Value="ezsetup.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ezsetup"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
@@ -71,8 +66,8 @@
         <UnitName Value="ezsetupunit"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2942"/>
-        <CursorPos X="6" Y="2963"/>
+        <TopLine Value="2869"/>
+        <CursorPos X="1" Y="2891"/>
         <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -97,8 +92,9 @@
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2;$(LazarusDir)/lcl/units/i386-linux;../../../churchfunds/trunk"/>
-      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../help;../../../lazarus/lazarus_svn/components/chmhelp/lhelp;../../../lazarus/lazarus_svn/components/printers/lib/i386-linux/gtk2;../../../lazarus/lazarus_svn/components/turbopower_ipro;../../../lazarus/lazarus_svn/components/chmhelp/packages/help"/>
+      <UnitOutputDirectory Value="/home/don/churchfunds/trunk/setup"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -107,11 +103,14 @@
       </SyntaxOptions>
     </Parsing>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="3">
+    <BreakPoints Count="5">
       <Item1>
         <Source Value="../../../firebird/EZSetup/sqldb.pp"/>
         <Line Value="1427"/>
@@ -124,6 +123,14 @@
         <Source Value="../../../firebird/EZSetup/sqldb.pp"/>
         <Line Value="1475"/>
       </Item3>
+      <Item4>
+        <Source Value="ezsetupunit.pas"/>
+        <Line Value="2890"/>
+      </Item4>
+      <Item5>
+        <Source Value="../help/chelp.pas"/>
+        <Line Value="421"/>
+      </Item5>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
