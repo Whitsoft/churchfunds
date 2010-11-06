@@ -1537,6 +1537,7 @@ Begin
   //NoteBook.PageIndex:=TabSet1.TabIndex;
   Activated := False;
   EZPClass := TPostscriptClass.Create;
+  WindowState := wsNormal;
 End;
 
 Function TFormSetup.getAccount(Const Account: String): String;

@@ -1001,6 +1001,7 @@ object DataMod: TDataMod
     top = 272
   end
   object PaySrc: TDatasource
+    AutoEdit = False
     DataSet = ZTblPayroll
     left = 216
     top = 408

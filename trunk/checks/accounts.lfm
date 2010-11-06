@@ -7,7 +7,7 @@ object CheckForm: TCheckForm
   VertScrollBar.Visible = False
   ActiveControl = NoteBook
   Align = alClient
-  Caption = 'SUMC Accounts'
+  Caption = 'Checking'
   ChildSizing.EnlargeHorizontal = crsScaleChilds
   ChildSizing.EnlargeVertical = crsScaleChilds
   ChildSizing.ShrinkHorizontal = crsScaleChilds
@@ -33,7 +33,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 0
+    PageIndex = 10
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -147,11 +147,11 @@ object CheckForm: TCheckForm
           ParentFont = False
           TabOrder = 0
           object Label1: TLabel
-            Left = 56
+            Left = 168
             Height = 16
-            Top = 32
-            Width = 297
-            Caption = 'ANYTOWN UNITED METHODIST CHURCH'
+            Top = 35
+            Width = 144
+            Caption = 'ANYTOWN CHURCH'
             Font.Color = clNavy
             Font.Height = 9
             Font.Name = 'System'
@@ -4618,12 +4618,10 @@ object CheckForm: TCheckForm
           ListFieldIndex = 0
           ListSource = DataMod.PaySrc
           LookupCache = False
-          OnClick = EmpLookUpClick
           OnDblClick = EmpLookUpDblClick
           OnMouseDown = ShowContext
           Sorted = True
           TabOrder = 14
-          TopIndex = -1
         end
         object EditStubDate: TEdit
           Left = 571

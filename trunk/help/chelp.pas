@@ -212,6 +212,7 @@ begin
   fContext := -1;
   RefreshState;
   SetKeyUp(Self);
+  WindowState := wsNormal;
 end;
 
 procedure THelpForm.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -348,7 +349,7 @@ begin
   if ActivePage = nil then
     Exit;
 
-  Caption := 'LHelp - ' + ActivePage.fContentProvider.Title;
+  Caption := 'EZFunds Help ';
 end;
 
 procedure THelpForm.OpenRecentItemClick(Sender: TObject);
@@ -456,11 +457,6 @@ begin
   FileMenuCloseItem.Enabled := en;
   ViewMenuContents.Enabled := en;
 
-
-  if en and not (csDestroying in ActivePage.ComponentState) then
-    Caption := 'LHelp - ' + ActivePage.fContentProvider.Title
-  else
-    Caption := 'LHelp';
 end;
 
 procedure THelpForm.ShowError(AError: String);
