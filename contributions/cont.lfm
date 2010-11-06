@@ -4,7 +4,7 @@ object FormCont: TFormCont
   Top = 165
   Width = 1060
   ActiveControl = NotebookCont
-  Caption = 'FormCont'
+  Caption = 'Contributions'
   ClientHeight = 801
   ClientWidth = 1060
   Font.Height = -13

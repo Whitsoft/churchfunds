@@ -1058,6 +1058,8 @@ begin
   GlobThru:='';
   ConList:=TStringList.Create;
   EZPClass := TPostscriptClass.Create;
+  WindowState := WSNormal;
+  Caption := 'Contributions';
 end;
 
 procedure TFormCont.FormDestroy(Sender: TObject);

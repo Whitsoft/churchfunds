@@ -4,7 +4,7 @@ object HelpForm: THelpForm
   Top = 272
   Width = 758
   ActiveControl = Panel1
-  Caption = 'LHelp'
+  Caption = 'Checking Help'
   ClientHeight = 510
   ClientWidth = 758
   Icon.Data = {

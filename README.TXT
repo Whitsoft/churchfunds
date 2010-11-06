@@ -6,10 +6,9 @@ I am now using firebird for a database. I have trouble starting that automatical
 
 Programming is done using Lazarus. Context sensitive help is done via lhelp. Here is one link for lhelp installation. http://www.lazarus.freepascal.org/index.php?action=printpage;topic=7998.0
 Packages installed include -
-  ChmHelpPkg 0.1
-  ihelpcontrolpkg 0.1
+
   SQLDBlaz 1.0.1
-  sqlite3laz 0.4
+  Printer4Lazarus 0.5
 
 I have began a rudimentary report printer which generates postscript. There is work to be done in proving out report generation, debugging the chm files for the help system and general debugging.
 
