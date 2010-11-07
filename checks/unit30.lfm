@@ -2475,4 +2475,23 @@ object DataMod: TDataMod
       Size = 2
     end
   end
+  object ZQueryName: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '  Select P.Name from PAYROLL  P'
+      '  where P.SOC_SEC_NO =:SocParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    left = 592
+    top = 536
+  end
 end

@@ -27,6 +27,7 @@ type
     ZPostTempTrans: TSQLQuery;
     ZQFindKey: TSQLQuery;
     ZQueryDelTempCk: TSQLQuery;
+    ZQueryName: TSQLQuery;
     ZQuerySocPay: TSQLQuery;
     ZQueryTempCksAMOUNT: TBCDField;
     ZQueryTempCksCHECKMEMO: TStringField;
