@@ -19,7 +19,6 @@ object CheckForm: TCheckForm
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   LCLVersion = '0.9.29'
   object NoteBook: TNotebook
     Left = 0
@@ -3394,7 +3393,6 @@ object CheckForm: TCheckForm
           Color = clAqua
           Font.Height = -15
           Font.Name = 'System'
-          OnChange = EditCkBalChange
           OnClick = EditCkBalClick
           OnMouseDown = ShowContext
           ParentFont = False
@@ -4606,23 +4604,6 @@ object CheckForm: TCheckForm
           TabOrder = 13
           Visible = False
         end
-        object EmpLookUp: TDBLookupListBox
-          Left = 571
-          Height = 574
-          Top = 246
-          Width = 304
-          HelpContext = 1110
-          Anchors = []
-          KeyField = 'SOC_SEC_NO'
-          ListField = 'NAME'
-          ListFieldIndex = 0
-          ListSource = DataMod.PaySrc
-          LookupCache = False
-          OnDblClick = EmpLookUpDblClick
-          OnMouseDown = ShowContext
-          Sorted = True
-          TabOrder = 14
-        end
         object EditStubDate: TEdit
           Left = 571
           Height = 29
@@ -4630,6 +4611,22 @@ object CheckForm: TCheckForm
           Width = 157
           HelpContext = 1100
           Anchors = []
+          OnMouseDown = ShowContext
+          TabOrder = 14
+        end
+        object PayNameLUCB: TDBLookupComboBox
+          Left = 571
+          Height = 30
+          Top = 238
+          Width = 280
+          HelpContext = 1110
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          KeyField = 'SOC_SEC_NO'
+          ListField = 'NAME'
+          ListFieldIndex = 0
+          ListSource = DataMod.PaySrc
+          LookupCache = False
+          OnChange = PayNameLUCBChange
           OnMouseDown = ShowContext
           TabOrder = 15
         end

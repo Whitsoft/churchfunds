@@ -53,6 +53,7 @@ type
     AGroupChecks: TGroupBox;
     AGroupPayroll: TGroupBox;
     BtnChkDel: TButton;
+    PayNameLUCB: TDBLookupComboBox;
     Label148: TLabel;
     Label93: TLabel;
     PayDateLabel: TLabel;
@@ -232,7 +233,6 @@ type
     EditRDed3: TEdit;
     EditRDed4: TEdit;
     EditRDed5: TEdit;
-    EmpLookUp: TDBLookupListBox;
     Label101: TLabel;
     EditStubDate: TEdit;
     AGroupRet: TGroupBox;
@@ -419,15 +419,12 @@ type
 
 
     NavEditTran: TDBNavigator;
+    procedure PayNameLUCBChange(Sender: TObject);
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DPNavClick(Sender: TObject; Button: TDBNavButtonType);
-    procedure DPSumEditChange(Sender: TObject);
-    procedure EditCkBalChange(Sender: TObject);
-    procedure EmpLookUpClick(Sender: TObject);
-    procedure EmpLookUpDblClick(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure NoteBookPageChanged(Sender: TObject);
+
+
     procedure RetGridDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure FixAccGridDrawColumnCell(Sender: TObject;
@@ -592,7 +589,7 @@ type
     procedure FixTranGridDblClick(Sender: TObject);
     procedure BtnChkDelClick(Sender: TObject);
     procedure PayLookUpChange(Sender: TObject);
-    procedure DPQueryAfterDelete(DataSet: TDataset);
+
     procedure initDisplay;
     procedure initOpen;
     procedure doClearViewPay;
@@ -635,7 +632,7 @@ type
      { procedure  NewLine(Ct: Integer; Var F:TextFile);  }
     procedure doPayCheck;
     procedure CheckHelpOpen;
-    function TextToFloat(InStr: String): Double;
+
    {procedure CheckAmountEnter(Sender: TObject); }
     procedure InitDates;
     function  PostCheckPlusTrans(ChekNo: Integer):Boolean;
@@ -689,7 +686,7 @@ type
   end;
 
 const
-   HelpFN: String='../help/ezcheckhelp.chm';
+   HelpFN: String='../help/ezcheck.chm';
 var
   CheckForm: TCheckForm;
   SocList        :TStringList;
@@ -1695,11 +1692,17 @@ end;
 
 
 function TCHeckForm.GetNameFromSoc(SocNo: String): String;
+var
+  tmpRes: String;
 begin
-  With DataMod.ZTblPayroll do
+  With DataMod.ZQueryName do
     begin
-     If not locate(SocNo,DataMod.ZTblPayroll.FieldByName('SOC_SEC_NO').AsString,[]) then
-        Result:=FieldByName('Name').AsString
+      close;
+      params[0].asString := SocNo;
+      open;
+      tmpRes := FieldByName('NAME').ASString;
+      if tmpRes <> '' then
+        result := tmpRes
       else
         Result:='Unknown';
     end;
@@ -3793,7 +3796,6 @@ begin
    SepDate := DateSeparator;
    StrDate := ShortDateFormat;
    SearchReturn(RetCheck.Checked);
-   EmpLookup.MultiSelect:=false;
    initOpen;
 end;
 end;
@@ -3839,17 +3841,6 @@ begin
     doPayCheck;
 end;
 
-procedure TCheckForm.DPQueryAfterDelete(DataSet: TDataset);
-begin
-
-end;
-
-
-function TCheckForm.TextToFloat(InStr: String): Double;
-begin
-
-end;
-
 
 procedure TCheckForm.DGridTransDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -3877,29 +3868,7 @@ begin
     end;
 end;
 
-procedure TCheckForm.DPNavClick(Sender: TObject; Button: TDBNavButtonType);
-begin
-  if not DataMod.ZTblDP.active then DataMod.ZTblDP.Open;
-end;
-
-procedure TCheckForm.DPSumEditChange(Sender: TObject);
-begin
-
-end;
-
-procedure TCheckForm.EditCkBalChange(Sender: TObject);
-begin
-
-end;
-
-
-
-procedure TCheckForm.EmpLookUpClick(Sender: TObject);
-begin
-
-end;
-
-procedure TCheckForm.EmpLookUpDblClick(Sender: TObject);
+procedure TCheckForm.PayNameLUCBChange(Sender: TObject);
 var
   BegDate,EndDate: TDateTime;
   GrossDt,NetDt,FedDt,FICADt,D1,D2,D3,D4,D5: double;
@@ -3919,9 +3888,9 @@ begin
     FICADt:=0.0;MedDt:=0.0;StateDt:=0.0;
     LocalDt:=0.0;PenDt:=0.0;
     D1:=0.0;D2:=0.0;D3:=0.0;D4:=0.0;D5:=0.0;
-    SocNum:=DataMod.ZTblPayroll.FieldByName('SOC_SEC_NO').AsString;
-    SocNum:=getSocFromName(EmpLookup.Items[EmpLookup.ItemIndex]);
-    PayName.Caption := EmpLookup.Items[EmpLookup.ItemIndex];
+
+    SocNum:=String(PayNameLUCB.Keyvalue);
+    PayName.Caption := GetNameFromSoc(String(PayNameLUCB.Keyvalue));
     With DataMod.ZQueryEmpSum do
       begin
         Close;
@@ -3997,7 +3966,7 @@ begin
         PayStubInfo.PCheckNo:=FieldByName('PCHECK_NO').AsInteger;
         PayStubInfo.PDate:=DateToStr(FieldByName('PAY_DATE').AsDateTime);
         //PayStubInfo.PName:=GetNameFromSoc(PayStubInfo.PSocNo);
-        PayStubInfo.PName := EmpLookup.Items[EmpLookup.ItemIndex];
+        PayStubInfo.PName := GetNameFromSoc(String(PayNameLUCB.Keyvalue));
         doPayLabel(PayStubInfo.PSocNo);
         PayStubInfo.PD1:=FieldByName('DEDUCT1').AsFloat;
         PayStubInfo.PD2:=FieldByName('DEDUCT2').AsFloat;
@@ -4006,16 +3975,15 @@ begin
         PayStubInfo.PD5:=FieldByName('DEDUCT5').AsFloat;
       end;
     Datamod.ZTblPayroll.close;
-    Datamod.ZTblPayroll.open;
+      Datamod.ZTblPayroll.open;
+
 end;
 
-procedure TCheckForm.FormDestroy(Sender: TObject);
+procedure TCheckForm.DPNavClick(Sender: TObject; Button: TDBNavButtonType);
 begin
+  if not DataMod.ZTblDP.active then DataMod.ZTblDP.Open;
 end;
 
-procedure TCheckForm.NoteBookPageChanged(Sender: TObject);
-begin
-end;
 
 Function TCheckForm.ScriptMoney(MLeft,MRite: Integer):String;
 Var
@@ -4157,6 +4125,15 @@ begin
         NewLine;
       doPayPrint(PayStubInfo, LineSpacing);
     end;
+end;
+
+function TextToFloat(InStr: String): Double;
+begin
+  Try
+    Result:=StrToFloat(InStr);
+  except
+    Result:=0.0;
+  end;
 end;
 
 procedure TCheckForm.doPayPrint(Info: PayInfo; BH: Double);
@@ -4559,15 +4536,6 @@ procedure TCheckForm.doAccCancel;
       finally
     end;
 
-end;
-
-function TextToFloat(InStr: String): Double;
-begin
-  Try
-    Result:=StrToFloat(InStr);
-  except
-    Result:=0.0;
-  end;
 end;
 
 
