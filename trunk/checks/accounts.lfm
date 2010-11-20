@@ -653,6 +653,7 @@ object CheckForm: TCheckForm
           Width = 1016
           HelpContext = 170
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcTempChecks
           Font.Height = -15
@@ -670,6 +671,7 @@ object CheckForm: TCheckForm
           Width = 1016
           HelpContext = 230
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcTempTrans
           Font.Height = -15
@@ -697,6 +699,7 @@ object CheckForm: TCheckForm
           ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 180
+          DataSource = DataMod.SrcTempChecks
           OnMouseDown = ShowContext
           ParentShowHint = False
           ShowHint = True
@@ -858,6 +861,7 @@ object CheckForm: TCheckForm
           ChildSizing.ControlsPerLine = 100
           ClientHeight = 33
           ClientWidth = 180
+          DataSource = DataMod.SrcTempTrans
           Font.Height = -20
           Font.Name = 'System'
           Font.Quality = fqNonAntialiased
@@ -878,11 +882,10 @@ object CheckForm: TCheckForm
           Caption = 'Del'
           Font.Height = -15
           Font.Name = 'System'
-          OnClick = ChkEditPostClick
+          OnClick = BtnChkDelClick
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 13
-          Visible = False
         end
       end
     end
@@ -937,6 +940,7 @@ object CheckForm: TCheckForm
           Width = 1136
           HelpContext = 300
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcTempChecks
           Font.Height = -15
@@ -1152,9 +1156,9 @@ object CheckForm: TCheckForm
           end
           object PayeeLabel: TLabel
             Left = 83
-            Height = 84
+            Height = 1
             Top = 226
-            Width = 79
+            Width = 1
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1164,9 +1168,9 @@ object CheckForm: TCheckForm
           end
           object PayDateLabel: TLabel
             Left = 390
-            Height = 84
+            Height = 1
             Top = 50
-            Width = 79
+            Width = 1
             Font.Color = clNavy
             Font.Height = -13
             Font.Name = 'System'
@@ -1588,6 +1592,7 @@ object CheckForm: TCheckForm
           Font.Height = -15
           Font.Name = 'System'
           OnChange = HoursEditExit
+          OnExit = HoursEditExit
           OnKeyPress = HoursEditKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
@@ -2031,6 +2036,7 @@ object CheckForm: TCheckForm
           Width = 776
           HelpContext = 520
           AutoEdit = False
+          Color = clWindow
           Columns = <>
           Font.Height = -20
           Font.Name = 'System'
@@ -2553,9 +2559,9 @@ object CheckForm: TCheckForm
       ClientHeight = 882
       object AccLab: TLabel
         Left = 544
-        Height = 90
+        Height = 1
         Top = 398
-        Width = 78
+        Width = 1
         ParentColor = False
       end
       object AGroupChecks: TGroupBox
@@ -2712,6 +2718,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 530
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.CheckingSrc
           Font.Height = -15
@@ -2815,6 +2822,7 @@ object CheckForm: TCheckForm
           Width = 816
           HelpContext = 540
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcCheckTrans
           Font.Height = -15
@@ -3121,6 +3129,7 @@ object CheckForm: TCheckForm
           Width = 952
           HelpContext = 710
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.QueryTranSrc
           TabOrder = 9
@@ -3426,6 +3435,7 @@ object CheckForm: TCheckForm
           Width = 704
           HelpContext = 750
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.DPSrc
           Font.Height = -15
@@ -3496,6 +3506,7 @@ object CheckForm: TCheckForm
             Width = 592
             HelpContext = 840
             Anchors = []
+            Color = clWindow
             Columns = <>
             TabOrder = 0
             TitleFont.Height = -13
@@ -4138,6 +4149,7 @@ object CheckForm: TCheckForm
           Width = 1096
           HelpContext = 930
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.RetSrc
           TabOrder = 2

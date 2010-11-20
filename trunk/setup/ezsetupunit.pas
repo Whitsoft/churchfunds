@@ -357,6 +357,7 @@ Type
     procedure ReportPrintRow(var Done: Boolean);
     procedure ReportAfterRow;
     procedure doLastpage;
+    procedure OpenTables;
     function  ReportRowNumLines(Group: Integer): Integer;
     function  getPayName(SocNo: String):String;
     function  getFloat(S: String): Double;
@@ -479,6 +480,20 @@ Begin
         SaveFontName(2, HELVETICA);
         SaveFontSize(1,10);
       end;
+  OpenTables;
+end;
+procedure TFormSetup.OpenTables;
+begin
+  with DataMod do
+    begin
+       ZTblFund.Open;
+       ZTblGroup.open;
+       ZTblFunds.Open;
+       ZTblAccounts.Open;
+       ZTblVendor.Open;
+       ZTblPayroll.Open;
+       ZTblFundGroups.Open;
+    end;
 end;
 
 Procedure TFormSetup.InitPayGrid;
@@ -578,12 +593,14 @@ Begin
         Begin
           PrintNav.DataSource := DataMod.FundSrc;
           PrintGrid.Datasource := DataMod.FundSrc;
+          DataMod.ZTblFund.Open;
         End
       Else
         If ItemIndex=1 Then
           Begin
             PrintNav.DataSource := DataMod.AccSrc;
             PrintGrid.Datasource := DataMod.AccSrc;
+            DataMod.ZTblAccounts.Open;
           End
       Else
         If ItemIndex=2 Then

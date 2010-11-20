@@ -91,9 +91,13 @@ type
     procedure ZTblFundGroupsAfterDelete(DataSet: TDataSet);
     procedure ZTblFundGroupsAfterPost(DataSet: TDataSet);
     procedure ZTblFundGroupsBeforePost(DataSet: TDataSet);
+    procedure ZTblFundsAfterDelete(DataSet: TDataSet);
+    procedure ZTblFundsAfterPost(DataSet: TDataSet);
+    procedure ZTblFundsBeforePost(DataSet: TDataSet);
     procedure ZTblGroupAfterDelete(DataSet: TDataSet);
     procedure ZTblGroupAfterPost(DataSet: TDataSet);
     procedure ZTblGroupBeforePost(DataSet: TDataSet);
+    procedure OpenTables;
   private
     { Private declarations }
   public
@@ -111,6 +115,16 @@ var
 implementation
 
 { TDataMod }
+
+procedure TDataMod.OpenTables;
+begin
+       ZTblGroup.open;
+       ZTblFunds.Open;
+       ZTblAccounts.Open;
+       ZTblVendor.Open;
+       ZTblPayroll.Open;
+       ZTblFundGroups.Open;
+end;
 
 function TDataMod.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
 var
@@ -141,7 +155,7 @@ begin
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
-      open;
+      OpenTables;
     end;
 end;
 
@@ -163,7 +177,7 @@ begin
     finally
       FreebookMark(Book);
     end;
-    ZTblFunds.Open;
+    OpenTables;
 end;
 
 procedure TDataMod.ZTblAccountsBeforePost(DataSet: TDataSet);
@@ -182,7 +196,7 @@ begin
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
-      open;
+      OpenTables;
     end;
 end;
 
@@ -194,7 +208,7 @@ begin
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
-      open;
+      openTables;
       If Tag = SQLINSERT then
         ShowMessage('New data has been inserted into Funds Groups')
       else if Tag = SQLEDIT then
@@ -211,6 +225,41 @@ begin
     ZTblFundGroups.Tag := SQLEDIT;
 end;
 
+procedure TDataMod.ZTblFundsAfterDelete(DataSet: TDataSet);
+begin
+   With ZTblFunds do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      openTables;
+    end;
+end;
+
+procedure TDataMod.ZTblFundsAfterPost(DataSet: TDataSet);
+begin
+    With ZTblFunds do
+    begin
+      Tag := 0;
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      openTables;
+      If Tag = SQLINSERT then
+         ShowMessage('New data has been inserted into Groups')
+      else if Tag = SQLEDIT then
+         ShowMessage('Groups have been edited.');
+    end;
+end;
+
+procedure TDataMod.ZTblFundsBeforePost(DataSet: TDataSet);
+begin
+   if (DataSet.State = dsInsert) then
+     ZTblFunds.Tag := SQLINSERT
+  else if (DataSet.State = dsEdit) then
+    ZTblFunds.Tag := SQLEDIT;
+end;
+
 procedure TDataMod.ZTblGroupAfterDelete(DataSet: TDataSet);
 begin
   With ZTblGroup do
@@ -218,7 +267,7 @@ begin
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
-      open;
+      openTables;
     end;
 end;
 
@@ -230,7 +279,7 @@ begin
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
-      open;
+      openTables;
       If Tag = SQLINSERT then
          ShowMessage('New data has been inserted into Groups')
       else if Tag = SQLEDIT then

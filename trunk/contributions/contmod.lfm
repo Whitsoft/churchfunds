@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 771
-  HorizontalOffset = 23
-  VerticalOffset = 51
+  HorizontalOffset = 47
+  VerticalOffset = 72
   Width = 1160
   object FBConnectionEZ: TIBConnection
     Connected = True
@@ -24,7 +24,6 @@ object DataMod: TDataMod
     top = 112
   end
   object SQLQueryLiabOwe: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -52,7 +51,6 @@ object DataMod: TDataMod
     top = 608
   end
   object QuerySrchName: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -148,7 +146,7 @@ object DataMod: TDataMod
     )
     Params = <>
     left = 672
-    top = 208
+    top = 200
   end
   object TableDetail: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
@@ -169,7 +167,6 @@ object DataMod: TDataMod
     top = 208
   end
   object QuerySrchFund: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -190,11 +187,31 @@ object DataMod: TDataMod
   object TableEditDetail: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
     Active = True
+    AfterDelete = TableEditDetailAfterDelete
+    AfterPost = TableEditDetailAfterPost
+    BeforePost = TableEditDetailBeforePost
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
       '    SELECT * FROM FUNDS'
+    )
+    UpdateSQL.Strings = (
+      '   UPDATE FUNDS'
+      '   SET DESCRIPTION =:DESCRIPTION,'
+      '          ACCOUNT =:ACCOUNT'
+      '   where'
+      '     DETAIL_FUND_NO = :DETAIL_FUND_NO'
+    )
+    InsertSQL.Strings = (
+      '     Insert into FUNDS'
+      '   (DETAIL_FUND_NO, DESCRIPTION, ACCOUNT)'
+      '  Values'
+      '   (:DETAIL_FUND_NO, :DESCRIPTION, :ACCOUNT)'
+    )
+    DeleteSQL.Strings = (
+      ' DELETE FROM FUNDS where'
+      '    DETAIL_FUND_NO =:OLD_DETAIL_FUND_NO'
     )
     Params = <>
     left = 672
@@ -326,7 +343,6 @@ object DataMod: TDataMod
     top = 32
   end
   object QueryRContrib: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -351,7 +367,6 @@ object DataMod: TDataMod
     top = 32
   end
   object QueryRCbutions: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -382,7 +397,6 @@ object DataMod: TDataMod
     top = 112
   end
   object QueryRPledge: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -426,7 +440,6 @@ object DataMod: TDataMod
     top = 32
   end
   object QueryFund: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -463,7 +476,6 @@ object DataMod: TDataMod
     top = 208
   end
   object QueryMulti: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -488,7 +500,6 @@ object DataMod: TDataMod
     top = 608
   end
   object QuerySummary: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -527,7 +538,6 @@ object DataMod: TDataMod
     top = 608
   end
   object QueryFGroup: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -553,7 +563,6 @@ object DataMod: TDataMod
     top = 304
   end
   object QueryCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -668,7 +677,6 @@ object DataMod: TDataMod
     top = 304
   end
   object QueryPledge: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -759,7 +767,6 @@ object DataMod: TDataMod
     top = 112
   end
   object QueryPledgeSum: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -823,7 +830,6 @@ object DataMod: TDataMod
     top = 32
   end
   object QuerySumCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -872,7 +878,6 @@ object DataMod: TDataMod
     top = 400
   end
   object QueryMember: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -909,7 +914,6 @@ object DataMod: TDataMod
     top = 208
   end
   object QueryMemPrint: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -958,7 +962,6 @@ object DataMod: TDataMod
     end
   end
   object QueryMemberData: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -976,7 +979,6 @@ object DataMod: TDataMod
     top = 32
   end
   object QueryFundDesc: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1067,7 +1069,6 @@ object DataMod: TDataMod
     end
   end
   object QueryEnvPledge: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1109,7 +1110,6 @@ object DataMod: TDataMod
     top = 504
   end
   object TableMem: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1215,7 +1215,6 @@ object DataMod: TDataMod
     end
   end
   object QueryMem: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1270,7 +1269,6 @@ object DataMod: TDataMod
     top = 608
   end
   object QueryLabel: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1288,7 +1286,6 @@ object DataMod: TDataMod
     top = 608
   end
   object QueryDetail: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1338,7 +1335,6 @@ object DataMod: TDataMod
     end
   end
   object QueryIsMember: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1366,7 +1362,6 @@ object DataMod: TDataMod
     end
   end
   object TableChurch: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1383,7 +1378,6 @@ object DataMod: TDataMod
     top = 688
   end
   object QueryEnvNo: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1399,5 +1393,63 @@ object DataMod: TDataMod
       end>
     left = 672
     top = 256
+  end
+  object QueryDelMember: TSQLQuery
+    Database = FBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    DELETE FROM MEMBERS where'
+      '     ENV_NO = :EnvParm and'
+      '     TITLE =  :TitleParm and'
+      '     FName =  :FNameParm and'
+      '     Name =   :NameParm'
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'EnvParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'TitleParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FNameParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'NameParm'
+        ParamType = ptUnknown
+      end>
+    left = 56
+    top = 696
+  end
+  object QueryDelPledge: TSQLQuery
+    Database = FBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    Delete FROM PLEDGES where ENV_NO =:EParm'
+      '    and (FUND =:FParm OR :FParm = 0)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'EParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'FParm'
+        ParamType = ptUnknown
+      end>
+    left = 224
+    top = 696
   end
 end
