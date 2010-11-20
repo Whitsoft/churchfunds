@@ -8,7 +8,7 @@ interface
 Uses
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
 StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp,
-IBConnection, db, Grids, Calendar, StrUtils, LHelpControl, newpsclass, Keyboard;
+IBConnection, db, Grids, StrUtils, LHelpControl, newpsclass, Keyboard;
 
 type
 
@@ -170,6 +170,7 @@ type
     procedure LabelBoxClick(Sender: TObject);
     procedure LookUpEnvChange(Sender: TObject);
     procedure RadioCashClick(Sender: TObject);
+    function  DeletePledge(EnvNo, Fund: Integer): Boolean;
     function  findName(EnvNo: Integer): String;
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1899,6 +1900,9 @@ begin
 end;
 
 procedure TFormCont.BtnDelTorsClick(Sender: TObject);
+var
+  LName, FName, Title: String;
+  Envelope: Integer;
 begin
   With DataMod.TableEnvNo do
     begin
@@ -1906,7 +1910,25 @@ begin
        FieldByName('FNAME').AsString+' '+
        FieldByName('NAME').AsString+' ?',
       mtConfirmation, [mbNo, mbYes], 0) = mrYes then
-        Delete;
+      try
+        Envelope := FieldByName('ENV_NO').AsInteger;
+        Title := FieldByName('TITLE').AsString;
+        FName := FieldByName('FNAME').AsString;
+        Name := FieldByName('NAME').AsString;
+        If not DeletePledge(Envelope, 0) then
+          ShowMessage('Unable to delete pledges for '+Title+' '+FName+' '+Name)
+        else
+          begin
+            DataMod.QueryDelMember.Params[0].AsInteger := Envelope;
+            DataMod.QueryDelMember.Params[1].AsString := Title;
+            DataMod.QueryDelMember.Params[2].AsString := FName;
+            DataMod.QueryDelMember.Params[3].AsString := Name;
+            DataMod.QueryDelMember.ExecSQL;
+            DataMod.SQLTransactionEZ.commit;
+          end;
+      except
+        DataMod.SQLTransactionEZ.RollBack;
+      end;
       DataMod.TableEnvNo.Close;
       DataMod.TableEnvNo.Open;
       DataMod.TablePledge.Close;
@@ -1916,7 +1938,27 @@ begin
     end;
 end;
 
+function TFormCont.DeletePledge(EnvNo, Fund: Integer): Boolean;
+begin
+   result := true;
+     try
+        DataMod.QueryDelPledge.Params[0].AsInteger:=EnvNo;
+        DataMod.QueryDelPledge.Params[1].AsInteger:=Fund;
+        DataMod.QueryDelPledge.ExecSQL;
+        DataMod.SQLTransactionEZ.commit;
+      except
+        DataMod.SQLTransactionEZ.RollBack;
+        DataMod.TablePledge.Close;
+        DataMod.TablePledge.Open;
+        result := false;
+      end;
+      DataMod.TablePledge.Close;
+      DataMod.TablePledge.Open;
+end;
+
 procedure TFormCont.BtnPledgeDelClick(Sender: TObject);
+var
+   Envelope, Fund: Integer;
 begin
   With DataMod.TablePledge do
     begin
@@ -1925,9 +1967,18 @@ begin
          FieldByName('FUND').AsString+' for amount $'+
          FieldByName('AMOUNT').AsString+' ?',
       mtConfirmation, [mbNo, mbYes], 0) = mrYes then
-        Delete;
-      DataMod.TablePledge.Close;
-      DataMod.TablePledge.Open;
+      try
+        Envelope := FieldByName('ENV_NO').AsInteger;
+        Fund := FieldByName('FUND').AsInteger;
+        DeletePledge(Envelope, Fund);
+        DataMod.QueryDelPledge.Params[0].AsInteger:=Envelope;
+        DataMod.QueryDelPledge.Params[1].AsInteger:=Fund;
+        DataMod.QueryDelPledge.ExecSQL;
+        DataMod.SQLTransactionEZ.commit;
+      finally
+        DataMod.TablePledge.Close;
+        DataMod.TablePledge.Open;
+      end;
     end;
 end;
 

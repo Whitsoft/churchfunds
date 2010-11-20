@@ -1,7 +1,7 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
-  HorizontalOffset = 71
+  HorizontalOffset = 79
   VerticalOffset = 239
   Width = 1215
   object QueryTranSrc: TDatasource
@@ -445,10 +445,10 @@ object DataMod: TDataMod
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
-      '   select * from Temp_Trans where CHECK_NO=:CheckPrm'
+      '   Delete from Temp_Trans where CHECK_NO=:CheckPrm'
     )
     DeleteSQL.Strings = (
-      'delete from Temp_Trans where CHECK_NO=:OLD_CHECK_NO'
+      ''
     )
     Params = <    
       item
@@ -2223,10 +2223,10 @@ object DataMod: TDataMod
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
-      '   select * from Temp_Checks where CHECK_NO=:CheckPrm'
+      '   Delete from Temp_Checks where CHECK_NO=:CheckPrm'
     )
     DeleteSQL.Strings = (
-      'delete from Temp_Checks where CHECK_NO=:OLD_CHECK_NO'
+      ''
     )
     Params = <    
       item
@@ -2405,6 +2405,8 @@ object DataMod: TDataMod
     top = 712
   end
   object ZEditCheckSeed: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2418,7 +2420,7 @@ object DataMod: TDataMod
     Params = <>
     UpdateMode = upWhereAll
     left = 704
-    top = 680
+    top = 672
     object ZTblBalanceBEGBALANCE2: TBCDField
       DisplayWidth = 18
       FieldKind = fkData
@@ -2476,7 +2478,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryName: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -2493,5 +2494,25 @@ object DataMod: TDataMod
       end>
     left = 592
     top = 536
+  end
+  object ZQueryDelPayStub: TSQLQuery
+    AutoCalcFields = False
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '   Delete from Temp_Checks where CHECK_NO=:CheckPrm'
+    )
+    DeleteSQL.Strings = (
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'CheckPrm'
+        ParamType = ptUnknown
+      end>
+    left = 912
+    top = 40
   end
 end

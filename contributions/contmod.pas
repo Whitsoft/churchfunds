@@ -30,6 +30,8 @@ type
     TableChurch: TSQLQuery;
     SrcMemAll: TDatasource;
     QueryEnvNo: TSQLQuery;
+    QueryDelMember: TSQLQuery;
+    QueryDelPledge: TSQLQuery;
     TableMem: TSQLQuery;
     SrcNow: TDatasource;
     SrcMem: TDatasource;
@@ -118,6 +120,9 @@ type
     QueryPledgeData: TSQLQuery;
 
     procedure SrcMemDataChange(Sender: TObject; Field: TField);
+    procedure TableEditDetailAfterDelete(DataSet: TDataSet);
+    procedure TableEditDetailAfterPost(DataSet: TDataSet);
+    procedure TableEditDetailBeforePost(DataSet: TDataSet);
   //  function ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
   private
     { Private declarations }
@@ -125,6 +130,9 @@ type
     { Public declarations }
   end;
 
+const
+   SQLINSERT = 1;
+   SQLEDIT = 2;
 var
   DataMod: TDataMod;
 
@@ -136,6 +144,41 @@ implementation
 procedure TDataMod.SrcMemDataChange(Sender: TObject; Field: TField);
 begin
 
+end;
+
+procedure TDataMod.TableEditDetailAfterDelete(DataSet: TDataSet);
+begin
+    With TableEditDetail do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      open;
+    end;
+end;
+
+procedure TDataMod.TableEditDetailAfterPost(DataSet: TDataSet);
+begin
+  With TableEditDetail do
+    begin
+      Tag := 0;
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      open;
+      If Tag = SQLINSERT then
+         ShowMessage('New data has been inserted into Groups')
+      else if Tag = SQLEDIT then
+         ShowMessage('Groups have been edited.');
+    end;
+end;
+
+procedure TDataMod.TableEditDetailBeforePost(DataSet: TDataSet);
+begin
+   if (DataSet.State = dsInsert) then
+     TableEditDetail.Tag := SQLINSERT
+  else if (DataSet.State = dsEdit) then
+    TableEditDetail.Tag := SQLEDIT;
 end;
 
 //initialization

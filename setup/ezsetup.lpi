@@ -52,8 +52,8 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="18" Y="10"/>
-        <UsageCount Value="194"/>
+        <CursorPos X="7" Y="8"/>
+        <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -64,11 +64,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2870"/>
-        <CursorPos X="1" Y="2891"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="461"/>
+        <CursorPos X="8" Y="489"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -81,9 +82,9 @@
         <UnitName Value="setupmod"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="65"/>
-        <CursorPos X="70" Y="80"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="105"/>
+        <CursorPos X="27" Y="126"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -92,8 +93,8 @@
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../help;../../../lazarus/lazarus_svn/components/chmhelp/lhelp;../../../lazarus/lazarus_svn/components/printers/lib/i386-linux/gtk2;../../../lazarus/lazarus_svn/components/turbopower_ipro;../../../lazarus/lazarus_svn/components/chmhelp/packages/help"/>
+      <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/lcl/include;$(LazarusDir)/components/printers/unix"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit"/>
       <UnitOutputDirectory Value="/home/don/churchfunds/trunk/setup"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>

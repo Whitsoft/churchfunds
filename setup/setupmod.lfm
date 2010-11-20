@@ -23,7 +23,6 @@ object DataMod: TDataMod
     top = 104
   end
   object ZQueryLiabOwe: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -51,7 +50,6 @@ object DataMod: TDataMod
     top = 664
   end
   object ZQueryTotalCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -77,7 +75,6 @@ object DataMod: TDataMod
     top = 664
   end
   object ZQueryDelOldCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -122,7 +119,6 @@ object DataMod: TDataMod
     top = 664
   end
   object ZQueryLiabPay: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -149,7 +145,6 @@ object DataMod: TDataMod
     top = 552
   end
   object ZQuerySumCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -181,7 +176,6 @@ object DataMod: TDataMod
     top = 552
   end
   object ZQuerySumOldCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -231,11 +225,15 @@ object DataMod: TDataMod
       '       PAYROLL = :PAYROLL'
       '       where  ACCOUNT =:ACCOUNT'
     )
+    InsertSQL.Strings = (
+      ''
+    )
     DeleteSQL.Strings = (
       ' delete from ACCOUNTS'
       '   where ACCOUNT =:OLD_ACCOUNT'
     )
     Params = <>
+    UpdateMode = upWhereChanged
     left = 704
     top = 552
     object ZTblAccountsACCOUNT: TLongintField
@@ -326,7 +324,6 @@ object DataMod: TDataMod
     top = 552
   end
   object ZQueryLiab: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -340,7 +337,6 @@ object DataMod: TDataMod
     top = 424
   end
   object ZQueryDelOldDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -359,7 +355,6 @@ object DataMod: TDataMod
     top = 424
   end
   object ZQuerySumTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -429,7 +424,6 @@ object DataMod: TDataMod
     top = 416
   end
   object ZQueryFindKey: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -503,7 +497,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryTotalDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -528,7 +521,6 @@ object DataMod: TDataMod
     top = 304
   end
   object ZQuerySumOldChk: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -561,9 +553,9 @@ object DataMod: TDataMod
       '      order by GROUP_NO'
     )
     UpdateSQL.Strings = (
-      '    Update  FUNDGROUPS'
-      '       Set  DESCRIPTION =:DESCRIPTION'
-      '       where  GROUP_NO =:GROUP_NO'
+      'Update  GROUPS'
+      'Set  DESCRIPTION =:DESCRIPTION'
+      'where  GROUP_NO =:GROUP_NO'
     )
     InsertSQL.Strings = (
       ' insert  into GROUPS'
@@ -579,7 +571,6 @@ object DataMod: TDataMod
     top = 304
   end
   object ZQueryPlusDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -605,7 +596,6 @@ object DataMod: TDataMod
     top = 200
   end
   object ZQueryTotalTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -654,7 +644,7 @@ object DataMod: TDataMod
       '       where  FUND_GROUP =:FUND_GROUP'
     )
     InsertSQL.Strings = (
-      '     insert  into FUNDGROUPS'
+      'insert  into FUNDGROUPS'
       '       (FUND_GROUP, DESCRIPTION)'
       '     values(:FUND_GROUP, :DESCRIPTION)'
     )
@@ -690,7 +680,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryNegDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -716,7 +705,6 @@ object DataMod: TDataMod
     top = 104
   end
   object ZQueryDelOldChk: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -901,6 +889,9 @@ object DataMod: TDataMod
   object ZTblFunds: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
     Active = True
+    AfterDelete = ZTblFundsAfterDelete
+    AfterPost = ZTblFundsAfterPost
+    BeforePost = ZTblFundsBeforePost
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -913,11 +904,18 @@ object DataMod: TDataMod
       '            ACCOUNT = :ACCOUNT'
       '       where DETAIL_FUND_NO = :DETAIL_FUND_NO'
     )
+    InsertSQL.Strings = (
+      '  Insert into FUNDS'
+      '   (DETAIL_FUND_NO, DESCRIPTION, ACCOUNT)'
+      '  Values'
+      '   (:DETAIL_FUND_NO, :DESCRIPTION, :ACCOUNT)'
+    )
     DeleteSQL.Strings = (
       ' delete from FUNDS'
       ' where DETAIL_FUND_NO =:OLD_DETAIL_FUND_NO'
     )
     Params = <>
+    UpdateMode = upWhereChanged
     left = 1016
     top = 104
     object ZTblFundsDETAIL_FUND_NO: TSmallintField
@@ -953,7 +951,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryAccName: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -995,7 +992,6 @@ object DataMod: TDataMod
     top = 200
   end
   object QueryPayName: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1026,7 +1022,6 @@ object DataMod: TDataMod
     top = 416
   end
   object QueryUpdatePayroll: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     ReadOnly = False
     UpdateSQL.Strings = (
       '  Update  Payroll'
@@ -1055,7 +1050,6 @@ object DataMod: TDataMod
     top = 31
   end
   object ZQuerySumOldDP: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1066,7 +1060,7 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftDateTime
+        DataType = ftUnknown
         Name = 'CDATE'
         ParamType = ptUnknown
       end>

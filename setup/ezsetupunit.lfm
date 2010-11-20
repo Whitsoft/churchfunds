@@ -1,7 +1,7 @@
 object FormSetup: TFormSetup
-  Left = 117
+  Left = 440
   Height = 917
-  Top = 106
+  Top = 0
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
@@ -38,7 +38,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 2
+    PageIndex = 8
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -76,6 +76,7 @@ object FormSetup: TFormSetup
           Width = 712
           HelpContext = 170
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcFundGroups
           TabOrder = 0
@@ -120,6 +121,7 @@ object FormSetup: TFormSetup
           Width = 657
           HelpContext = 200
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcGroup
           TabOrder = 0
@@ -271,6 +273,7 @@ object FormSetup: TFormSetup
           Width = 1040
           HelpContext = 220
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.AccSrc
           TabOrder = 4
@@ -367,6 +370,7 @@ object FormSetup: TFormSetup
           Width = 930
           HelpContext = 290
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcFunds
           TabOrder = 1
@@ -474,6 +478,7 @@ object FormSetup: TFormSetup
           Width = 624
           HelpContext = 330
           Anchors = []
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.VendSrc
           TabOrder = 3
@@ -1685,9 +1690,9 @@ object FormSetup: TFormSetup
       ClientHeight = 882
       object Label68: TLabel
         Left = 44
-        Height = 50
+        Height = 1
         Top = 336
-        Width = 38
+        Width = 1
         ParentColor = False
       end
       object AGroupYear: TGroupBox
