@@ -197,6 +197,7 @@ object DataMod: TDataMod
     top = 616
   end
   object ZQueryDPTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -221,6 +222,7 @@ object DataMod: TDataMod
     top = 24
   end
   object ZQuerySumReturn: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -303,6 +305,7 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryCheckSum: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -347,6 +350,7 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryCheckTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -371,6 +375,7 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryLiabTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -378,21 +383,24 @@ object DataMod: TDataMod
     SQL.Strings = (
       'Select Sum(T.AMOUNT) from TRANS T'
       'where'
-      '(T.TRAN_TYPE>0) '
+      '((T.TRAN_TYPE>0)'
       'and'
-      '((T.CHECK_NO=:CheckParm)'
-      'or'
-      '(0=:CheckParm'
+      '(T.CHECK_NO>=:FCheck and T.CHECK_NO <=:TCheck)'
       'And T.TRAN_DATE>=:FromDate'
       'and T.TRAN_DATE<=:ToDate'
       'and T.ACCOUNT>=:FromACC'
-      'and T.Account<=:ToACC))'
+      'and T.Account<=:ToACC)'
       ''
     )
     Params = <    
       item
         DataType = ftUnknown
-        Name = 'CheckParm'
+        Name = 'FCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'TCheck'
         ParamType = ptUnknown
       end    
       item
@@ -460,6 +468,7 @@ object DataMod: TDataMod
     top = 624
   end
   object ZQuerySumTempChecks: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -800,7 +809,7 @@ object DataMod: TDataMod
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
-      '  Select * from DPOST'
+      '  Select AMOUNT, POST_DATE,MEMO  from DPOST'
     )
     InsertSQL.Strings = (
       '  INSERT INTO DPOST ('
@@ -816,21 +825,11 @@ object DataMod: TDataMod
     Params = <>
     left = 216
     top = 344
-    object ZTblDPPOST_DATE: TDateField
-      DisplayWidth = 10
-      FieldKind = fkData
-      FieldName = 'POST_DATE'
-      Index = 0
-      LookupCache = False
-      ProviderFlags = [pfInUpdate, pfInWhere]
-      ReadOnly = False
-      Required = True
-    end
     object ZTblDPAMOUNT: TBCDField
       DisplayWidth = 18
       FieldKind = fkData
       FieldName = 'AMOUNT'
-      Index = 1
+      Index = 0
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -840,6 +839,16 @@ object DataMod: TDataMod
       MaxValue = 0
       MinValue = 0
       Size = 2
+    end
+    object ZTblDPPOST_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'POST_DATE'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
     end
     object ZTblDPMEMO: TStringField
       DisplayWidth = 128
@@ -977,6 +986,7 @@ object DataMod: TDataMod
   end
   object CheckingSrc: TDatasource
     DataSet = ZTblChecks
+    OnDataChange = CheckingSrcDataChange
     left = 344
     top = 24
   end
@@ -992,6 +1002,7 @@ object DataMod: TDataMod
   end
   object DPSrc: TDatasource
     DataSet = ZTblDP
+    OnDataChange = DPSrcDataChange
     left = 216
     top = 272
   end
@@ -1007,6 +1018,7 @@ object DataMod: TDataMod
     top = 408
   end
   object ZQuerySumTempTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1020,6 +1032,7 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryTranTotal: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1027,20 +1040,24 @@ object DataMod: TDataMod
     SQL.Strings = (
       'Select Sum(T.AMOUNT) from TRANS T'
       'where '
-      '(T.TRAN_TYPE=0)'
+      '((T.TRAN_TYPE=0)'
       'and'
-      '((T.CHECK_NO=:CheckParm)'
-      'or'
-      '(0=:CheckParm'
+      '((T.CHECK_NO<=:FCheck) and (T.CHECK_NO>=:TCheck))'
+      ''
       'And T.TRAN_DATE>=:FromDate'
       'and T.TRAN_DATE<=:ToDate'
       'and T.ACCOUNT>=:FromACC'
-      'and T.Account<=:ToACC))'
+      'and T.Account<=:ToACC)'
     )
     Params = <    
       item
         DataType = ftUnknown
-        Name = 'CheckParm'
+        Name = 'FCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'TCheck'
         ParamType = ptUnknown
       end    
       item
@@ -1152,15 +1169,19 @@ object DataMod: TDataMod
   end
   object ZTblCheckTrans: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
-      '  Select * from TRANS'
+      '  Select * from TRANS  WHERE CHECK_NO =:CheckNo'
     )
-    Params = <>
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'CheckNo'
+        ParamType = ptUnknown
+      end>
     left = 56
     top = 616
     object ZTblCheckTransCHECK_NO: TLongintField
@@ -1276,52 +1297,52 @@ object DataMod: TDataMod
       'T.CHECK_NO,T.ACCOUNT, T.AMOUNT, T.TRAN_DATE, T.TRAN_TYPE'
       ',A.NAME from TRANS T,ACCOUNTS A'
       'where'
-      'A.ACCOUNT=T.ACCOUNT'
-      'and'
-      '(T.TRAN_TYPE>=:FromType'
-      'and T.TRAN_TYPE<=:ToType)'
-      'and'
-      '((T.CHECK_NO=:CheckParm)'
-      'or'
-      '(0=:CheckParm'
-      'And T.TRAN_DATE>=:FromDate'
-      'and T.TRAN_DATE<=:ToDate'
-      'and T.ACCOUNT>=:FromACC'
-      'and T.Account<=:ToACC))'
+      '(A.ACCOUNT=T.ACCOUNT'
+      'and (T.TRAN_TYPE>=:FromType and T.TRAN_TYPE<=:ToType)'
+      ''
+      'and (T.Check_No>=:StartCheck and T.Check_No<=:EndCheck )'
+      ''
+      'And (T.TRAN_DATE>=:FromDate and T.TRAN_DATE<=:ToDate )'
+      'and (T.ACCOUNT>=:FromACC and T.Account<=:ToACC))'
     )
     Params = <    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FromType'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'ToType'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
-        Name = 'CheckParm'
+        DataType = ftInteger
+        Name = 'StartCheck'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
+        Name = 'EndCheck'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftDateTime
         Name = 'FromDate'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
+        DataType = ftDateTime
         Name = 'ToDate'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FromACC'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'ToACC'
         ParamType = ptUnknown
       end>

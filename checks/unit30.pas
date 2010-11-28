@@ -176,7 +176,9 @@ type
     ZTblTempChecks: TSQLQuery;
     ZTblTrans: TSQLQuery;
     ZTblXY: TSQLQuery;
+    procedure CheckingSrcDataChange(Sender: TObject; Field: TField);
     procedure DataModuleCreate(Sender: TObject);
+    procedure DPSrcDataChange(Sender: TObject; Field: TField);
     procedure SrcTempChecksDataChange(Sender: TObject; Field: TField);
     procedure ZTblDPAfterDelete(DataSet: TDataSet);
     procedure ZTblDPAfterInsert(DataSet: TDataSet);
@@ -198,6 +200,22 @@ procedure TDataMod.DataModuleCreate(Sender: TObject);
   //ShowMessage('Mod created');
 begin
  end;
+
+procedure TDataMod.DPSrcDataChange(Sender: TObject; Field: TField);
+begin
+  if CheckForm.visible then
+    CheckForm.InitDPGrid;
+end;
+
+procedure TDataMod.CheckingSrcDataChange(Sender: TObject; Field: TField);
+begin
+    With ZTblCheckTrans do
+    begin
+      close;
+      Params[0].AsInteger:=ZTblChecks.FieldByName('CHECK_NO').ASInteger;
+      open;
+    end;
+end;
 
 procedure TDataMod.SrcTempChecksDataChange(Sender: TObject; Field: TField);
 begin
