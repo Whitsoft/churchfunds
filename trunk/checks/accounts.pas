@@ -456,7 +456,7 @@ type
     function  AtoFloat(MonStr: String):Double;
     function  GetNameFromSoc(SocNo: String): String;
     function  GetSocFromName(NM: String): String;
-    procedure doPayStubLabels(D1,D2,D3,D4,D5: Double);
+    procedure doPayStubLabels(Pen, D1,D2,D3,D4,D5: Double);
     function  GetChecks(SDate, EDate: TDateTime): Double;
     function  GetCon(SDate, EDate: TDateTime; SFund, EFund: Integer): Double;
     function  GetDP(SDate, EDate: TDateTime): Double;
@@ -649,6 +649,8 @@ type
     function  FindSocNo(Soc: String): Boolean;
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ClearStubs;
+    procedure InitDPGrid;
 
            { Private declarations }
   private
@@ -1646,48 +1648,62 @@ begin
    PayBal.Text:=CkBal1.Text;
 end;
 
-procedure TCheckForm.doPayStubLabels(D1,D2,D3,D4,D5: Double);
+procedure TCheckForm.ClearStubs;
 begin
-   If D1>0.0 then
-     LabelRDed1.Visible:=True
-  else
-    LabelRDed1.Visible:=False;
-  If D2>0.0 then
-     LabelRDed2.Visible:=True
-  else
-     LabelRDed2.Visible:=False;
-  If D3>0.0 then
-     LabelRDed3.Visible:=True
-  else
-     LabelRDed3.Visible:=False;
-  If D4>0.0 then
-     LabelRDed4.Visible:=True
-  else
-     LabelRDed4.Visible:=False;
-  If D5>0.0 then
-     LabelRDed5.Visible:=True
-  else
-     LabelRDed5.Visible:=False;
-  If D1>0.0 then
-     EditRDed1.Visible:=True
-  else
-     EditRDed1.Visible:=False;
-  If D2>0.0 then
-     EditRDed2.Visible:=True
-  else
-     EditRDed2.Visible:=False;
-  If D3>0.0 then
-     EditRDed3.Visible:=True
-  else
-     EditRDed3.Visible:=False;
-  If D4>0.0 then
-     EditRDed4.Visible:=True
-  else
-     EditRDed4.Visible:=False;
-    If D5>0.0 then
-     EditRDed5.Visible:=True
-  else
-     EditRDed5.Visible:=False;
+    GrossEd.Text:='';
+    NetEd.Text:='';
+    FedEd.Text:='';
+    FICAEd.Text:='';
+    MedEd.Text:='';
+    StEd.Text:='';
+    LocEd.Text:='';
+    PenEd.Text:='';
+    EditRDed1.Text:='';
+    EditRDed2.Text:='';
+    EditRDed3.Text:='';
+    EditRDed4.Text:='';
+    EditRDed5.Text:='';
+    PenEd.Visible:=false;
+    EditRDed1.Visible:=false;
+    EditRDed2.Visible:=false;
+    EditRDed3.Visible:=false;
+    EditRDed4.Visible:=false;
+    EditRDed5.Visible:=false;
+end;
+
+procedure TCheckForm.doPayStubLabels(Pen,D1,D2,D3,D4,D5: Double);
+begin
+   Label122.Visible:=Pen>0.0;
+    PenEd.Visible   :=Pen>0.0;
+
+    LabelRDed1.Visible:=D1>0.0;
+    EditRDed1.Visible :=D1>0.0;
+
+    LabelRDed2.Visible:=D2>0.0;
+    EditRDed2.Visible :=D2>0.0;
+
+    LabelRDed3.Visible:=D3>0.0;
+    EditRDed3.Visible :=D3>0.0;
+
+    LabelRDed4.Visible:=D4>0.0;
+    EditRDed4.Visible :=D4>0.0;
+
+    LabelRDed5.Visible:=D5>0.0;
+    EditRDed5.Visible :=D5>0.0;
+
+    If PenEd.Visible then
+      PenEd.Text := FormatFloat('0.00',Pen);
+
+    If EditRDed1.Visible then
+      EditRDed1.Text:=FormatFloat('0.00',D1);
+    If EditRDed2.Visible then
+      EditRDed2.Text:=FormatFloat('0.00',D2);
+    If EditRDed3.Visible then
+      EditRDed3.Text:=FormatFloat('0.00',D3);
+    If EditRDed4.Visible then
+      EditRDed4.Text:=FormatFloat('0.00',D4);
+    If EditRDed5.Visible then
+      EditRDed5.Text:=FormatFloat('0.00',D5);
 end;
 
 
@@ -1753,7 +1769,7 @@ procedure TCheckForm.BtnSrchClick(Sender: TObject);
 var
   FromPType,ToPType: Integer;
   FromAccount,ToAccount: Integer;
-  FCheck: LongInt;
+  FCheck, TCheck: LongInt;
   Year: Word;
   BegDate,EndDate: TDateTime;
   Liab: Double;
@@ -1763,11 +1779,11 @@ begin
     try
       Year:=StrToInt(YearEd.Text);
       If EditTranStart.Text<>'' then
-         BegDate:=StrToDate(EditTranStart.Text)
+         BegDate:=StrToDateTime(EditTranStart.Text)
       else
-           BegDate:=BegMonth(Year,1);
+           BegDate:=BegMonth(2000,1);
       If EditTranEnd.Text<>'' then
-         EndDate:=StrToDate(EditTranEnd.Text)
+         EndDate:=StrToDateTime(EditTranEnd.Text)
       else
          EndDate:=EndMonth(Year,12);
     except
@@ -1785,9 +1801,15 @@ begin
           ToAccount:=9999;
         end;
       If EditCheckTran.Text<>'' then
-         FCheck:=StrToInt(EditCheckTran.Text)
+        begin
+           FCheck:=StrToInt(EditCheckTran.Text);
+           TCheck := FCheck;
+        end
       else
-         FCheck:=0;
+        begin
+          FCheck:=0;
+          TCheck:=999999;
+        end;
        If (TranTypeCombo.ItemIndex>1) or (TranTypeCombo.Text='') then
         begin
           FromPType:=0;
@@ -1808,10 +1830,11 @@ begin
         Params[0].AsInteger:=FromPType;
         Params[1].AsInteger:=ToPType;
         Params[2].AsInteger:=FCheck;
-        Params[3].AsDateTime:=BegDate;
-        Params[4].AsDateTime:=EndDate;
-        Params[5].AsInteger:=FromAccount;
-        Params[6].AsInteger:=ToAccount;
+        Params[3].AsInteger:=TCheck;
+        Params[4].AsDateTime:=BegDate;
+        Params[5].AsDateTime:=EndDate;
+        Params[6].AsInteger:=FromAccount;
+        Params[7].AsInteger:=ToAccount;
         Open;
       end;
       With DataMod.ZQueryLiabTotal do
@@ -1819,10 +1842,11 @@ begin
         If not prepared then prepare;
         Close;
         Params[0].AsInteger:=FCheck;
-        Params[1].AsDateTime:=BegDate;
-        Params[2].AsDateTime:=EndDate;
-        Params[3].AsInteger:=FromAccount;
-        Params[4].AsInteger:=ToAccount;
+        Params[1].AsInteger:=TCheck;
+        Params[2].AsDateTime:=BegDate;
+        Params[3].AsDateTime:=EndDate;
+        Params[4].AsInteger:=FromAccount;
+        Params[5].AsInteger:=ToAccount;
         Open;
         Liab:=FieldByName('SUM').AsFloat;
       end;
@@ -1831,10 +1855,11 @@ begin
         If not prepared then prepare;
         Close;
         Params[0].AsInteger:=FCheck;
-        Params[1].AsDateTime:=BegDate;
-        Params[2].AsDateTime:=EndDate;
-        Params[3].AsInteger:=FromAccount;
-        Params[4].AsInteger:=ToAccount;
+        Params[1].AsInteger:=TCheck;
+        Params[2].AsDateTime:=BegDate;
+        Params[3].AsDateTime:=EndDate;
+        Params[4].AsInteger:=FromAccount;
+        Params[5].AsInteger:=ToAccount;
         Open;
         EditSumExp.Text:= Format('%m',[FieldByName('SUM').AsFloat]);
         EditSumLiab.Text:=Format('%m',[Liab]);
@@ -2660,38 +2685,6 @@ begin
 end;
 
 
-
-
-procedure TCheckForm.AllCheckBtnClick(Sender: TObject);
-  var Start,Stop:  String;
-      Temp: Integer;
-begin
-  GlobTrial:=False;
-  With DataMod.ZTblTempChecks do
-     begin
-       If RecordCount<=0 then exit;
-       First;
-       Start:=FieldByName('CHECK_NO').AsString;
-       GlobStCheck:=FieldByName('CHECK_NO').AsInteger;
-       Last;
-       Stop:=FieldByName('CHECK_NO').AsString;
-       GlobEndCheck:=FieldByName('CHECK_NO').AsInteger;
-     end;
-  If MessageDlg(' Ok to print '+Start+' through '+Stop,
-         mtInformation,[mbOk,mbCancel],0)=mrOk then
-     begin
-      // ShowMessage('Please make sure checks are lined up in printer from '
-        //      +Start+' To '+Stop);
-     try
-         //CheckPrinter.Execute;
-       except
-         DataMod.ZTblTempChecks.Open;
-         DataMod.ZTblTempTrans.Open;
-       end;
-       doBalance;
-     end;
-end;
-
 procedure TCheckForm.AccPostBtnClick(Sender: TObject);
 var
    AccAmount: Double;
@@ -3318,6 +3311,39 @@ begin
      end;
 end;
 
+
+procedure TCheckForm.AllCheckBtnClick(Sender: TObject);
+  var Start,Stop:  String;
+      Temp: Integer;
+begin
+  GlobTrial:=False;
+  With DataMod.ZTblTempChecks do
+     begin
+       If RecordCount<=0 then exit;
+       First;
+       Start:=FieldByName('CHECK_NO').AsString;
+       GlobStCheck:=FieldByName('CHECK_NO').AsInteger;
+       Last;
+       Stop:=FieldByName('CHECK_NO').AsString;
+       GlobEndCheck:=FieldByName('CHECK_NO').AsInteger;
+     end;
+  If MessageDlg(' Ok to print '+Start+' through '+Stop,
+         mtInformation,[mbOk,mbCancel],0)=mrOk then
+     begin
+      // ShowMessage('Please make sure checks are lined up in printer from '
+        //      +Start+' To '+Stop);
+     try
+         //CheckPrinter.Execute;
+         CheckPrinterPrint;
+       except
+         DataMod.ZTblTempChecks.Open;
+         DataMod.ZTblTempTrans.Open;
+       end;
+       doBalance;
+     end;
+end;
+
+
 procedure TCheckForm.CheckPrinterPrint;
 const
   BOXLINENONE = 0;
@@ -3363,6 +3389,7 @@ const
        Cnt:=0;
        With DataMod.ZTblXY do   //get check format parameters
           begin
+            if not active then open;
             First;
             VendX:=FieldByName('PAYX').AsFloat;
             VendY:=FieldByName('PAYY').AsFloat;
@@ -3379,6 +3406,7 @@ const
           end;
       With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
         begin
+          if not active then open;
           Close;
           Params[0].AsInteger:=CheckNo;
           Open;
@@ -3464,6 +3492,8 @@ const
                ZTblTempTrans.Open;
                ZTblTempChecks.Close;
                ZTblTempChecks.Open;
+               ZTblChecks.Close;
+               ZTblChecks.Open;
                ZTblBalance.Close;
                ZTblBalance.Open;
                ZTblBalance.First;
@@ -3601,11 +3631,8 @@ function TCheckForm.DeleteTempTrans(CheckNo: Integer): Boolean; //Checks and tra
 begin
   With DataMod do
     try
-      ZQueryDelTempTran.Close;
       ZQueryDelTempTran.Params[0].AsInteger:= CheckNo;
-      ZQueryDelTempTran.open;
-      ZQueryDelTempTran.Delete;
-      ZQueryDelTempTran.ApplyUpdates;
+      ZQueryDelTempTran.execSQL;
       Result := DeleteTempCheck(CheckNo);
     except
       ShowMessage('Error: Can not delete check '+IntToStr(CheckNo));
@@ -3618,11 +3645,8 @@ function TCheckForm.DeleteTempCheck(CheckNo: Integer): Boolean; //Checks and tra
 begin
   With DataMod do
     try
-      ZQueryDelTempCk.Close;
       ZQueryDelTempCk.Params[0].AsInteger:= CheckNo;
-      ZQueryDelTempCk.open;
-      ZQueryDelTempCk.Delete;
-      ZQueryDelTempCk.ApplyUpdates;
+      ZQueryDelTempCk.ExecSQL;
       Result := true;
     except
       ShowMessage('Error: Can not delete check '+IntToStr(CheckNo));
@@ -3729,6 +3753,25 @@ begin
    end;
 end;
 
+procedure TCheckForm.InitDPGrid;
+var
+  I: Integer;
+begin
+  for I := 0 to 1 do
+     begin
+      GRidDP.Columns[I].alignment := taRightJustify;
+      GRidDP.Columns[I].Title.alignment := taRightJustify;
+     end;
+  GRidDP.Columns[2].alignment := taLeftJustify;
+  GRidDP.Columns[2].Title.alignment := taLeftJustify;
+  GridDP.Columns[0].width := 480;
+  GridDP.Columns[1].width := 120;
+  GridDP.Columns[2].width := 100;
+  GridDP.Columns[0].Field := DataMod.ZTblDP.Fields[2];
+  GridDP.Columns[2].Field := DataMod.ZTblDP.Fields[0];
+//  GridDp.Columns[2].DisplayFormat:=
+end;
+
 procedure TCheckForm.FormActivate(Sender: TObject);
 var
    Chk:   Integer;
@@ -3820,7 +3863,8 @@ begin
    StrDate := ShortDateFormat;
    SearchReturn(RetCheck.Checked);
    initOpen;
-end;
+   initDPGrid;
+  end;
 end;
 
 procedure TCheckForm.initOpen;
@@ -3870,7 +3914,7 @@ begin
    DataMod.SQLTransactionEZ.Commit;
    DataMod.ZTblTempChecks.Close;
    DataMod.ZTblTempChecks.Open;
-    ShowMessage('You may need to reset the Next Check Number on the tools page.');
+   ShowMessage('You may need to reset the Next Check Number on the tools page.');
    ShowMessage('Make sure not to print the checks out of sequence.');
    end;
  except
@@ -3943,7 +3987,13 @@ begin
         Params[2].AsString:=SocNum;
        // Params[2].AsString:=EmpLookUp.Field.AsString; //Soc
         Open;
-         // If not locate('CHECK_NO',DataMod.ZQueryReturn.FieldByName('CHECK_NO').AsInteger,[]) then
+       // If not locate('CHECK_NO',DataMod.ZQueryReturn.FieldByName('CHECK_NO').AsInteger,[]) then
+        if not ZFindKey('PAYSTUBS', 'SOC_SEC_NO', SocNum, 0)  then
+          begin
+            ClearStubs;
+            ShowMessage('Cannot find this employee in paystub records');
+            exit;
+          end;
         //If not DataMod.ZQueryPayroll.FindKey([EmpLookup.Value]) then
         //  begin
          //   ShowMessage('Cannot find this employee in payroll Query');
@@ -3987,7 +4037,7 @@ begin
     EditRDed3.Text:=FormatFloat('0.00',D3);
     EditRDed4.Text:=FormatFloat('0.00',D4);
     EditRDed5.Text:=FormatFloat('0.00',D5);
-    doPayStubLabels(D1,D2,D3,D4,D5);
+    doPayStubLabels(PenDt, D1,D2,D3,D4,D5);
     PayStubInfo.PYTDTotal:=FedDt+FICADt+MedDt+StateDt+LocalDt;
     With DataMod.ZQueryStub do
       begin
@@ -5578,7 +5628,7 @@ begin
  If UpperCase(Key) = 'FALSE' then
    Q := 'Select Count(*) from ' + TName + ' where ' + fld + ' = ' + IntToStr(IntKey)
   else
-   Q := 'Select Count(*) from ' + TName + ' where ' + fld + ' like ' + Key;
+    Q := 'Select COUNT(*) from ' + TName + ' where ' + fld + ' like ''' + Key+'''';
 
   With DataMod.ZQFindkey do
     begin

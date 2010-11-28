@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 10
+    PageIndex = 7
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -3172,6 +3172,27 @@ object CheckForm: TCheckForm
         ParentBidiMode = False
         TabOrder = 0
         OnMouseDown = ShowContext
+        object GridDP: TDBGrid
+          Left = 43
+          Height = 528
+          Top = 326
+          Width = 736
+          HelpContext = 750
+          Anchors = []
+          Color = clWindow
+          Columns = <>
+          DataSource = DataMod.DPSrc
+          Font.Height = -15
+          Font.Name = 'System'
+          Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+          OptionsExtra = [dgeAutoColumns]
+          ParentFont = False
+          TabOrder = 8
+          TabStop = False
+          TitleFont.Height = -13
+          TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
+        end
         object Label91: TLabel
           Left = 320
           Height = 33
@@ -3427,26 +3448,6 @@ object CheckForm: TCheckForm
           ShowHint = True
           TabStop = False
           TabOrder = 7
-        end
-        object GridDP: TDBGrid
-          Left = 27
-          Height = 528
-          Top = 340
-          Width = 704
-          HelpContext = 750
-          Anchors = []
-          Color = clWindow
-          Columns = <>
-          DataSource = DataMod.DPSrc
-          Font.Height = -15
-          Font.Name = 'System'
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-          ParentFont = False
-          TabOrder = 8
-          TabStop = False
-          TitleFont.Height = -13
-          TitleFont.Name = 'System'
-          OnMouseDown = ShowContext
         end
       end
     end
