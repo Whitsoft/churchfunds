@@ -1,14 +1,14 @@
 object FormSetup: TFormSetup
-  Left = 440
-  Height = 917
-  Top = 0
+  Left = 656
+  Height = 899
+  Top = 124
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
   ActiveControl = NoteBook
   Align = alClient
   Caption = 'Setup'
-  ClientHeight = 917
+  ClientHeight = 899
   ClientWidth = 1201
   Font.Height = -13
   Font.Name = 'System'
@@ -30,21 +30,22 @@ object FormSetup: TFormSetup
   end
   object NoteBook: TNotebook
     Left = 0
-    Height = 917
+    Height = 899
     Top = 0
     Width = 1201
     HelpContext = 10
+    Align = alClient
     Anchors = []
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 8
+    PageIndex = 10
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
       Caption = 'Fund Groups'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupFundGroups: TGroupBox
         Left = 0
         Height = 882
@@ -89,15 +90,16 @@ object FormSetup: TFormSetup
     object Page2: TPage
       Caption = 'Account Groups'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupAccGroups: TGroupBox
         Left = 0
-        Height = 882
+        Height = 864
         Top = 0
         Width = 1195
         HelpContext = 190
         Align = alClient
-        ClientHeight = 878
+        Anchors = []
+        ClientHeight = 860
         ClientWidth = 1191
         TabOrder = 0
         OnMouseDown = ShowContext
@@ -117,7 +119,7 @@ object FormSetup: TFormSetup
         object GridGroup: TDBGrid
           Left = 244
           Height = 600
-          Top = 167
+          Top = 157
           Width = 657
           HelpContext = 200
           Anchors = []
@@ -134,7 +136,7 @@ object FormSetup: TFormSetup
     object Page3: TPage
       Caption = 'Accounts'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupAccount: TGroupBox
         Left = 0
         Height = 882
@@ -316,7 +318,7 @@ object FormSetup: TFormSetup
     object Page4: TPage
       Caption = 'Funds'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupFunds: TGroupBox
         Left = 0
         Height = 882
@@ -384,7 +386,7 @@ object FormSetup: TFormSetup
     object Page5: TPage
       Caption = 'Vendors'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupVendor: TGroupBox
         Left = 0
         Height = 882
@@ -491,7 +493,7 @@ object FormSetup: TFormSetup
     object Page6: TPage
       Caption = 'Payroll'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupVuPay: TGroupBox
         Left = 0
         Height = 882
@@ -554,7 +556,7 @@ object FormSetup: TFormSetup
     object Page7: TPage
       Caption = 'Edit Payroll'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupPayRoll: TGroupBox
         Left = 21
         Height = 882
@@ -1242,7 +1244,7 @@ object FormSetup: TFormSetup
     object Page8: TPage
       Caption = 'Checks'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupChecks: TGroupBox
         Left = 0
         Height = 882
@@ -1574,7 +1576,7 @@ object FormSetup: TFormSetup
     object Page9: TPage
       Caption = 'Print'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupPrint: TGroupBox
         Left = -3
         Height = 882
@@ -1687,7 +1689,7 @@ object FormSetup: TFormSetup
     object Page10: TPage
       Caption = 'Year End'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object Label68: TLabel
         Left = 44
         Height = 1
@@ -1902,15 +1904,15 @@ object FormSetup: TFormSetup
     object Page11: TPage
       Caption = 'Report/Church'
       ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 864
       object AGroupReport: TGroupBox
         Left = 0
-        Height = 882
+        Height = 864
         Top = 0
         Width = 1195
         HelpContext = 50
         Align = alClient
-        ClientHeight = 878
+        ClientHeight = 860
         ClientWidth = 1191
         TabOrder = 0
         OnMouseDown = ShowContext
@@ -1952,7 +1954,7 @@ object FormSetup: TFormSetup
         object Label16: TLabel
           Left = 629
           Height = 20
-          Top = 327
+          Top = 320
           Width = 104
           Anchors = []
           Caption = 'Church Name'
@@ -1961,7 +1963,7 @@ object FormSetup: TFormSetup
         object Label29: TLabel
           Left = 626
           Height = 20
-          Top = 376
+          Top = 368
           Width = 77
           Anchors = []
           Caption = 'Address 1'
@@ -1970,16 +1972,16 @@ object FormSetup: TFormSetup
         object Label30: TLabel
           Left = 626
           Height = 20
-          Top = 425
+          Top = 416
           Width = 77
           Anchors = []
           Caption = 'Address 2'
           ParentColor = False
         end
         object Label33: TLabel
-          Left = 619
+          Left = 629
           Height = 20
-          Top = 474
+          Top = 462
           Width = 30
           Anchors = []
           Caption = 'City'
@@ -2010,27 +2012,27 @@ object FormSetup: TFormSetup
           ParentColor = False
         end
         object Label42: TLabel
-          Left = 621
+          Left = 629
           Height = 20
-          Top = 523
+          Top = 510
           Width = 41
           Anchors = []
           Caption = 'State'
           ParentColor = False
         end
         object Label43: TLabel
-          Left = 625
+          Left = 629
           Height = 20
-          Top = 572
+          Top = 560
           Width = 68
           Anchors = []
           Caption = 'Zip Code'
           ParentColor = False
         end
         object Label44: TLabel
-          Left = 622
+          Left = 629
           Height = 20
-          Top = 621
+          Top = 606
           Width = 48
           Anchors = []
           Caption = 'Phone'
@@ -2050,7 +2052,7 @@ object FormSetup: TFormSetup
         object BtnReport: TButton
           Left = 227
           Height = 32
-          Top = 372
+          Top = 374
           Width = 75
           HelpContext = 80
           Caption = 'Print'
@@ -2103,14 +2105,14 @@ object FormSetup: TFormSetup
         end
         object Splitter1: TSplitter
           Left = 0
-          Height = 878
+          Height = 860
           Top = 0
           Width = 5
         end
         object BtnPostChurch: TButton
           Left = 779
           Height = 41
-          Top = 686
+          Top = 672
           Width = 115
           HelpContext = 150
           Anchors = []
@@ -2122,7 +2124,7 @@ object FormSetup: TFormSetup
         object EditChName: TEdit
           Left = 779
           Height = 29
-          Top = 327
+          Top = 320
           Width = 200
           HelpContext = 90
           Anchors = []
@@ -2135,7 +2137,7 @@ object FormSetup: TFormSetup
         object EditChAdd1: TEdit
           Left = 779
           Height = 29
-          Top = 376
+          Top = 368
           Width = 200
           HelpContext = 100
           Anchors = []
@@ -2148,7 +2150,7 @@ object FormSetup: TFormSetup
         object EditChAdd2: TEdit
           Left = 779
           Height = 29
-          Top = 423
+          Top = 414
           Width = 200
           HelpContext = 110
           Anchors = []
@@ -2161,7 +2163,7 @@ object FormSetup: TFormSetup
         object EditChCity: TEdit
           Left = 779
           Height = 29
-          Top = 471
+          Top = 461
           Width = 200
           HelpContext = 120
           Anchors = []
@@ -2174,7 +2176,7 @@ object FormSetup: TFormSetup
         object EditChState: TEdit
           Left = 779
           Height = 29
-          Top = 519
+          Top = 508
           Width = 200
           HelpContext = 130
           Anchors = []
@@ -2187,7 +2189,7 @@ object FormSetup: TFormSetup
         object EditChZip: TEdit
           Left = 779
           Height = 29
-          Top = 567
+          Top = 555
           Width = 200
           HelpContext = 140
           Anchors = []
@@ -2200,7 +2202,7 @@ object FormSetup: TFormSetup
         object EditChPhone: TEdit
           Left = 779
           Height = 29
-          Top = 612
+          Top = 599
           Width = 200
           HelpContext = 145
           Anchors = []

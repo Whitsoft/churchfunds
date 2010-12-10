@@ -17,9 +17,9 @@ WHERE id = :id}
 
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls,
-  IBConnection, db, Grids, Calendar, StrUtils, unit30, cHelp, NewPSClass;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
+  db, Grids, Calendar, PrintersDlgs, StrUtils, unit30, cHelp, NewPSClass;
 
 type
   PayInfo = record
@@ -419,6 +419,8 @@ type
 
 
     NavEditTran: TDBNavigator;
+    procedure GridDPDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure PayNameLUCBChange(Sender: TObject);
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -3756,6 +3758,7 @@ end;
 procedure TCheckForm.InitDPGrid;
 var
   I: Integer;
+  S: String;
 begin
   for I := 0 to 1 do
      begin
@@ -3769,7 +3772,6 @@ begin
   GridDP.Columns[2].width := 100;
   GridDP.Columns[0].Field := DataMod.ZTblDP.Fields[2];
   GridDP.Columns[2].Field := DataMod.ZTblDP.Fields[0];
-//  GridDp.Columns[2].DisplayFormat:=
 end;
 
 procedure TCheckForm.FormActivate(Sender: TObject);
@@ -4071,6 +4073,40 @@ begin
     Datamod.ZTblPayroll.close;
       Datamod.ZTblPayroll.open;
 
+end;
+
+procedure TCheckForm.GridDPDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+const
+  WRect: TRect = (Left: 0; Top: 0; Right: 0; Bottom: 0);
+var
+  TmpStr: String;
+  X,Y,Tmp: Integer;
+  F: Double;
+  sz: TSize;
+begin
+  //exit;
+  Column.Font.color := clBlack;
+  if DataCol <> 1 then exit; //AMOUNT
+  F := GridDp.DataSource.DataSet.FieldByName('AMOUNT').AsFloat;
+  With GridDP.Canvas do
+    begin
+      if F < 0.0 then
+        Font.color := clRed
+      else
+        Font.color := clBlack;
+      Y:=Rect.Top;
+      Brush.color:=clWhite;
+      WRect.Left:=Rect.Left;
+      WRect.Top:=Rect.Top;
+      WRect.Bottom:=Rect.Bottom;
+      WRect.Right:=Rect.Right;
+      FillRect(WRect);
+      TmpStr := format('%*.*f', [8, 2,F]);
+      sz := TextExtent(TmpStr);
+       X := (Rect.Right - sz.cx - 3);// - sz.cx);
+      TextOut(X,Y+2,TmpStr);
+    end;
 end;
 
 procedure TCheckForm.DPNavClick(Sender: TObject; Button: TDBNavButtonType);
