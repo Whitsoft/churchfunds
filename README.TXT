@@ -10,7 +10,9 @@ Packages installed include -
   SQLDBlaz 1.0.1
   Printer4Lazarus 0.5
 
-I have began a rudimentary report printer which generates postscript. There is work to be done in proving out report generation, debugging the chm files for the help system and general debugging.
+I have began a rudimentary report printer which will preview and print reports.
+See rprinter.pas. There is work to be done in proving out report generation,
+debugging the chm files for the help system and general debugging.
 
 The goal of the program is to provide an easy, checkbook style of accounting since most small church treasurers and financial secretaries are not accountants. Also report printing is designed to be simple and informative without requiring knowledge of querying or SQL. Payroll should be simple and data entry should be intuitive with context sensitive help available for each data entry function.
 I designed the original EZFunds package for windows in the early 90's and used it successfully for over one year. I have no idea how many other people used it. Other similar packages at that time were buggy, complicated and painfully slow, not to mention expensive.
