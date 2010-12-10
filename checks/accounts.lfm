@@ -1,5 +1,5 @@
 object CheckForm: TCheckForm
-  Left = 647
+  Left = 821
   Height = 917
   Top = 106
   Width = 1201
@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 7
+    PageIndex = 10
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -3191,6 +3191,7 @@ object CheckForm: TCheckForm
           TabStop = False
           TitleFont.Height = -13
           TitleFont.Name = 'System'
+          OnDrawColumnCell = GridDPDrawColumnCell
           OnMouseDown = ShowContext
         end
         object Label91: TLabel
@@ -4628,10 +4629,10 @@ object CheckForm: TCheckForm
           TabOrder = 14
         end
         object PayNameLUCB: TDBLookupComboBox
-          Left = 571
-          Height = 30
-          Top = 238
-          Width = 280
+          Left = 483
+          Height = 76
+          Top = 192
+          Width = 368
           HelpContext = 1110
           Anchors = [akTop, akLeft, akRight, akBottom]
           KeyField = 'SOC_SEC_NO'

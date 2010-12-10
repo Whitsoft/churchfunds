@@ -1,0 +1,1153 @@
+{Don Whitbeck 2010 - Basic class for postscript output
+}
+unit rprintclass;
+//{$linklib c}
+{$mode objfpc} 
+interface
+ uses initc, Forms, Controls,comCtrls, dialogs,
+   sysutils, classes, strings, ExtCtrls, Graphics, GraphType;
+
+const 
+  CR = #13;
+  LF = #10;
+  FATFONT = 0.5;
+  JUSTIFYLEFT = 0;
+  JUSTIFYCENTER = 1;
+  JUSTIFYRIGHT = 2;
+  TIMESROMAN = 'Times-Roman';
+  TIMESITALIC = 'Times-Italic';
+  TIMESBOLD = 'Times-Bold';
+  HELVETICA = 'Helvetica';
+  HELVETICAITALIC = 'Helvetica-Italic';
+  HELVETICABOLD = 'Helvetica-Bold';
+  HELVETICACONDENSED = 'Helvetica-Condensed';
+  POINTS = 72.0;
+  BOXMARGIN = 4;      //Margin for left or right between box sides and text
+
+  BOXLINEALL = 15;
+  BOXLINENONE = 0;
+  BOXLINELEFT = 1;
+  BOXLINETOP = 2;
+  BOXLINERIGHT = 4;
+  BOXLINEBOTTOM = 8;
+
+Type
+  PFontType = ^FontType;
+  FontType = record
+    FontName: String;
+    FontSize: Integer;
+  end;
+
+Type
+  TFontArray = array [1..10] of PFontType;
+
+Type	  
+	PTab = ^TTab;                  //A pointer to a tab
+	TTab = record
+	  XPos:         Integer;       //tab stop - use integers to reduce conversions
+	  justifyText:  Integer;
+	  BoxWidth:     Integer;       //width of this tab box
+	  Margin:       Integer;       //Distance from left tab edge and start of text
+	  BShade:       TGraphicsColor;          //Shadeing in box
+	  BLines:       byte;          //Box lines
+	  Next:         PTab;
+	  Prev:         PTab;
+	end;  
+     
+Type
+    PTabList = ^TTabList;            //A pointer to a linked list of tabs
+	TTabList = record
+	  TabIndex:  integer;
+	  TabCount:  integer;     //Number of tabs in this list
+	  boxHeight: integer;     //All boxes in these tab list are this high
+	  TabPos:    PTab;        //Current tab in list	  
+	  TabHead:   PTab;        //Pointer to first tab in this tab list
+	  TabTail:   PTab;        //Pointer to last tab in this tab list
+end;
+
+
+
+        TPageArray = array [1..100] of TImage;
+Type
+	TTabsArray = array [1..10] of PTabList; 
+
+
+
+  TReportPrinterClass = class(TObject)
+  private
+          fPrintForm        : TForm;
+          fCurrentPage      : TImage;
+          fPageIndex        : Integer;
+          fToolBar          : TToolBar;
+	  fTabArray         : TTabsArray;
+          fFontArray        : TFontArray;
+	  fTabArrayIndex    : Integer;
+	  fCurrentX         : Integer;    //Page Cursor
+          fCurrentY         : Integer;
+	  fCurrentFontName  : String;
+	  fCurrentFontSize  : Integer;
+          fPages            : Integer;   // Number of pages in report
+          fPageArray        : TPageArray;
+	  fLineScale        : Double;
+	  fPrintFileOpen    : Boolean;
+	  fPrintFile        : Text;
+	  fPrintFileName    : String;
+          fPageNo           : Integer;
+	  fLeftMargin       : Integer;
+	  fTopMargin        : Integer;
+	  fRightMargin      : Integer;
+	  fBottomMargin     : Integer;
+	  fErrorCode        : Integer;
+	  fPageLength       : integer;
+	  fpageWidth        : integer;
+          fFont             : FontType;
+          fBold             : Boolean;
+          fSender           : TObject;
+          fErrorMessage     : String;
+
+	 procedure   CreateFontArray;
+	 procedure   CreateTabArray;
+         procedure   CreatePageArray;
+
+   protected
+
+         procedure   setBold(BoldOn: Boolean);
+         procedure   setFont(AFont: FontType);
+	 procedure   setCurrentX(XLoc: Double);
+	 procedure   setCurrentY(YLoc: Double);
+	 function    getCurrentX: Double;
+	 function    getCurrentY: Double;
+
+	 procedure   setPageLength(Ln: Double);
+	 procedure   setPageWidth( Wd: Double);
+         function    getPageLength: Double;
+	 function    getPageWidth: Double;
+	 
+	 procedure   PrintPointXY(S: String; XPos, YPos: Integer);
+	 function    CalcCenterPage: Integer;
+
+         procedure   PrintLeftPoint(S: String; XPos: integer);
+	 procedure   PrintCenterPoint(S: String; XPos: integer);
+	 procedure   PrintRightPoint(S: String; XPos: integer);
+	 function    NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
+                                     TabRel: Boolean; boxLines, boxShade: integer): PTab;
+
+         function   TabYPos(S: String; BBase, BHght: Integer): Integer;
+         procedure   PrintFormClose(Sender: TObject; var act: TCloseAction);
+   public
+	 constructor Create(Sender: TObject);
+         procedure   PrintFormCreate(Sender: TObject);
+	 destructor  Destroy; override;
+	 property    PageNo: Integer read fPageNo write fPageNo;
+         property    font: FontType read fFont write setFont;
+         property    TabArrayIndex: Integer read fTabArrayIndex write fTabArrayIndex;
+	 property    PrintFileOpen: boolean read fPrintFileOpen;
+	 property    PrintFile: Text read fPrintFile;
+	 property    TabArray: TTabsArray read fTabArray;
+
+         property    Bold: Boolean read fBold write setBold;
+	 property    LineScale: Double read fLineScale write fLineScale;
+
+	 property    CurX: Integer read fCurrentX write fCurrentX;
+	 property    CurY: Integer read fCurrentY write fCurrentY;
+	 property    CurrentX: Double read getCurrentX write setCurrentX;
+	 property    CurrentY: Double read getCurrentY write setCurrentY;
+         property    CurrentPage: TImage read fCurrentPage write fCurrentPage;
+
+	 property    PageLength: Double read getPageLength write setPageLength;
+	 property    PageWidth: Double  read getPageWidth  write setPageWidth;
+	 property    PageLengthInt: Integer read fPageLength;
+	 property    PageWidthInt: Integer read fPageWidth;
+         property    PrintForm: TForm read fPrintForm;
+         property    PageArray: TPageArray read fPageArray;
+	 
+	 function    getBoxLeft(Combined: Byte): Boolean;
+	 function    getBoxBottom(Combined: Byte): Boolean;
+	 function    getBoxRite(Combined: Byte): Boolean;
+	 function    getBoxTop(Combined: Byte): Boolean;
+
+	 function    ShadeToGreyScale(Shade: Integer): TGraphicsColor;
+         function    GreyScaleToShade(Shade: TGraphicsColor): Integer;
+         function    BoxLinesToByte(Lf, Tp, Rt, Bt: Boolean): Byte;
+	 procedure   setBoxWidth(TabPtr: PTab; BWidth: Double);  
+	 procedure   setBoxHeight(ListPtr: PTabList; BHeight: Double);
+	 function    getBoxWidth(TabPtr: PTab):Double;
+	 function    getBoxHeight(ListPtr: PTabList):Double;
+
+	 procedure   setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
+         function    getTabBoxHeightInt(IDX: Integer): Integer;
+
+         procedure   setTabBoxHeight(IDX: Integer; BHeight: Double);
+         function    getTabBoxHeight(IDX: Integer): Double;
+
+         procedure   Show;
+	 procedure   PrintXY(XPos, YPos: Double; S: String);
+	 procedure   PrintLeft(S: String; XPos: Double);
+	 procedure   PrintCenter(S: String; XPos: Double);
+	 procedure   PrintRight(S: String; XPos: Double);
+	 
+	 procedure   printTab(IDX: integer; S: String);
+         function    resetTab(IDX: Integer): PTab;
+	 procedure   SaveFontName(IDX: Integer; FName: String);
+         procedure   SaveFontSize(IDX, FSize: Integer);
+	 procedure   RestoreFont(IDX: Integer);
+
+         procedure   setBoxShade(TabPtr: PTab; Shade: Integer);
+         function    getBoxShade(TabPtr: PTab): Integer;
+	 
+	 function    PointToInch(Pnt: Integer): Double;
+	 function    InchToPoint(Inch: Double): Integer;
+	 procedure   FreeAllTabs;
+	 procedure   FreeTabs(IDX: Integer);
+	 function    nextTab(IDX: Integer): Integer;
+         procedure   Home;
+         procedure   NewPage;
+         procedure   EndPage;
+         procedure   PrevPage(Sender: TObject);
+         procedure   NextPage(Sender: TObject);
+	 function    stripRight(S: String): String;
+         function    calcStringY(Base, Height: Integer): integer;
+	//New tab creates a new tab in tabs array width index = IDX
+	 function    NewTab(IDX: Integer; XPosition: Double; just: Integer;XWidth, XMargin: Double;
+	                    TabRel: Boolean; boxLines, boxShade: integer): PTab;
+							
+         function    EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
+                                    boxLines, boxShade: integer): PTab;
+									
+	 procedure   setPageMargins(Lf, Tp, Rt, Bt: Double);
+
+	 function    LinesLeft(LineSize: Double): Integer;
+	 function    TransXFloat(X: Double): Integer;    //User to x points
+	 function    TransYFloat(Y: Double): Integer;    //User to y points
+	 function    TransXPoint(X: Integer): Integer;   //user x points to PS points
+	 function    TransYPoint(Y: Integer): Integer;   //User y points to PS points
+         procedure   XLocation(X: Double);
+	 procedure   NewLine;
+         procedure   TabNewLine(IDX: Integer);
+	 procedure   OpenPrintFile(FileName: String);    // Open file - discriptor goes to fPrintFile
+	 procedure   ClosePrintFile;
+	 procedure   PrintCenterPage(S: String);
+	 procedure   GotoXY(X, Y: Double);
+	 procedure   ShowPage(IDX: Integer);
+	 //postscript procedures
+  end;
+
+
+  
+implementation	
+
+ procedure TReportPrinterClass.Show;
+ begin
+   fPrintForm.Show;
+   fToolBar.Show;
+ end;
+
+ procedure TReportPrinterClass.OpenPrintFile(FileName: String);
+   begin
+     assignfile(fPrintFile, FileName);
+     reWrite(fPrintFile);
+	 fPrintFileOpen := True;
+   end;
+
+ procedure TReportPrinterClass.NewPage;
+ begin
+   inc(fPages);
+   if fPrintForm = nil then
+     PrintFormCreate(fSender);
+
+   fCurrentPage := TImage.Create(FPrintForm as TComponent);
+   With fCurrentPage do
+      begin
+        Parent := fPrintForm;
+        //Align := alClient;
+        Top := fToolBar.Height;
+        Color := clWhite;
+        Width := fPageWidth;
+        Height := fPageLength;
+        font.Color := clBlack;
+        AutoSize := true;
+        fPageArray[fPages] := fCurrentPage;
+      end;
+    With fCurrentPage.Canvas do
+      begin
+        Brush.color := clWhite;
+        FillRect(0,0,Width,Height);
+        FillRect(0,0,Width,Height);
+      end;
+    CurX := fLeftMargin;
+    CurY := fTopMargin ;
+end;
+
+ procedure TReportPrinterClass.PrintFormCreate(Sender: TObject);
+  var
+    ToolButtonR, ToolButtonF: TToolButton;
+ begin
+    	setPageMargins(0.5, 0.5, 0.5, 0.5);
+	CurX := fLeftMargin;
+	CurY := fTopMargin ;
+        fPrintForm := TForm.Create(Sender as TComponent);
+        fPrintForm.OnClose := @PrintFormClose;
+        fPrintForm.Width := fPageWidth;
+        FPrintForm.Height := fPageLength;
+        fToolBar := TToolBar.Create(fPrintForm as TComponent);
+        fToolBar.Parent := fPrintForm;
+        fToolBar.ShowCaptions := true;
+        fPages := 1;
+
+        With fToolBar do
+          begin
+            Flat := false;
+            ButtonHeight := 32;
+            ButtonWidth := 60;
+            Height := 36;
+            BorderWidth := 2;
+            Anchors := [akTop, akLeft, akRight];
+            ToolButtonR := TToolButton.Create(fToolBar);
+            ToolButtonF := TToolButton.Create(fToolBar);
+            ToolButtonR.Parent := fToolBar;
+            ToolButtonF.Parent := fToolBar;
+            ToolButtonR.onClick := @PrevPage;
+            ToolButtonF.onClick := @NextPage;
+            ToolButtonR.Caption := 'Rev';
+            ToolButtonF.Caption := 'For';
+          end;
+
+        fPageIndex := 1;
+        CurrentY :=PointToInch(CurY);
+ end;
+
+ constructor TReportPrinterClass.Create(Sender: TObject);
+    begin
+   	inherited create;               //Set defaults
+	fPageLength := 792 + 36;             //11.0
+	fPageWidth := 612;              //8.5
+        CreateFontArray;
+        //create empty tab array
+        CreateTabArray;
+        //CreatePageArray;
+        fPageNo := 0;
+        fPages := 0;
+	fFont.FontName := HELVETICA;
+	fFont.FontSize := 10;
+	fLineScale := 1.4;
+	fPrintFileName := '';
+	fPrintFileOpen := false;
+        fSender := Sender;
+   end;
+
+   procedure TReportPrinterClass.NextPage(Sender: TObject);
+   begin
+     if fPageIndex < fPages then
+        begin
+          inc(fPageIndex);
+          fCurrentPage := fPageArray[fPageIndex];
+          fCurrentPage.BringToFront;
+        end;
+   end;
+
+   procedure TReportPrinterClass.PrevPage(Sender: TObject);
+   begin
+     if fPageIndex > 1 then
+        begin
+          dec(fPageIndex);
+          fCurrentPage := fPageArray[fPageIndex];
+          fCurrentPage.BringToFront;
+        end;
+   end;
+
+  procedure TReportPrinterClass.ClosePrintFile;
+  begin
+    if PrintFileOpen then
+      CloseFile(fPrintFile);
+	fPrintFileOpen := false;
+  end;	   
+
+
+  procedure TReportPrinterClass.CreatePageArray; //Array 1..100 of images
+ // Type
+ // PPage = ^TImage;
+ // TPageArray = array [1..100] of PPage;
+  var
+    IDX: Integer;
+  begin
+  end;
+
+   procedure TReportPrinterClass.CreateFontArray; //Array 1..10 of font records
+  // Type
+  //   PFontType = ^FontType;
+  //   FontType = record
+  //   FontName: String;
+  //   FontSize: Integer;
+   var
+     IDX: Integer;
+   begin
+      for IDX := 1 to 10 do
+        begin
+          fFontArray[IDX]:=new(PFontType);
+          fFontArray[IDX]^.FontName := HELVETICA;
+          fFontArray[IDX]^.FontSize := 10;
+         end;
+   end;
+
+   procedure   TReportPrinterClass.CreateTabArray; //Array 1..10 of tab lists
+   var
+     IDX: Integer;
+	 TabListPtr: PTabList;  
+   begin
+     for IDX := 1 to 10 do
+	    begin
+	      TabListPtr := new(PTabList);
+	      with TabListPtr^ do
+	        begin
+		      TabIndex := 0;
+		      TabPos := nil;
+		      TabCount := 0;
+		      boxHeight := 24;
+		      TabHead := nil;
+		      TabTail := nil;
+		    end;
+     	  fTabArray[IDX] := TabListPtr;
+	  	end;       
+   end;
+
+   procedure  TReportPrinterClass.setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
+   begin
+     fTabArray[IDX]^.boxHeight := BHeight;
+   end;
+
+   function   TReportPrinterClass.getTabBoxHeightInt(IDX: Integer): Integer;
+   begin
+     result :=fTabArray[IDX]^.boxHeight;
+   end;
+
+   procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer; BHeight: Double);
+   begin
+     setTabBoxHeightInt(IDX, InchToPoint(BHeight));
+   end;
+
+
+  function TReportPrinterClass.getTabBoxHeight(IDX: Integer): Double;
+  begin
+    result := PointToInch(getTabBoxHeightInt(IDX));
+  end;
+
+
+ function TReportPrinterClass.EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
+                                    boxLines, boxShade: integer): PTab;
+ //A tab list of evenly spaced evenly sized tabs - just a utility									
+										
+ var
+   I, St, Inc, Pos: Integer; 
+   TmpTab: PTab;	
+  begin
+ 
+  St := XPosition;
+  Inc := XWidth + Space;
+  Pos := XPosition;
+  If (St + Num * Inc) > fPageWidth then
+    begin
+	  EvenTabs := nil;
+	  exit;
+	end;  
+	
+   setTabBoxHeight(IDX, BHeight);
+   fTabArray[IDX]^.TabCount := num;	
+  for I := 1 to Num do
+    begin
+	   TmpTab := NewTabPoint(IDX, Pos, just, XWidth, XMargin, false, BoxLines, BoxShade); 
+	   Pos := Pos + Inc;
+	   If I = 1 then
+	     begin
+	       fTabArray[IDX]^.TabHead := TmpTab;
+		   fTabArray[IDX]^.TabPos  := TmpTab;
+		   fTabArray[IDX]^.TabIndex:= 1;
+		 end;  
+	end;
+	fTabArray[IDX]^.TabTail := TmpTab;
+  end;   					
+  				
+function TReportPrinterClass.NewTab(IDX: Integer; XPosition: Double; just: Integer;XWidth, XMargin: Double;
+	                    TabRel: Boolean; boxLines, boxShade: integer): PTab;
+var
+  XP, XW, XM: Integer;
+begin
+  XP := InchToPoint(XPosition);
+  XW := InchToPoint(XWidth);
+  XM := InchToPoint(XMargin);
+  NewTab := NewTabPoint(IDX, XP,just, XW, XM, TabRel, boxlines, boxshade);
+end;								
+						    
+ function TReportPrinterClass.NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
+                                  TabRel: Boolean; boxLines, boxShade: integer): PTab;
+   // Create a new tab
+ var 
+    NewPTab: PTab;
+	IX: Integer;
+	TP: PTab;
+ begin
+   NewPTab := new(PTab);
+   With fTabArray[IDX]^ do
+     begin
+	   if TabHead = nil then
+	     begin
+		   NewPTab^.prev := nil;       //First tab in the list
+		   TabHead := NewPTab;
+		   TabCount := 1;
+		   TabIndex := 1;
+		   TabPos := NewPTab;
+		 end
+	   else    
+	     begin                         //At least one tab already exists
+	       NewPTab^.Prev := TabTail;
+		   TabTail^.Next := NewPTab;   //Penultimate tab points to newly created tab
+		   TabCount := TabCount + 1;
+		 end;  
+	   TabTail:= NewPTab;              //The new tab is at the tail of the list ALWAYS
+	   
+	  // NewPTab^.Next := nil;           //The last tab has no next link	
+	    NewPTab^.Next := TabHead;        //Last points to head   	    
+     end;
+	 
+		 
+	 With NewPTab^ do                  //Set box parameters, start position and justification 
+	   begin 
+	     If fTabArray[IDX]^.TabCount = 1 then
+		   XPos := XPosition
+		 else if (TabRel) and (Prev <> nil) then     
+           //New position is relative to prev tab
+	       XPos := XPosition + Prev^.XPos + Prev^.BoxWidth
+	     else		
+           XPos := XPosition;
+		   
+		 justifyText := just;  
+	         BoxWidth := XWidth;
+		 Margin := XMargin;
+		 BShade := ShadeToGreyScale(boxShade);
+		 BLines := boxLines;
+	   end;
+	 NewTabPoint := NewPTab;  
+  end;	   	  
+	    	  	  
+
+  procedure   TReportPrinterClass.setPageLength(Ln: Double);
+  begin
+    fPageLength := trunc(Ln*POINTS);
+  end;
+  
+  procedure   TReportPrinterClass.setPageWidth( Wd: Double);
+  begin
+    fPageWidth := trunc(Wd*POINTS);
+  end;
+  
+  function    TReportPrinterClass.getPageLength: Double;
+  begin
+    getPageLength := Double(fPageLength)/POINTS;
+  end;
+  
+ function    TReportPrinterClass.getPageWidth: Double;
+  begin
+     getPageWidth := Double(fPageWidth)/POINTS;
+  end;
+
+
+
+function  TReportPrinterClass.GreyScaleToShade(Shade: TGraphicsColor): Integer;
+ var
+   Intensity: Integer;
+begin
+   Intensity := Shade shr 4;
+   if Intensity >= 255 then
+      result := 0
+   else if Intensity <= 0 then
+      result := 10
+   else
+      result := 255 - intensity;
+
+end;
+
+  function  TReportPrinterClass.ShadeToGreyScale(Shade: Integer): TGraphicsColor;
+  var
+  red, blue, green: Integer;   //0 is black, 255 white   $FF
+begin
+   If (Shade <= 0) then
+     Red := 255
+   else if (Shade >= 10) then
+     Red := 0
+   else
+     Red := 255 - (10 * Shade);
+
+   Green := Red shl 8;
+   Blue := Red shl 16;
+   result := Red or Green or Blue;
+ end;
+  
+ procedure  TReportPrinterClass.setBoxShade(TabPtr: PTab; Shade: Integer);
+ begin
+    TabPtr^.BShade := ShadeToGreyScale(Shade);
+ end;
+
+ function TReportPrinterClass.getBoxShade(TabPtr: PTab): Integer;
+ begin
+   result := GreyScaleToShade(TabPtr^.BShade);
+ end;
+
+
+  function  TReportPrinterClass.BoxLinesToByte(Lf, Tp, Rt, Bt: Boolean): Byte;
+   var
+    Res: Byte;
+  begin
+    Res:=0;
+	If Lf then Res := Res or BOXLINELEFT;
+	If Tp then Res := Res or BOXLINETOP;
+	If Rt then Res := Res or BOXLINERIGHT;
+	If Bt then Res := Res or BOXLINEBOTTOM;
+	BoxLinesToByte := Res;
+  end;
+  
+  procedure TReportPrinterClass.Home;
+  begin
+    CurX := fLeftMargin;
+    CurY := fTopMargin;
+  end;
+
+  function TReportPrinterClass.getBoxLeft(Combined: Byte): boolean;
+  begin  
+    getBoxLeft:=(Combined and 1) > 0;   
+  end;	    
+ 
+ function TReportPrinterClass.getBoxBottom(Combined: Byte): boolean;
+  begin  
+    getBoxBottom:=(Combined and 8) > 0;   
+  end;	  
+  
+  function TReportPrinterClass.getBoxRite(Combined: Byte): boolean;
+  begin  
+     getBoxRite:=(Combined and 4) > 0;   
+  end;	  
+  
+  function TReportPrinterClass.getBoxTop(Combined: Byte): boolean;
+  begin  
+    getBoxTop:=(Combined and 2) > 0;   
+  end;	  
+  
+  function  TReportPrinterClass.getBoxWidth(TabPtr: PTab):Double;
+  begin
+    getBoxWidth := PointToInch(TabPtr^.BoxWidth);
+  end;
+  
+  function  TReportPrinterClass.getBoxHeight(ListPtr: PTabList):Double;
+  begin
+    getBoxHeight := PointToInch(ListPtr^.BoxHeight);
+  end;
+  
+  function  TReportPrinterClass.InchToPoint(Inch: Double): Integer;
+  begin
+    InchToPoint := round(Inch * POINTS);
+  end;
+  
+ function   TReportPrinterClass.PointToInch(Pnt: Integer): Double;
+   begin
+      result := Double(Pnt)/POINTS;
+   end;
+  	
+  procedure TReportPrinterClass.setBoxWidth(TabPtr: PTab; BWidth: Double);
+  begin
+    TabPtr^.BoxWidth := InchToPoint(BWidth);
+  end;
+  
+   procedure TReportPrinterClass.setBoxHeight(ListPtr: PTabList; BHeight: Double);
+  begin
+    ListPtr^.BoxHeight := InchToPoint(BHeight);
+  end;
+  
+  procedure TReportPrinterClass.setCurrentX(XLoc: Double);
+  begin
+    fCurrentX := round(XLoc*POINTS) + fLeftMargin;
+  end; 
+  
+  function  TReportPrinterClass.getCurrentX: Double;
+  begin
+    getCurrentX := Double(fCurrentX)/POINTS - fLeftMargin;
+  end;
+  
+  
+  procedure TReportPrinterClass.setCurrentY(YLoc: Double);
+  begin
+    fCurrentY := round(YLoc*POINTS) + fTopMargin;
+  end; 
+  
+  function  TReportPrinterClass.getCurrentY: Double;
+  begin
+    getCurrentY := Double(fCurrentY)/POINTS - fTopMargin;
+  end;
+
+  function TReportPrinterClass.TabYPos(S: String; BBase, BHght: Integer): Integer;
+  var
+     High, TopMargin: Integer;
+  begin
+     With CurrentPage.Canvas do
+       begin
+          High := TextHeight(S);
+          TopMargin := (BHght - High) div 2;
+          TopMargin := TopMargin + (TopMargin mod 2);
+          If BHght <= High then
+             begin
+               Result := BBase - BHght + 1;
+               exit;
+             end
+          else
+            Result := BBase - BHght + TopMargin;
+       end;
+    end;
+
+  procedure  TReportPrinterClass.printTab(IDX: Integer; S: String);
+  var
+        YPos, TmpY, Wide: Integer;
+	just, SY, Box, XStart, FH: integer;
+	BoxLeft, BoxTop, BoxRight, BoxHght, BoxWdth, BoxBottom: Integer;
+	TabPtr: PTab;
+  begin
+    With CurrentPage.Canvas do
+      begin
+        Wide := TextWidth(S);
+      end;
+    if (IDX <= 0) or (IDX > 10) then exit;
+    YPos:= CurY;
+    TabPtr := fTabArray[IDX]^.TabPos;
+    //Shade := getBoxShade(TabPtr);
+
+    With fTabArray[IDX]^ do
+      begin
+        BoxHght := fTabArray[IDX]^.boxHeight;
+        //Box height is common to all tabs in this list
+      end;
+	With TabPtr^ do
+	  begin
+	    BoxLeft := TransXPoint(Xpos);  //WRiteln('BoxLeft ', BoxLeft,' ',XPos);
+	    BoxRight := TransXPoint(XPos + BoxWidth);
+	    BoxWdth := BoxWidth;
+	    BoxTop := TransYPoint(YPos - BoxHght);  //Measuring Y = 0 at top of page
+            BoxBottom := BoxTop + BoxHght;
+	    //BoxTop := BoxBase + BoxHght;          //could eliminate one function call
+	    just := justifyText;
+	    Box := BLines;
+            SY := TabYPos(S, BoxBottom,BoxHght);
+	  end;			
+	
+	 //fill tab box
+         With CurrentPage.Canvas do
+           begin
+             Brush.color := TabPtr^.BShade;
+             Brush.Style := bsSolid;
+             Pen.Color := clBlack;
+             FillRect(BoxLeft,BoxTop,BoxRight,BoxBottom);
+
+	 //box lines if any
+	 if getBoxBottom(Box) then
+	    begin
+               MoveTo(BoxLeft, BoxBottom);
+               LineTo(BoxRight, BoxBottom);
+            end;
+	  if getBoxRite(Box) then
+	    begin	
+               MoveTo(BoxRight, BoxTop);
+               LineTo(BoxRight, BoxBottom);
+            end;
+	  if getBoxTop(Box) then
+	    begin	
+	       MoveTo(BoxLeft, BoxTop);
+               LineTo(BoxRight, BoxTop);
+            end;
+	  if getBoxLeft(Box) then
+	     begin	  
+               MoveTo(BoxLeft, BoxTop);
+               LineTo(BoxLeft, BoxBottom);
+	     end;
+	   if S <> '' then
+	     begin
+	       TmpY := CurY;
+	       CurY := SY;
+	       if just = JUSTIFYRIGHT then
+	         begin
+		   XStart := BoxRight - Wide - BOXMARGIN;
+                   TextOut(XStart, SY, S);
+		 end
+	       else if just = JUSTIFYCENTER then
+	         begin
+                   if Wide >= BoxWdth then
+                     XStart := BoxLeft + BOXMARGIN
+                   else
+	             XStart := BoxLeft + (BoxWdth - Wide) div 2;
+		   TextOut(XStart, SY, S);
+	         end
+	       else
+	         begin
+                   XStart := BoxLeft + BOXMARGIN;
+		   TextOut(XStart, SY , S);
+		 end;
+	       CurY := TmpY;
+	     end;  //if S <>
+           if nextTab(IDX) = 1 then
+              TabNewLine(IDX);
+        end;
+  end;
+  
+ procedure TReportPrinterClass.PrintPointXY(S: String; XPos, YPos: Integer);
+ //Print a string at X & Y without altering CurY
+ begin
+   CurrentPAge.Canvas.TextOut(XPos,YPos,S);
+ end;
+ 
+
+  function  TReportPrinterClass.ResetTab(IDX: Integer): PTab;
+  begin
+    //With TabListPtr^ do
+    With fTabArray[IDX]^ do
+       begin
+         TabPos := TabHead;
+	 TabIndex := 1;
+         ResetTab := TabPos;
+       end;
+  end;
+
+  //function  TReportPrinterClass.nextTab(TabListPtr: PTabList): PTab;
+  function  TReportPrinterClass.nextTab(IDX: Integer): Integer;
+  begin
+    With fTabArray[IDX]^ do
+      begin
+        If TabPos = TabTail then  //Last tab? then wrap to first
+          begin
+	    TabPos := TabHead;
+	    TabIndex := 1;
+	  end
+        else
+	  begin
+	    TabPos := TabPos^.next;	  //increment tab position
+	    TabIndex := TabIndex + 1;
+	  end;
+        result := TabIndex;
+      end;
+  end;
+  	
+  function TReportPrinterClass.calcStringY(Base, Height: Integer): integer;
+  var
+    Margin, FSZ: integer;
+  begin
+ 	FSZ := round(Double(Font.FontSize) * 0.75);
+	if FSZ < Height then
+	  begin
+	    Margin := (Height - FSZ ) div 2 + 1;
+	    calcStringY := Base - Margin;
+	  end 	
+	else
+	  calcStringY := Base - 3;
+  end;
+  					
+  procedure TReportPrinterClass.FreeAllTabs;
+  var
+    I: Integer;
+  begin
+    for I := 1 to 10 do
+	  FreeTabs(I);
+  end;	  	
+ 
+					
+  procedure TReportPrinterClass.FreeTabs(IDX: Integer);
+  var
+    ClrTab, NuTab, LastTab: PTab;
+  begin
+    if (IDX <= 0) then exit;
+	ClrTab:=TabArray[IDX]^.TabHead;
+        LastTab := TabArray[IDX]^.TabTail;
+	if ClrTab <> nil then
+	while (ClrTab <> LastTab) do
+	  begin  
+	    NuTab:=ClrTab^.Next;
+	    dispose(ClrTab);
+	    ClrTab := NuTab;
+	  end;
+    dispose(clrTab);
+	
+	With TabArray[IDX]^ do
+	  begin  
+	    IDX := 0;
+		TabPos := nil;
+		TabCount := 0;
+		boxHeight := 0;
+		TabHead := nil;
+		TabTail := nil;
+	 end;
+end;	 	
+
+
+
+ procedure TReportPrinterClass.PrintXY(XPos, YPos: Double; S: String);
+ //Print a string at X & Y without altering CurY
+ var
+   X, Y: Integer;
+ begin
+   if fPrintFileOpen then
+     begin
+	   X := TransXFloat(XPos);
+	   Y := TransYFloat(YPos);
+       PrintPointXY(S, X, Y);
+	end;
+ end;
+ 
+ procedure TReportPrinterClass.GotoXY(X, Y: Double);
+ var
+   XInt, YInt: Integer;
+ begin
+   XInt := TransXFloat(X);
+   YInt := TransYFloat(Y);
+   CurrentPage.Canvas.MoveTo(XInt,YInt);
+   CurY := YInt;
+  end;
+ 
+ procedure TReportPrinterClass.PrintCenterPage(S: String);
+ var
+   X, Y, St: Integer;
+   Wide: Integer;
+ begin
+   With CurrentPage.Canvas do
+     begin
+       CurrentPage.Canvas.font.size := fFont.FontSize;
+       Y := TextWidth(S);
+       X := CalcCenterPage;
+       St := X - (Y div 2);
+       TextOut(St,TransYPoint(CurY),S);
+     end;
+  end;
+
+ 
+ function TReportPrinterClass.CalcCenterPage: Integer;
+ begin
+   CalcCenterPage := (fPageWidth - fRightMargin- fLeftMargin) div 2 + fLeftMargin;
+ end;
+  
+  
+ procedure TReportPrinterClass.PrintLeft(S: String; XPos: Double);
+ begin
+   CurrentPage.Canvas.TextOut(TransXFloat(Xpos),TransYPoint(CurY),S);
+ end;
+ 
+ procedure TReportPrinterClass.PrintCenter(S: String; XPos: Double);
+ var
+   X, Wide: Integer;
+ begin 
+   X := TransXFloat(XPos);
+   With CurrentPage.Canvas do
+     begin
+       Wide := TextWidth(S);
+       TextOut(X - Wide div 2, TransYPoint(CurY), S);
+     end;
+ end;
+  
+ procedure TReportPrinterClass.PrintRight(S: String; XPos: Double);
+ var
+    X, Wide: Integer;
+ begin
+   X := TransXFloat(XPos);
+   With CurrentPage.Canvas do
+     begin
+       Wide := TextWidth(S);
+       TextOut(X - Wide, TransYPoint(CurY), S);
+     end;
+ end;
+  
+  procedure TReportPrinterClass.PrintLeftPoint(S: String; XPos: integer);
+ begin
+   With CurrentPage.Canvas do
+     begin
+       MoveTo(XPos,TransYPoint(CurY));
+       TextOut(XPos,TransYPoint(CurY),S);
+     end;
+ end;
+ 
+ procedure TReportPrinterClass.PrintCenterPoint(S: String; XPos: integer);
+  begin
+    With CurrentPage.Canvas do
+      begin
+        MoveTo(XPos,TransYPoint(CurY));
+        TextOut(XPos,TransYPoint(CurY),S);
+      end;
+ end;
+  
+ procedure TReportPrinterClass.PrintRightPoint(S: String; XPos: integer);
+ var
+   Wide: Integer;
+ begin
+    With CurrentPage.Canvas do
+      begin
+        Wide := TextWidth(S);
+         TextOut(XPos - Wide,TransYPoint(CurY),S);
+      end;
+ end;
+ 
+  procedure TReportPrinterClass.setPageMargins(Lf, Tp, Rt, Bt: Double);
+ begin
+   fLeftMargin := InchToPoint(Lf); 
+   fTopMargin := InchToPoint(Tp); 
+   fRightMargin := InchToPoint(Rt); 
+   fBottomMargin := InchToPoint(Bt); 
+ end;
+ 
+
+  function TReportPrinterClass.LinesLeft(LineSize: Double): Integer;
+  var
+    PageUsed, LineSizeInt: Integer;
+  begin
+    LineSizeInt := InchToPoint(LineSize);
+    PageUsed := fPageLength - CurY - fBottomMargin;
+    result := PageUsed div LineSizeInt;
+  end;
+
+    procedure TReportPrinterClass.setBold(BoldOn: Boolean);
+  var
+    Dash: Integer;
+  begin
+     Dash:=pos('-',fFont.FontName);
+     If BoldOn then
+       begin
+         if Dash <=0 then
+           fFont.FontName:=fFont.FontName+'-Bold';
+       end
+      else
+        begin
+          Dash:=pos('-Bold',fFont.FontName);
+          If Dash > 0 then
+             fFont.FontName := LeftStr(fFont.FontName,Dash-1);
+        end;
+      // PrintCurrentFont(Self);
+  end;
+
+  function TReportPrinterClass.TransXFloat(X: Double): Integer;
+  begin
+    TransXFloat := TransXPoint(InchToPoint(X));
+  end;
+  
+  function TReportPrinterClass.TransYFloat(Y: Double): Integer;
+  begin
+    TransYFloat := TransYPoint(InchToPoint(Y));
+  end;
+  
+  function TReportPrinterClass.TransXPoint(X: Integer): Integer;
+  begin
+    TransXPoint := X + fLeftMargin;
+  end; 
+  	
+  function TReportPrinterClass.TransYPoint(Y: Integer): Integer;
+  begin
+    TransYPoint := fTopMargin + Y;
+    //TransYPoint := fPageLength - fTopMargin - Y;
+   end;	
+
+procedure TReportPrinterClass.XLocation(X: Double);
+var
+  Xint: Integer;
+begin
+ if (PrintFileOpen)  then
+   begin
+     XInt := InchToPoint(X);
+ 	 writeln(PrintFile,'/loc ',Xint,' def');
+   end; 
+ // /loc Xint def
+end;
+ 
+
+  procedure TReportPrinterClass.TabNewLine(IDX: Integer);
+  begin
+    CurY := CurY + Trunc(fTabArray[IDX]^.boxHeight);
+    if  (BOXLINEBOTTOM) and (fTabArray[IDX]^.TabPos^.BLines)> 0
+      then CurY := CurY + 1;
+  end;
+
+  procedure TReportPrinterClass.NewLine;
+  begin
+   CurY := CurY + Trunc(Font.FontSize * LineScale) + 1;
+  end;
+     
+  procedure TReportPrinterClass.ShowPage(IDX: Integer);
+  begin	
+
+  end;	
+   
+  destructor TReportPrinterClass.Destroy;
+  begin
+  // InitCriticalSection(fCriticalSection); 
+	FreeAllTabs;
+	inherited Destroy;
+		
+	//DoneCriticalSection(fCriticalSection);	
+end;
+
+
+  procedure TReportPrinterClass.SaveFontName(IDX: Integer; FName: String);
+  // Type
+  //   PFontType = ^FontType;
+  //   FontType = record
+  //   FontName: String;
+  //   FontSize: Integer;
+  begin
+    if fFontArray[IDX] <> nil then
+      fFontArray[IDX]^.FontName := FName;
+  end;
+
+
+  procedure TReportPrinterClass.SaveFontSize(IDX, FSize: Integer);
+  begin
+    if fFontArray[IDX] <> nil then
+      fFontArray[IDX]^.FontSize := FSize;
+  end;
+
+  procedure TReportPrinterClass.RestoreFont(IDX: Integer);
+  begin
+    If fFontArray[IDX] <> nil then
+       begin
+         fFont.FontName := fFontArray[IDX]^.FontName;
+         fFont.FontSize := fFontArray[IDX]^.FontSize;
+       end;
+  end;
+
+
+ procedure TReportPrinterClass.setFont(AFont: FontType);
+ begin
+   fFont.fontName := AFont.FontName;
+   fFont.fontSize := AFont.FontSize;
+ end;
+
+
+  procedure TReportPrinterClass.EndPage;
+  begin
+    //Stub for now, maybe reset current page double buffered
+  end;
+
+  function TReportPrinterClass.stripRight(S: String): String;
+  var
+    Tmp: String;
+    I1, I2 : Integer;
+  begin
+    Tmp := '123456789';
+    I2 := Length(S);
+    while S[I2] = ' ' do
+      dec(I2);
+    for I1 := 1 to I2 do
+      Tmp[I1] := S[I1];
+    result := Tmp;
+  end;
+
+Procedure TReportPrinterClass.PrintFormClose(Sender: TObject; var Act: TCloseAction);
+
+Var
+  IDX: Integer;
+begin
+  for IDX := 1 to fPages do
+    fPageArray[IDX].free;
+  fPAges := 0;
+  fCurrentPage := nil;
+  Act := caFree;
+  fPrintForm := nil;
+end;
+
+end.
+

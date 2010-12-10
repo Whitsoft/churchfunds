@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
-  HorizontalOffset = 11
-  VerticalOffset = 163
+  HorizontalOffset = 34
+  VerticalOffset = 128
   Width = 1215
   object IBConnectionEZ: TIBConnection
     Connected = True
