@@ -68,10 +68,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2015"/>
-        <CursorPos X="1" Y="2038"/>
+        <TopLine Value="670"/>
+        <CursorPos X="25" Y="696"/>
         <UsageCount Value="139268"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -85,8 +86,8 @@
         <UnitName Value="setupmod"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="105"/>
-        <CursorPos X="27" Y="126"/>
+        <TopLine Value="1"/>
+        <CursorPos X="28" Y="4"/>
         <UsageCount Value="139268"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -114,7 +115,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="3">
+    <BreakPoints Count="4">
       <Item1>
         <Source Value="../../../firebird/EZSetup/sqldb.pp"/>
         <Line Value="1427"/>
@@ -127,6 +128,10 @@
         <Source Value="../../../firebird/EZSetup/sqldb.pp"/>
         <Line Value="1475"/>
       </Item3>
+      <Item4>
+        <Source Value="ezsetupunit.pas"/>
+        <Line Value="2069"/>
+      </Item4>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
