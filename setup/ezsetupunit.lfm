@@ -1,7 +1,7 @@
 object FormSetup: TFormSetup
-  Left = 656
+  Left = 817
   Height = 899
-  Top = 124
+  Top = 155
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 10
+    PageIndex = 8
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -1247,12 +1247,12 @@ object FormSetup: TFormSetup
       ClientHeight = 864
       object AGroupChecks: TGroupBox
         Left = 0
-        Height = 882
+        Height = 864
         Top = 0
         Width = 1195
         HelpContext = 630
         Align = alClient
-        ClientHeight = 878
+        ClientHeight = 860
         ClientWidth = 1191
         Font.Height = -20
         Font.Name = 'System'
@@ -1496,7 +1496,7 @@ object FormSetup: TFormSetup
         object PostBtn: TButton
           Left = 520
           Height = 33
-          Top = 360
+          Top = 352
           Width = 89
           HelpContext = 760
           Anchors = []
@@ -1511,7 +1511,7 @@ object FormSetup: TFormSetup
         object ClrBtn: TButton
           Left = 520
           Height = 33
-          Top = 419
+          Top = 410
           Width = 89
           HelpContext = 770
           Anchors = []
@@ -1699,12 +1699,12 @@ object FormSetup: TFormSetup
       end
       object AGroupYear: TGroupBox
         Left = 0
-        Height = 882
+        Height = 864
         Top = 0
         Width = 1195
         HelpContext = 850
         Align = alClient
-        ClientHeight = 878
+        ClientHeight = 860
         ClientWidth = 1191
         TabOrder = 0
         OnMouseDown = ShowContext
@@ -1735,7 +1735,7 @@ object FormSetup: TFormSetup
         object Label52: TLabel
           Left = 48
           Height = 20
-          Top = 252
+          Top = 247
           Width = 174
           Anchors = []
           Caption = 'Sum of deleted checks'
@@ -1747,7 +1747,7 @@ object FormSetup: TFormSetup
         object Label67: TLabel
           Left = 49
           Height = 20
-          Top = 297
+          Top = 291
           Width = 222
           Anchors = []
           Caption = 'Sum of deleted contributions'
@@ -1759,7 +1759,7 @@ object FormSetup: TFormSetup
         object Label70: TLabel
           Left = 47
           Height = 20
-          Top = 373
+          Top = 365
           Width = 173
           Anchors = []
           Caption = 'Old beginning balance'
@@ -1771,7 +1771,7 @@ object FormSetup: TFormSetup
         object Label69: TLabel
           Left = 48
           Height = 20
-          Top = 413
+          Top = 404
           Width = 179
           Anchors = []
           Caption = 'New beginning balance'
@@ -1783,7 +1783,7 @@ object FormSetup: TFormSetup
         object Label75: TLabel
           Left = 49
           Height = 20
-          Top = 333
+          Top = 326
           Width = 211
           Anchors = []
           Caption = 'Sum of deleted direct posts'
@@ -1795,7 +1795,7 @@ object FormSetup: TFormSetup
         object BtnDelOld: TButton
           Left = 469
           Height = 31
-          Top = 196
+          Top = 192
           Width = 61
           HelpContext = 860
           Anchors = []
@@ -1811,7 +1811,7 @@ object FormSetup: TFormSetup
         object BtnCal: TButton
           Left = 296
           Height = 31
-          Top = 196
+          Top = 192
           Width = 81
           HelpContext = 870
           Anchors = []
@@ -1827,7 +1827,7 @@ object FormSetup: TFormSetup
         object EditOldCheck: TEdit
           Left = 293
           Height = 29
-          Top = 246
+          Top = 241
           Width = 121
           HelpContext = 880
           Anchors = []
@@ -1842,7 +1842,7 @@ object FormSetup: TFormSetup
         object EditOldCont: TEdit
           Left = 293
           Height = 29
-          Top = 286
+          Top = 280
           Width = 121
           HelpContext = 890
           Anchors = []
@@ -1857,7 +1857,7 @@ object FormSetup: TFormSetup
         object EditOldBal: TEdit
           Left = 293
           Height = 29
-          Top = 366
+          Top = 358
           Width = 121
           HelpContext = 910
           Anchors = []
@@ -1872,7 +1872,7 @@ object FormSetup: TFormSetup
         object EditNewBal: TEdit
           Left = 293
           Height = 29
-          Top = 407
+          Top = 398
           Width = 121
           HelpContext = 920
           Anchors = []
@@ -1887,7 +1887,7 @@ object FormSetup: TFormSetup
         object EditOldDP: TEdit
           Left = 293
           Height = 29
-          Top = 326
+          Top = 319
           Width = 121
           HelpContext = 900
           Anchors = []

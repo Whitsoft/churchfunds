@@ -93,8 +93,6 @@ object DataMod: TDataMod
     top = 664
   end
   object ZTblXY: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -305,8 +303,6 @@ object DataMod: TDataMod
     end
   end
   object ZQueryGroupDesc: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -432,8 +428,6 @@ object DataMod: TDataMod
     top = 416
   end
   object ZQueryAccounts: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -807,8 +801,6 @@ object DataMod: TDataMod
     top = 304
   end
   object ZTblAcc: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

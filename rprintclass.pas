@@ -67,7 +67,7 @@ end;
 
 
 
-        TPageArray = array [1..100] of TImage;
+        TPageArray = array [1..100] of TImage;    //render all pages to images max 100
 Type
 	TTabsArray = array [1..10] of PTabList; 
 
@@ -252,9 +252,10 @@ implementation
  procedure TReportPrinterClass.NewPage;
  begin
    inc(fPages);
-   if fPrintForm = nil then
+   if fPrintForm = nil then      //on first page - create a form to contain pages
      PrintFormCreate(fSender);
 
+   //generate a new page as TImage
    fCurrentPage := TImage.Create(FPrintForm as TComponent);
    With fCurrentPage do
       begin
@@ -274,7 +275,7 @@ implementation
         FillRect(0,0,Width,Height);
         FillRect(0,0,Width,Height);
       end;
-    CurX := fLeftMargin;
+    CurX := fLeftMargin;     //reset cursor
     CurY := fTopMargin ;
 end;
 
@@ -335,6 +336,7 @@ end;
         fSender := Sender;
    end;
 
+   // flip through pages - forward
    procedure TReportPrinterClass.NextPage(Sender: TObject);
    begin
      if fPageIndex < fPages then
@@ -345,6 +347,7 @@ end;
         end;
    end;
 
+   // flip through pages - backward
    procedure TReportPrinterClass.PrevPage(Sender: TObject);
    begin
      if fPageIndex > 1 then
@@ -389,6 +392,7 @@ end;
          end;
    end;
 
+   //can have up to 10 tab lists
    procedure   TReportPrinterClass.CreateTabArray; //Array 1..10 of tab lists
    var
      IDX: Integer;
@@ -410,22 +414,25 @@ end;
 	  	end;       
    end;
 
+   //set height of tab boxes in points
    procedure  TReportPrinterClass.setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
    begin
      fTabArray[IDX]^.boxHeight := BHeight;
    end;
 
+   //get height of tab boxes in points
    function   TReportPrinterClass.getTabBoxHeightInt(IDX: Integer): Integer;
    begin
      result :=fTabArray[IDX]^.boxHeight;
    end;
 
+   //set height of tab boxes in inches
    procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer; BHeight: Double);
    begin
      setTabBoxHeightInt(IDX, InchToPoint(BHeight));
    end;
 
-
+  //get height of tab boxes in inches
   function TReportPrinterClass.getTabBoxHeight(IDX: Integer): Double;
   begin
     result := PointToInch(getTabBoxHeightInt(IDX));

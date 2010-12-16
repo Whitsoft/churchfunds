@@ -202,6 +202,7 @@ Type
     procedure DBEditPostChange(Sender: TObject);
     procedure GridFundGroupsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ToolButton1Click(Sender: TObject);
 
     procedure UpdateChurchEdits;
     procedure EditFICAEnter(Sender: TObject);
@@ -370,6 +371,7 @@ Type
 
   const
    HelpFN: String='../help/ezsetup.chm';
+   RELATIVE = true;
 
 Var 
   FormSetup: TFormSetup;
@@ -553,6 +555,8 @@ If RadioPrint.ItemIndex=0 then
    ReportFunds
 else
   ReportAccounts;
+  RPrinter.EndPage;
+  DisplayReportPage(RPrinter, 1);
 End;
 
 Procedure TFormSetup.PostBtnClick(Sender: TObject);
@@ -617,17 +621,7 @@ procedure TFormSetup.ReportFunds;
 var
   fName: String;
 begin
- With RPrinter do
-    begin
-   {   FName := 'Funds.ps';
-      OpenPrintFile(fName);
-      if not PrintFileOpen then
-        begin
-          ShowMessage('Could not open file '+fName+' for printing');
-          exit;
-         end; }
-      NewPage;
-     end;
+ RPrinter.NewPage;
 
   FundReportSetup;
   FundReportTitle;
@@ -638,7 +632,6 @@ begin
       DataMod.ZTblFunds.Next;
     end;
  // RPrinter.EndPage;
- // RPrinter.ClosePrintFile;
 end;
 
 procedure TFormSetup.FundReportTitle;
@@ -657,13 +650,14 @@ begin
       RestoreFont(2);
       Bold:=False;
       NewLine;
+      Newline;
       PrintCenterPage('Funds Report');
-      PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
+      PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
       If PageNo>1 then
-      PrintRight('Page '+IntToStr(PageNo),7.8);
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
       NewLine;
+      Newline;
       FundReportHeader;
-     // MyNewPage:=True;
     end;
 end;
 
@@ -681,11 +675,11 @@ begin
       If PageNo>1 then
         begin
           PrintCenterPage('Fund Report');
-          PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),5.5);
+          PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
         end;
-      PrintRight('Page '+IntToStr(PageNo),7.8);
-      NewLine;
-      NewLine;
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      Newline;
+      Newline;
       FundReportHeader;
     end;
  end;
@@ -699,12 +693,13 @@ begin
   DataMod.ZTblFunds.First;
   With RPrinter do
     begin
+      Landscape := true;
       DataMod.ZTblFund.First;
 
       FreeTabs(6);
-      TmpTab := NewTab(6,1.0,JUSTIFYCENTER,1.0,0.05,False,BOXLINEALL,0);
-      TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.75,0.05,True,BOXLINEALL,0);
-      TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.25,0.05,True,BOXLINEALL,0);
+      TmpTab := NewTab(6,0.75,JUSTIFYCENTER,1.0,0.05,ABSOLUT,BOXLINEALL,0);
+      TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.75,0.05,RELATIVE,BOXLINEALL,0);
+      TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.50,0.05,RELATIVE,BOXLINEALL,0);
       BH12 := PointToInch(Round(12* LineScale));
       SaveFontName(6, HELVETICA);
       SaveFontSize(6,12);
@@ -756,19 +751,9 @@ procedure TFormSetup.ReportAccounts;
 var
   fName: String;
 begin
- With RPrinter do
-    begin
-    {  FName := 'Accounts.ps';
-      OpenPrintFile(fName);
-      if not PrintFileOpen then
-        begin
-          ShowMessage('Could not open file '+fName+' for printing');
-          exit;
-         end;  }
-      NewPage;
-     end;
-
- // RPrinter.Orientation := LANDSCAPE;
+  RPrinter.Landscape := true;
+  RPrinter.Newpage;
+  RPrinter.PageNo := 1;
   AccountReportSetup;
   AccountReportTitle;
   DataMod.ZTblAcc.First;
@@ -778,7 +763,6 @@ begin
       DataMod.ZTblAcc.Next;
     end;
   RPrinter.EndPage;
-  //RPrinter.ClosePrintFile;
 end;
 
 procedure TFormSetup.AccountReportTitle;
@@ -796,12 +780,13 @@ begin
       PrintCenterPage(ChurchName);
       RestoreFont(2);
       Bold:=False;
-      NewLine;
       PrintCenterPage('Accounts Report');
       PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
       If PageNo>1 then
-      PrintRight('Page '+IntToStr(PageNo),7.8);
-      NewLine;
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      Newline;
+      Newline;
+      Newline;
       AccountReportHeader;
      // MyNewPage:=True;
     end;
@@ -820,10 +805,12 @@ begin
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
-          PrintCenterPage('Account Report');
-           PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),5.5);
+          PrintCenterPage('Accounts Report');
+          PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
+           Newline;
+           Newline;
         end;
-      PrintRight('Page '+IntToStr(PageNo),7.8);
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
       NewLine;
       AccountReportHeader;
     end;
@@ -835,17 +822,18 @@ var
    TmpTab: PTab;
    BH12: Double;
 begin
+  if not DataMod.ZTblAcc.active then DataMod.ZTblAcc.open;
   DataMod.ZTblAcc.First;
   With RPrinter do
     begin
-      setPageMargins(0.0, 0.5, 0.5, 0.5);
+      setPageMargins(0.25, 0.25, 0.5, 0.5);
       FreeTabs(7);
-      TmpTab := NewTab(7 ,1.0,JUSTIFYCENTER,1.0,0.05, False, BOXLINEALL,0);
-      TmpTab := NewTab(7 ,0.0,JUSTIFYLEFT,1.75,0.05, True, BOXLINEALL,0);
-      TmpTab := NewTab(7, 0.0,JUSTIFYRIGHT,0.85,0.05, True, BOXLINEALL,0);
-      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,1.15,0.05, True, BOXLINEALL,0);
-      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,1.5,0.05, True, BOXLINEALL,0);
-      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,0.65,0.05, True, BOXLINEALL,0);
+      TmpTab := NewTab(7 ,1.0,JUSTIFYCENTER,1.00,0.05, ABSOLUT,  BOXLINEALL,0);
+      TmpTab := NewTab(7 ,0.0,JUSTIFYLEFT,  2.50,0.05, RELATIVE, BOXLINEALL,0);
+      TmpTab := NewTab(7, 0.0,JUSTIFYRIGHT, 1.15,0.05, RELATIVE, BOXLINEALL,0);
+      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  1.25,0.05, RELATIVE, BOXLINEALL,0);
+      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  2.00,0.05, RELATIVE, BOXLINEALL,0);
+      TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  0.75,0.05, RELATIVE, BOXLINEALL,0);
       BH12 := PointToInch(Round(12* LineScale));
       SaveFontName(7, HELVETICA);
       SaveFontSize(7,12);
@@ -858,16 +846,15 @@ procedure TFormSetup.AccountReportHeader;
 begin
  With RPrinter do
    begin
-     NewLine;
+    // NewLine;
     // TabJustify := tjCenter;
-     PrintTab(6, 'Account');
-     PrintTab(6, 'Description');
-     PrintTab(6, 'Budget');
+     PrintTab(7, 'Account');
+     PrintTab(7, 'Description');
+     PrintTab(7, 'Budget');
      PrintTab(7, 'Type');
      PrintTab(7, 'Group');
      PrintTab(7, 'Payroll');
-   //  NewLine;
-    end;
+   end;
 end;
 
 procedure TFormSetup.AccountRowPrint;
@@ -885,12 +872,12 @@ begin
           PrintTab(7,Budget);
           PrintTab(7, getType(DataMod.ZTblAccACC_TYPE.AsInteger-1));
           PrintTab(7, getGroupDesc(DataMod.ZTblAccGROUP_NO.AsInteger));
-           If DataMod.ZTblAccPayroll.AsString<>'' then
+          If DataMod.ZTblAccPayroll.AsString<>'' then
               PrintTab(7, 'True')
            else
               PrintTab(7, ' ');
            //NewLine;
-           If  LinesLeft(0.3)<4 then
+           If  LinesLeft(0.3)<3 then
              AccountReportNewPage;
        end;
 end;
@@ -2004,7 +1991,7 @@ begin
       CurrentPage:= PageArray[Page];
       if CurrentPage <> nil then
          begin
-          PrintForm.Show;
+          ShowReport;
           CurrentPage.BringToFront;
          end;
     end;
@@ -2035,6 +2022,7 @@ begin
  // MyNewPage:=True;
   ZeroGroup;
   zeroYear;
+  RPRinter.Landscape:=false;
   RPrinter.NewPage;
 end;
 
@@ -2058,7 +2046,7 @@ begin
        PrintCenterPage('General Fund Report');
       PrintLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
       If PageNo>1 then
-      PrintRight('Page '+IntToStr(PageNo),8.0);
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
       NewLine;
       NewLine;
      // MyNewPage:=True;
@@ -2078,7 +2066,7 @@ begin
           PrintCenterPage('General Fund Report');
           PrintLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
          end;
-      PrintRight('Page '+IntToStr(PageNo),7.5);
+      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
       Newline;
       NewLine;
     end;
@@ -2106,42 +2094,42 @@ begin
       //fLineToLine := round(fFont.FontSize * fLineScale);
 
     FreeTabs(1);  //Page Header
-    TmpTab := NewTab(1, 4.0,JUSTIFYRIGHT,2.5,0.05, False, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0,JUSTIFYRIGHT,1.0,0.05,True, BOXLINENONE,0);
+    TmpTab := NewTab(1, 4.0,JUSTIFYRIGHT,2.5,0.05, ABSOLUT, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINENONE,0);
 
     FreeTabs(2); //ToDate  Group Header
-    TmpTab := NewTab(2, 0.2,JUSTIFYLEFT, 2.3,  0.05, False, BOXLINELEFT+BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, True, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, True, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, True, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, True, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,1.3,  0.05 ,True, BOXLINERIGHT+BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT, BOXLINELEFT+BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,1.3,  0.05 ,RELATIVE, BOXLINERIGHT+BOXLINETOP,1);
 
     FreeTabs(3); //Income/Spent   Group Header
-    TmpTab := NewTab(3,0.2,JUSTIFYLEFT, 2.3,  0.05,False,BOXLINELEFT+BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,1.3,  0.05,True,BOXLINERIGHT+BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT,BOXLINELEFT+BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINERIGHT+BOXLINEBOTTOM,1);
 
 
     FreeTabs(4); //Figures   Funds
-    TmpTab := NewTab(4,0.2,JUSTIFYLEFT, 2.3,  0.05,False,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,True,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,1.3,  0.05,True,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.2,JUSTIFYLEFT, 2.3,  0.05,ABSOLUT,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINENONE,0);
 
 
     FreeTabs(5); //Sums
-    TmpTab := NewTab(5,0.2,JUSTIFYLEFT,  2.3, 0.05,False,BOXLINEALL,2);    //****
-    TmpTab := NewTab(5,2.6,JUSTIFYRIGHT, 0.8, 0.05,False,BOXLINEALL,2);
-    TmpTab := NewTab(5,3.5,JUSTIFYRIGHT, 0.8, 0.05,False,BOXLINEALL,2);
-    TmpTab := NewTab(5,4.4,JUSTIFYRIGHT, 0.8, 0.05,False,BOXLINEALL,2);
-    TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,False,BOXLINEALL,2);
-    TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,False,BOXLINEALL,2);
+    TmpTab := NewTab(5,0.2,JUSTIFYLEFT,  2.3, 0.05,ABSOLUT,BOXLINEALL,2);    //****
+    TmpTab := NewTab(5,2.6,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,3.5,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,4.4,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,ABSOLUT,BOXLINEALL,2);
 
     BH10 := PointToInch(Round(10*LineScale));
     BH12 := PointToInch(Round(12* LineScale));
@@ -2249,10 +2237,10 @@ begin
       //TabNewLine(9);
       CalcBalance;
       FreeTabs(9);
-      TmpTab := NewTab(9 ,0.20,JUSTIFYLEFT,2.35,0.05,False,BOXLINEALL,5);
-      TmpTab := NewTab(9, 2.6,JUSTIFYRIGHT,1.1,0.05,False,BOXLINEALL,5);
-      TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,False,BOXLINEALL,5);
-      TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05,False,BOXLINEALL,5);
+      TmpTab := NewTab(9 ,0.20,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
+      TmpTab := NewTab(9, 2.6,JUSTIFYRIGHT,1.1,0.05, ABSOLUT,BOXLINEALL,5);
+      TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
+      TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05, ABSOLUT,BOXLINEALL,5);
       setTabBoxHeight(9,BH12);
       NewLine;
       If LinesLeft(0.3) < 2 then ReportNewPage;
@@ -2653,9 +2641,9 @@ Begin
       //NewLine;
       NewLine;
       freetabs(5);
-      TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.5,0.05,false, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,3);
-      TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,true, BOXLINETOP+BOXLINEBOTTOM,3);
-      TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,true, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,3);
+      TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.5,0.05,ABSOLUT, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,3);
+      TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINEBOTTOM,3);
+      TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,3);
       BH10 := PointToInch(Round(10*LineScale));
       BH12 := PointToInch(Round(12*LineScale));
       setTabBoxHeight(5,BH12);
@@ -2691,10 +2679,10 @@ Begin
              Next;
           end;
       freetabs(5);
-      TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.25,0.05,false, BOXLINEALL,3);
-      TmpTab := NewTab(5,2.85,JUSTIFYRIGHT,0.9,0.05,False, BOXLINEALL,3);
-      TmpTab := NewTab(5,3.85,JUSTIFYRIGHT,0.9,0.05,False, BOXLINEALL,3);
-      TmpTab := NewTab(5,6.20,JUSTIFYRIGHT,1.2,0.05,False,BOXLINEALL,3);
+      TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.25,0.05,ABSOLUT, BOXLINEALL,3);
+      TmpTab := NewTab(5,2.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
+      TmpTab := NewTab(5,3.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
+      TmpTab := NewTab(5,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,3);
       BH10 := PointToInch(Round(10*LineScale));
       setTabBoxHeight(5,BH12);
       Total:=PosTotal+NegTotal;
@@ -2711,8 +2699,8 @@ Begin
 
       FreeTabs(8);
       NewLine;
-      TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,False, BOXLINEALL,4);
-      TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,False,BOXLINEALL,4);
+      TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,ABSOLUT, BOXLINEALL,4);
+      TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,4);
       setTabBoxHeight(8,BH12);
       PrintTab(8, 'Ending Balance including liabilities');
       If Total>=0.0 then
@@ -2769,6 +2757,11 @@ end;
 
 procedure TFormSetup.GridFundGroupsMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
+
+procedure TFormSetup.ToolButton1Click(Sender: TObject);
 begin
 
 end;
