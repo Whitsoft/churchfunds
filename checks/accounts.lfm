@@ -1,5 +1,5 @@
 object CheckForm: TCheckForm
-  Left = 821
+  Left = 711
   Height = 917
   Top = 106
   Width = 1201
@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 10
+    PageIndex = 2
     ParentFont = False
     TabOrder = 0
     object Page1: TPage

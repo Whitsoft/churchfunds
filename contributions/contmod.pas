@@ -32,6 +32,18 @@ type
     QueryEnvNo: TSQLQuery;
     QueryDelMember: TSQLQuery;
     QueryDelPledge: TSQLQuery;
+    TableEditCont: TSQLQuery;
+    TableEditContADDRESS_1: TStringField;
+    TableEditContADDRESS_2: TStringField;
+    TableEditContCITY: TStringField;
+    TableEditContENV_NO: TLongintField;
+    TableEditContFNAME: TStringField;
+    TableEditContMEMBER: TStringField;
+    TableEditContNAME: TStringField;
+    TableEditContPHONE: TStringField;
+    TableEditContSTATE: TStringField;
+    TableEditContTITLE: TStringField;
+    TableEditContZIP: TStringField;
     TableMem: TSQLQuery;
     SrcNow: TDatasource;
     SrcMem: TDatasource;
@@ -76,7 +88,6 @@ type
     QuerySrchName: TSQLQuery;
     QuerySrchFund: TSQLQuery;
     TableEditDetail: TSQLQuery;
-    TableEditCont: TSQLQuery;
     QueryFund: TSQLQuery;
     QueryMulti: TSQLQuery;
     QueryMember: TSQLQuery;

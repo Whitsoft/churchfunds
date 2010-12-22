@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 771
-  HorizontalOffset = 47
-  VerticalOffset = 72
+  HorizontalOffset = 0
+  VerticalOffset = 252
   Width = 1160
   object FBConnectionEZ: TIBConnection
     Connected = True
@@ -222,21 +222,9 @@ object DataMod: TDataMod
     left = 520
     top = 304
   end
-  object TableEditCont: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
-    Database = FBConnectionEZ
-    Transaction = SQLTransactionEZ
-    ReadOnly = False
-    SQL.Strings = (
-      '    SELECT * FROM MEMBERS'
-    )
-    Params = <>
-    left = 64
-    top = 384
-  end
   object SrcSeditCont: TDatasource
     DataSet = TableEditCont
+    Enabled = False
     left = 376
     top = 400
   end
@@ -248,6 +236,25 @@ object DataMod: TDataMod
     ReadOnly = False
     SQL.Strings = (
       '    SELECT * FROM MEMBERS'
+    )
+    UpdateSQL.Strings = (
+      'Update  MEMBERS'
+      'Set TITLE = :TITLE, FNAME = :FNAME,'
+      '     NAME = :NAME,'
+      '     ADDRESS_1 = :ADDRESS_1, ADDRESS_2 = :ADDRESS_2,'
+      '     CITY = :CITY, STATE =:STATE,'
+      '     ZIP = :ZIP, PHONE = :PHONE'
+      '  where  ENV_NO =:ENV_NO'
+    )
+    InsertSQL.Strings = (
+      'INSERT into MEMBERS'
+      '(ENV_NO, TITLE, FNAME, NAME,'
+      ' ADDRESS_1, ADDRESS_2, CITY,'
+      ' STATE, ZIP, PHONE)'
+      ' VALUES (:ENV_NO, :TITLE, :FNAME, :NAME,'
+      ' :ADDRESS_1, :ADDRESS_2, :CITY,'
+      ' :STATE, :ZIP, :PHONE)'
+      ''
     )
     Params = <>
     left = 672
@@ -1110,6 +1117,8 @@ object DataMod: TDataMod
     top = 504
   end
   object TableMem: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1362,6 +1371,8 @@ object DataMod: TDataMod
     end
   end
   object TableChurch: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -1451,5 +1462,155 @@ object DataMod: TDataMod
       end>
     left = 224
     top = 696
+  end
+  object TableEditCont: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    Database = FBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '    SELECT * FROM MEMBERS'
+    )
+    UpdateSQL.Strings = (
+      ' Update  MEMBERS'
+      '   Set TITLE = :TITLE, FNAME = :FNAME, NAME = :FNAME,'
+      '       ADDRESS_1 = :ADDRESS_1, ADDRESS_2 =:ADDRESS_2,'
+      '       CITY = :CITY, STATE = :STATE, ZIP = :ZIP,'
+      '       PHONE = :PHONE, MEMBER = :MEMBER'
+      '    where  ENV_NO = :ENV_NO'
+    )
+    InsertSQL.Strings = (
+      '   insert into MEMBERS'
+      '    (ENV_NO, TITLE, FNAME, ADDRESS_1,'
+      '     ADDRESS_2, CITY, STATE, ZIP, PHONE, MEMBER)'
+      '     VALUES(:ENV_NO, :TITLE, :FNAME, :ADDRESS_1,'
+      '            :ADDRESS_2, :CITY, :'
+      '            :STATE, :ZIP, :PHONE, :MEMBER)'
+      ''
+    )
+    Params = <>
+    left = 56
+    top = 400
+    object TableEditContENV_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ENV_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object TableEditContTITLE: TStringField
+      DisplayWidth = 14
+      FieldKind = fkData
+      FieldName = 'TITLE'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 14
+    end
+    object TableEditContFNAME: TStringField
+      DisplayWidth = 32
+      FieldKind = fkData
+      FieldName = 'FNAME'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 32
+    end
+    object TableEditContNAME: TStringField
+      DisplayWidth = 32
+      FieldKind = fkData
+      FieldName = 'NAME'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 32
+    end
+    object TableEditContADDRESS_1: TStringField
+      DisplayWidth = 56
+      FieldKind = fkData
+      FieldName = 'ADDRESS_1'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 56
+    end
+    object TableEditContADDRESS_2: TStringField
+      DisplayWidth = 56
+      FieldKind = fkData
+      FieldName = 'ADDRESS_2'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 56
+    end
+    object TableEditContCITY: TStringField
+      DisplayWidth = 42
+      FieldKind = fkData
+      FieldName = 'CITY'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 42
+    end
+    object TableEditContSTATE: TStringField
+      DisplayWidth = 2
+      FieldKind = fkData
+      FieldName = 'STATE'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 2
+    end
+    object TableEditContZIP: TStringField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ZIP'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 10
+    end
+    object TableEditContPHONE: TStringField
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'PHONE'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 12
+    end
+    object TableEditContMEMBER: TStringField
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'MEMBER'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1
+    end
   end
 end

@@ -1,12 +1,12 @@
 object FormCont: TFormCont
-  Left = 387
-  Height = 801
-  Top = 165
-  Width = 1060
+  Left = 375
+  Height = 797
+  Top = 138
+  Width = 1056
   ActiveControl = NotebookCont
   Caption = 'Contributions'
-  ClientHeight = 801
-  ClientWidth = 1060
+  ClientHeight = 797
+  ClientWidth = 1056
   Font.Height = -13
   Font.Name = 'System'
   OnActivate = FormActivate
@@ -16,21 +16,21 @@ object FormCont: TFormCont
   LCLVersion = '0.9.29'
   object NotebookCont: TNotebook
     Left = 0
-    Height = 801
+    Height = 797
     Top = 0
-    Width = 1060
+    Width = 1056
     HelpContext = 10
     Align = alClient
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 1
+    PageIndex = 5
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
       Caption = 'Entry'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupCont: TGroupBox
         Left = 0
         Height = 766
@@ -212,20 +212,6 @@ object FormCont: TFormCont
           ParentFont = False
           TabOrder = 3
         end
-        object BtnPost: TButton
-          Left = 835
-          Height = 33
-          Top = 444
-          Width = 89
-          HelpContext = 100
-          Caption = 'Post'
-          Font.Height = -15
-          Font.Name = 'System'
-          OnClick = BtnPostClick
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 4
-        end
         object BtnCan: TButton
           Left = 835
           Height = 33
@@ -239,7 +225,7 @@ object FormCont: TFormCont
           OnKeyPress = BtnCanKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 8
+          TabOrder = 7
         end
         object GridSrchEnv: TDBGrid
           Left = 35
@@ -247,12 +233,13 @@ object FormCont: TFormCont
           Top = 428
           Width = 701
           HelpContext = 90
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcEditEnv
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
-          TabOrder = 5
+          TabOrder = 4
           TabStop = False
           TitleFont.Height = -16
           TitleFont.Name = 'System'
@@ -302,7 +289,7 @@ object FormCont: TFormCont
           OnClick = RadioCashClick
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 7
+          TabOrder = 6
         end
         object GridNow: TDBGrid
           Left = 35
@@ -310,12 +297,13 @@ object FormCont: TFormCont
           Top = 76
           Width = 355
           HelpContext = 130
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcNow
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
-          TabOrder = 6
+          TabOrder = 5
           TabStop = False
           TitleFont.Height = -16
           TitleFont.Name = 'System'
@@ -325,17 +313,17 @@ object FormCont: TFormCont
     end
     object PageDetail: TPage
       Caption = 'DetailFunds'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupFunds: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 150
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label24: TLabel
@@ -373,17 +361,17 @@ object FormCont: TFormCont
     end
     object PageContrib: TPage
       Caption = 'Contributors'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupTors: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 170
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label13: TLabel
@@ -409,28 +397,6 @@ object FormCont: TFormCont
           Font.Style = [fsBold]
           ParentColor = False
           ParentFont = False
-        end
-        object DBNameGrid: TDBGrid
-          Left = 67
-          Height = 232
-          Top = 68
-          Width = 745
-          HelpContext = 180
-          Color = clAqua
-          Columns = <>
-          DataSource = DataMod.SrcSeditCont
-          Font.Color = clBlack
-          Font.Height = -17
-          Font.Name = 'System'
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
-          ParentFont = False
-          TabOrder = 0
-          TabStop = False
-          TitleFont.Color = clBlack
-          TitleFont.Height = -16
-          TitleFont.Name = 'System'
-          OnDblClick = DBNameGridDblClick
-          OnMouseDown = ShowContext
         end
         object TitleCombo: TComboBox
           Left = 659
@@ -460,14 +426,14 @@ object FormCont: TFormCont
           OnChange = TitleComboChange
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 0
           TabStop = False
         end
         object GridEditEnv: TStringGrid
           Left = 67
-          Height = 368
-          Top = 388
-          Width = 552
+          Height = 358
+          Top = 382
+          Width = 540
           HelpContext = 190
           ColCount = 2
           DefaultColWidth = 267
@@ -478,7 +444,7 @@ object FormCont: TFormCont
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs]
           ParentFont = False
           RowCount = 11
-          TabOrder = 2
+          TabOrder = 1
           TitleFont.Height = -16
           TitleFont.Name = 'System'
           OnKeyPress = GridEditEnvKeyPress
@@ -496,7 +462,7 @@ object FormCont: TFormCont
           OnClick = BtnPostTorsClick
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 3
+          TabOrder = 2
         end
         object BtnCanTors: TButton
           Left = 907
@@ -510,12 +476,12 @@ object FormCont: TFormCont
           OnClick = BtnCanTorsClick
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 4
+          TabOrder = 3
         end
         object BtnDelTors: TButton
           Left = 67
           Height = 32
-          Top = 340
+          Top = 326
           Width = 88
           HelpContext = 230
           Caption = 'Delete'
@@ -524,23 +490,49 @@ object FormCont: TFormCont
           OnClick = BtnDelTorsClick
           OnMouseDown = ShowContext
           ParentFont = False
+          TabOrder = 4
+        end
+        object CBMember: TCheckBox
+          Left = 659
+          Height = 24
+          Top = 454
+          Width = 160
+          AutoSize = False
+          Caption = 'Member'
+          Font.Height = -17
+          Font.Name = 'System'
+          Font.Style = [fsBold]
+          ParentFont = False
           TabOrder = 5
+        end
+        object DBNameGrid: TDBGrid
+          Left = 67
+          Height = 248
+          Top = 62
+          Width = 920
+          HelpContext = 180
+          Color = clAqua
+          Columns = <>
+          DataSource = DataMod.SrcSeditCont
+          TabOrder = 6
+          TitleFont.Height = -15
+          TitleFont.Name = 'System'
         end
       end
     end
     object PagePledge: TPage
       Caption = 'Pledges'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupPledge: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 240
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label7: TLabel
@@ -727,17 +719,17 @@ object FormCont: TFormCont
     end
     object PageQuery: TPage
       Caption = 'Queries'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupQuery: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 360
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label22: TLabel
@@ -972,8 +964,8 @@ object FormCont: TFormCont
     end
     object PageReport: TPage
       Caption = 'Reports'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupRep: TGroupBox
         Left = 0
         Height = 764
@@ -1053,14 +1045,6 @@ object FormCont: TFormCont
           Font.Style = [fsBold]
           ParentColor = False
           ParentFont = False
-        end
-        object Bevel1: TBevel
-          Left = 43
-          Height = 40
-          Top = 364
-          Width = 984
-          Shape = bsBottomLine
-          Style = bsRaised
         end
         object MonLabel: TLabel
           Left = 51
@@ -1256,37 +1240,7 @@ object FormCont: TFormCont
           )
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 10
-        end
-        object RadioPreview: TRadioGroup
-          Left = 731
-          Height = 104
-          Top = 212
-          Width = 248
-          HelpContext = 560
-          Anchors = []
-          AutoFill = False
-          Caption = 'Preview or Print'
-          ChildSizing.LeftRightSpacing = 6
-          ChildSizing.TopBottomSpacing = 6
-          ChildSizing.VerticalSpacing = 6
-          ChildSizing.ShrinkHorizontal = crsScaleChilds
-          ChildSizing.ShrinkVertical = crsScaleChilds
-          ChildSizing.Layout = cclTopToBottomThenLeftToRight
-          ChildSizing.ControlsPerLine = 2
-          ClientHeight = 83
-          ClientWidth = 244
-          Font.Height = -15
-          Font.Name = 'System'
-          Items.Strings = (
-            'Preview           '
-            'Print                '
-          )
-          OnClick = RadioPreviewClick
-          OnMouseDown = ShowContext
-          ParentFont = False
           TabOrder = 9
-          Visible = False
         end
         object PickerRep: TEdit
           Left = 219
@@ -1298,23 +1252,31 @@ object FormCont: TFormCont
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 10
+        end
+        object Bevel1: TBevel
+          Left = 43
+          Height = 10
+          Top = 364
+          Width = 984
+          Shape = bsBottomLine
+          Style = bsRaised
         end
       end
     end
     object PageMisc: TPage
       Caption = 'Pledge Sums'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupSum: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 740
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label25: TLabel
@@ -1479,16 +1441,17 @@ object FormCont: TFormCont
     end
     object PageLabels: TPage
       Caption = 'Labels'
-      ClientWidth = 1054
-      ClientHeight = 766
+      ClientWidth = 1050
+      ClientHeight = 762
       object AGroupLabel: TGroupBox
-        Left = 21
-        Height = 764
-        Top = -10
-        Width = 1054
+        Left = 0
+        Height = 762
+        Top = 0
+        Width = 1050
         HelpContext = 570
-        ClientHeight = 760
-        ClientWidth = 1050
+        Align = alClient
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label32: TLabel
@@ -1743,6 +1706,7 @@ object FormCont: TFormCont
           Top = 304
           Width = 544
           HelpContext = 730
+          Color = clWindow
           Columns = <>
           DataSource = DataMod.SrcLabel
           TabOrder = 9
@@ -1849,6 +1813,20 @@ object FormCont: TFormCont
         end
       end
     end
+  end
+  object BtnPost: TButton
+    Left = 840
+    Height = 33
+    Top = 480
+    Width = 89
+    HelpContext = 100
+    Caption = 'Post'
+    Font.Height = -15
+    Font.Name = 'System'
+    OnClick = BtnPostClick
+    OnMouseDown = ShowContext
+    ParentFont = False
+    TabOrder = 1
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
