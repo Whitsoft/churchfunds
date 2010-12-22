@@ -10,7 +10,6 @@ uses
 {$IFDEF WINDOWS}{$R projcont.rc}{$ENDIF}
 
 begin
-  {$I contributions.lrs}
   Application.initialize;
   Application.CreateForm(TFormCont, FormCont);
   Application.CreateForm(TDataMod, DataMod);

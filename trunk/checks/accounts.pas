@@ -19,7 +19,7 @@ WHERE id = :id}
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, Calendar, PrintersDlgs, StrUtils, unit30, cHelp, NewPSClass;
+  db, Grids, Calendar, PrintersDlgs, StrUtils, unit30, cHelp, RPrintClass;
 
 type
   PayInfo = record
@@ -653,6 +653,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ClearStubs;
     procedure InitDPGrid;
+    procedure DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
 
            { Private declarations }
   private
@@ -693,9 +694,8 @@ const
    HelpFN: String='../help/ezcheck.chm';
 var
   CheckForm: TCheckForm;
-  SocList        :TStringList;
-  fName: String;
-  EZPSClass: TPostscriptClass;
+  RPrinter:  TReportPrinterClass;
+  SocList:   TStringList;
   PayStubInfo: PayInfo;
 
   Activated: Boolean;
@@ -707,6 +707,7 @@ var
   DedAccounts: Array[0..5] of Integer;
   HForm: THelpForm;
   FedTax,FICATax,MedTax,StateTax,LocalTax,GrossWage,NetWage,Pension:  Double;
+
 implementation
 //{$R *.DFM}
 { TCheckForm }
@@ -759,8 +760,7 @@ begin
    ChkBal:=0.0;
    GlobalAct:=False;
    SocList:=TStringList.Create;
-   EZPSClass := TPostscriptClass.Create;
-   EZPSCLass.ClosePrintFile;
+   RPrinter := TReportPrinterClass.Create(Sender as TObject);
  end;
 
 
@@ -1755,7 +1755,7 @@ begin
          Params[3].AsDateTime:=EndDate;
          Params[1].AsInteger:=0;
     end;
-  With EZPSClass do
+  With RPrinter do
     begin
       Home;
       NewLine;
@@ -2414,7 +2414,7 @@ var
   TmpTab: PTab;
   TaxFont: FontType;
 begin
-   With EZPSClass do
+   With RPrinter do
      begin
         OpenPrintFile('941.ps');
         FreeTabs(1);
@@ -2469,7 +2469,7 @@ end;
 
 procedure TCheckForm.doPrint941(Sender: TObject;BDate,EDate: TDateTime);
 begin
-  with EZPSClass  do
+  with RPrinter  do
     begin
       PrintTaxAcc(Sender,CFEDERAL,1,BDate,EDate);
       PrintTaxAcc(Sender,CFICA,1,BDate,EDate);
@@ -2489,7 +2489,7 @@ begin
      AccDesc:=AccTypeDesc[AccType]
   else
     AccDesc:='Unknown';
-  With EZPSClass, DataMod.ZQueryPayAcc do
+  With RPrinter, DataMod.ZQueryPayAcc do
     begin
       Close;
       Params[0].AsInteger:=AccType;
@@ -2535,7 +2535,7 @@ var
   Account,AccType,IDX: Integer;
   AccDesc: String;
 begin
-  With EZPSClass do
+  With RPrinter do
     begin
       PrintTaxAcc(Sender,CSTATE,1,BDate,EDate);
       PrintTaxAcc(Sender,CLOCAL,2,BDate,EDate);
@@ -3345,16 +3345,27 @@ begin
      end;
 end;
 
+procedure TCheckForm.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
+begin
+  with RPrinter do
+    begin
+      CurrentPage:= PageArray[Page];
+      if CurrentPage <> nil then
+         begin
+          ShowReport;
+          CurrentPage.BringToFront;
+         end;
+    end;
+end;
 
 procedure TCheckForm.CheckPrinterPrint;
 const
   BOXLINENONE = 0;
  var
-   fName: String;
    TmpTab: PTab;
    CkDate,Vend,Note:  String;
    CheckNo,Cnt: Integer;
-   CkAmount: Double;
+   CkAmount, BH12: Double;
    MonText:   String;
    MonStr:    String;
    Accy,ScriptX,ScriptY,DupY,DateX,DateY: Double;
@@ -3362,30 +3373,24 @@ const
    CheckFont: FontType;
  begin
 
-   With EZPSClass do
+   With RPrinter do
      begin
-       if PrintFileOpen then
-         ClosePrintFile;
+       RPRinter.Landscape:=false;
+       RPrinter.NewPage;
        If (GlobStCheck <> GlobEndCheck) then
-         fName := 'checks'+IntToStr(GlobStCheck)+'-' + IntToStr(GlobEndCheck)+'.ps'
-       else
-         fName := 'check'+IntToStr(GlobStCheck)+'.ps';
-       OpenPrintFile(fName);
-       if not PrintFileOpen then
-         begin
-           ShowMessage('Could not open file '+fName+' for printing');
-           exit;
-         end;
+
        CheckFont.FontName := HELVETICA;
        CheckFont.FontSize := 10;
        Font := CheckFont;
-       setTabBoxHeight(1,LineSpacing);
+       BH12 := PointToInch(Round(12* LineScale));
+      setTabBoxHeight(1,BH12);
+
      end;  //With EZPSClass do
    for CheckNo:=GlobStCheck to GlobEndCheck do   //one check or a range of checks
      try
        If not ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', CheckNo) then
          begin
-             EZPSClass.ClosePrintFile;
+             //EZPSClass.ClosePrintFile;
              exit;
            end;
        Cnt:=0;
@@ -3424,12 +3429,12 @@ const
        If not GlobTrial then     //if not a trial check
          if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
            begin
-             EZPSCLass.ClosePrintFile;
              exit;
            end;
-       With EZPSClass do
-      // With sender as TBaseReport do
+       With RPrinter do
          begin
+           EndPage;
+           NewPage;
            PrintXY(VendX,VendY,Vend);
            PrintXY(DateX,DateY,CkDate);
            PrintXY(ScriptX,ScriptY,MonText);
@@ -3443,7 +3448,7 @@ const
                First;
                FreeTabs(1);
                TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
-               setTabBoxHeight(1,LineSpacing);
+               setTabBoxHeight(1,BH12);
                //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
                PrintXY(1.0,AccY,'Payed to:  '+Vend);
                PrintXY(DateX,AccY,CkDate);
@@ -3467,7 +3472,7 @@ const
            PrintXY(AmountX,DupY+AmountY,MonStr);
            PrintXY(MemoX,DupY+MemoY,Note);
            If CheckNo<>GlobEndCheck then
-               EZPSCLass.PSProcs;
+              // EZPSCLass.PSProcs;
        end; //{With sender}
        If not GlobTrial then
          try
@@ -3507,8 +3512,8 @@ const
     except
       ShowMessage('Check printing error');
     end;
-    EZPSClass.PSPRocs;
-    EZPSClass.ClosePrintFile;
+  //  EZPSClass.PSPRocs;
+  //  EZPSClass.ClosePrintFile;
 end;
 
 
@@ -4237,23 +4242,25 @@ end;
 procedure TCheckForm.PrintBtnClick(Sender: TObject);
 var
   IDX: Integer;
+  BH12: Double;
 begin
   If GrossEd.Text='' then exit;
-  With EZPSClass do
+  With RPrinter do
     begin
      // fName := 'paystub' + '-' + EmpLookup.Field.Text+'-'+DateToStr(Date)+'.ps';
-     fName := 'paystub' + '-'+DateToStr(Date)+'.ps';
-      OpenPrintFile(fName);
+    // fName := 'paystub' + '-'+DateToStr(Date)+'.ps';
+     // OpenPrintFile(fName);
       //LineSpacing := 0.30;
       SetPageMargins(0.1,0.5,0.5,0.5);
       Home;
       NewLine;
       NewLine;
       NewLine;
-      doPayPrint(PayStubInfo, LineSpacing);
+      BH12 := PointToInch(Round(12* LineScale));
+      doPayPrint(PayStubInfo, BH12);
       For IDX:=1 to 18 do
         NewLine;
-      doPayPrint(PayStubInfo, LineSpacing);
+      doPayPrint(PayStubInfo, BH12);
     end;
 end;
 
@@ -4280,7 +4287,7 @@ begin
       GetDedType(DedType[1],DedType[2],DedType[3],DedType[4],DedType[5]);
       TaxTotal:=PFed+PFICA+PMed+PStait+PLocal+PD1+PD2+PD3+PD4+PD5;
     end;
-  With EZPSClass do
+  With RPrinter do
     begin
       PayFont.FontName := HELVETICA;
       PayFont.FontSize := 8;

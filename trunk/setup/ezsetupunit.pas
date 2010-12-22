@@ -654,7 +654,7 @@ begin
       PrintCenterPage('Funds Report');
       PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
       If PageNo>1 then
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       NewLine;
       Newline;
       FundReportHeader;
@@ -677,7 +677,7 @@ begin
           PrintCenterPage('Fund Report');
           PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
         end;
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       Newline;
       Newline;
       FundReportHeader;
@@ -693,7 +693,7 @@ begin
   DataMod.ZTblFunds.First;
   With RPrinter do
     begin
-      Landscape := true;
+      Landscape := false;
       DataMod.ZTblFund.First;
 
       FreeTabs(6);
@@ -783,7 +783,7 @@ begin
       PrintCenterPage('Accounts Report');
       PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
       If PageNo>1 then
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       Newline;
       Newline;
       Newline;
@@ -810,7 +810,7 @@ begin
            Newline;
            Newline;
         end;
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       NewLine;
       AccountReportHeader;
     end;
@@ -2046,7 +2046,7 @@ begin
        PrintCenterPage('General Fund Report');
       PrintLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
       If PageNo>1 then
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       NewLine;
       NewLine;
      // MyNewPage:=True;
@@ -2066,7 +2066,7 @@ begin
           PrintCenterPage('General Fund Report');
           PrintLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
          end;
-      PrintXY(7.25,0.5,'Page '+IntToStr(PageNo));
+      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
       Newline;
       NewLine;
     end;

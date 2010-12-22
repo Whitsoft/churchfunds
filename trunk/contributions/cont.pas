@@ -8,15 +8,19 @@ interface
 Uses
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
 StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp,
-IBConnection, db, Grids, StrUtils, LHelpControl, newpsclass, Keyboard;
+IBConnection, db, Grids, StrUtils, LHelpControl, rprintclass, Keyboard;
 
 type
 
   { TFormCont }
 
   TFormCont = class(TForm)
+    Bevel1: TBevel;
+    BtnPost: TButton;
     BtnPrintAll: TButton;
+    CBMember: TCheckBox;
     CheckBoxPostNet: TCheckBox;
+    DBNameGrid: TDBGrid;
     Label47: TLabel;
     NotebookCont: TNotebook;
     PageEntry: TPage;
@@ -36,14 +40,12 @@ type
     Label3: TLabel;
     EditAmount: TEdit;
     Label5: TLabel;
-    BtnPost: TButton;
     BtnCan: TButton;
     GridSrchEnv: TDBGrid;
     AGroupFunds: TGroupBox;
     Label24: TLabel;
     GridDetail: TDBGrid;
     AGroupTors: TGroupBox;
-    DBNameGrid: TDBGrid;
     Label13: TLabel;
     Timer1: TTimer;
     TitleCombo: TComboBox;
@@ -89,7 +91,6 @@ type
     BtnMonPrnt: TButton;
     ConRepBox: TComboBox;
     YearEd: TEdit;
-    Bevel1: TBevel;
     AGroupSum: TGroupBox;
     Label25: TLabel;
     Label18: TLabel;
@@ -145,8 +146,6 @@ type
     EdFontSize: TEdit;
     Label43: TLabel;
     Label44: TLabel;
- //   ReportSystemCon: TRvSystem;
-    RadioPreview: TRadioGroup;
     EdVuBox: TCheckBox;
     LabelTitle: TLabel;
     PickerRep: TEdit;
@@ -160,9 +159,6 @@ type
     procedure BtnLabelClick(Sender: TObject);
     procedure BtnPrintAllClick(Sender: TObject);
     procedure CheckBoxPostNetChange(Sender: TObject);
-    procedure DBNameGridColEnter(Sender: TObject);
-    procedure DBNameGridSelectEditor(Sender: TObject; Column: TColumn;
-      var Editor: TWinControl);
     procedure EditFromDateExit(Sender: TObject);
     procedure EditSrchEnvExit(Sender: TObject);
     procedure EditToDateExit(Sender: TObject);
@@ -282,7 +278,6 @@ type
     procedure EdFontSizeExit(Sender: TObject);
     procedure BtnLabClrClick(Sender: TObject);
 //    procedure ReportSystemConPrint(Sender: TObject);
-    procedure RadioPreviewClick(Sender: TObject);
     procedure EdVuBoxClick(Sender: TObject);
     procedure GridQueryDrawDataCell(Sender: TObject; const Rect: TRect;
       Field: TField; State: TGridDrawState);
@@ -314,6 +309,7 @@ type
     procedure CheckHelpOpen;
    procedure initPledges;
    procedure initfunds;
+   procedure initOpenTables;
    { procedure ConReportHeader;
     procedure ConReportTitle;
     procedure ConReportNewPage;
@@ -334,13 +330,14 @@ type
   procedure ListEnum (pti: PTypeInfo; sList: TStrings);  }
 const
    HelpFN: String='../help/ezcont.chm';
+   LINESIZE = 0.28;
 
 var
   FormCont: TFormCont;
   HForm: THelpForm;
   LogFile: Text;
   Activated: Boolean;
-  EZPClass: TPostScriptClass;
+  RPrinter: TReportPrinterClass;
   GlobRun: Boolean;
   GlobLabel: Boolean;
   GlobPage: Integer;
@@ -570,7 +567,6 @@ var
   RadioSum.ItemIndex:=0;
   RadioCash.ItemIndex:=0;
   RadioRepType.ItemIndex:=0;
-  RadioPreview.ItemIndex:=0;
   PickerRep.Text:=DateToStr(Date);
   ConRepBox.ItemIndex:=0;
   ComboDetail.ItemIndex:=0;
@@ -667,8 +663,8 @@ var
   EdFontSize.Text := '10';
   getlabels;
   DataMod.TableDetail.First;
-  If EZPClass <> nil then
-    With EZPClass do
+  If RPrinter <> nil then
+    With RPrinter do
       begin
         SaveFontName(1, HELVETICA);
         SaveFontSize(1,12);
@@ -677,6 +673,7 @@ var
       end;
    initPledges;
    initFunds;
+   initOpenTables;
   {ShowOrdinal(PTypeInfo(TypeInfo(TLabelBrand)),LabelBox.Items);  }
 end;
 
@@ -851,7 +848,7 @@ procedure TFormCont.BtnPostTorsClick(Sender: TObject);
 var
   Env: Integer;
 begin
-  If GlobIns then exit;
+ // If GlobIns then exit;
   Env := StrToInt(GridEditEnv.Cells[1,1]);
   With GridEditEnv do
     try
@@ -865,7 +862,7 @@ begin
       end;
       DataMod.TableEditEnv.FieldByName('ENV_NO').AsString:=Cells[1,1];
       DataMod.TableEditEnv.FieldByName('TITLE').AsString:=Cells[1,2];
-         DataMod.TableEditEnv.FieldByName('FNAME').AsString:=Cells[1,3];
+      DataMod.TableEditEnv.FieldByName('FNAME').AsString:=Cells[1,3];
       DataMod.TableEditEnv.FieldByName('NAME').AsString:=Cells[1,4];
       DataMod.TableEditEnv.FieldByName('ADDRESS_1').AsString:=Cells[1,5];
       DataMod.TableEditEnv.FieldByName('ADDRESS_2').AsString:=Cells[1,6];
@@ -873,16 +870,23 @@ begin
       DataMod.TableEditEnv.FieldByName('STATE').AsString:=Cells[1,8];
       DataMod.TableEditEnv.FieldByName('ZIP').AsString:=Cells[1,9];
       DataMod.TableEditEnv.FieldByName('PHONE').AsString:=Cells[1,10];
+      if CBMember .checked then
+         DataMod.TableEditEnv.FieldByName('MEMBER').AsString := 'X'
+      else
+        DataMod.TableEditEnv.FieldByName('MEMBER').AsString := '';
       DataMod.TableEditEnv.Post;
+      DataMod.TableEditEnv.ApplyUpdates;
+      DataMod.SQLTransactionEZ.Commit;
       DataMod.TableEnvNo.Close;
       DataMod.TableEnvNo.Open;
       DataMod.TableEnvNo.Last;
-      GlobIns:=True;
+    //  GlobIns:=True;
       BtnCanTors.SetFocus;
       upPledgeList(Cells[1,1],Cells[1,2],Cells[1,3],Cells[1,4]);
     except
       ShowMessage('Could not enter this data, check the entries.');
     end;
+   initOpenTables;
 end;
 
 procedure TFormCont.upPledgeList(EnvNo,Title,FName,GName: String);
@@ -901,6 +905,7 @@ begin
      For I:=1 to 10 do
        Cells[1,I]:='';
   GlobIns:=False;
+  CBMember.Checked := false;
   TitleCombo.SetFocus;
 end;
 
@@ -946,8 +951,7 @@ var
   fName: String;
 begin
    {EditRepTitle.Text:=ReportPrinter1.port; }
-   fName := 'contributions'+'-'+DateToStr(Date)+'.ps';
-   EZPClass.OpenPrintFile(fName);
+  // fName := 'contributions'+'-'+DateToStr(Date)+'.ps';
    With DataMod.QueryRContrib do
      try
        EnvNo:=StrToInt(EditFromEnv.Text);
@@ -996,19 +1000,11 @@ begin
                 DataMod.TableEditEnv.FieldByName('PRINT').AsString:='X';
                 DataMod.TableEditEnv.Post;
               end;
-           {If RadioPreview.ItemIndex<=0 then
-              if MessageDlg('Preview another contributor',
-                 mtConfirmation, [mbYes, mbNo], 0) = mrNo then
-                   begin
-                     ShowMessage('Exiting from reports.');
-                     exit;
-                   end;   }
            next;
          end;
        except
          ShowMessage('Error: check your entries.');
        end;
-    EZPClass.ClosePrintFile;
 end;
 
 procedure TFormCont.EditFromEnvKeyPress(Sender: TObject; var Key: Char);
@@ -1058,7 +1054,7 @@ begin
   GlobFrom:='';
   GlobThru:='';
   ConList:=TStringList.Create;
-  EZPClass := TPostscriptClass.Create;
+ // RPrinter := TReportPrinterClass.Create(FormCont);
   WindowState := WSNormal;
   Caption := 'Contributions';
 end;
@@ -1172,8 +1168,9 @@ end; }
 
 procedure TFormCont.BtnMonPrntClick(Sender: TObject);
 begin
-  If EZPClass = nil then exit;
-  EZPClass.PageNo:=0;
+  If RPrinter = nil then
+       RPrinter := TReportPrinterClass.Create(Sender as TObject);
+  RPrinter.PageNo:=0;
   If not DataMod.TableRFund.active then DataMod.TableRFund.open;
   DataMod.TableRFund.First;
   ReportMonthDay
@@ -1185,7 +1182,7 @@ var
   TmpTab: PTab;
   BH10: Double;
 begin
-   With EZPClass do
+   With RPrinter do
     begin
       BH10 := PointToInch(Round(10 * LineScale));
       FreeTabs(1);
@@ -1225,8 +1222,9 @@ procedure TFormCont.MonthDayNewPage;
 var
   RepFont: FontType;
 begin
-  With EZPClass do
+  With RPrinter do
     begin
+      NewPage;
       If PageNo<=0 then
         begin
          RepFont.FontName := 'HELVETICA';
@@ -1270,9 +1268,9 @@ begin
   ReportTotal:=0.0;ReportTotalYear:=0.0;
   CashGroupTotal:=0.0;CashReportTotal:=0.0;
   try
-    fName := 'finances'+'-'+DateToStr(Date)+'.ps';
-    EZPClass.OpenPrintFile(fName);
-    EZPClass.setPageMargins(0.25, 0.25, 0.25, 0.5);
+    if RPrinter = nil then
+       RPrinter := TReportPrinterClass.Create(self);
+    RPrinter.setPageMargins(0.25, 0.25, 0.25, 0.5);
     setMonthDayTabs;
     Year:=StrToInt(YearEd.Text);
     BegDate:=BegMonth(1,Year);
@@ -1310,7 +1308,7 @@ begin
        DataMod.QueryFGroup.First;
        While not DataMod.QueryFGroup.EOF do
          try
-            If EZPClass.LinesLeft<3 then MonthDayNewPage;
+            If RPrinter.LinesLeft(LINESIZE) <3 then MonthDayNewPage;
             Fund:=DataMod.QueryFGroup.FieldByName('DETAIL_FUND_NO').AsInteger;
             Close;   //QuerySummary Checks
             Params[0].AsDateTime:=FromDate;            //ByName('FromDate')
@@ -1336,38 +1334,38 @@ begin
             CashReportTotal:=CashReportTotal+CashTotal;
             ReportTotalYear:=ReportTotalYear+YrTotal;
 
-            EZPClass.PrintTab(1,DataMod.QueryFGroup.FieldByName('Detail_Fund_No').AsString);
-            EZPClass.PrintTab(1,DataMod.QueryFGroup.FieldByName('Description').asString);
-            EZPClass.PrintTab(1,Format('%m',[CashTotal]));
-            EZPClass.PrintTab(1,Format('%m',[CheckTotal]));
-            EZPClass.PrintTab(1,Format('%m',[YrTotal]));
+            RPrinter.PrintTab(1,DataMod.QueryFGroup.FieldByName('Detail_Fund_No').AsString);
+            RPrinter.PrintTab(1,DataMod.QueryFGroup.FieldByName('Description').asString);
+            RPrinter.PrintTab(1,Format('%m',[CashTotal]));
+            RPrinter.PrintTab(1,Format('%m',[CheckTotal]));
+            RPrinter.PrintTab(1,Format('%m',[YrTotal]));
 
               DataMod.QueryFGroup.Next;
          except
             ShowMessage('Error doing report queries, contributions');
          end;   //While QueryFGroup not EOF
 
-         If EZPClass.LinesLeft<3 then MonthDayNewPage;
+         If RPrinter.LinesLeft(LINESIZE)<3 then MonthDayNewPage;
 
-         EZPClass.PrintTab(3,DataMod.TableFundGroups.FieldByName('FUND_GROUP').AsString);
-         EZPClass.PrintTab(3,DataMod.TableFundGroups.FieldByName('DESCRIPTION').AsString);
-         EZPClass.PrintTab(3,Format('%m',[CashGroupTotal]));
-         EZPClass.PrintTab(3,Format('%m',[GroupTotal]));
-         EZPClass.PrintTab(3,Format('%m',[GroupTotalYear]));
-         EZPClass.NewLine;
+         RPrinter.PrintTab(3,DataMod.TableFundGroups.FieldByName('FUND_GROUP').AsString);
+         RPrinter.PrintTab(3,DataMod.TableFundGroups.FieldByName('DESCRIPTION').AsString);
+         RPrinter.PrintTab(3,Format('%m',[CashGroupTotal]));
+         RPrinter.PrintTab(3,Format('%m',[GroupTotal]));
+         RPrinter.PrintTab(3,Format('%m',[GroupTotalYear]));
+         RPrinter.NewLine;
          DataMod.TableFundGroups.Next;
      end; //While TableFundGroups not EOF/
 
-     If EZPClass.LinesLeft<3 then MonthDayNewPage;
-     EZPClass.NewLine;
-     EZPClass.PrintTab(3,'All');
-     EZPClass.PrintTab(3,'Funds');
-     EZPClass.PrintTab(3,Format('%m',[CashReportTotal]));
-     EZPClass.PrintTab(3,Format('%m',[ReportTotal]));
-     EZPClass.PrintTab(3,Format('%m',[ReportTotalYear]));
+     If RPrinter.LinesLeft(LINESIZE)<3 then MonthDayNewPage;
+     RPrinter.NewLine;
+     RPrinter.PrintTab(3,'All');
+     RPrinter.PrintTab(3,'Funds');
+     RPrinter.PrintTab(3,Format('%m',[CashReportTotal]));
+     RPrinter.PrintTab(3,Format('%m',[ReportTotal]));
+     RPrinter.PrintTab(3,Format('%m',[ReportTotalYear]));
      DataMod.TableRFund.Next;
   end;
-  EZPCLass.CLosePrintFile;
+  RPrinter.CLosePrintFile;
 end;
 
 procedure TFormCont.BtnQueryClick(Sender: TObject);
@@ -2298,18 +2296,6 @@ begin
 end;
 
 
-procedure TFormCont.DBNameGridColEnter(Sender: TObject);
-begin
-
-end;
-
-procedure TFormCont.DBNameGridSelectEditor(Sender: TObject; Column: TColumn;
-  var Editor: TWinControl);
-begin
-
-end;
-
-
 
 procedure TFormCont.EditFromDateExit(Sender: TObject);
 begin
@@ -2332,7 +2318,7 @@ end;
 
 procedure TFormCont.BtnLabelClick(Sender: TObject);
 begin
-  ReportLabel(DataMod.SrcMem);
+  ReportLabel(DataMod.SrcMemAll);
 end;
 
  procedure TFormCont.ReportLabel(Src: TDataSource);
@@ -2356,9 +2342,9 @@ begin
        exit;
      end;
 
-     EZLabelClass := TAddressLabelClass.Create;
-     fName := 'Labels' + '-'+DateToStr(Date)+'.ps';
-     EZLabelClass.OpenPrintFile(fName);
+     EZLabelClass := TAddressLabelClass.Create(Self);
+     //fName := 'Labels' + '-'+DateToStr(Date)+'.ps';
+    // EZLabelClass.OpenPrintFile(fName);
      If EdFontSize.Tag <> 0 then
        LabelFont.FontSize := EdFontSize.Tag
      else
@@ -2382,8 +2368,8 @@ begin
          SpacingHeight := StrToFloat(EdSpaceHigh.Text);
 
          PrintLabels(Src);
-         ClosePrintFile;
-         Destroy;
+         //ClosePrintFile;
+        // Destroy;
        except
          ShowMessage('Bad number in at least one label edit box.');
        end;
@@ -2490,7 +2476,7 @@ var
   BH10: Double;
   BH12: Double;
 begin
-  With EZPClass do
+  With RPrinter do
   begin
      BH10 := PointToInch(Round(10 * LineScale));
      BH12 := PointToInch(Round(12 * LineScale));
@@ -2546,15 +2532,24 @@ begin
   ConSum:=0.0;
   FundSum:=0.0;
   TmpDate:=0.0;
+   if RPrinter = nil then
+    RPrinter := TReportPrinterClass.Create(self);
   SetConTabs;
-  ChurchName := DataMod.TableChurch.FieldByName('NAME').AsString;
-  DataMod.QueryRCbutions.first;
-  With EZPClass,DataMod.QueryRCbutions do
+  With DataMod.TableChurch do
+    begin
+      if not active then open;
+      Churchname := FieldByName('NAME').AsString;
+      First;
+    end;
+
+
+  With RPrinter,DataMod.QueryRCbutions do
       begin
       BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
       RestoreFont(2); //Helvetica 10
       setPageMargins(0.5, 0.25, 0.25, 0.25);
+      RPrinter.Newpage;
       PrintCenterPage(ChurchName);
       Newline;
       NewLine;
@@ -2616,7 +2611,7 @@ begin
               PrintTab(1, Format('%m',[FieldByName('AMOUNT').AsFloat]));
               FundSum:=FundSum+FieldByName('AMOUNT').AsFloat;
               //NewLine;
-              If LinesLeft<3 then NewPage;
+              If LinesLeft(LINESIZE)<3 then NewPage;
               TmpDate:=0.0;
               ConSumStr:='';
               ChkList(FieldByName('DETAIL_FUND').AsString);
@@ -2630,14 +2625,14 @@ begin
       PrintTab(2, ' ');
       PrintTab(2, 'Total');
       PrintTab(2, Format('%m',[FundSum]));
-       If LinesLeft<3 then NewPage;
+       If LinesLeft(LINESIZE)<3 then NewPage;
        doConFunds;
-       If LinesLeft<3 then NewPage;
+       If LinesLeft(LINESIZE)<3 then NewPage;
        doMultiFunds;
        NewLine;
        NewLine;
        NewLine;
-       If LinesLeft<4 then
+       If LinesLeft(LINESIZE)<4 then
           NewPage;
 
        Bold:=True;
@@ -2659,7 +2654,7 @@ var
   TotAmnt,TotPledge,TotRem: Double;
 begin
   With DataMod.QueryFund do
-    With EZPClass do
+    With RPrinter do
     begin
       TotAmnt:=0.0;TotPledge:=0.0;TotRem:=0.0;
       NewLine;
@@ -2756,7 +2751,7 @@ begin
       MBDate:=FieldByName('BDATE').AsDateTime;
       BDateStr:=FieldByName('BDATE').AsString;
       If RecordCount<=0 then exit;
-      With EZPClass do
+      With RPrinter do
         begin
           NewLine;
           NewLine;
@@ -2816,20 +2811,12 @@ begin
           PrintTab(6, Format('%m',[TotAmnt]));
           PrintTab(6, Format('%m',[TotPledge]));
           PrintTab(6, Format('%m',[TotRem]));
-        end; //With EZPClass
+        end; //With RPrinter
      end; //with datamod.QueryMulti
 end;
 
-procedure TFormCont.RadioPreviewClick(Sender: TObject);
-begin
-  { With ReportSystemCon do
-     begin
-       If RadioPreview.ItemIndex<=0 then
-          DefaultDest:=rdPreview
-       else
-          DefaultDest:=rdPrinter;
-     end; }
-end;
+
+
 
 procedure TFormCont.EdVuBoxClick(Sender: TObject);
 begin
@@ -2978,6 +2965,28 @@ begin
            (FieldByName('FNAME').AsString));
         Next;
       end;
+end;
+
+procedure TFormCont.initOpenTables;
+begin
+  With DataMod do
+    begin
+      QueryNow.Open;
+      TableEditEnv.Open;
+      TableEditDetail.Open;
+      TableEditCont.Open;
+      TablePledge.Open;
+      QueryPledge.Open;
+      TableLabel.Open;
+    end;
+   DBNameGrid.Width := 920;
+   DBNameGrid.Columns.Items[0].Width := 70;
+   DBNameGrid.Columns.Items[1].Width := 120;
+   DBNameGrid.Columns.Items[2].Width := 124;
+   DBNameGrid.Columns.Items[3].Width := 124;
+   DBNameGrid.Columns.Items[4].Width := 210;
+   DBNameGrid.Columns.Items[5].Width := 160;
+   DBNameGrid.Columns.Items[6].Width := 160;
 end;
 
 procedure TFormCont.initFunds;
