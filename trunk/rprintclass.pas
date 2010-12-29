@@ -1,16 +1,15 @@
 {Don Whitbeck 2010 - Basic class for postscript output
 }
-unit rprintclass;
+unit RPrintclass;
 //{$linklib c}
 {$mode objfpc} 
 interface
  uses initc, Forms, Controls,comCtrls, dialogs,
-   sysutils, classes, strings, ExtCtrls, Graphics, GraphType;
+   sysutils, classes, strings, ExtCtrls, Graphics, GraphType,db;
 
 const 
   CR = #13;
   LF = #10;
-  FATFONT = 0.5;
   JUSTIFYLEFT = 0;
   JUSTIFYCENTER = 1;
   JUSTIFYRIGHT = 2;
@@ -30,6 +29,9 @@ const
   BOXLINETOP = 2;
   BOXLINERIGHT = 4;
   BOXLINEBOTTOM = 8;
+
+  RELATIVE = TRUE;
+  ABSOLUT = FALSE;
 
 Type
   PFontType = ^FontType;
@@ -67,7 +69,7 @@ end;
 
 
 
-        TPageArray = array [1..100] of TImage;    //render all pages to images max 100
+        TPageArray = array [1..100] of TImage;
 Type
 	TTabsArray = array [1..10] of PTabList; 
 
@@ -89,6 +91,7 @@ Type
           fPages            : Integer;   // Number of pages in report
           fPageArray        : TPageArray;
 	  fLineScale        : Double;
+          fLineSpace        : Integer;
 	  fPrintFileOpen    : Boolean;
 	  fPrintFile        : Text;
 	  fPrintFileName    : String;
@@ -102,7 +105,9 @@ Type
 	  fpageWidth        : integer;
           fFont             : FontType;
           fBold             : Boolean;
+          fLandscape        : Boolean;
           fSender           : TObject;
+          fOnLandscapeChange: TNotifyEvent;
           fErrorMessage     : String;
 
 	 procedure   CreateFontArray;
@@ -110,14 +115,19 @@ Type
          procedure   CreatePageArray;
 
    protected
+         property    OnLandscapeChange: TNotifyEvent
+                     read fOnLandscapeChange write fOnLandscapeChange;
 
+         procedure   LandscapeChange(Sender: TObject);
+         procedure   setLandscape(LS: boolean);
          procedure   setBold(BoldOn: Boolean);
          procedure   setFont(AFont: FontType);
 	 procedure   setCurrentX(XLoc: Double);
 	 procedure   setCurrentY(YLoc: Double);
 	 function    getCurrentX: Double;
 	 function    getCurrentY: Double;
-
+         procedure   Swap(var L, W: integer);
+         property    CurrentPage: TImage read fCurrentPage;
 	 procedure   setPageLength(Ln: Double);
 	 procedure   setPageWidth( Wd: Double);
          function    getPageLength: Double;
@@ -137,8 +147,8 @@ Type
    public
 	 constructor Create(Sender: TObject);
          procedure   PrintFormCreate(Sender: TObject);
-	 destructor  Destroy; override;
-	 property    PageNo: Integer read fPageNo write fPageNo;
+         property    Landscape: Boolean read fLandscape write setLandscape;
+         property    PageNo: Integer read fPageNo write fPageNo;
          property    font: FontType read fFont write setFont;
          property    TabArrayIndex: Integer read fTabArrayIndex write fTabArrayIndex;
 	 property    PrintFileOpen: boolean read fPrintFileOpen;
@@ -147,12 +157,13 @@ Type
 
          property    Bold: Boolean read fBold write setBold;
 	 property    LineScale: Double read fLineScale write fLineScale;
+         property    LineSpace: integer read fLinespace write fLinespace;
 
 	 property    CurX: Integer read fCurrentX write fCurrentX;
 	 property    CurY: Integer read fCurrentY write fCurrentY;
 	 property    CurrentX: Double read getCurrentX write setCurrentX;
 	 property    CurrentY: Double read getCurrentY write setCurrentY;
-         property    CurrentPage: TImage read fCurrentPage write fCurrentPage;
+       //  property    CurrentPage: TImage read fCurrentPage write fCurrentPage;
 
 	 property    PageLength: Double read getPageLength write setPageLength;
 	 property    PageWidth: Double  read getPageWidth  write setPageWidth;
@@ -180,7 +191,7 @@ Type
          procedure   setTabBoxHeight(IDX: Integer; BHeight: Double);
          function    getTabBoxHeight(IDX: Integer): Double;
 
-         procedure   Show;
+         procedure   ShowReport;
 	 procedure   PrintXY(XPos, YPos: Double; S: String);
 	 procedure   PrintLeft(S: String; XPos: Double);
 	 procedure   PrintCenter(S: String; XPos: Double);
@@ -226,18 +237,111 @@ Type
          procedure   TabNewLine(IDX: Integer);
 	 procedure   OpenPrintFile(FileName: String);    // Open file - discriptor goes to fPrintFile
 	 procedure   ClosePrintFile;
+         procedure   RFormDestroy(Sender: TObject);
 	 procedure   PrintCenterPage(S: String);
 	 procedure   GotoXY(X, Y: Double);
 	 procedure   ShowPage(IDX: Integer);
 	 //postscript procedures
   end;
 
+type
+  pAddressRecord = ^TAddressRecord;
+  TAddressRecord = record
+     AName: String;
+     Add1: String;
+     Add2: String;
+     CityState: String;
+     ZipCode: String;
+    // PostNetCode: PostNetType;
+  end;
+
+type
+ TAddressLabelClass = class(TReportPrinterClass)
+   private
+         fLabelStyle       : String;
+         fOutlineColor     : TColor;
+         fNumAcross        : integer;
+         fNumDown          : integer;
+         fXpos             : integer;
+         fYPos             : integer;
+        // fMarginTop        : integer;
+        // fMarginLeft       : integer;
+         fTextMarginTop    : Integer;
+         fTextMarginLeft   : Integer;
+         fPostNetWeight : Integer;
+         fLabelWidth       : integer;
+         fLabelHeight      : integer;
+         fSpacingWidth     : integer;
+         fSpacingHeight    : integer;
+         fRadius           : integer;
+         fPostNetHeight    : Double;
+         fPostNetSpacing   : Double;
+         fPostNetLineWidth : Double;
+         fPrintPostNet     : Boolean;
+         fRowPointer       : Integer;
+         fColPointer       : Integer;
+         fPageDone         : Boolean;
+         fAddressRecord    : TAddressRecord;
+         fAddressDataSource: TDataSource;
+ protected
+   function getRadius: Double;
+   procedure setRadius(Rad: Double);
+   function getMarginTop: Double;
+   procedure setMarginTop(Top: Double);
+   function getMarginLeft: Double;
+   procedure setMarginLeft(Left: Double);
+   function getTextMarginTop: Double;
+   procedure setTextMarginTop(Top: Double);
+   function getTextMarginLeft: Double;
+   procedure setTextMarginLeft(Left: Double);
+   function getLabelWidth: Double;
+   procedure setLabelWidth(LabelWidth: Double);
+   function getLabelHeight: Double;
+   procedure setLabelHeight(LabelHeight: Double);
+   function getSpacingWidth: Double;
+   procedure setSpacingWidth(SpacingWidth: Double);
+   function getSpacingHeight: Double;
+   procedure setSpacingHeight(SpacingHeight: Double);
+   procedure setPostnetLineWidth(Width: Double);
+   procedure setAddressRecord(Title, fName, lName, Addr1, Addr2, City, State, Zip: String);
+ public
+   constructor Create(Sender: TObject);
+  // destructor  Destroy; override;
+   procedure LabelFormDestroy(Sender: TObject);
+  // property Address: TAddressRecord  write setAddressRecord;
+   property Radius: Double read getRadius write setRadius;
+   property OutlineColor: TColor read fOutlineColor write fOutlineColor;
+   property LabelStyle: String read fLabelStyle write fLabelStyle;
+   property NumAcross: Integer read fNumAcross write fNumAcross;
+   property NumDown: Integer read fNumDown write fNumDown;
+   property MarginTop: Double read getMarginTop write setMarginTop;
+   property MarginLeft: Double read getMarginLeft write setMarginLeft;
+   property TextMarginTop: Double read getTextMarginTop write setTextMarginTop;
+   property TextMarginLeft: Double read getTextMarginLeft write setTextMarginLeft;
+   property LabelWidth: Double read getLabelWidth write setLabelWidth;
+   property LabelHeight: Double read getLabelHeight write setLabelHeight;
+   property SpacingWidth: Double read getSpacingWidth write setSpacingWidth;
+   property SpacingHeight: Double read getSpacingHeight write setSpacingHeight;
+   property PostNetHeight: Double read fPostNetHeight write fPostNetHeight;
+   property PostNetSpacing: Double read fPostNetSpacing write fPostNetSpacing;
+   property PostNetLineWidth: Double read fPostNetLineWidth write setPostNetLineWidth;
+   property AddressDataSource: TDataSource read fAddressDataSource write fAddressDataSource;
+   property PrintPostNet: Boolean read fPrintPostNet write fPrintPostNet;
+   property PostNetWeight: integer read fPostNetWeight write fPostNetWeight;
+   procedure putText(S: String);
+   procedure PostNetXY(S: String; var X, Y: Integer; PostnetImage: TImage);
+   procedure PrintLabels(LabelDataSrc: TDataSource);
+   procedure PrintOneLabel;
+   procedure OutlineLabel;
+ end;
 
   
 implementation	
 
- procedure TReportPrinterClass.Show;
+ procedure TReportPrinterClass.ShowReport;
  begin
+   fPrintForm.Width := fPageWidth;
+   fPrintForm.Height := fPageLength;
    fPrintForm.Show;
    fToolBar.Show;
  end;
@@ -252,15 +356,14 @@ implementation
  procedure TReportPrinterClass.NewPage;
  begin
    inc(fPages);
-   if fPrintForm = nil then      //on first page - create a form to contain pages
+   if fPrintForm = nil then
      PrintFormCreate(fSender);
 
-   //generate a new page as TImage
    fCurrentPage := TImage.Create(FPrintForm as TComponent);
    With fCurrentPage do
       begin
         Parent := fPrintForm;
-        //Align := alClient;
+        Align := alClient;
         Top := fToolBar.Height;
         Color := clWhite;
         Width := fPageWidth;
@@ -275,26 +378,28 @@ implementation
         FillRect(0,0,Width,Height);
         FillRect(0,0,Width,Height);
       end;
-    CurX := fLeftMargin;     //reset cursor
+    CurX := fLeftMargin;
     CurY := fTopMargin ;
+    ShowReport;
 end;
 
  procedure TReportPrinterClass.PrintFormCreate(Sender: TObject);
   var
-    ToolButtonR, ToolButtonF: TToolButton;
+    ToolButtonR, ToolButtonF,ToolButtonPrint: TToolButton;
  begin
     	setPageMargins(0.5, 0.5, 0.5, 0.5);
 	CurX := fLeftMargin;
 	CurY := fTopMargin ;
         fPrintForm := TForm.Create(Sender as TComponent);
         fPrintForm.OnClose := @PrintFormClose;
+        fPrintForm.OnDestroy := @RFormDestroy;
         fPrintForm.Width := fPageWidth;
         FPrintForm.Height := fPageLength;
         fToolBar := TToolBar.Create(fPrintForm as TComponent);
         fToolBar.Parent := fPrintForm;
         fToolBar.ShowCaptions := true;
         fPages := 1;
-
+        fLandscape := false;
         With fToolBar do
           begin
             Flat := false;
@@ -305,14 +410,16 @@ end;
             Anchors := [akTop, akLeft, akRight];
             ToolButtonR := TToolButton.Create(fToolBar);
             ToolButtonF := TToolButton.Create(fToolBar);
+             ToolButtonPrint := TToolButton.Create(fToolBar);
             ToolButtonR.Parent := fToolBar;
             ToolButtonF.Parent := fToolBar;
+            ToolButtonPrint.Parent := fToolBar;
+            ToolButtonPrint.Caption := 'Print';
             ToolButtonR.onClick := @PrevPage;
             ToolButtonF.onClick := @NextPage;
             ToolButtonR.Caption := 'Rev';
             ToolButtonF.Caption := 'For';
           end;
-
         fPageIndex := 1;
         CurrentY :=PointToInch(CurY);
  end;
@@ -328,15 +435,16 @@ end;
         //CreatePageArray;
         fPageNo := 0;
         fPages := 0;
-	fFont.FontName := HELVETICA;
+	fFont.FontName := TIMESROMAN;
 	fFont.FontSize := 10;
-	fLineScale := 1.4;
+	fLineScale := 1.5;
+        fLineSpace := 4;
 	fPrintFileName := '';
 	fPrintFileOpen := false;
         fSender := Sender;
+        fOnLandscapeChange:= @LandscapeChange;
    end;
 
-   // flip through pages - forward
    procedure TReportPrinterClass.NextPage(Sender: TObject);
    begin
      if fPageIndex < fPages then
@@ -347,7 +455,6 @@ end;
         end;
    end;
 
-   // flip through pages - backward
    procedure TReportPrinterClass.PrevPage(Sender: TObject);
    begin
      if fPageIndex > 1 then
@@ -392,7 +499,6 @@ end;
          end;
    end;
 
-   //can have up to 10 tab lists
    procedure   TReportPrinterClass.CreateTabArray; //Array 1..10 of tab lists
    var
      IDX: Integer;
@@ -414,25 +520,22 @@ end;
 	  	end;       
    end;
 
-   //set height of tab boxes in points
    procedure  TReportPrinterClass.setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
    begin
      fTabArray[IDX]^.boxHeight := BHeight;
    end;
 
-   //get height of tab boxes in points
    function   TReportPrinterClass.getTabBoxHeightInt(IDX: Integer): Integer;
    begin
      result :=fTabArray[IDX]^.boxHeight;
    end;
 
-   //set height of tab boxes in inches
    procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer; BHeight: Double);
    begin
      setTabBoxHeightInt(IDX, InchToPoint(BHeight));
    end;
 
-  //get height of tab boxes in inches
+
   function TReportPrinterClass.getTabBoxHeight(IDX: Integer): Double;
   begin
     result := PointToInch(getTabBoxHeightInt(IDX));
@@ -802,7 +905,9 @@ begin
  procedure TReportPrinterClass.PrintPointXY(S: String; XPos, YPos: Integer);
  //Print a string at X & Y without altering CurY
  begin
-   CurrentPAge.Canvas.TextOut(XPos,YPos,S);
+   Currentpage.canvas.Font.Size := fFont.FontSize;
+   Currentpage.canvas.Font.Name := fFont.FontName;
+   CurrentPage.Canvas.TextOut(XPos,YPos,S);
  end;
  
 
@@ -893,12 +998,9 @@ end;
  var
    X, Y: Integer;
  begin
-   if fPrintFileOpen then
-     begin
-	   X := TransXFloat(XPos);
-	   Y := TransYFloat(YPos);
-       PrintPointXY(S, X, Y);
-	end;
+   X := TransXFloat(XPos);
+   Y := TransYFloat(YPos);
+   PrintPointXY(S, X, Y);
  end;
  
  procedure TReportPrinterClass.GotoXY(X, Y: Double);
@@ -1071,7 +1173,7 @@ end;
 
   procedure TReportPrinterClass.NewLine;
   begin
-   CurY := CurY + Trunc(Font.FontSize * LineScale) + 1;
+   CurY := CurY + Round(Font.FontSize * LineScale) + 1;
   end;
      
   procedure TReportPrinterClass.ShowPage(IDX: Integer);
@@ -1079,7 +1181,7 @@ end;
 
   end;	
    
-  destructor TReportPrinterClass.Destroy;
+  procedure TReportPrinterClass.RFormDestroy(Sender: TObject);
   begin
   // InitCriticalSection(fCriticalSection); 
 	FreeAllTabs;
@@ -1150,11 +1252,402 @@ Var
 begin
   for IDX := 1 to fPages do
     fPageArray[IDX].free;
-  fPAges := 0;
+  fPages := 0;
   fCurrentPage := nil;
   Act := caFree;
   fPrintForm := nil;
 end;
 
+
+   procedure TReportPrinterClass.Swap(var L, W: integer);
+   var
+     tmp: Integer;
+   begin
+     tmp := L;
+     L:= W;
+     W := tmp;
+   end;
+
+
+procedure TReportPrinterClass.setLandscape(LS: boolean);
+begin
+  fLandscape := LS;
+  if Assigned(fOnLandscapeChange) then
+        OnLandscapeChange(Self);
+end;
+
+
+procedure TReportPrinterClass.LandscapeChange(Sender: TObject);
+   begin
+      if fLandscape then
+        begin
+          if fPageLength >= fPageWidth then
+            swap(fPageLength, fPagewidth);
+        end
+     else
+        begin
+           if fPageWidth >= fPageLength then
+            swap(fPageLength, fPagewidth);
+        end;
+end;
+
+   constructor TAddressLabelClass.Create(Sender: TObject);
+    begin
+      inherited create(Sender);
+      fRadius := 18;
+      fRowPointer := 0;
+      fColPointer := 0;
+      fPageDone := False;
+      fPostNetHeight := 0.125;
+      fPostNetSpacing := 0.08;
+      PostNetLineWidth := 0.04;
+    end;
+
+  procedure TAddressLabelClass.LabelFormDestroy(Sender: TObject);
+  begin
+  // InitCriticalSection(fCriticalSection);
+  inherited Destroy;
+  //DoneCriticalSection(fCriticalSection);
+end;
+
+   procedure TAddressLabelClass.setAddressRecord(Title, fName, lName,
+                                Addr1, Addr2, City, State, Zip: String);
+     begin
+       fAddressRecord.AName := Title+' '+fName+' '+ lName;
+       fAddressRecord.Add1 := Addr1;
+       fAddressRecord.Add2 := Addr2;
+       fAddressRecord.CityState:= City+','+State;
+       fAddressRecord.ZipCode := Zip;
+     end;
+
+   function TAddressLabelClass.getRadius: Double;
+   begin
+     result := PointToInch(fRadius);
+   end;
+
+   procedure TAddressLabelClass.setRadius(Rad: Double);
+   begin
+     fRadius := InchToPoint(Rad);
+   end;
+
+    function TAddressLabelClass.getMarginTop: Double;
+    begin
+      result := PointToInch(fTopMargin);
+    end;
+
+    procedure TAddressLabelClass.setMarginTop(Top: Double);
+    begin
+       fTopMargin := InchToPoint(Top);
+    end;
+
+    function TAddressLabelClass.getMarginLeft: Double;
+    begin
+      result := PointToInch(fLeftMargin);
+    end;
+
+    procedure TAddressLabelClass.setMarginLeft(Left: Double);
+    begin
+      fLeftMargin := InchToPoint(Left);
+    end;
+
+    function TAddressLabelClass.getTextMarginTop: Double;
+    begin
+      result := PointToInch(fTextMarginTop);
+    end;
+
+    procedure TAddressLabelClass.setTextMarginTop(Top: Double);
+    begin
+       fTextMarginTop := InchToPoint(Top);
+    end;
+
+    function TAddressLabelClass.getTextMarginLeft: Double;
+    begin
+      result := PointToInch(fTextMarginLeft);
+    end;
+
+    procedure TAddressLabelClass.setTextMarginLeft(Left: Double);
+    begin
+      fTextMarginLeft := InchToPoint(Left);
+    end;
+
+    function TAddressLabelClass.getLabelWidth: Double;
+    begin
+      result := PointToInch(fLabelWidth);
+    end;
+
+    procedure TAddressLabelClass.setLabelWidth(LabelWidth: Double);
+    begin
+      fLabelWidth := InchToPoint(LabelWidth);
+    end;
+
+    function TAddressLabelClass.getLabelHeight: Double;
+    begin
+      result := PointToInch(fLabelHeight);
+    end;
+
+    procedure TAddressLabelClass.setLabelHeight(LabelHeight: Double);
+    begin
+      fLabelHeight := InchToPoint(LabelHeight);
+    end;
+
+    function TAddressLabelClass.getSpacingWidth: Double;
+    begin
+      result := PointToInch(fSpacingWidth);
+    end;
+
+    procedure TAddressLabelClass.setSpacingWidth(SpacingWidth: Double);
+    begin
+      fSPacingWidth := InchToPoint(SpacingWidth);
+    end;
+
+    function TAddressLabelClass.getSpacingHeight: Double;
+    begin
+      result := PointToInch(fSpacingHeight);
+    end;
+
+    procedure TAddressLabelClass.setSpacingHeight(SpacingHeight: Double);
+    begin
+       fSPacingHeight := InchToPoint(SpacingHeight);
+    end;
+
+   procedure TAddressLabelClass.setPostnetLineWidth(Width: Double);
+    begin
+       fPostnetLineWidth := Width;
+       fPostnetWeight := inchToPoint(Width);
+    end;
+
+   procedure TAddressLabelClass.OutlineLabel;
+   var
+     X, Y, Rad: Integer;
+     Across, Down: Integer;
+     tmp: TColor;
+   begin
+     X := fLeftMargin;
+     Y := fTopMargin;
+     for Across := 0 to fNumAcross - 1 do
+        for Down := 0 to fNumDown - 1 do
+          begin
+            X := fLeftMargin + Across * fSpacingWidth;
+            Y := fTopMargin + Down * fSpacingHeight;
+            tmp := fCurrentPage.Canvas.Pen.Color;
+            fCurrentPage.Canvas.Pen.Color := OutlineColor;
+            fCurrentPage.Canvas.RoundRect(X, Y , X + fLabelWidth, Y + fLabelHeight, fRadius, fRadius);
+            fCurrentPage.Canvas.Pen.Color := tmp;
+          end;
+   end;
+
+   procedure TAddressLabelClass.PrintOneLabel;
+   var
+     X, X2, Y: Integer;
+    YAdd1, YAdd2, YCSZ,YPostNet: Integer;
+    LineToLine: Integer;
+    Zip: String;
+   begin
+      LineToLine := round(font.fontsize * fLineScale);
+      X := fLeftMargin + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fTopMargin  + fTextMarginTop
+                       + fRowPointer * (fSpacingHeight);
+      YAdd1 := Y + LineToLine;
+      if fAddressRecord.Add2 <> '' then
+         YAdd2 := YAdd1 + LineToLine
+      else
+         YAdd2 := YAdd1;
+      YCSZ  :=  YAdd2 + LineToLine;
+
+      With fAddressRecord do
+        begin
+          PrintPointXY(AName, X, Y);
+          PrintPointXY(Add1, X, YAdd1);
+          if Add2 <> '' then
+          PrintPointXY(Add2, X, YAdd2);
+          PrintPointXY(CityState+' '+ZipCode, X, YCSZ);
+        end;
+      if fPrintPostNet then
+        begin
+          YPostNet := YAdd2 + 2 * (LineToLine  + inchToPoint(fPostNetHeight));
+        //  YPostNet := fTopMargin + fLabelHeight + fTextMarginTop +
+        //               fRowPointer * (fSpacingHeight);
+
+      Zip := fAddressRecord.ZipCode;
+      X2 := X + 2;
+      PostNetXY(Zip,X2,YPostNet,CurrentPage);
+      X := X2;
+        end;
+      inc(fColPointer);
+      if fColPointer = fNumAcross then
+        begin
+          fColPointer := 0;
+          inc(fRowPointer);
+          if FRowPointer = fNumDown then
+            begin
+              fRowPointer := 0;
+              EndPage;
+              fPageDone := true;
+            end;
+        end;
+   end;
+
+   procedure TAddressLabelClass.PrintLabels(LabelDataSrc: TDataSource);
+    begin
+    //  if not PrintFileOpen then exit;
+   // DataSet :=
+    With LabelDataSrc.DataSet do
+      begin
+        if not active then open;
+        first;
+        Newpage;
+        OutlineLabel;
+        while not EOF do
+          begin
+            fPageDone := False;
+            fAddressRecord.AName := FieldByName('TITLE').AsString + ' ' +
+                                    FieldByName('FNAME').AsString + ' ' +
+                                    FieldByName('NAME').AsString;
+             fAddressRecord.Add1 := FieldByName('ADDRESS_1').AsString;
+             fAddressRecord.Add2 := FieldByName('ADDRESS_2').AsString;
+             fAddressRecord.CityState    := FieldByName('CITY').AsString + ',' +
+                                    FieldByName('STATE').AsString;
+             fAddressRecord.ZipCode      := FieldByName('ZIP').AsString;
+             PrintOneLabel;
+             if fPageDone then
+               begin
+                 Newpage;
+                 OutlineLabel;
+                 fPageDone := false;
+               end;
+             next;
+          end; //While not EOF
+      end; //With DataSet
+      if fPageDone then
+        begin
+          fPageDone := false;
+          EndPage;
+        end;
+   end;
+
+   procedure TAddressLabelClass.putText(S: String);
+   begin
+     writeln(PrintFile,S);
+   end;
+
+
+   procedure TAddressLabelClass.PostNetXY(S: String; var X, Y: Integer;  PostnetImage: TImage);
+   var
+      SmBarHt, BarHt, BarSpace: Integer;
+      IDX: Integer;
+      PostNetCanvas: TCanvas;
+
+      procedure DrawBar(Hi, Sp: Integer);
+        begin
+          With PostNetImage.Canvas do
+            begin
+              Pen.Width := fPostNetWeight;
+              MoveTo(X, Y);
+              Lineto(X,Y-Hi);
+              X := X + Sp;
+              MoveTo(X, Y);
+            end;
+        end;
+
+     procedure DrawOne;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(BarHt, BarSpace);
+       end;
+
+     procedure DrawTwo;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace);
+       end;
+
+     procedure DrawThree;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+     procedure DrawFour;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace);
+       end;
+
+     procedure DrawFive;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+     procedure DrawSix;
+       begin
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+     procedure DrawSeven;
+       begin
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace);
+       end;
+
+     procedure DrawEight;
+       begin
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+     procedure DrawNine;
+       begin
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(BarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+     procedure DrawZero;
+       begin
+         DrawBar(BarHt, BarSpace); DrawBar(BarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace); DrawBar(smBarHt, BarSpace);
+         DrawBar(smBarHt, BarSpace);
+       end;
+
+   begin
+      BarHt := InchToPoint(fPostNetHeight);
+      SmBarHt := InchToPoint(fPostNetHeight / 2.0);
+      BarSpace := InchToPoint(fPostNetSpacing);
+
+     for IDX := 1 to length(S) do
+       begin
+          if S[IDX] = '0' then
+            DrawZero
+          else if S[IDX] = '1' then
+            DrawOne
+          else if S[IDX] = '2' then
+            DrawTwo
+          else if S[IDX] = '3' then
+            DrawThree
+          else if S[IDX] = '4' then
+            DrawFour
+          else if S[IDX] = '5' then
+            DrawFive
+          else if S[IDX] = '6' then
+            DrawSix
+          else if S[IDX] = '7' then
+            DrawSeven
+          else if S[IDX] = '8' then
+            DrawEight
+          else if S[IDX] = '9' then
+            DrawNine;
+        end;
+   end;
 end.
+
 
