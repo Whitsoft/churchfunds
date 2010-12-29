@@ -6,9 +6,9 @@ unit cont;
 interface
 
 Uses
-Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-StdCtrls, ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp,
-IBConnection, db, Grids, StrUtils, LHelpControl, rprintclass, Keyboard;
+Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp, IBConnection, db, Grids,
+ComCtrls, Spin, StrUtils, LHelpControl, rprintclass, Keyboard;
 
 type
 
@@ -16,12 +16,14 @@ type
 
   TFormCont = class(TForm)
     Bevel1: TBevel;
+    BtnCan: TButton;
     BtnPost: TButton;
     BtnPrintAll: TButton;
     CBMember: TCheckBox;
     CheckBoxPostNet: TCheckBox;
     DBNameGrid: TDBGrid;
     Label47: TLabel;
+    Label8: TLabel;
     NotebookCont: TNotebook;
     PageEntry: TPage;
     PageDetail: TPage;
@@ -40,13 +42,13 @@ type
     Label3: TLabel;
     EditAmount: TEdit;
     Label5: TLabel;
-    BtnCan: TButton;
     GridSrchEnv: TDBGrid;
     AGroupFunds: TGroupBox;
     Label24: TLabel;
     GridDetail: TDBGrid;
     AGroupTors: TGroupBox;
     Label13: TLabel;
+    SEFontSize: TSpinEdit;
     Timer1: TTimer;
     TitleCombo: TComboBox;
     GridEditEnv: TStringGrid;
@@ -163,6 +165,7 @@ type
     procedure EditSrchEnvExit(Sender: TObject);
     procedure EditToDateExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FunAccBoxChange(Sender: TObject);
     procedure LabelBoxClick(Sender: TObject);
     procedure LookUpEnvChange(Sender: TObject);
     procedure RadioCashClick(Sender: TObject);
@@ -603,7 +606,6 @@ var
         Cells[0,4]:='Starting Date';
         Cells[0,5]:='Ending Date';
         Cells[0,6]:='Amount';
-        Cells[0,7]:='State';
         Cells[1,0]:='Entries';
       end;
     With DataMod.QueryCont do
@@ -1180,15 +1182,16 @@ end;
 procedure TFormCont.setMonthDayTabs;
 var
   TmpTab: PTab;
-  BH10: Double;
+  BH12: Double;
 begin
    With RPrinter do
     begin
-      BH10 := PointToInch(Round(10 * LineScale));
+      BH12 := PointToInch(Round(10 * LineScale));
       FreeTabs(1);
       FreeTabs(2);
       FreeTabs(3);
       FreeTabs(4);
+      FreeTabs(5);
 
       TmpTab := NewTab(1, 1.25,JUSTIFYLEFT,0.85,0.05,False,BOXLINENONE,0);
       TmpTab := NewTab(1, 2.05,JUSTIFYLEFT,1.95,0.05,False,BOXLINENONE,0);
@@ -1210,10 +1213,13 @@ begin
       ,JUSTIFYRIGHT,1.50,0.05,False,BOXLINEALL,0);
 
       TmpTab := NewTab(4, 0.5,JUSTIFYCENTER,8.0,0.05, False,BOXLINENONE,0);
-      setTabBoxHeight(1,BH10);
-      setTabBoxHeight(2,BH10);
-      setTabBoxHeight(3,BH10);
-      setTabBoxHeight(4,BH10);
+
+
+      setTabBoxHeight(1,BH12);
+      setTabBoxHeight(2,BH12);
+      setTabBoxHeight(3,BH12);
+      setTabBoxHeight(4,BH12);
+      setTabBoxHeight(5,BH12);
     end;
 end;
 
@@ -1677,6 +1683,8 @@ begin
       FieldByName('EDATE').AsDateTime:=StrToDate(GridPledge.Cells[1,5]);
       FieldByName('AMOUNT').AsFloat:=StrToFloat(GridPledge.Cells[1,6]);
       Post;
+      ApplyUpdates;
+      DataMod.SQLTransactionEZ.commit;
       DataMod.TablePledge.Close;
       DataMod.TablePledge.Open;
    // CHECK THIS   DataMod.TablePledge.FindKey([Env]);
@@ -2316,6 +2324,15 @@ procedure TFormCont.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
 end;
 
+procedure TFormCont.FunAccBoxChange(Sender: TObject);
+begin
+    {Edit4.Text:=DataMod.TableDetail.FieldByName('Description').AsString;   }
+  GridPledge.Cells[1,2]:=copy(FunAccBox.Text,1,Pos(' ',FunAccBox.Text)-1);
+  //GridPledge.Cells[1,2]:=copy(FunAccBox.Text,1,Pos(' ',FunAccBox/desda.Text)-1);
+  GridPledge.SetFocus;
+  GridPledge.Row:=4;
+end;
+
 procedure TFormCont.BtnLabelClick(Sender: TObject);
 begin
   ReportLabel(DataMod.SrcMemAll);
@@ -2352,10 +2369,12 @@ begin
 
        EdFontSize.Tag := 0;
        LabelFont.FontName := 'Helvetica';
+       LabelFont.FontSize := SEFontSize.value;
      With EZLabelClass do
        try
          Font:= LabelFont;
          PrintPostNet := CheckBoxPostNet.Checked;
+         PostNetHeight := 0.22;
          NumDown :=  strToInt(EdNumRows.Text);
          NumAcross := StrToInt(EdNumCols.text);
          MarginTop := StrToFloat(EdTopMargin.text);
@@ -2483,41 +2502,41 @@ begin
     for I := 1 to 9 do
       begin
         FreeTabs(I);
-        setTabBoxHeight(I,BH10);
+        setTabBoxHeight(I,BH12);
       end;
-    TmpTab := NewTab(1, 0.5,JUSTIFYLEFT, 1.25,0.05, False, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 0.875,0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0, JUSTIFYLEFT, 2.125,0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, True, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.5,JUSTIFYLEFT, 1.25,0.05, ABSOLUT, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 0.875,0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0, JUSTIFYLEFT, 2.125,0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINENONE,0);
 
 
-    TmpTab := NewTab(2, 0.5, JUSTIFYLEFT, 1.25,0.05, False,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT, 1.0,0.05, True, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(2, 0.0, JUSTIFYCENTER, 0.5,0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(2, 0.0, JUSTIFYLEFT, 2.5,0.05, True, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT,1.0,0.05, True, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(2, 0.5, JUSTIFYLEFT, 1.25,0.05, ABSOLUT,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(2, 0.0, JUSTIFYCENTER, 0.5,0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(2, 0.0, JUSTIFYLEFT, 2.5,0.05, RELATIVE, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT,1.0,0.05, RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
 
-    TmpTab := NewTab(3,0.5,JUSTIFYLEFT,4.50,0.05,False, BOXLINEALL,2);
-    TmpTab := NewTab(3,5.95,JUSTIFYRIGHT,1.3,0.05,False, BOXLINEALL,2);
+    TmpTab := NewTab(3,0.5,JUSTIFYLEFT,5.35,0.05,ABSOLUT, BOXLINEALL,2);
+    TmpTab := NewTab(3,5.95,JUSTIFYRIGHT,1.3,0.05,ABSOLUT, BOXLINEALL,2);
 
-    TmpTab := NewTab(4, 4.5,JUSTIFYRIGHT,3.0,0.05, False, BOXLINENONE,0);
+    TmpTab := NewTab(4, 4.5,JUSTIFYRIGHT,3.0,0.05, ABSOLUT, BOXLINENONE,0);
 
-    TmpTab := NewTab(5, 0.5, JUSTIFYLEFT, 0.8, 0.05, False, BOXLINENONE,0);
-    TmpTab := NewTab(5, 0.0, JUSTIFYLEFT, 1.75, 0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, True, BOXLINENONE,0);
-    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, True, BOXLINENONE,0);
+    TmpTab := NewTab(5, 0.5, JUSTIFYLEFT, 0.8, 0.05, ABSOLUT, BOXLINENONE,0);
+    TmpTab := NewTab(5, 0.0, JUSTIFYLEFT, 1.75, 0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
+    TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
 
-    TmpTab := NewTab(6,0.5,JUSTIFYLEFT,0.8,0.05,False,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(6,0.0,JUSTIFYLEFT,1.75,0.05,True,BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,True,BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,True,BOXLINETOP+BOXLINEBOTTOM,2);
-    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,True,BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(6,0.5,JUSTIFYLEFT,0.8,0.05,ABSOLUT,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(6,0.0,JUSTIFYLEFT,1.75,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
+    TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
 
-    TmpTab := NewTab(8,4.5,JUSTIFYRIGHT,3.0,0.05,False,BOXLINENONE,0);
+    TmpTab := NewTab(8,4.5,JUSTIFYRIGHT,3.0,0.05,ABSOLUT,BOXLINENONE,0);
 
-    TmpTab := NewTab(9,4.5,JUSTIFYRIGHT,3.0,0.05,False,BOXLINENONE,0);
+    TmpTab := NewTab(9,4.5,JUSTIFYRIGHT,3.0,0.05,ABSOLUT,BOXLINENONE,0);
   end;
 end;
 
@@ -2525,7 +2544,7 @@ procedure TFormCont.ReportContributions;
 var
   ConSumStr, FundDesc, ChurchName: String;
   ConDate,TmpDate: TDateTime;
-  AmtSum,ConSum,FundSum, BH10: Double;
+  AmtSum,ConSum,FundSum: Double;
   MB: TBookMark;
   TmpTab: PTab;
 begin
@@ -2545,7 +2564,7 @@ begin
 
   With RPrinter,DataMod.QueryRCbutions do
       begin
-      BH10 := PointToInch(Round(10*LineScale));
+      //BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
       RestoreFont(2); //Helvetica 10
       setPageMargins(0.5, 0.25, 0.25, 0.25);
@@ -2556,10 +2575,10 @@ begin
      // SetFont('Arial',10);
       PrintLeft(GlobTitle+' '+GlobFName+' '+GlobName,0.5);
       PrintCenterPage('Contributions');
-      PrintRight(GlobFrom+' Through '+GlobThru, 7.10);
+      PrintRight(GlobFrom+' Thru '+GlobThru, 7.5);
       Bold:=False;
       NewLine;
-
+      Newline;
 
       NewLine;
       PrintTab(2,'DATE');
@@ -2637,7 +2656,7 @@ begin
 
        Bold:=True;
        PrintTab(3,'Total Contributions for period '+
-                 GlobFrom+' Through '+GlobThru);
+                 GlobFrom+' Thru '+GlobThru);
 
        PrintTab(3,Format('%m',[FundSum]));
        NewLine;
@@ -2663,10 +2682,10 @@ begin
       Bold:=True;
       PrintCenterPage('Single Year Summary ');
       Bold:=False;
-      PrintRight(GlobFrom+' Through '+GlobThru, 7.10);
+      PrintRight(GlobFrom+' Thru '+GlobThru, 7.50);
       //PrintTab(4, GlobFrom+' Through '+GlobThru);
       NewLine;
-
+      Newline;
 
       NewLine;
       ResetTab(6);
@@ -2759,9 +2778,9 @@ begin
           Bold:=True;
           PrintCenter('Multi Year Summary', 4.0);
           Bold:=False;
-          PrintTab(8, BDateStr+' Through '+GlobThru);
+          PrintTab(8, BDateStr+' Thru '+GlobThru);
           NewLine;
-         // NewLine;
+          NewLine;
 
           PrintTab(6, 'FUND');
           PrintTab(6, 'DESCRIPTION');
@@ -2987,6 +3006,8 @@ begin
    DBNameGrid.Columns.Items[4].Width := 210;
    DBNameGrid.Columns.Items[5].Width := 160;
    DBNameGrid.Columns.Items[6].Width := 160;
+   GridSrchEnv.Columns.Items[2].Width := 124;
+   GridSrchEnv.Columns.Items[3].Width := 124;
 end;
 
 procedure TFormCont.initFunds;

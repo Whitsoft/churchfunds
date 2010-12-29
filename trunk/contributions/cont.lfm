@@ -1,7 +1,7 @@
 object FormCont: TFormCont
-  Left = 375
+  Left = 390
   Height = 797
-  Top = 138
+  Top = 226
   Width = 1056
   ActiveControl = NotebookCont
   Caption = 'Contributions'
@@ -24,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 5
+    PageIndex = 7
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -33,13 +33,13 @@ object FormCont: TFormCont
       ClientHeight = 762
       object AGroupCont: TGroupBox
         Left = 0
-        Height = 766
+        Height = 762
         Top = 0
-        Width = 1054
+        Width = 1050
         HelpContext = 40
         Align = alClient
-        ClientHeight = 762
-        ClientWidth = 1050
+        ClientHeight = 758
+        ClientWidth = 1046
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label23: TLabel
@@ -100,9 +100,9 @@ object FormCont: TFormCont
           ParentFont = False
         end
         object Label5: TLabel
-          Left = 835
+          Left = 699
           Height = 28
-          Top = 396
+          Top = 390
           Width = 87
           Caption = 'Posted'
           Color = clSilver
@@ -210,28 +210,13 @@ object FormCont: TFormCont
           OnKeyPress = EditAmountKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          TabOrder = 3
-        end
-        object BtnCan: TButton
-          Left = 835
-          Height = 33
-          Top = 500
-          Width = 89
-          HelpContext = 110
-          Caption = 'Clear'
-          Font.Height = -15
-          Font.Name = 'System'
-          OnClick = BtnCanClick
-          OnKeyPress = BtnCanKeyPress
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 7
+          TabOrder = 4
         end
         object GridSrchEnv: TDBGrid
           Left = 35
-          Height = 304
+          Height = 298
           Top = 428
-          Width = 701
+          Width = 760
           HelpContext = 90
           Color = clWindow
           Columns = <>
@@ -239,7 +224,7 @@ object FormCont: TFormCont
           Font.Height = -15
           Font.Name = 'System'
           ParentFont = False
-          TabOrder = 4
+          TabOrder = 3
           TabStop = False
           TitleFont.Height = -16
           TitleFont.Name = 'System'
@@ -295,7 +280,7 @@ object FormCont: TFormCont
           Left = 35
           Height = 290
           Top = 76
-          Width = 355
+          Width = 360
           HelpContext = 130
           Color = clWindow
           Columns = <>
@@ -308,6 +293,35 @@ object FormCont: TFormCont
           TitleFont.Height = -16
           TitleFont.Name = 'System'
           OnMouseDown = ShowContext
+        end
+        object BtnCan: TButton
+          Left = 846
+          Height = 33
+          Top = 494
+          Width = 89
+          HelpContext = 110
+          Caption = 'Clear'
+          Font.Height = -15
+          Font.Name = 'System'
+          OnClick = BtnCanClick
+          OnKeyPress = BtnCanKeyPress
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 7
+        end
+        object BtnPost: TButton
+          Left = 843
+          Height = 33
+          Top = 430
+          Width = 89
+          HelpContext = 100
+          Caption = 'Post'
+          Font.Height = -15
+          Font.Name = 'System'
+          OnClick = BtnPostClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 8
         end
       end
     end
@@ -330,8 +344,8 @@ object FormCont: TFormCont
           Left = 355
           Height = 33
           Top = 20
-          Width = 254
-          Caption = 'Edit Detail Funds'
+          Width = 187
+          Caption = 'Detail Funds'
           Font.Color = clRed
           Font.Height = -26
           Font.Name = 'System'
@@ -350,7 +364,7 @@ object FormCont: TFormCont
           DataSource = DataMod.SrcEditDetail
           Font.Height = -17
           Font.Name = 'System'
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
           ParentFont = False
           TabOrder = 0
           TitleFont.Height = -16
@@ -591,7 +605,7 @@ object FormCont: TFormCont
         end
         object GridPledge: TStringGrid
           Left = 27
-          Height = 262
+          Height = 234
           Top = 372
           Width = 367
           HelpContext = 270
@@ -603,7 +617,7 @@ object FormCont: TFormCont
           Font.Name = 'System'
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs]
           ParentFont = False
-          RowCount = 8
+          RowCount = 7
           TabOrder = 1
           TitleFont.Height = -16
           TitleFont.Name = 'System'
@@ -686,6 +700,7 @@ object FormCont: TFormCont
           Width = 231
           HelpContext = 290
           ItemHeight = 0
+          OnChange = FunAccBoxChange
           OnClick = FunAccBoxClick
           OnMouseDown = ShowContext
           TabOrder = 6
@@ -1811,22 +1826,29 @@ object FormCont: TFormCont
           ParentFont = False
           TabOrder = 16
         end
+        object SEFontSize: TSpinEdit
+          Left = 259
+          Height = 29
+          Top = 182
+          Width = 120
+          MaxValue = 12
+          MinValue = 6
+          TabOrder = 17
+          Value = 10
+        end
+        object Label8: TLabel
+          Left = 84
+          Height = 21
+          Top = 190
+          Width = 78
+          Caption = 'Font Size'
+          Font.Height = -17
+          Font.Name = 'System'
+          ParentColor = False
+          ParentFont = False
+        end
       end
     end
-  end
-  object BtnPost: TButton
-    Left = 840
-    Height = 33
-    Top = 480
-    Width = 89
-    HelpContext = 100
-    Caption = 'Post'
-    Font.Height = -15
-    Font.Name = 'System'
-    OnClick = BtnPostClick
-    OnMouseDown = ShowContext
-    ParentFont = False
-    TabOrder = 1
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
