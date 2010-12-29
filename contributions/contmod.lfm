@@ -274,6 +274,13 @@ object DataMod: TDataMod
     SQL.Strings = (
       '    SELECT * FROM PLEDGES'
     )
+    UpdateSQL.Strings = (
+      'Update  PLEDGES'
+      ' Set  FUND = :FUND,'
+      ' TYPE = :TYPE  ,BDATE = :BDATE,'
+      ' AMOUNT = :AMOUNT, EDATE = :EDATE'
+      'where  ENV_NO =:ENV_NO'
+    )
     Params = <>
     left = 672
     top = 112
@@ -1611,6 +1618,102 @@ object DataMod: TDataMod
       ReadOnly = False
       Required = False
       Size = 1
+    end
+  end
+  object QueryPledgeData: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AutoCalcFields = False
+    Database = FBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      'Select P.* from Pledges P'
+      'where P.ENV_NO=:EnvNo'
+      'and P.FUND = :FundNo'
+      ''
+    )
+    UpdateSQL.Strings = (
+      ''
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'EnvNo'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftInteger
+        Name = 'FundNo'
+        ParamType = ptUnknown
+      end>
+    left = 512
+    top = 688
+    object QueryPledgeENV_NO1: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'ENV_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object QueryPledgeFUND1: TSmallintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'FUND'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object QueryPledgeTYPE1: TStringField
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'TYPE'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 1
+    end
+    object QueryPledgeBDATE1: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'BDATE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object QueryPledgeEDATE1: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'EDATE'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object QueryPledgeAMOUNT1: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
     end
   end
 end

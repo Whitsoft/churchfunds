@@ -14,6 +14,12 @@ type
   { TDataMod }
 
   TDataMod = class(TDataModule)
+    QueryPledgeAMOUNT1: TBCDField;
+    QueryPledgeBDATE1: TDateField;
+    QueryPledgeEDATE1: TDateField;
+    QueryPledgeENV_NO1: TSmallintField;
+    QueryPledgeFUND1: TSmallintField;
+    QueryPledgeTYPE1: TStringField;
     SrcLabel: TDatasource;
     QueryDetailACCOUNT: TSmallintField;
     QueryDetailDESCRIPTION: TStringField;
