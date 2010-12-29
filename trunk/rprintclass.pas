@@ -1,4 +1,4 @@
-{Don Whitbeck 2010 - Basic class for postscript output
+{Don Whitbeck 2010 - Basic class for printing - derived from newpsclass
 }
 unit RPrintclass;
 //{$linklib c}
