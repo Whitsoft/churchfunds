@@ -5,7 +5,7 @@ unit RPrintclass;
 {$mode objfpc} 
 interface
  uses initc, Forms, Controls,comCtrls, dialogs,
-   sysutils, classes, strings, ExtCtrls, Graphics, GraphType,db;
+   sysutils, classes, strings, ExtCtrls, Graphics, GraphType,db, Printers;
 
 const 
   CR = #13;
@@ -139,6 +139,7 @@ Type
          procedure   PrintLeftPoint(S: String; XPos: integer);
 	 procedure   PrintCenterPoint(S: String; XPos: integer);
 	 procedure   PrintRightPoint(S: String; XPos: integer);
+         procedure   PrintDot(XPos, YPos: Double; S: String);
 	 function    NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
                                      TabRel: Boolean; boxLines, boxShade: integer): PTab;
 
@@ -216,6 +217,7 @@ Type
          procedure   EndPage;
          procedure   PrevPage(Sender: TObject);
          procedure   NextPage(Sender: TObject);
+         procedure   PrintPage(Sender: TObject);
 	 function    stripRight(S: String): String;
          function    calcStringY(Base, Height: Integer): integer;
 	//New tab creates a new tab in tabs array width index = IDX
@@ -410,15 +412,16 @@ end;
             Anchors := [akTop, akLeft, akRight];
             ToolButtonR := TToolButton.Create(fToolBar);
             ToolButtonF := TToolButton.Create(fToolBar);
-             ToolButtonPrint := TToolButton.Create(fToolBar);
+            ToolButtonPrint := TToolButton.Create(fToolBar);
             ToolButtonR.Parent := fToolBar;
             ToolButtonF.Parent := fToolBar;
-            ToolButtonPrint.Parent := fToolBar;
-            ToolButtonPrint.Caption := 'Print';
             ToolButtonR.onClick := @PrevPage;
             ToolButtonF.onClick := @NextPage;
             ToolButtonR.Caption := 'Rev';
             ToolButtonF.Caption := 'For';
+            ToolButtonPrint.Parent := fToolBar;
+            ToolButtonPrint.Caption := 'Print';
+            ToolButtonPrint.onClick := @PrintPage;
           end;
         fPageIndex := 1;
         CurrentY :=PointToInch(CurY);
@@ -428,7 +431,7 @@ end;
     begin
    	inherited create;               //Set defaults
 	fPageLength := 792 + 36;             //11.0
-	fPageWidth := 612;              //8.5
+	fPageWidth := 612 + 36;              //8.5
         CreateFontArray;
         //create empty tab array
         CreateTabArray;
@@ -455,7 +458,30 @@ end;
         end;
    end;
 
-   procedure TReportPrinterClass.PrevPage(Sender: TObject);
+   procedure TReportPrinterClass.PrintPage(Sender: TObject);
+   var
+     APrinter: TPrinter;
+     ARect: TRect;
+     LMargin, BMargin: Integer;
+   begin
+     APrinter := Printer;
+     With APrinter do
+       begin
+         ARect.Left := 0; ARect.Top := 0;
+         ARect.Right := PageWidth;
+         ARect.Bottom := PageHeight;
+         BeginDoc;
+         Canvas.Font.Name := fFont.FontName;
+         Canvas.Font.Size := fFont.FontSize;
+         Canvas.Font.Color := clBlack;
+         Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);//  StretchDraw(0,0,5100,6600,CurrentPage);
+        //         APrinter.Canvas.CopyRect(Classes.Rect(0, 0, APrinter.PaperSize.Width, APrinter.PaperSize.Height),
+        //   CurrentPage.Canvas, Classes.Rect(0,0, CurrentPage.Width, CurrentPage.Height));
+         EndDoc;
+       end;
+   end;
+
+  procedure TReportPrinterClass.PrevPage(Sender: TObject);
    begin
      if fPageIndex > 1 then
         begin
@@ -820,6 +846,8 @@ begin
     With CurrentPage.Canvas do
       begin
         Wide := TextWidth(S);
+        Font.Size := fFont.FontSize;
+        Font.Name := fFont.FontName;
       end;
     if (IDX <= 0) or (IDX > 10) then exit;
     YPos:= CurY;
@@ -1020,7 +1048,8 @@ end;
  begin
    With CurrentPage.Canvas do
      begin
-       CurrentPage.Canvas.font.size := fFont.FontSize;
+       Font.Size := fFont.FontSize;
+       Font.Name := fFont.FontName;
        Y := TextWidth(S);
        X := CalcCenterPage;
        St := X - (Y div 2);
@@ -1037,6 +1066,8 @@ end;
   
  procedure TReportPrinterClass.PrintLeft(S: String; XPos: Double);
  begin
+   Currentpage.canvas.Font.Size := fFont.FontSize;
+   Currentpage.canvas.Font.Name := fFont.FontName;
    CurrentPage.Canvas.TextOut(TransXFloat(Xpos),TransYPoint(CurY),S);
  end;
  
@@ -1047,6 +1078,8 @@ end;
    X := TransXFloat(XPos);
    With CurrentPage.Canvas do
      begin
+       Font.Size := fFont.FontSize;
+       Font.Name := fFont.FontName;
        Wide := TextWidth(S);
        TextOut(X - Wide div 2, TransYPoint(CurY), S);
      end;
@@ -1059,10 +1092,37 @@ end;
    X := TransXFloat(XPos);
    With CurrentPage.Canvas do
      begin
+       Font.Size := fFont.FontSize;
+       Font.Name := fFont.FontName;
        Wide := TextWidth(S);
        TextOut(X - Wide, TransYPoint(CurY), S);
      end;
  end;
+
+ procedure TReportPrinterClass.PrintDot(XPos, YPos: Double; S: String);
+ var
+    X, Y, L, charW, Dot: Integer;
+ begin
+   X := TransXFloat(XPos);
+   Y := TransYFloat(YPos);
+   Dot := pos('.',S);
+   L := Length(S);
+   if Dot <= 0 then
+     begin
+       PrintRight(S,XPos);
+       exit;
+     end;
+
+//   charW := TextWidth(S) div L;
+   X := X - charW * Dot;
+   With CurrentPage.Canvas do
+     begin
+       Font.Size := fFont.FontSize;
+       Font.Name := fFont.FontName;
+       TextOut(X , Y, S);
+     end;
+ end;
+
   
   procedure TReportPrinterClass.PrintLeftPoint(S: String; XPos: integer);
  begin
@@ -1088,8 +1148,10 @@ end;
  begin
     With CurrentPage.Canvas do
       begin
+        Font.Size := fFont.FontSize;
+        Font.Name := fFont.FontName;
         Wide := TextWidth(S);
-         TextOut(XPos - Wide,TransYPoint(CurY),S);
+        TextOut(XPos - Wide,TransYPoint(CurY),S);
       end;
  end;
  

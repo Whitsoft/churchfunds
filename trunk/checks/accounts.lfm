@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 2
+    PageIndex = 10
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -4629,9 +4629,9 @@ object CheckForm: TCheckForm
           TabOrder = 14
         end
         object PayNameLUCB: TDBLookupComboBox
-          Left = 483
-          Height = 76
-          Top = 192
+          Left = 475
+          Height = 37
+          Top = 232
           Width = 368
           HelpContext = 1110
           Anchors = [akTop, akLeft, akRight, akBottom]
