@@ -3346,14 +3346,16 @@ begin
 end;
 
 procedure TCheckForm.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
+var
+  PrintPageImage: TImage;
 begin
   with RPrinter do
     begin
-      CurrentPage:= PageArray[Page];
-      if CurrentPage <> nil then
+      PrintPageImage:= PageArray[Page];
+      if PrintPageImage <> nil then
          begin
           ShowReport;
-          CurrentPage.BringToFront;
+          PrintPageImage.BringToFront;
          end;
     end;
 end;
@@ -3364,7 +3366,7 @@ const
  var
    TmpTab: PTab;
    CkDate,Vend,Note:  String;
-   CheckNo,Cnt: Integer;
+   CheckNo,Cnt, Dot, I: Integer;
    CkAmount, BH12: Double;
    MonText:   String;
    MonStr:    String;
@@ -3455,12 +3457,16 @@ const
                CurY := InchToPoint(AccY);
                NewLine;
                NewLine;
+               NewLine;
                While (not EOF) and (Cnt<10) do
                  begin
                    Inc(Cnt);
-                   PrintTab(1, 'Account  '+Fields[1].AsString+'  '+
-                           Format('%m',[FieldByName('Amount').AsFloat]));
-                   NewLine;
+                   MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
+                   Dot := Pos('.',MonStr);
+                   for I := 5 downto Dot do
+                     MonStr := '  ' + MonStr;
+                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
+                  // NewLine;
                    next;
                  end;
              except
@@ -3472,7 +3478,6 @@ const
            PrintXY(AmountX,DupY+AmountY,MonStr);
            PrintXY(MemoX,DupY+MemoY,Note);
            If CheckNo<>GlobEndCheck then
-              // EZPSCLass.PSProcs;
        end; //{With sender}
        If not GlobTrial then
          try
@@ -3518,7 +3523,7 @@ end;
 
 
 function TCheckForm.PostCheckPlusTrans(ChekNo: Integer):Boolean;
-// post the transactions then the checks frim tenporary to permanent tables
+// post the transactions then the checks frim temporary to permanent tables
 var
   TranNo:   LongInt;
   Acc,AccType:   Integer;
@@ -3555,7 +3560,7 @@ begin
                exit;
              end;
            If (AccType>1) and (PayChek) then
-             AccType:=1
+             AccType:=EXPENSE
            else
              AccType:=0;
 
@@ -4257,8 +4262,9 @@ begin
       NewLine;
       NewLine;
       BH12 := PointToInch(Round(12* LineScale));
+      NewPage;
       doPayPrint(PayStubInfo, BH12);
-      For IDX:=1 to 18 do
+      For IDX:=1 to 12 do
         NewLine;
       doPayPrint(PayStubInfo, BH12);
     end;
@@ -4295,12 +4301,14 @@ begin
       setTabBoxHeight(1,BH);
 
       PrintCenterPage('Pay Stub');
+      Newline;
+      NewLine;
+      NewLine;
       TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
-      NewLine;
-      NewLine;
+      //NewLine;
 
       ResetTab(TABLISTINDEX);
       printTab(TABLISTINDEX,'Check No');
@@ -4308,14 +4316,14 @@ begin
       printTab(TABLISTINDEX,'Name');
       printTab(TABLISTINDEX,'Pay Date');
 
-      NewLine;
+     // NewLine;
       ResetTab(TABLISTINDEX);
       printTab(TABLISTINDEX, IntToStr(Info.PCheckNo));
       printTab(TABLISTINDEX, Info.PSocNo);
       printTab(TABLISTINDEX, Info.PName);
       printTab(TABLISTINDEX, Info.PDate);
 
-      NewLine;
+     // NewLine;
       FreeTabs(TABLISTINDEX);
       setTabBoxHeight(1,BH);
 
@@ -4330,7 +4338,7 @@ begin
       FreeTabs(TABLISTINDEX);
       //setTabFont(TABLISTINDEX, 10,HELVETICA);
 
-      NewLine;
+      //NewLine;
       FreeTabs(TABLISTINDEX);
       setTabBoxHeight(1,BH);
 
@@ -4356,7 +4364,7 @@ begin
       printTab(TABLISTINDEX, 'Current');
       printTab(TABLISTINDEX, 'YTD');
 
-      NewLine;
+    //  NewLine;
       FreeTabs(TABLISTINDEX);
 
       setTabBoxHeight(1,BH);
@@ -4392,7 +4400,7 @@ begin
            printTab(TABLISTINDEX,'');
         end;
 
-      NewLine;
+     // NewLine;
       printTab(TABLISTINDEX,'');
       printTab(TABLISTINDEX,'');
       printTab(TABLISTINDEX,'');
@@ -4413,7 +4421,7 @@ begin
            printTab(TABLISTINDEX,'');
          end;
 
-       NewLine;
+      // NewLine;
        printTab(TABLISTINDEX,'');
        printTab(TABLISTINDEX,'');
        printTab(TABLISTINDEX,'');
@@ -4434,7 +4442,7 @@ begin
             PrintTab(TABLISTINDEX, '');
           end;
 
-        NewLine;
+      //  NewLine;
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
@@ -4455,7 +4463,7 @@ begin
              PrintTab(TABLISTINDEX, '');
           end;
 
-        NewLine;
+        //NewLine;
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
@@ -4476,7 +4484,7 @@ begin
             PrintTab(TABLISTINDEX, '');
           end;
 
-        NewLine;
+      // NewLine;
         If (Info.PD1>0.0) and (DedType[1]=8) then
           begin
             PrintTab(TABLISTINDEX, '');
@@ -4490,14 +4498,14 @@ begin
                 PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
                 PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
                 PrintTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
-                NewLine;
+              //  NewLine;
               end
             else
               begin
                 PrintTab(TABLISTINDEX, '');
                 PrintTab(TABLISTINDEX, '');
                 PrintTab(TABLISTINDEX, '');
-                NewLine;
+              //  NewLine;
               end;
           end
         else if (Info.PD5>0.0) and (DedType[1]=9) then
@@ -4511,7 +4519,7 @@ begin
             PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
             PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
             PrintTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
-            NewLine;
+          //  NewLine;
           end;
 
         If (Info.PD2>0.0) and (DedType[2]=8) then
@@ -4525,7 +4533,7 @@ begin
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
-            NewLine;
+          //  NewLine;
           end;
         If (Info.PD3>0.00) and (DedType[3]=9) then
           begin
@@ -4538,7 +4546,7 @@ begin
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
-            NewLine;
+          //  NewLine;
           end;
 
         If (Info.PD4>0.00) and (DedType[4]=9) then
@@ -4552,7 +4560,7 @@ begin
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
-            NewLine;
+         //   NewLine;
           end;
 
         If (Info.PD5>0.0) and (DedType[5]=9) then
@@ -4566,7 +4574,7 @@ begin
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
             PrintTab(TABLISTINDEX, '');
-            NewLine;
+         //   NewLine;
           end;
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
@@ -4577,7 +4585,7 @@ begin
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
         PrintTab(TABLISTINDEX, '');
-        NewLine;
+        //NewLine;
 
         FreeTabs(TABLISTINDEX);
         setTabBoxHeight(1,BH);
@@ -4603,7 +4611,7 @@ begin
         PrintTab(TABLISTINDEX, 'Totals');
         PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
         PrintTab(TABLISTINDEX, CheckForm.PenEd.Text);
-        NewLine;
+       // NewLine;
 
         FreeTabs(TABLISTINDEX);
         setTabBoxHeight(1,BH);
@@ -4619,7 +4627,7 @@ begin
         PrintTab(TABLISTINDEX, ' ');
         PrintTab(TABLISTINDEX, 'NetPay');
         PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PNet));
-        NewLine;
+       // NewLine;
         PrintTab(TABLISTINDEX, 'Net Pay YTD');
         PrintTab(TABLISTINDEX, FormatFloat('0.00',TextToFloat(CheckForm.NetEd.Text)));
         FreeTabs(TABLISTINDEX);
