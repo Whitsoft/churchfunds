@@ -45,7 +45,7 @@
         <MinVersion Major="1" Release="1" Valid="True"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="74">
+    <Units Count="75">
       <Unit0>
         <Filename Value="checks.pas"/>
         <IsPartOfProject Value="True"/>
@@ -85,8 +85,8 @@
         <UnitName Value="RPrintclass"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="447"/>
-        <CursorPos X="8" Y="470"/>
+        <TopLine Value="396"/>
+        <CursorPos X="13" Y="414"/>
         <UsageCount Value="68155"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -123,7 +123,7 @@
         <UnitName Value="ACCOUNTS"/>
         <TopLine Value="1428"/>
         <CursorPos X="29" Y="1443"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit8>
       <Unit9>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/include/dbcustomnavigator.inc"/>
@@ -135,27 +135,27 @@
         <Filename Value="/media/windows/Program Files/Borland/Delphi5/Projects/EZCheck/ModUnit.dfm"/>
         <TopLine Value="1681"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit10>
       <Unit11>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/include/customform.inc"/>
         <TopLine Value="1042"/>
         <CursorPos X="1" Y="1057"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit11>
       <Unit12>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/include/wincontrol.inc"/>
         <TopLine Value="4906"/>
         <CursorPos X="1" Y="4921"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit12>
       <Unit13>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/lclmessageglue.pas"/>
         <UnitName Value="LCLMessageGlue"/>
         <TopLine Value="102"/>
         <CursorPos X="1" Y="117"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit13>
       <Unit14>
         <Filename Value="accounts.pas"/>
@@ -164,11 +164,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="accounts"/>
-        <EditorIndex Value="5"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3333"/>
-        <CursorPos X="25" Y="3358"/>
-        <UsageCount Value="129"/>
+        <TopLine Value="3280"/>
+        <CursorPos X="3" Y="3299"/>
+        <UsageCount Value="142"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit14>
@@ -186,7 +187,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="99"/>
         <CursorPos X="1" Y="129"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit16>
       <Unit17>
         <Filename Value="../../../lazarus/lazarus_svn/components/sqldb/sqlstringspropertyeditordlg.pas"/>
@@ -205,7 +206,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit18>
       <Unit19>
         <Filename Value="../../../fpc/packages/fcl-process/src/unix/simpleipc.inc"/>
@@ -247,7 +248,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit23>
       <Unit24>
         <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/packages/help/lhelpcontrolpkg.pas"/>
@@ -307,10 +308,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="chelp"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="404"/>
-        <CursorPos X="87" Y="445"/>
-        <UsageCount Value="28"/>
+        <TopLine Value="22"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit31>
       <Unit32>
         <Filename Value="../../../pascal/TestLaz/unittestchm.pas"/>
@@ -424,12 +428,10 @@
       </Unit45>
       <Unit46>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/control.inc"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2268"/>
-        <CursorPos X="1" Y="2289"/>
-        <UsageCount Value="12"/>
-        <Loaded Value="True"/>
+        <CursorPos X="1" Y="2288"/>
+        <UsageCount Value="14"/>
       </Unit46>
       <Unit47>
         <Filename Value="../setup/ezsetup.pas"/>
@@ -557,7 +559,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="2980"/>
         <CursorPos X="18" Y="3014"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="87"/>
       </Unit61>
       <Unit62>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/fileutil.pas"/>
@@ -632,15 +634,12 @@
         <UsageCount Value="17"/>
       </Unit70>
       <Unit71>
-        <Filename Value="rprintclass.pas"/>
+        <Filename Value="../rprintclass.pas"/>
         <UnitName Value="RPrintclass"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="450"/>
-        <CursorPos X="9" Y="480"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="16"/>
       </Unit71>
       <Unit72>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/customimage.inc"/>
@@ -651,50 +650,61 @@
       </Unit72>
       <Unit73>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/canvas.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="28"/>
         <CursorPos X="19" Y="49"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit73>
+      <Unit74>
+        <Filename Value="../../testprinter/U_Canvas1.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="U_Canvas1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="93"/>
+        <CursorPos X="115" Y="119"/>
+        <UsageCount Value="10"/>
+      </Unit74>
     </Units>
-    <JumpHistory Count="17" HistoryIndex="16">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="accounts.pas"/>
-        <Caret Line="735" Column="46" TopLine="733"/>
+        <Caret Line="675" Column="12" TopLine="641"/>
       </Position1>
       <Position2>
         <Filename Value="accounts.pas"/>
-        <Caret Line="4301" Column="15" TopLine="4271"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="accounts.pas"/>
-        <Caret Line="4302" Column="1" TopLine="4271"/>
+        <Caret Line="172" Column="8" TopLine="138"/>
       </Position3>
       <Position4>
         <Filename Value="accounts.pas"/>
-        <Caret Line="4303" Column="15" TopLine="4295"/>
+        <Caret Line="471" Column="14" TopLine="437"/>
       </Position4>
       <Position5>
         <Filename Value="accounts.pas"/>
-        <Caret Line="4314" Column="33" TopLine="4295"/>
+        <Caret Line="473" Column="1" TopLine="440"/>
       </Position5>
       <Position6>
         <Filename Value="accounts.pas"/>
-        <Caret Line="5044" Column="32" TopLine="5010"/>
+        <Caret Line="472" Column="1" TopLine="439"/>
       </Position6>
       <Position7>
         <Filename Value="accounts.pas"/>
-        <Caret Line="4267" Column="23" TopLine="4247"/>
+        <Caret Line="444" Column="59" TopLine="439"/>
       </Position7>
       <Position8>
         <Filename Value="accounts.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="4097" Column="59" TopLine="4095"/>
       </Position8>
       <Position9>
         <Filename Value="accounts.pas"/>
-        <Caret Line="3345" Column="36" TopLine="3333"/>
+        <Caret Line="4092" Column="1" TopLine="4076"/>
       </Position9>
       <Position10>
         <Filename Value="accounts.pas"/>
@@ -702,32 +712,84 @@
       </Position10>
       <Position11>
         <Filename Value="accounts.pas"/>
-        <Caret Line="3350" Column="12" TopLine="3316"/>
+        <Caret Line="441" Column="23" TopLine="407"/>
       </Position11>
       <Position12>
-        <Filename Value="rprintclass.pas"/>
-        <Caret Line="1110" Column="3" TopLine="1089"/>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="628" Column="23" TopLine="594"/>
       </Position12>
       <Position13>
         <Filename Value="rprintclass.pas"/>
-        <Caret Line="464" Column="1" TopLine="445"/>
+        <Caret Line="14" Column="34" TopLine="1"/>
       </Position13>
       <Position14>
         <Filename Value="rprintclass.pas"/>
-        <Caret Line="472" Column="49" TopLine="451"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position14>
       <Position15>
         <Filename Value="rprintclass.pas"/>
-        <Caret Line="473" Column="57" TopLine="452"/>
+        <Caret Line="426" Column="50" TopLine="393"/>
       </Position15>
       <Position16>
-        <Filename Value="../../../lazarus/lazarus_svn/lcl/include/canvas.inc"/>
+        <Filename Value="rprintclass.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position16>
       <Position17>
         <Filename Value="rprintclass.pas"/>
-        <Caret Line="471" Column="53" TopLine="452"/>
+        <Caret Line="417" Column="62" TopLine="387"/>
       </Position17>
+      <Position18>
+        <Filename Value="rprintclass.pas"/>
+        <Caret Line="429" Column="19" TopLine="396"/>
+      </Position18>
+      <Position19>
+        <Filename Value="rprintclass.pas"/>
+        <Caret Line="391" Column="40" TopLine="369"/>
+      </Position19>
+      <Position20>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3351" Column="14" TopLine="3320"/>
+      </Position20>
+      <Position21>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3336" Column="4" TopLine="3308"/>
+      </Position21>
+      <Position22>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3074" Column="4" TopLine="3053"/>
+      </Position22>
+      <Position23>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3341" Column="6" TopLine="3320"/>
+      </Position23>
+      <Position24>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3285" Column="3" TopLine="3280"/>
+      </Position24>
+      <Position25>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="442" Column="32" TopLine="408"/>
+      </Position26>
+      <Position27>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3295" Column="25" TopLine="3261"/>
+      </Position27>
+      <Position28>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3477" Column="6" TopLine="3315"/>
+      </Position28>
+      <Position29>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3481" Column="1" TopLine="3337"/>
+      </Position29>
+      <Position30>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="3299" Column="74" TopLine="3292"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -752,9 +814,6 @@
         <ShowAllProcsOnError Value="True"/>
         <ShowDebugInfo Value="True"/>
       </Verbosity>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
       <ExecuteAfter>
         <ShowAllMessages Value="True"/>
@@ -765,7 +824,7 @@
     <BreakPoints Count="5">
       <Item1>
         <Source Value="accounts.pas"/>
-        <Line Value="1462"/>
+        <Line Value="1460"/>
       </Item1>
       <Item2>
         <Source Value="lhelpcontrol.pas"/>
@@ -777,7 +836,7 @@
       </Item3>
       <Item4>
         <Source Value="accounts.pas"/>
-        <Line Value="4199"/>
+        <Line Value="4180"/>
       </Item4>
       <Item5>
         <Source Value="/media/windows/Program Files/Borland/Delphi7/projects/EZCheck/Accounts.pas"/>

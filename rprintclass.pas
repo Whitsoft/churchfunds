@@ -474,7 +474,7 @@ end;
          Canvas.Font.Name := fFont.FontName;
          Canvas.Font.Size := fFont.FontSize;
          Canvas.Font.Color := clBlack;
-         Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);//  StretchDraw(0,0,5100,6600,CurrentPage);
+         Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);
         //         APrinter.Canvas.CopyRect(Classes.Rect(0, 0, APrinter.PaperSize.Width, APrinter.PaperSize.Height),
         //   CurrentPage.Canvas, Classes.Rect(0,0, CurrentPage.Width, CurrentPage.Height));
          EndDoc;
