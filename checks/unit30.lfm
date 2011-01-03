@@ -197,7 +197,6 @@ object DataMod: TDataMod
     top = 616
   end
   object ZQueryDPTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -222,7 +221,6 @@ object DataMod: TDataMod
     top = 24
   end
   object ZQuerySumReturn: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -305,7 +303,6 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryCheckSum: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -350,7 +347,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryCheckTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -375,7 +371,6 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryLiabTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -468,7 +463,6 @@ object DataMod: TDataMod
     top = 624
   end
   object ZQuerySumTempChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -493,7 +487,7 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'CheckParm'
         ParamType = ptUnknown
       end>
@@ -1018,7 +1012,6 @@ object DataMod: TDataMod
     top = 408
   end
   object ZQuerySumTempTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1032,7 +1025,6 @@ object DataMod: TDataMod
     top = 208
   end
   object ZQueryTranTotal: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1168,7 +1160,6 @@ object DataMod: TDataMod
     top = 344
   end
   object ZTblCheckTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1307,42 +1298,42 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FromType'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ToType'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'StartCheck'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'EndCheck'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftDateTime
+        DataType = ftUnknown
         Name = 'FromDate'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftDateTime
+        DataType = ftUnknown
         Name = 'ToDate'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FromACC'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ToACC'
         ParamType = ptUnknown
       end>

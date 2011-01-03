@@ -625,7 +625,7 @@ type
     procedure ClearPay;
     procedure FillPayCheck;
     function  MonDate(D: String):String;
-    function  TransferCheck(ChekNo: String): Boolean;
+    function  PostCheck(ChekNo: integer): Boolean;
     function  DeleteTempTrans(CheckNo: Integer): Boolean;
     function  DeleteTempCheck(CheckNo: Integer): Boolean;
     procedure doAccCancel;
@@ -3315,55 +3315,6 @@ begin
     end;
 end;
 
-procedure TCheckForm.CheckPrintTables;
-begin
-  With DataMod do      //Refresh for grids
-    begin
-      ZTblTrans.Close;
-      ZTblTrans.Open;
-      ZTblChecks.Close;
-      ZTblChecks.Open;
-      ZTblCheckTrans.Close;
-      ZTblCheckTrans.Open;
-      ZTblTemptrans.Close;
-      ZTblTempTrans.Open;
-      ZTblTempChecks.Close;
-      ZTblTempChecks.Open;
-      ZTblChecks.Close;
-      ZTblChecks.Open;
-      ZTblBalance.Close;
-      ZTblBalance.Open;
-      ZTblBalance.First;
-   end;
-end;
-
-procedure TCheckForm.CheckGridCellClick(Column: TColumn);
-var
-  CK: Integer;
-  MsgStr: String;
-begin
-  if column.field.fieldName <> 'CHECK_NO' then exit;
-  CK := CheckGrid.selectedField.AsInteger;
-  MsgStr:=' Transfer check No. '+ IntToStr(CK)+' ?';
-  if MessageDlg(MsgStr, mtConfirmation, [mbNo, mbYes],0) = mrYes then
-    transferCheck(CK);
-end;
-
-procedure TCheckForm.transferCheck(CheckNo: Integer);
-begin
-  try
-    if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
-        exit;
-    if DeleteTempTrans(CheckNo) then
-       DataMod.SQLTransactionEZ.Commit
-    else
-      DataMod.SQLTransactionEZ.RollBack;
-    except
-     ShowMessage('Check number '+ IntToStr(CheckNo)+' failed to post to final accounts');
-    end;
-
-end;
-
 procedure TCheckForm.CheckPrinterPrint(begCK,endCK: Integer);
 const
   BOXLINENONE = 0;
@@ -3373,7 +3324,7 @@ const
    CheckNo,Cnt, Dot, I: Integer;
    CkAmount, BH12: Double;
    MonText:   String;
-   MonStr:    String;
+   MonStr, MonStr1:    String;
    Accy,ScriptX,ScriptY,DupY,DateX,DateY: Double;
    VendX,VendY,MemoX,MemoY,AmountX,AmountY: Double;
    CheckFont: FontType;
@@ -3401,7 +3352,7 @@ const
    With RPrinter do
      begin
        RPRinter.Landscape:=false;
-       RPrinter.NewPage;
+      // RPrinter.NewPage;
        CheckFont.FontName := HELVETICA;
        CheckFont.FontSize := 10;
        Font := CheckFont;
@@ -3437,7 +3388,6 @@ const
      if prt then
        With RPrinter do
          begin
-           EndPage;
            NewPage;
            PrintXY(VendX,VendY,Vend);
            PrintXY(DateX,DateY,CkDate);
@@ -3463,11 +3413,11 @@ const
                While (not EOF) and (Cnt<10) do
                  begin
                    Inc(Cnt);
-                   MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
-                   Dot := Pos('.',MonStr);
+                   MonStr1 := Format('%m',[FieldByName('Amount').AsFloat]);
+                   Dot := Pos('.',MonStr1);
                    for I := 5 downto Dot do
-                     MonStr := '  ' + MonStr;
-                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
+                     MonStr1 := '  ' + MonStr1;
+                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr1);
                   // NewLine;
                    next;
                  end;
@@ -3479,11 +3429,64 @@ const
            PrintXY(ScriptX,DupY+ScriptY,MonText);
            PrintXY(AmountX,DupY+AmountY,MonStr);
            PrintXY(MemoX,DupY+MemoY,Note);
+           endPage;
          end; //{With RPrinter}
      end;
     except
       ShowMessage('Check printing error');
     end;
+end;
+
+
+procedure TCheckForm.CheckPrintTables;
+begin
+  With DataMod do      //Refresh for grids
+    begin
+      ZTblTrans.Close;
+      ZTblTrans.Open;
+      ZTblChecks.Close;
+      ZTblChecks.Open;
+      ZTblCheckTrans.Close;
+      ZTblCheckTrans.Open;
+      ZTblTemptrans.Close;
+      ZTblTempTrans.Open;
+      ZTblTempChecks.Close;
+      ZTblTempChecks.Open;
+      ZTblChecks.Close;
+      ZTblChecks.Open;
+      ZTblBalance.Close;
+      ZTblBalance.Open;
+      ZTblBalance.First;
+      initCheckGrid;
+   end;
+end;
+
+procedure TCheckForm.CheckGridCellClick(Column: TColumn);
+var
+  CK: Integer;
+  MsgStr: String;
+begin
+  if column.field.fieldName <> 'CHECK_NO' then exit;
+  CK := CheckGrid.selectedField.AsInteger;
+  MsgStr:=' Transfer check No. '+ IntToStr(CK)+' ?';
+  if MessageDlg(MsgStr, mtConfirmation, [mbNo, mbYes],0) = mrYes then
+    transferCheck(CK);
+  CheckPrintTables;
+end;
+
+procedure TCheckForm.transferCheck(CheckNo: Integer);
+begin
+  try
+    if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
+        exit;
+    if DeleteTempTrans(CheckNo) then
+       DataMod.SQLTransactionEZ.Commit
+    else
+      DataMod.SQLTransactionEZ.RollBack;
+    except
+     ShowMessage('Check number '+ IntToStr(CheckNo)+' failed to post to final accounts');
+    end;
+
 end;
 
 
@@ -3513,7 +3516,7 @@ begin
        DataMod.ZPostTrans.Open;       //Open query to insert temp transactions to permanent transactions
        While not EOF do               //Insert transactions - one by one - to permanent table
          try
-           Amnt:=FieldByName('Amount').AsFloat;
+           Amnt:=FieldByName('AMOUNT').AsFloat;
            Acc:=FieldByName('ACCOUNT').AsInteger;
            AccType:=FieldByName('ACC_TYPE').AsInteger;
            TranDate := FieldByName('CHECK_DATE').AsDateTime;
@@ -3524,10 +3527,10 @@ begin
                  DataMod.SQLTransactionEZ.RollBack;
                exit;
              end;
-           If (AccType>1) and (PayChek) then
+          { If (AccType>1) and (PayChek) then
              AccType:=EXPENSE
            else
-             AccType:=0;
+             AccType:=0;  }
 
            With DataMod do   //Post temp transactions to permanent - one by one
              begin
@@ -3550,7 +3553,7 @@ begin
            exit;
          end;
 
-          If not TransferCheck(IntToStr(ChekNo)) then  {do check last}
+          If not PostCheck(ChekNo) then  {do check last}
             begin
               DataMod.SQLTransactionEZ.Rollback;
               result := false;
@@ -3564,7 +3567,7 @@ begin
    result := true;
 end;
 
-function TCheckForm.TransferCheck(ChekNo: String): Boolean;
+function TCheckForm.PostCheck(ChekNo: integer): Boolean;
  {Transfer from Temporary Check to Checking}
 var
   CkFound: Boolean;
@@ -3572,14 +3575,21 @@ begin
   Result:=False;
   With DataMod do
     try
-      If  ZFindKey('TEMP_CHECKS', 'CHECK_NO', ChekNo, StrToInt(ChekNo)) then
+      If  ZFindKey('TEMP_CHECKS', 'CHECK_NO', IntToStr(ChekNo), ChekNo) then
          With DataMod do
            begin
+             ZQueryTempCks.params[0].AsInteger := ChekNo;
+             ZQueryTempCks.open;
+             if ZQueryTempCks.FieldByName('CHECK_NO').AsInteger <= 0 then
+                begin
+                  result := false;
+                  exit;
+                end;
              ZPostChecks.Open;
              if not ZPostChecks.Prepared then
                ZPostChecks.Prepare;
              ZPostChecks.Insert;
-             ZPostChecks.FieldByName('CHECK_NO').AsInteger:= ZQueryTempCks.FieldByName('CHECK_NO').AsInteger;
+             ZPostChecks.FieldByName('CHECK_NO').AsInteger:= ChekNo;
              ZPostChecks.FieldByName('AMOUNT').AsFloat:= ZQueryTempCks.FieldByName('AMOUNT').AsFloat;
              ZPostChecks.FieldByName('VENDOR').AsString:= ZQueryTempCks.FieldByName('VENDOR').AsString;
              ZPostChecks.FieldByName('CHECK_DATE').AsDateTime:= ZQueryTempCks.FieldByName('CHECK_DATE').AsDateTime;
@@ -3598,7 +3608,7 @@ begin
     except
       DataMod.SQLTransactionEZ.RollBack;
       result := false;
-      ShowMessage('Could not post '+ChekNo+' to Checks/Transactions');
+      ShowMessage('Could not post '+intToStr(ChekNo)+' to Checks/Transactions');
     end;
     Result := true;
 end;
