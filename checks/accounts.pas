@@ -3377,8 +3377,27 @@ const
    Accy,ScriptX,ScriptY,DupY,DateX,DateY: Double;
    VendX,VendY,MemoX,MemoY,AmountX,AmountY: Double;
    CheckFont: FontType;
+   prt: boolean;
  begin
    try
+    Cnt:=0;
+    With DataMod.ZTblXY do   //get check format parameters
+      begin
+        if not active then open;
+        First;
+        VendX:=FieldByName('PAYX').AsFloat;
+        VendY:=FieldByName('PAYY').AsFloat;
+        DateX:=FieldByName('DateX').AsFloat;
+        DateY:=FieldByName('DateY').AsFloat;
+        ScriptX:=FieldByName('ScriptX').AsFloat;
+        ScriptY:=FieldByName('ScriptY').AsFloat;
+        MemoX:=FieldByName('MemoX').AsFloat;
+        MemoY:=FieldByName('MemoY').AsFloat;
+        DupY:=FieldByName('DupY').AsFloat;
+        AmountX:=FieldByName('AmountX').AsFloat;
+        AmountY:=FieldByName('AmountY').AsFloat;
+        AccY:=FieldByName('AccountY').AsFloat;
+      end;
    With RPrinter do
      begin
        RPRinter.Landscape:=false;
@@ -3394,87 +3413,73 @@ const
         If not ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', CheckNo) then
           begin
             ShowMessage('Check number ' + IntToStr(CheckNo)+' is missing');
-          end;
+            prt := false
+          end
+       else
+         prt := true;
 
-      Cnt:=0;
-      With DataMod.ZTblXY do   //get check format parameters
-        begin
-          if not active then open;
-          First;
-          VendX:=FieldByName('PAYX').AsFloat;
-          VendY:=FieldByName('PAYY').AsFloat;
-          DateX:=FieldByName('DateX').AsFloat;
-          DateY:=FieldByName('DateY').AsFloat;
-          ScriptX:=FieldByName('ScriptX').AsFloat;
-          ScriptY:=FieldByName('ScriptY').AsFloat;
-          MemoX:=FieldByName('MemoX').AsFloat;
-          MemoY:=FieldByName('MemoY').AsFloat;
-          DupY:=FieldByName('DupY').AsFloat;
-          AmountX:=FieldByName('AmountX').AsFloat;
-          AmountY:=FieldByName('AmountY').AsFloat;
-          AccY:=FieldByName('AccountY').AsFloat;
-        end;
-     With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
-       begin
-         if not active then open;
-         Close;
-         Params[0].AsInteger:=CheckNo;
-         Open;
-         First;
-         Vend:=FieldByName('VENDOR').AsString;
-         CkDate:=FieldByName('CHECK_DATE').AsString;
-         CkAmount:=FieldByName('AMOUNT').AsFloat;
-         Note:=FieldByName('CHECKMEMO').AsString;
-         MonStr:=Format('%m',[CkAmount]);
-         MonText:=MonToStr(CkAmount);
-       end;
+     if prt then
+       With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
+         begin
+           if not active then open;
+           Close;
+           Params[0].AsInteger:=CheckNo;
+           Open;
+           First;
+           Vend:=FieldByName('VENDOR').AsString;
+           CkDate:=FieldByName('CHECK_DATE').AsString;
+           CkAmount:=FieldByName('AMOUNT').AsFloat;
+           Note:=FieldByName('CHECKMEMO').AsString;
+           MonStr:=Format('%m',[CkAmount]);
+           MonText:=MonToStr(CkAmount);
+         end;
 
-
-     With RPrinter do
-       begin
-         EndPage;
-         NewPage;
-         PrintXY(VendX,VendY,Vend);
-         PrintXY(DateX,DateY,CkDate);
-         PrintXY(ScriptX,ScriptY,MonText);
-         PrintXY(AmountX,AmountY,MonStr);
-         PrintXY(MemoX,MemoY,Note);
-         With DataMod.ZQueryPrintTran do
-           try
-             Close;
-             Params[0].AsInteger:=CheckNo;
-             Open;
-             First;
-             FreeTabs(1);
-             TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
-             setTabBoxHeight(1,BH12);
-             //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
-             PrintXY(1.0,AccY,'Payed to:  '+Vend);
-             PrintXY(DateX,AccY,CkDate);
-             CurY := InchToPoint(AccY);
-             NewLine;
-             NewLine;
-             NewLine;
-             While (not EOF) and (Cnt<10) do
-               begin
-                 Inc(Cnt);
-                 MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
-                 Dot := Pos('.',MonStr);
-                 for I := 5 downto Dot do
-                   MonStr := '  ' + MonStr;
-                 PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
-                // NewLine;
-                 next;
-               end;
-           except
-             ShowMessage('Error in print check');
-           end;
-         PrintXY(VendX,DupY+VendY,Vend);
-         PrintXY(DateX,DupY+DateY,CkDate);
-         PrintXY(ScriptX,DupY+ScriptY,MonText);
-         PrintXY(AmountX,DupY+AmountY,MonStr);
-         PrintXY(MemoX,DupY+MemoY,Note);
-       end; //{With RPrinter}
+     if prt then
+       With RPrinter do
+         begin
+           EndPage;
+           NewPage;
+           PrintXY(VendX,VendY,Vend);
+           PrintXY(DateX,DateY,CkDate);
+           PrintXY(ScriptX,ScriptY,MonText);
+           PrintXY(AmountX,AmountY,MonStr);
+           PrintXY(MemoX,MemoY,Note);
+           With DataMod.ZQueryPrintTran do
+             try
+               Close;
+               Params[0].AsInteger:=CheckNo;
+               Open;
+               First;
+               FreeTabs(1);
+               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
+               setTabBoxHeight(1,BH12);
+               //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
+               PrintXY(1.0,AccY,'Payed to:  '+Vend);
+               PrintXY(DateX,AccY,CkDate);
+               CurY := InchToPoint(AccY);
+               NewLine;
+               NewLine;
+               NewLine;
+               While (not EOF) and (Cnt<10) do
+                 begin
+                   Inc(Cnt);
+                   MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
+                   Dot := Pos('.',MonStr);
+                   for I := 5 downto Dot do
+                     MonStr := '  ' + MonStr;
+                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
+                  // NewLine;
+                   next;
+                 end;
+             except
+               ShowMessage('Error in print check');
+             end;
+           PrintXY(VendX,DupY+VendY,Vend);
+           PrintXY(DateX,DupY+DateY,CkDate);
+           PrintXY(ScriptX,DupY+ScriptY,MonText);
+           PrintXY(AmountX,DupY+AmountY,MonStr);
+           PrintXY(MemoX,DupY+MemoY,Note);
+         end; //{With RPrinter}
      end;
     except
       ShowMessage('Check printing error');
