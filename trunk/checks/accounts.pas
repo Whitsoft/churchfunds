@@ -19,7 +19,8 @@ WHERE id = :id}
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, Calendar, PrintersDlgs, StrUtils, unit30, cHelp, RPrintClass;
+  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
+  RPrintClass;
 
 type
   PayInfo = record
@@ -167,9 +168,7 @@ type
     ScriptLabel1: TLabel;
     SDateEdit: TEdit;
     StateEdit: TEdit;
-    TrialCheckBtn: TButton;
-    SingCheckBtn: TButton;
-    AllCheckBtn: TButton;
+    PrintCheckBtn: TButton;
     PrintAccSrc: TDataSource;
     FixChkGrid: TDBGrid;
     FixTranGrid: TDBGrid;
@@ -419,12 +418,14 @@ type
 
 
     NavEditTran: TDBNavigator;
+    procedure CheckGridCellClick(Column: TColumn);
     procedure GridDPDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure PayNameLUCBChange(Sender: TObject);
     procedure DGridTransDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DPNavClick(Sender: TObject; Button: TDBNavButtonType);
+    procedure PrintCheckBtnClick(Sender: TObject);
 
 
     procedure RetGridDrawColumnCell(Sender: TObject;
@@ -437,12 +438,13 @@ type
     function FindIntegerKey(var Qry: TSQLQuery; IKey: Integer): Boolean;
 
     procedure NewLine(Ct: Integer; Var F:TextFile);
-        procedure CheckPrinterPrint;
-              procedure CheckAmountEnter(Sender: TObject);
-              procedure NoteBookChangeBounds(Sender: TObject);
+    procedure transferCheck(CheckNo: Integer);
+    procedure CheckPrinterPrint(begCK,endCK: Integer);
+    procedure CheckPrintTables;
+    procedure CheckAmountEnter(Sender: TObject);
+    procedure NoteBookChangeBounds(Sender: TObject);
     {*}
     procedure SearchReturn(Ret: Boolean);
-    procedure TrialCheckBtnClick(Sender: TObject);
    // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     function  Inside(X,Y: Integer;CControl: TComponent): Boolean;
     procedure doCheckSrchClr;
@@ -466,10 +468,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure TabSetChange(Sender: TObject; NewTab: Integer;
       var AllowChange: Boolean);
-
-    procedure SingCheckBtnClick(Sender: TObject);
-    procedure AllCheckBtnClick(Sender: TObject);
-
 
     procedure PayBtnClick(Sender: TObject);
     procedure BtnPayCanClick(Sender: TObject);
@@ -653,6 +651,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ClearStubs;
     procedure InitDPGrid;
+    procedure InitCheckGrid;
     procedure DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
 
            { Private declarations }
@@ -670,8 +669,7 @@ type
     GlobalTemp:    Boolean;
     GlobalLeft:    Integer;
     GlobalRite:    Integer;
-    GlobStCheck,GlobEndCheck: Integer;
-    GlobTrial: Boolean;
+
  RepConMonth,RepConYear,RepBennerMonth,RepBennerYear: Double;
     TotIncome,TotAmount,TotIncYear,TotAmnYear,TotBudget: Double;
    { procedure WMRButtonDown(var Msg: TWMMouse); message wm_RButtonDown;
@@ -3279,71 +3277,28 @@ begin
      WriteLn(F,'');
 end;
 
-procedure TCheckForm.SingCheckBtnClick(Sender: TObject);
+procedure TCheckForm.PrintCheckBtnClick(Sender: TObject);
 var
   CheckValue: String;
+  beginCheck, endCheck: Integer;
 begin
-  GlobTrial:=False;
   If DataMod.ZTblTempChecks.RecordCount<=0 then exit;
- // ShowMessage('Please make sure check is inserted correctly in printer. ');
-  If InputQuery('Check Number','Input a Check Number',CheckValue) then
-     try
-       GlobStCheck:=StrToInt(CheckValue);
-       GlobEndCheck:=StrToInt(CheckValue);
-       CheckPrinterPrint;
-     finally
-     end;
-  doBalance;
-end;
-
-procedure TCheckForm.TrialCheckBtnClick(Sender: TObject);
-var
-  CheckValue: String;
-begin
-  GlobTrial:=True;
-  {Check Print here}
-  If DataMod.ZTblTempChecks.RecordCount<=0 then exit;
-  ShowMessage('Please print this on plain paper only ');
-  If InputQuery('Check Number','Input a Check Number',CheckValue) then
-     try
-       GlobStCheck:=StrToInt(CheckValue);
-       GlobEndCheck:=StrToInt(CheckValue);
-       CheckPrinterPrint;
-     finally
-     end;
-end;
-
-
-procedure TCheckForm.AllCheckBtnClick(Sender: TObject);
-  var Start,Stop:  String;
-      Temp: Integer;
-begin
-  GlobTrial:=False;
   With DataMod.ZTblTempChecks do
      begin
        If RecordCount<=0 then exit;
        First;
-       Start:=FieldByName('CHECK_NO').AsString;
-       GlobStCheck:=FieldByName('CHECK_NO').AsInteger;
+       beginCheck:=FieldByName('CHECK_NO').AsInteger;
        Last;
-       Stop:=FieldByName('CHECK_NO').AsString;
-       GlobEndCheck:=FieldByName('CHECK_NO').AsInteger;
+       endCheck:=FieldByName('CHECK_NO').AsInteger;
      end;
-  If MessageDlg(' Ok to print '+Start+' through '+Stop,
-         mtInformation,[mbOk,mbCancel],0)=mrOk then
-     begin
-      // ShowMessage('Please make sure checks are lined up in printer from '
-        //      +Start+' To '+Stop);
      try
-         //CheckPrinter.Execute;
-         CheckPrinterPrint;
-       except
-         DataMod.ZTblTempChecks.Open;
-         DataMod.ZTblTempTrans.Open;
-       end;
-       doBalance;
+       CheckPrinterPrint(beginCheck, endCheck);
+     finally
      end;
+  doBalance;
+  CheckPrintTables;
 end;
+
 
 procedure TCheckForm.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
 var
@@ -3360,7 +3315,56 @@ begin
     end;
 end;
 
-procedure TCheckForm.CheckPrinterPrint;
+procedure TCheckForm.CheckPrintTables;
+begin
+  With DataMod do      //Refresh for grids
+    begin
+      ZTblTrans.Close;
+      ZTblTrans.Open;
+      ZTblChecks.Close;
+      ZTblChecks.Open;
+      ZTblCheckTrans.Close;
+      ZTblCheckTrans.Open;
+      ZTblTemptrans.Close;
+      ZTblTempTrans.Open;
+      ZTblTempChecks.Close;
+      ZTblTempChecks.Open;
+      ZTblChecks.Close;
+      ZTblChecks.Open;
+      ZTblBalance.Close;
+      ZTblBalance.Open;
+      ZTblBalance.First;
+   end;
+end;
+
+procedure TCheckForm.CheckGridCellClick(Column: TColumn);
+var
+  CK: Integer;
+  MsgStr: String;
+begin
+  if column.field.fieldName <> 'CHECK_NO' then exit;
+  CK := CheckGrid.selectedField.AsInteger;
+  MsgStr:=' Transfer check No. '+ IntToStr(CK)+' ?';
+  if MessageDlg(MsgStr, mtConfirmation, [mbNo, mbYes],0) = mrYes then
+    transferCheck(CK);
+end;
+
+procedure TCheckForm.transferCheck(CheckNo: Integer);
+begin
+  try
+    if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
+        exit;
+    if DeleteTempTrans(CheckNo) then
+       DataMod.SQLTransactionEZ.Commit
+    else
+      DataMod.SQLTransactionEZ.RollBack;
+    except
+     ShowMessage('Check number '+ IntToStr(CheckNo)+' failed to post to final accounts');
+    end;
+
+end;
+
+procedure TCheckForm.CheckPrinterPrint(begCK,endCK: Integer);
 const
   BOXLINENONE = 0;
  var
@@ -3374,156 +3378,112 @@ const
    VendX,VendY,MemoX,MemoY,AmountX,AmountY: Double;
    CheckFont: FontType;
  begin
-
+   try
    With RPrinter do
      begin
        RPRinter.Landscape:=false;
        RPrinter.NewPage;
-       If (GlobStCheck <> GlobEndCheck) then
-
        CheckFont.FontName := HELVETICA;
        CheckFont.FontSize := 10;
        Font := CheckFont;
        BH12 := PointToInch(Round(12* LineScale));
-      setTabBoxHeight(1,BH12);
-
-     end;  //With EZPSClass do
-   for CheckNo:=GlobStCheck to GlobEndCheck do   //one check or a range of checks
-     try
-       If not ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', CheckNo) then
-         begin
-             //EZPSClass.ClosePrintFile;
-             exit;
-           end;
-       Cnt:=0;
-       With DataMod.ZTblXY do   //get check format parameters
+       setTabBoxHeight(1,BH12);
+     end;  //With RPrinter do
+   for CheckNo:=begCK to endCK do   //range of checks
+      begin
+        If not ZFindKey('TEMP_CHECKS', 'CHECK_NO', 'FALSE', CheckNo) then
           begin
-            if not active then open;
-            First;
-            VendX:=FieldByName('PAYX').AsFloat;
-            VendY:=FieldByName('PAYY').AsFloat;
-            DateX:=FieldByName('DateX').AsFloat;
-            DateY:=FieldByName('DateY').AsFloat;
-            ScriptX:=FieldByName('ScriptX').AsFloat;
-            ScriptY:=FieldByName('ScriptY').AsFloat;
-            MemoX:=FieldByName('MemoX').AsFloat;
-            MemoY:=FieldByName('MemoY').AsFloat;
-            DupY:=FieldByName('DupY').AsFloat;
-            AmountX:=FieldByName('AmountX').AsFloat;
-            AmountY:=FieldByName('AmountY').AsFloat;
-            AccY:=FieldByName('AccountY').AsFloat;
+            ShowMessage('Check number ' + IntToStr(CheckNo)+' is missing');
           end;
-      With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
+
+      Cnt:=0;
+      With DataMod.ZTblXY do   //get check format parameters
         begin
           if not active then open;
-          Close;
-          Params[0].AsInteger:=CheckNo;
-          Open;
           First;
-          Vend:=FieldByName('VENDOR').AsString;
-          CkDate:=FieldByName('CHECK_DATE').AsString;
-          CkAmount:=FieldByName('AMOUNT').AsFloat;
-          Note:=FieldByName('CHECKMEMO').AsString;
-          MonStr:=Format('%m',[CkAmount]);
-          MonText:=MonToStr(CkAmount);
+          VendX:=FieldByName('PAYX').AsFloat;
+          VendY:=FieldByName('PAYY').AsFloat;
+          DateX:=FieldByName('DateX').AsFloat;
+          DateY:=FieldByName('DateY').AsFloat;
+          ScriptX:=FieldByName('ScriptX').AsFloat;
+          ScriptY:=FieldByName('ScriptY').AsFloat;
+          MemoX:=FieldByName('MemoX').AsFloat;
+          MemoY:=FieldByName('MemoY').AsFloat;
+          DupY:=FieldByName('DupY').AsFloat;
+          AmountX:=FieldByName('AmountX').AsFloat;
+          AmountY:=FieldByName('AmountY').AsFloat;
+          AccY:=FieldByName('AccountY').AsFloat;
         end;
+     With DataMod.ZQueryTempCks do   //get check numbers and corresponding data from temporary check table
+       begin
+         if not active then open;
+         Close;
+         Params[0].AsInteger:=CheckNo;
+         Open;
+         First;
+         Vend:=FieldByName('VENDOR').AsString;
+         CkDate:=FieldByName('CHECK_DATE').AsString;
+         CkAmount:=FieldByName('AMOUNT').AsFloat;
+         Note:=FieldByName('CHECKMEMO').AsString;
+         MonStr:=Format('%m',[CkAmount]);
+         MonText:=MonToStr(CkAmount);
+       end;
 
-       If not GlobTrial then     //if not a trial check
-         if not PostCheckPlusTrans(CheckNo) then   //insert the check and its transactions to permanent tables
-           begin
-             exit;
+
+     With RPrinter do
+       begin
+         EndPage;
+         NewPage;
+         PrintXY(VendX,VendY,Vend);
+         PrintXY(DateX,DateY,CkDate);
+         PrintXY(ScriptX,ScriptY,MonText);
+         PrintXY(AmountX,AmountY,MonStr);
+         PrintXY(MemoX,MemoY,Note);
+         With DataMod.ZQueryPrintTran do
+           try
+             Close;
+             Params[0].AsInteger:=CheckNo;
+             Open;
+             First;
+             FreeTabs(1);
+             TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
+             setTabBoxHeight(1,BH12);
+             //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
+             PrintXY(1.0,AccY,'Payed to:  '+Vend);
+             PrintXY(DateX,AccY,CkDate);
+             CurY := InchToPoint(AccY);
+             NewLine;
+             NewLine;
+             NewLine;
+             While (not EOF) and (Cnt<10) do
+               begin
+                 Inc(Cnt);
+                 MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
+                 Dot := Pos('.',MonStr);
+                 for I := 5 downto Dot do
+                   MonStr := '  ' + MonStr;
+                 PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
+                // NewLine;
+                 next;
+               end;
+           except
+             ShowMessage('Error in print check');
            end;
-       With RPrinter do
-         begin
-           EndPage;
-           NewPage;
-           PrintXY(VendX,VendY,Vend);
-           PrintXY(DateX,DateY,CkDate);
-           PrintXY(ScriptX,ScriptY,MonText);
-           PrintXY(AmountX,AmountY,MonStr);
-           PrintXY(MemoX,MemoY,Note);
-           With DataMod.ZQueryPrintTran do
-             try
-               Close;
-               Params[0].AsInteger:=CheckNo;
-               Open;
-               First;
-               FreeTabs(1);
-               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
-               setTabBoxHeight(1,BH12);
-               //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
-               PrintXY(1.0,AccY,'Payed to:  '+Vend);
-               PrintXY(DateX,AccY,CkDate);
-               CurY := InchToPoint(AccY);
-               NewLine;
-               NewLine;
-               NewLine;
-               While (not EOF) and (Cnt<10) do
-                 begin
-                   Inc(Cnt);
-                   MonStr := Format('%m',[FieldByName('Amount').AsFloat]);
-                   Dot := Pos('.',MonStr);
-                   for I := 5 downto Dot do
-                     MonStr := '  ' + MonStr;
-                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr);
-                  // NewLine;
-                   next;
-                 end;
-             except
-               ShowMessage('Error in print check');
-             end;
-           PrintXY(VendX,DupY+VendY,Vend);
-           PrintXY(DateX,DupY+DateY,CkDate);
-           PrintXY(ScriptX,DupY+ScriptY,MonText);
-           PrintXY(AmountX,DupY+AmountY,MonStr);
-           PrintXY(MemoX,DupY+MemoY,Note);
-           If CheckNo<>GlobEndCheck then
-       end; //{With sender}
-       If not GlobTrial then
-         try
-           {If ZFindKey('PAYSTUBS', 'PCHECK_NO', 'FALSE', CheckNo) then
-             begin
-               DataMod.ZTblPayStubs.Edit;
-               DataMod.ZTblPayStubs.FieldByName('PCheck_No').AsInteger:=0;
-               DataMod.ZTblPayStubs.Post;
-             end;}
-
-           if DeleteTempTrans(CheckNo) then
-              DataMod.SQLTransactionEZ.Commit
-           else
-              DataMod.SQLTransactionEZ.RollBack;
-           With DataMod do      //Refresh for grids
-             begin
-               ZTblTrans.Close;
-               ZTblTrans.Open;
-               ZTblChecks.Close;
-               ZTblChecks.Open;
-               ZTblCheckTrans.Close;
-               ZTblCheckTrans.Open;
-               ZTblTemptrans.Close;
-               ZTblTempTrans.Open;
-               ZTblTempChecks.Close;
-               ZTblTempChecks.Open;
-               ZTblChecks.Close;
-               ZTblChecks.Open;
-               ZTblBalance.Close;
-               ZTblBalance.Open;
-               ZTblBalance.First;
-             end;
-        except
-          ShowMessage('Could not transfer data from temp to final accounts');
-          DataMod.SQLTransactionEZ.RollBack;
-        end;
+         PrintXY(VendX,DupY+VendY,Vend);
+         PrintXY(DateX,DupY+DateY,CkDate);
+         PrintXY(ScriptX,DupY+ScriptY,MonText);
+         PrintXY(AmountX,DupY+AmountY,MonStr);
+         PrintXY(MemoX,DupY+MemoY,Note);
+       end; //{With RPrinter}
+     end;
     except
       ShowMessage('Check printing error');
     end;
-  //  EZPSClass.PSPRocs;
-  //  EZPSClass.ClosePrintFile;
 end;
 
 
 function TCheckForm.PostCheckPlusTrans(ChekNo: Integer):Boolean;
-// post the transactions then the checks frim temporary to permanent tables
+// post the transactions then the checks from temporary to permanent tables
 var
   TranNo:   LongInt;
   Acc,AccType:   Integer;
@@ -3784,6 +3744,26 @@ begin
   GridDP.Columns[2].Field := DataMod.ZTblDP.Fields[0];
 end;
 
+procedure TCheckForm.InitCheckGrid;
+begin
+  With CheckGrid do
+    begin
+      Columns[0].Width :=120;
+      Columns[1].Width :=120;
+      Columns[2].Width :=320;
+      Columns[3].Width :=120;
+      Columns[4].Width :=120;
+    end;
+   With FixChkGrid do
+    begin
+      Columns[0].Width :=120;
+      Columns[1].Width :=120;
+      Columns[2].Width :=280;
+      Columns[3].Width :=120;
+      Columns[4].Width :=120;
+    end;
+end;
+
 procedure TCheckForm.FormActivate(Sender: TObject);
 var
    Chk:   Integer;
@@ -3876,6 +3856,7 @@ begin
    SearchReturn(RetCheck.Checked);
    initOpen;
    initDPGrid;
+   InitCheckGrid;
   end;
 end;
 

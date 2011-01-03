@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 10
+    PageIndex = 2
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -949,25 +949,26 @@ object CheckForm: TCheckForm
           TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
+          OnCellClick = CheckGridCellClick
           OnMouseDown = ShowContext
         end
         object PanelPrint: TPanel
           Left = 451
-          Height = 200
+          Height = 113
           Top = 125
-          Width = 288
+          Width = 264
           HelpContext = 310
           Anchors = []
           BevelInner = bvLowered
           BevelWidth = 2
-          ClientHeight = 200
-          ClientWidth = 288
+          ClientHeight = 113
+          ClientWidth = 264
           Color = clTeal
           ParentColor = False
           TabOrder = 1
           OnMouseDown = ShowContext
           object Label23: TLabel
-            Left = 112
+            Left = 104
             Height = 25
             Top = 14
             Width = 54
@@ -979,59 +980,23 @@ object CheckForm: TCheckForm
             ParentColor = False
             ParentFont = False
           end
-          object TrialCheckBtn: TButton
-            Left = 73
+          object PrintCheckBtn: TButton
+            Left = 64
             Height = 33
             Hint = 'Print a trial check on plain paper'
             Top = 49
             Width = 146
             HelpContext = 310
             Anchors = []
-            Caption = 'Trial Check'
+            Caption = 'Print Checks'
             Font.Height = -15
             Font.Name = 'System'
-            OnClick = TrialCheckBtnClick
+            OnClick = PrintCheckBtnClick
             OnMouseDown = ShowContext
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
-          end
-          object SingCheckBtn: TButton
-            Left = 73
-            Height = 33
-            Hint = 'Print one check'
-            Top = 97
-            Width = 146
-            HelpContext = 310
-            Anchors = []
-            Caption = 'Single Check'
-            Font.Height = -15
-            Font.Name = 'System'
-            OnClick = SingCheckBtnClick
-            OnMouseDown = ShowContext
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 1
-          end
-          object AllCheckBtn: TButton
-            Left = 73
-            Height = 33
-            Hint = 'Print all checks'
-            Top = 146
-            Width = 146
-            HelpContext = 310
-            Anchors = []
-            Caption = 'All Checks'
-            Font.Height = -15
-            Font.Name = 'System'
-            OnClick = AllCheckBtnClick
-            OnMouseDown = ShowContext
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 2
           end
         end
       end
