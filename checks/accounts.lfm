@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 2
+    PageIndex = 0
     ParentFont = False
     TabOrder = 0
     object Page1: TPage
@@ -1957,9 +1957,9 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object PaySrchBtn: TButton
-          Left = 59
+          Left = 67
           Height = 33
-          Top = 100
+          Top = 398
           Width = 120
           HelpContext = 460
           Caption = 'Search'

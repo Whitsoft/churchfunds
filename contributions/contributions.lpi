@@ -177,7 +177,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -245,7 +245,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2075"/>
         <CursorPos X="60" Y="2109"/>
@@ -328,7 +328,7 @@
       <Unit33>
         <Filename Value="../rprintclass.pas"/>
         <UnitName Value="RPrintclass"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1082"/>
         <CursorPos X="16" Y="1103"/>
@@ -386,7 +386,7 @@
         <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -426,12 +426,10 @@
       <Unit45>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3225"/>
         <CursorPos X="1" Y="3246"/>
         <UsageCount Value="34"/>
-        <Loaded Value="True"/>
       </Unit45>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">

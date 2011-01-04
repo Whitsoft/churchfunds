@@ -198,10 +198,12 @@ Type
     Label76: TLabel;
     Label77: TLabel;
     Label78: TLabel;
+    procedure BtnPayDelClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBEditPostChange(Sender: TObject);
     procedure GridFundGroupsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure GridGroupDblClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
 
     procedure UpdateChurchEdits;
@@ -241,6 +243,7 @@ Type
     Procedure BtnAccClearClick(Sender: TObject);
     Procedure BtnVendorClearClick(Sender: TObject);
     Procedure BtnVendorPostClick(Sender: TObject);
+    procedure SearchPayroll;
     Procedure EditNameChange(Sender: TObject);
     Procedure EditNameKeyPress(Sender: TObject; Var Key: Char);
     Procedure EditSocNoKeyPress(Sender: TObject; Var Key: Char);
@@ -1009,7 +1012,6 @@ Begin
   If EditVendor.Text<>'' Then
     Begin
       With DataMod.ZTblVendor Do
-        Begin
           Try
             If Not EOF Then
               Begin
@@ -1024,10 +1026,102 @@ Begin
             Open;
           Except
             ShowMessage('Error, check your entry, it could be a duplicate.');
-        End
+          End
     End
 End;
-End;
+
+procedure TFormSetup.SearchPayroll;
+var
+  SParm, NParm: String;
+  Acc: Integer;
+begin
+ // BtnPayClrClick(Self);
+  SParm := '';
+  NParm:='';
+  If EditSocNo.Text <>'' then
+    SParm := EditSocNo.Text
+  else if EditName.Text <> '' then
+    NParm := EditName.Text;
+  With DataMod.ZQueryPayroll do
+    begin
+      close;
+      Params[0].AsString := SParm;
+      Params[1].AsString := NParm;
+      Open;
+      If FieldByName('SOC_SEC_NO').AsString <> '' then
+        begin
+          EditName.Text := FieldByName('NAME').AsString;
+          EditSocNo.Text := FieldByName('SOC_SEC_NO').AsString;
+
+          If FieldByName('WAGE_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditWageAcc.Text := IntToStr(FieldByName('WAGE_ACCOUNT').AsInteger);
+               EditWage.Text := FloatToStr(FieldByName('WAGE').AsFloat);
+            end;
+          If FieldByName('FED_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditFITAcc.Text := IntToStr(FieldByName('FED_ACCOUNT').AsInteger);
+               EditFIT.Text := FloatToStr(FieldByName('FED').AsFloat);
+            end;
+          If FieldByName('FICA_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditFICAAcc.Text := IntToStr(FieldByName('WAGE_ACCOUNT').AsInteger);
+               EditFICA.Text := FloatToStr(FieldByName('WAGE').AsFloat);
+            end;
+          If FieldByName('MED_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditMedAcc.Text := IntToStr(FieldByName('MED_ACCOUNT').AsInteger);
+               EditMed.Text := FloatToStr(FieldByName('MED').AsFloat);
+            end;
+          If FieldByName('STATE_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditStateAcc.Text := IntToStr(FieldByName('STATE_ACCOUNT').AsInteger);
+               EditState.Text := FloatToStr(FieldByName('STATE').AsFloat);
+            end;
+          If FieldByName('LOCAL_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditLocalAcc.Text := IntToStr(FieldByName('LOCAL_ACCOUNT').AsInteger);
+               EditLocal.Text := FloatToStr(FieldByName('LOCAL').AsFloat);
+            end;
+           If FieldByName('PENSION_ACCOUNT').AsInteger <> 0 then
+            begin
+               EditPenAcc.Text := IntToStr(FieldByName('PENSION_ACCOUNT').AsInteger);
+               EditPen.Text := FloatToStr(FieldByName('PENSION').AsFloat);
+            end;
+
+            If FieldByName('DEDUCT1_ACC').AsInteger <> 0 then
+              begin
+                EditDED1Amt.Text := FloatToStr(FieldByName('DEDUCT1').AsFloat);
+                CKBoxDed1.Checked := true;
+              end;
+
+            If FieldByName('DEDUCT2_ACC').AsInteger <> 0 then
+              begin
+                EditDED2Amt.Text := FloatToStr(FieldByName('DEDUCT2').AsFloat);
+                CKBoxDed2.Checked := true;
+              end;
+
+            If FieldByName('DEDUCT3_ACC').AsInteger <> 0 then
+              begin
+                EditDED3Amt.Text := FloatToStr(FieldByName('DEDUCT3').AsFloat);
+                CKBoxDed3.Checked := true;
+              end;
+
+           If FieldByName('DEDUCT4_ACC').AsInteger <> 0 then
+              begin
+                EditDED4Amt.Text := FloatToStr(FieldByName('DEDUCT4').AsFloat);
+                CKBoxDed4.Checked := true;
+              end;
+
+           If FieldByName('DEDUCT5_ACC').AsInteger <> 0 then
+              begin
+                EditDED5Amt.Text := FloatToStr(FieldByName('DEDUCT5').AsFloat);
+                CKBoxDed5.Checked := true;
+              end;
+
+        end;
+    end;
+end;
 
 Procedure TFormSetup.EditNameChange(Sender: TObject);
 Begin
@@ -1041,6 +1135,7 @@ Begin
     Begin
       Exit
     End;
+  searchPayroll;
   EditSocNo.SetFocus;
 End;
 
@@ -1050,6 +1145,7 @@ Begin
     Begin
       Exit
     End;
+  searchPayroll;
   EditWage.SetFocus;
 End;
 
@@ -1442,7 +1538,7 @@ Begin
         FieldByName('ACCOUNT').AsInteger := StrToInt(EditAccIn.Text);
         FieldByName('ACC_TYPE').AsInteger := TypeBox.ItemIndex+1;
         FieldByName('GROUP_NO').AsInteger := 
-                     DataMod.ZTblGroup.FieldByName('GROUP_NO').AsInteger;
+        DataMod.ZTblGroup.FieldByName('GROUP_NO').AsInteger;
         Post;
        // ApplyUpdates;
         DataMod.SQLTransactionEZ.commit;
@@ -1639,7 +1735,7 @@ End;
 
 function  TFormSetup.getPayName(SocNo: String):String;
 begin
-  With DataMod.QueryPayName do
+  With DataMod.ZTblPay do
     begin
       close;
       Params[0].AsString := SocNo;
@@ -1647,29 +1743,46 @@ begin
       result := FieldByName('Name').AsString;
     end;
 end;
+
+procedure TFormSetup.BtnPayDelClick(Sender: TObject);
+begin
+    If MessageDlg('OK to delete ' + EditSocNo.Text+' from payroll?',
+     mtConfirmation, [mbYes, mbNo], 0) = mrNo Then
+    exit;
+   With DataMod.ZDeletePay do
+     begin
+       close;
+       Params[0].AsString := EditSocNo.Text;
+       open;
+       delete;
+     end;
+   BtnPayClrClick(Self);
+end;
+
 Procedure TFormSetup.BtnPostPayClick(Sender: TObject);
-
-Var 
+Var
   SocNum: String;
-
 Begin
   If MessageDlg('OK to post changes to payroll?',
      mtConfirmation, [mbYes, mbNo], 0) = mrNo Then
     exit;
 
   SocNum := EditSocNo.Text;
+  DataMod.TableSpecial.Open;
   If (SocNum='') Or (EditName.Text='') Then
     exit;
   Try
     If getPayName(SocNum) <> '' then
       Begin
-        DataMod.ZTblPay.Edit
+        DataMod.ZEditPay.Open;
+        DataMod.ZEditPay.Edit;
       End
     Else
       Begin
-        DataMod.ZTblPay.Insert
+        DataMod.ZEditPay.Open;
+        DataMod.ZEditPay.Insert;
       End;
-    With DataMod.ZTblPay Do
+    With DataMod.ZEditPay Do
       Begin
         FieldByName('SOC_SEC_NO').AsString := SocNum;
         FieldByName('NAME').AsString := EditName.Text;
@@ -1708,7 +1821,7 @@ Begin
             FieldByName('PENSION').AsFloat := getFloat(EditPen.Text);
             FieldByName('PENSION_ACCOUNT').AsInteger := StrToInt(EditPenAcc.Text);
           End;
-        If (EditDed1Amt.Text<>'') and (CkBoxDed1.Checked) Then
+        If (EditDed1Amt.Text<>'') and (CkBoxDed1.Checked) and (DataMod.TableSpecial.Fields[0].AsVariant <> null)Then
           begin
             FieldByName('DEDUCT1').AsFloat := getFloat(EditDed1Amt.Text);
             FieldByName('DEDUCT1_ACC').AsInteger := DataMod.TableSpecial.Fields[0].AsInteger;
@@ -1718,7 +1831,7 @@ Begin
             FieldByName('DEDUCT1').AsFloat := 0.0;
             FieldByName('DEDUCT1_ACC').AsInteger := 0;
           end;
-        If (EditDed2Amt.Text<>'') and (CkBoxDed2.Checked) Then
+        If (EditDed2Amt.Text<>'') and (CkBoxDed2.Checked) and (DataMod.TableSpecial.Fields[1].AsVariant <> null) Then
           begin
             FieldByName('DEDUCT2').AsFloat := getFloat(EditDed2Amt.Text);
             FieldByName('DEDUCT2_ACC').AsInteger := DataMod.TableSpecial.Fields[1].AsInteger;
@@ -1728,7 +1841,7 @@ Begin
             FieldByName('DEDUCT2').AsFloat := 0.0;
             FieldByName('DEDUCT2_ACC').AsInteger := 0;
           end;
-        If (EditDed3Amt.Text<>'') and (CkBoxDed3.Checked) Then
+        If (EditDed3Amt.Text<>'') and (CkBoxDed3.Checked) and (DataMod.TableSpecial.Fields[2].AsVariant <> null)  then
           begin
             FieldByName('DEDUCT3').AsFloat := getFloat(EditDed3Amt.Text);
             FieldByName('DEDUCT3_ACC').AsInteger := DataMod.TableSpecial.Fields[3].AsInteger;
@@ -1738,7 +1851,7 @@ Begin
             FieldByName('DEDUCT3').AsFloat := 0.0;
             FieldByName('DEDUCT3_ACC').AsInteger := 0;
           end;
-        If (EditDed4Amt.Text<>'') and (CkBoxDed4.Checked) Then
+        If (EditDed4Amt.Text<>'') and (CkBoxDed4.Checked) and (DataMod.TableSpecial.Fields[3].AsVariant <> null) then
           begin
             FieldByName('DEDUCT4').AsFloat := getFloat(EditDed4Amt.Text);
             FieldByName('DEDUCT4_ACC').AsInteger := DataMod.TableSpecial.Fields[3].AsInteger;
@@ -1748,7 +1861,7 @@ Begin
             FieldByName('DEDUCT4').AsFloat := 0.0;
             FieldByName('DEDUCT4_ACC').AsInteger := 0;
           end;
-        If (EditDed5Amt.Text<>'') and (CkBoxDed5.Checked) Then
+        If (EditDed5Amt.Text<>'') and (CkBoxDed5.Checked) and (DataMod.TableSpecial.Fields[4].AsVariant <> null) then
           begin
             FieldByName('DEDUCT5').AsFloat := getFloat(EditDed5Amt.Text);
             FieldByName('DEDUCT5_ACC').AsInteger := DataMod.TableSpecial.Fields[4].AsInteger;
@@ -1759,16 +1872,14 @@ Begin
             FieldByName('DEDUCT5_ACC').AsInteger := 0;
           end;
         Post;
-        ApplyUpdates;
-        DataMod.SQLTransactionEZ.commit;
-        Close;
-        Open;
       End;
   Except
     ShowMessage('Could not post, check your entries');
     DataMod.ZTblPay.Cancel;
-End;
-End;
+    DataMod.SQLTransactionEZ.Rollback;
+    OpenTables;
+  end;
+end;
 
 Procedure TFormSetup.BtnPayClrClick(Sender: TObject);
 Begin
@@ -1904,7 +2015,7 @@ Begin
     exit;
 End;
 Try
-  AccData.StartTransaction;
+ // AccData.StartTransaction;
   With DataMod.ZQueryDelOldChk Do
     Begin
       Close;
@@ -1985,14 +2096,16 @@ End;
 
 
 procedure TFormSetup.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
+var
+  CurPage: TImage;
 begin
   with RPrinter do
     begin
-      CurrentPage:= PageArray[Page];
-      if CurrentPage <> nil then
+      CurPage:= PageArray[Page];
+      if CurPage <> nil then
          begin
           ShowReport;
-          CurrentPage.BringToFront;
+          CurPage.BringToFront;
          end;
     end;
 end;
@@ -2720,6 +2833,7 @@ begin
     end;
 end;
 
+
 procedure TFormSetup.UpdateChurchEdits;
 begin
   With DataMod.TableChurch do
@@ -2757,6 +2871,11 @@ end;
 
 procedure TFormSetup.GridFundGroupsMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
+
+procedure TFormSetup.GridGroupDblClick(Sender: TObject);
 begin
 
 end;
