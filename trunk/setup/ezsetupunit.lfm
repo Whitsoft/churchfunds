@@ -1,7 +1,7 @@
 object FormSetup: TFormSetup
-  Left = 817
+  Left = 150
   Height = 899
-  Top = 155
+  Top = 124
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 8
+    PageIndex = 6
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -768,9 +768,9 @@ object FormSetup: TFormSetup
           ParentFont = False
         end
         object Label79: TLabel
-          Left = 651
+          Left = 630
           Height = 25
-          Top = 244
+          Top = 238
           Width = 198
           Anchors = []
           AutoSize = False
@@ -784,7 +784,7 @@ object FormSetup: TFormSetup
           ParentFont = False
         end
         object Label81: TLabel
-          Left = 651
+          Left = 630
           Height = 25
           Top = 268
           Width = 86
@@ -827,7 +827,7 @@ object FormSetup: TFormSetup
           TabOrder = 11
         end
         object EditDed5Amt: TEdit
-          Left = 652
+          Left = 631
           Height = 29
           Top = 464
           Width = 97
@@ -843,7 +843,7 @@ object FormSetup: TFormSetup
           TabOrder = 24
         end
         object EditDed4Amt: TEdit
-          Left = 652
+          Left = 631
           Height = 29
           Top = 422
           Width = 97
@@ -889,7 +889,7 @@ object FormSetup: TFormSetup
           TabOrder = 26
         end
         object EditDed3Amt: TEdit
-          Left = 651
+          Left = 630
           Height = 29
           Top = 380
           Width = 97
@@ -905,7 +905,7 @@ object FormSetup: TFormSetup
           TabOrder = 20
         end
         object EditDed2Amt: TEdit
-          Left = 651
+          Left = 630
           Height = 29
           Top = 338
           Width = 97
@@ -921,7 +921,7 @@ object FormSetup: TFormSetup
           TabOrder = 18
         end
         object EditDed1Amt: TEdit
-          Left = 651
+          Left = 630
           Height = 29
           Top = 296
           Width = 97
@@ -1179,15 +1179,15 @@ object FormSetup: TFormSetup
           Caption = 'Delete'
           Font.Height = -16
           Font.Name = 'System'
-          OnClick = BtnPayClrClick
+          OnClick = BtnPayDelClick
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 29
         end
         object CkBoxDed2: TCheckBox
-          Left = 883
+          Left = 910
           Height = 23
-          Top = 340
+          Top = 336
           Width = 153
           HelpContext = 610
           Anchors = []
@@ -1196,9 +1196,9 @@ object FormSetup: TFormSetup
           TabOrder = 19
         end
         object CkBoxDed4: TCheckBox
-          Left = 883
+          Left = 910
           Height = 23
-          Top = 424
+          Top = 420
           Width = 153
           HelpContext = 610
           Anchors = []
@@ -1207,9 +1207,9 @@ object FormSetup: TFormSetup
           TabOrder = 23
         end
         object CkBoxDed3: TCheckBox
-          Left = 883
+          Left = 910
           Height = 23
-          Top = 382
+          Top = 378
           Width = 153
           HelpContext = 610
           Anchors = []
@@ -1218,9 +1218,9 @@ object FormSetup: TFormSetup
           TabOrder = 21
         end
         object CkBoxDed5: TCheckBox
-          Left = 883
+          Left = 910
           Height = 23
-          Top = 466
+          Top = 462
           Width = 153
           HelpContext = 610
           Anchors = []
@@ -1229,9 +1229,9 @@ object FormSetup: TFormSetup
           TabOrder = 25
         end
         object CkBoxDed1: TCheckBox
-          Left = 883
+          Left = 910
           Height = 23
-          Top = 298
+          Top = 296
           Width = 153
           HelpContext = 610
           Anchors = []

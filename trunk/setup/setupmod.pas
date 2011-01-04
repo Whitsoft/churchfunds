@@ -18,8 +18,8 @@ type
     FundSrc: TDatasource;
     IBConnectionEZ: TIBConnection;
     PaySrc: TDatasource;
-    QueryPayName: TSQLQuery;
     QueryUpdatePayroll: TSQLQuery;
+    ZDeletePay: TSQLQuery;
     ZQuerySumOldDP: TSQLQuery;
     ZTblPayroll: TSQLQuery;
     TableSpecial: TSQLQuery;
@@ -82,8 +82,13 @@ type
     ZTblFundsDETAIL_FUND_NO: TSmallintField;
     ZTblGroup: TSQLQuery;
     ZTblPay: TSQLQuery;
+    ZQueryPayroll: TSQLQuery;
+    ZEditPay: TSQLQuery;
     ZTblVendor: TSQLQuery;
     ZTblXY: TSQLQuery;
+    procedure ZDeletePayAfterDelete(DataSet: TDataSet);
+    procedure ZEditPayAfterDelete(DataSet: TDataSet);
+    procedure ZEditPayAfterPost(DataSet: TDataSet);
     function ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
     procedure ZTblAccountsAfterDelete(DataSet: TDataSet);
     procedure ZTblAccountsAfterPost(DataSet: TDataSet);
@@ -148,6 +153,40 @@ var
        end;
   end;
 
+procedure TDataMod.ZEditPayAfterDelete(DataSet: TDataSet);
+begin
+   With ZEditPay do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      OpenTables;
+    end;
+end;
+
+procedure TDataMod.ZDeletePayAfterDelete(DataSet: TDataSet);
+begin
+    With ZDeletePay do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      OpenTables;
+    end;
+end;
+
+procedure TDataMod.ZEditPayAfterPost(DataSet: TDataSet);
+begin
+  With ZEditPay do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+    end;
+  OpenTables;
+end;
+
+
 procedure TDataMod.ZTblAccountsAfterDelete(DataSet: TDataSet);
 begin
    With ZTblAccounts do
@@ -163,7 +202,6 @@ procedure TDataMod.ZTblAccountsAfterPost(DataSet: TDataSet);
 begin
   With ZTblAccounts do
     try
-      Tag := 0;
       applyUpdates;
       SQLTransactionEZ.commit;
       Book := GetBookmark;
@@ -176,6 +214,7 @@ begin
       GotoBookmark(Book);
     finally
       FreebookMark(Book);
+      Tag := 0;
     end;
     OpenTables;
 end;
@@ -204,7 +243,6 @@ procedure TDataMod.ZTblFundGroupsAfterPost(DataSet: TDataSet);
 begin
   With ZTblFundGroups do
     begin
-      Tag := 0;
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
@@ -213,6 +251,7 @@ begin
         ShowMessage('New data has been inserted into Funds Groups')
       else if Tag = SQLEDIT then
         ShowMessage('Fund Groups have been edited.');
+      Tag := 0;
     end;
 end;
 
@@ -240,7 +279,6 @@ procedure TDataMod.ZTblFundsAfterPost(DataSet: TDataSet);
 begin
     With ZTblFunds do
     begin
-      Tag := 0;
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
@@ -249,6 +287,7 @@ begin
          ShowMessage('New data has been inserted into Groups')
       else if Tag = SQLEDIT then
          ShowMessage('Groups have been edited.');
+      Tag := 0;
     end;
 end;
 
@@ -275,7 +314,6 @@ procedure TDataMod.ZTblGroupAfterPost(DataSet: TDataSet);
 begin
   With ZTblGroup do
     begin
-      Tag := 0;
       applyUpdates;
       SQLTransactionEZ.commit;
       close;
@@ -284,6 +322,7 @@ begin
          ShowMessage('New data has been inserted into Groups')
       else if Tag = SQLEDIT then
          ShowMessage('Groups have been edited.');
+      Tag := 0;
     end;
 end;
 

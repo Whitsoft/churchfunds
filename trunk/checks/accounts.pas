@@ -1810,15 +1810,20 @@ begin
           FCheck:=0;
           TCheck:=999999;
         end;
-       If (TranTypeCombo.ItemIndex>1) or (TranTypeCombo.Text='') then
+       If (TranTypeCombo.ItemIndex>=2) or (TranTypeCombo.Text='') then
         begin
           FromPType:=0;
+          ToPType:=99;
+        end
+      else if (TranTypeCombo.ItemIndex = 0) then
+        begin
+          FromPType:=1;
           ToPType:=1;
         end
       else
         begin
-          FromPType:=TranTypeCombo.ItemIndex;
-          ToPType:=FromPType;
+           FromPType:=2;
+          ToPType:=99;
         end;
     except
       ShowMessage('Check your values for check, account and type');
@@ -2414,7 +2419,7 @@ var
 begin
    With RPrinter do
      begin
-        OpenPrintFile('941.ps');
+       // OpenPrintFile('941.ps');
         FreeTabs(1);
         TmpTab := NewTab(1,1.5,JUSTIFYLEFT,2.25,0.05,False,BOXLINENONE,0);
         TmpTab := NewTab(1,2.0,JUSTIFYLEFT,2.9,0.05,True,BOXLINENONE,0);
@@ -2427,7 +2432,7 @@ begin
         TmpTab := NewTab(2,1.5,JUSTIFYLEFT,2.25,0.05,False,BOXLINENONE,5);
         TmpTab := NewTab(2,2.0,JUSTIFYLEFT,2.9,0.05,True,BOXLINENONE,0);
         TmpTab := NewTab(2,1.5,JUSTIFYRIGHT,2.9,0.05,True,BOXLINENONE,0);
-
+        NewPage;
         Total:=0.0;
           With DataMod.ZQueryPayAcc do
           begin
@@ -2461,7 +2466,7 @@ begin
               doPrint941(Sender,BDate,EDate);
               doPrintOther(Sender,Bdate,EDate);
         end; {With ZQueryPayTrans}
-        ClosePrintFile;
+        //ClosePrintFile;
     end; {with EZPSClass}
 end;
 

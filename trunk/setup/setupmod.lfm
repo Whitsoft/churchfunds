@@ -983,23 +983,6 @@ object DataMod: TDataMod
     left = 1016
     top = 200
   end
-  object QueryPayName: TSQLQuery
-    Database = IBConnectionEZ
-    Transaction = SQLTransactionEZ
-    ReadOnly = False
-    SQL.Strings = (
-      '   Select * from Payroll P'
-      '   where P.SOC_SEC_NO =:SocParm'
-    )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'SocParm'
-        ParamType = ptUnknown
-      end>
-    left = 1016
-    top = 304
-  end
   object TableSpecial: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
     Active = True
@@ -1034,7 +1017,7 @@ object DataMod: TDataMod
     )
     Params = <>
     left = 712
-    top = 38
+    top = 24
   end
   object SrcChurch: TDatasource
     DataSet = TableChurch
@@ -1058,5 +1041,116 @@ object DataMod: TDataMod
       end>
     left = 232
     top = 488
+  end
+  object ZQueryPayroll: TSQLQuery
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from PAYROLL'
+      '      where  SOC_SEC_NO = :SocParm'
+      '     or NAME = :NameParm'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'NameParm'
+        ParamType = ptUnknown
+      end>
+    left = 856
+    top = 32
+  end
+  object ZEditPay: TSQLQuery
+    AfterDelete = ZEditPayAfterDelete
+    AfterPost = ZEditPayAfterPost
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from PAYROLL P'
+      ''
+      ''
+      ''
+    )
+    UpdateSQL.Strings = (
+      '   Update  PAYROLL'
+      '        Set'
+      '            WAGE = :WAGE, WAGE_ACCOUNT = :WAGE_ACCOUNT,'
+      '            FED = :FED, FED_ACCOUNT = :FED_ACCOUNT,'
+      '            FICA = :FICA, FICA_ACCOUNT = :FICA_ACCOUNT,'
+      '            MED = :MED, MED_ACCOUNT = :MED_ACCOUNT,'
+      '            STATE = :STATE, STATE_ACCOUNT = :STATE_ACCOUNT,'
+      '            LOCAL = :LOCAL, LOCAL_ACCOUNT = :LOCAL_ACCOUNT,'
+      '            PENSION = :PENSION, PENSION_ACCOUNT = :PENSION_ACCOUNT,'
+      '            DEDUCT1 = :DEDUCT1, DEDUCT1_ACC = :DEDUCT1_ACC,'
+      '            DEDUCT2 = :DEDUCT2, DEDUCT2_ACC = :DEDUCT2_ACC,'
+      '            DEDUCT3 = :DEDUCT3, DEDUCT3_ACC = :DEDUCT3_ACC,'
+      '            DEDUCT4 = :DEDUCT4, DEDUCT4_ACC = :DEDUCT4_ACC,'
+      '            DEDUCT5 = :DEDUCT5, DEDUCT5_ACC = :DEDUCT5_ACC'
+      '        where'
+      '            SOC_SEC_NO = :SOC_SEC_NO'
+    )
+    InsertSQL.Strings = (
+      '   insert  into PAYROLL'
+      '      (SOC_SEC_NO, NAME, WAGE, WAGE_ACCOUNT,'
+      '       FED, FED_ACCOUNT, FICA, FICA_ACCOUNT,'
+      '       MED, MED_ACCOUNT, STATE, STATE_ACCOUNT,'
+      '       LOCAL, LOCAL_ACCOUNT,PENSION, PENSION_ACCOUNT,'
+      '       DEDUCT1, DEDUCT1_ACC, DEDUCT2, DEDUCT2_ACC,'
+      '       DEDUCT3, DEDUCT3_ACC, DEDUCT4, DEDUCT4_ACC,'
+      '       DEDUCT5, DEDUCT5_ACC)'
+      'Values(:SOC_SEC_NO, :NAME, :WAGE, :WAGE_ACCOUNT,'
+      '       :FED, :FED_ACCOUNT, :FICA, :FICA_ACCOUNT,'
+      '       :MED, :MED_ACCOUNT, :STATE, :STATE_ACCOUNT,'
+      '       :LOCAL, :LOCAL_ACCOUNT,:PENSION, :PENSION_ACCOUNT,'
+      '       :DEDUCT1, :DEDUCT1_ACC,:DEDUCT2, :DEDUCT2_ACC,'
+      '       :DEDUCT3, :DEDUCT3_ACC,:DEDUCT4, :DEDUCT4_ACC,'
+      '       :DEDUCT5, :DEDUCT5_ACC)'
+    )
+    DeleteSQL.Strings = (
+      ' delete from PAYROLL'
+      '      where SOC_SEC_NO = :OLD_SOC_SEC_NO'
+    )
+    Params = <>
+    UpdateMode = upWhereChanged
+    left = 560
+    top = 24
+  end
+  object ZDeletePay: TSQLQuery
+    AfterDelete = ZDeletePayAfterDelete
+    Database = IBConnectionEZ
+    Transaction = SQLTransactionEZ
+    ReadOnly = False
+    SQL.Strings = (
+      '     Select * from PAYROLL P'
+      '     where P.SOC_SEC_NO = :SocParm'
+      ''
+      ''
+      ''
+    )
+    UpdateSQL.Strings = (
+      ''
+    )
+    InsertSQL.Strings = (
+      ''
+    )
+    DeleteSQL.Strings = (
+      ' delete from PAYROLL'
+      '      where SOC_SEC_NO = :OLD_SOC_SEC_NO'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'SocParm'
+        ParamType = ptUnknown
+      end>
+    UpdateMode = upWhereChanged
+    left = 392
+    top = 24
   end
 end

@@ -172,7 +172,7 @@ Type
 	 property    PageWidthInt: Integer read fPageWidth;
          property    PrintForm: TForm read fPrintForm;
          property    PageArray: TPageArray read fPageArray;
-	 
+
 	 function    getBoxLeft(Combined: Byte): Boolean;
 	 function    getBoxBottom(Combined: Byte): Boolean;
 	 function    getBoxRite(Combined: Byte): Boolean;
@@ -218,6 +218,7 @@ Type
          procedure   PrevPage(Sender: TObject);
          procedure   NextPage(Sender: TObject);
          procedure   PrintPage(Sender: TObject);
+         procedure   PrintAllPages(Sender: TObject);
 	 function    stripRight(S: String): String;
          function    calcStringY(Base, Height: Integer): integer;
 	//New tab creates a new tab in tabs array width index = IDX
@@ -387,7 +388,7 @@ end;
 
  procedure TReportPrinterClass.PrintFormCreate(Sender: TObject);
   var
-    ToolButtonR, ToolButtonF,ToolButtonPrint: TToolButton;
+    ButtonR, ButtonF,ButtonPrint, ButtonPrintAll: TToolButton;
  begin
     	setPageMargins(0.5, 0.5, 0.5, 0.5);
 	CurX := fLeftMargin;
@@ -410,18 +411,24 @@ end;
             Height := 36;
             BorderWidth := 2;
             Anchors := [akTop, akLeft, akRight];
-            ToolButtonR := TToolButton.Create(fToolBar);
-            ToolButtonF := TToolButton.Create(fToolBar);
-            ToolButtonPrint := TToolButton.Create(fToolBar);
-            ToolButtonR.Parent := fToolBar;
-            ToolButtonF.Parent := fToolBar;
-            ToolButtonR.onClick := @PrevPage;
-            ToolButtonF.onClick := @NextPage;
-            ToolButtonR.Caption := 'Rev';
-            ToolButtonF.Caption := 'For';
-            ToolButtonPrint.Parent := fToolBar;
-            ToolButtonPrint.Caption := 'Print';
-            ToolButtonPrint.onClick := @PrintPage;
+
+            ButtonR := TToolButton.Create(fToolBar);
+            ButtonF := TToolButton.Create(fToolBar);
+            ButtonPrint := TToolButton.Create(fToolBar);
+            ButtonPrintAll := TToolButton.Create(fToolBar);
+
+            ButtonR.Parent := fToolBar;
+            ButtonF.Parent := fToolBar;
+            ButtonR.onClick := @PrevPage;
+            ButtonF.onClick := @NextPage;
+            ButtonR.Caption := 'Rev';
+            ButtonF.Caption := 'For';
+            ButtonPrint.Parent := fToolBar;
+            ButtonPrint.Caption := 'Print';
+            ButtonPrint.onClick := @PrintPage;
+            ButtonPrintAll.Parent := fToolBar;
+            ButtonPrintAll.Caption := 'Print All';
+            ButtonPrintAll.onClick := @PrintAllPages;
           end;
         fPageIndex := 1;
         CurrentY :=PointToInch(CurY);
@@ -464,6 +471,7 @@ end;
      ARect: TRect;
      LMargin, BMargin: Integer;
    begin
+     if fCurrentPage = nil then exit;
      APrinter := Printer;
      With APrinter do
        begin
@@ -477,6 +485,29 @@ end;
          Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);
         //         APrinter.Canvas.CopyRect(Classes.Rect(0, 0, APrinter.PaperSize.Width, APrinter.PaperSize.Height),
         //   CurrentPage.Canvas, Classes.Rect(0,0, CurrentPage.Width, CurrentPage.Height));
+         EndDoc;
+       end;
+   end;
+
+   procedure TReportPrinterClass.PrintAllPages(Sender: TObject);
+   var
+     APrinter: TPrinter;
+     ARect: TRect;
+     LMargin, BMargin, IDX: Integer;
+   begin
+     APrinter := Printer;
+     if fPages <= 0 then exit;
+     With APrinter do
+       begin
+         ARect.Left := 0; ARect.Top := 0;
+         ARect.Right := PageWidth;
+         ARect.Bottom := PageHeight;
+         BeginDoc;
+         Canvas.Font.Name := fFont.FontName;
+         Canvas.Font.Size := fFont.FontSize;
+         Canvas.Font.Color := clBlack;
+         for IDX := 1 to fPages do
+           Canvas.StretchDraw(ARect, fPageArray[IDX].Picture.Bitmap);
          EndDoc;
        end;
    end;
@@ -819,20 +850,20 @@ begin
 
   function TReportPrinterClass.TabYPos(S: String; BBase, BHght: Integer): Integer;
   var
-     High, TopMargin: Integer;
+     High, TpMargin: Integer;
   begin
      With CurrentPage.Canvas do
        begin
           High := TextHeight(S);
-          TopMargin := (BHght - High) div 2;
-          TopMargin := TopMargin + (TopMargin mod 2);
+          TpMargin := (BHght - High) div 2;
+          TpMargin := TpMargin + (TpMargin mod 2);
           If BHght <= High then
              begin
                Result := BBase - BHght + 1;
                exit;
              end
           else
-            Result := BBase - BHght + TopMargin;
+            Result := BBase - BHght + TpMargin;
        end;
     end;
 
