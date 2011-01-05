@@ -21,6 +21,7 @@ Type
     CkBoxDed5: TCheckBox;
     CkBoxDed1: TCheckBox;
     CkBoxPayroll: TCheckBox;
+    LoadBtn: TButton;
     EditChName: TEdit;
     EditChAdd1: TEdit;
     EditChAdd2: TEdit;
@@ -198,12 +199,14 @@ Type
     Label76: TLabel;
     Label77: TLabel;
     Label78: TLabel;
+    procedure AGroupChecksClick(Sender: TObject);
     procedure BtnPayDelClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBEditPostChange(Sender: TObject);
     procedure GridFundGroupsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure GridGroupDblClick(Sender: TObject);
+    procedure LoadBtnClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
 
     procedure UpdateChurchEdits;
@@ -562,32 +565,6 @@ else
   DisplayReportPage(RPrinter, 1);
 End;
 
-Procedure TFormSetup.PostBtnClick(Sender: TObject);
-Begin
-  DataMod.ZTblXY.First;
-  With DataMod.ZTblXY Do
-    Begin
-      If RecordCount=0 Then
-        Begin
-          insert
-        End
-      Else
-        Begin
-          edit
-        End;
-      Fields[0].AsFloat := StrToFloat(ScriptX.Text);
-      Fields[1].AsFloat := StrToFloat(ScriptY.Text);
-      Fields[2].AsFloat := StrToFloat(PayX.Text);
-      Fields[3].AsFloat := StrToFloat(PayY.Text);
-      Fields[4].AsFloat := StrToFloat(DateX.Text);
-      Fields[5].AsFloat := StrToFloat(DateY.Text);
-      Fields[6].AsFloat := StrToFloat(AmountX.Text);
-      Fields[7].AsFloat := StrToFloat(AmountY.Text);
-      Fields[8].AsFloat := StrToFloat(DupY.Text);
-      Fields[9].AsFloat := StrToFloat(AccountY.Text);
-      Post;
-    End; {With}
-End;
 
 
 Procedure TFormSetup.RadioPrintClick(Sender: TObject);
@@ -1598,6 +1575,57 @@ End;
 
 End;
 
+procedure TFormSetup.LoadBtnClick(Sender: TObject);
+begin
+  DataMod.ZTblXY.Open;
+  DataMod.ZTblXY.First;
+  With DataMod.ZTblXY Do
+     If RecordCount > 0 Then
+        Begin
+           ScriptX.Text :=  FormatFloat( '0.00',Fields[0].AsFloat);
+           ScriptY.Text :=  FormatFloat( '0.00',Fields[1].AsFloat);
+           PayX.Text :=     FormatFloat( '0.00',Fields[2].AsFloat);
+           PayY.Text :=     FormatFloat( '0.00',Fields[3].AsFloat);
+           DateX.Text :=    FormatFloat( '0.00',Fields[4].AsFloat);
+           DateY.Text :=    FormatFloat( '0.00',Fields[5].AsFloat);
+           AmountX.Text :=  FormatFloat( '0.00',Fields[6].AsFloat);
+           AmountY.Text :=  FormatFloat( '0.00',Fields[7].AsFloat);
+           MemoX.Text :=    FormatFloat( '0.00',Fields[8].AsFloat);
+           MemoY.Text :=    FormatFloat( '0.00',Fields[9].AsFloat);
+           DupY.Text   :=   FormatFloat( '0.00',Fields[10].AsFloat);
+           AccountY.Text := FormatFloat( '0.00',Fields[11].AsFloat);
+       End; {With}
+end;
+
+Procedure TFormSetup.PostBtnClick(Sender: TObject);
+Begin
+  DataMod.ZTblXY.First;
+  With DataMod.ZTblXY Do
+    Begin
+      If RecordCount=0 Then
+        Begin
+          insert
+        End
+      Else
+        Begin
+          edit
+        End;
+      Fields[0].AsFloat := StrToFloat(ScriptX.Text);
+      Fields[1].AsFloat := StrToFloat(ScriptY.Text);
+      Fields[2].AsFloat := StrToFloat(PayX.Text);
+      Fields[3].AsFloat := StrToFloat(PayY.Text);
+      Fields[4].AsFloat := StrToFloat(DateX.Text);
+      Fields[5].AsFloat := StrToFloat(DateY.Text);
+      Fields[6].AsFloat := StrToFloat(AmountX.Text);
+      Fields[7].AsFloat := StrToFloat(AmountY.Text);
+      Fields[8].AsFloat := StrToFloat(MemoX.Text);
+      Fields[9].AsFloat := StrToFloat(MemoY.Text);
+      Fields[10].AsFloat:= StrToFloat(DupY.Text);
+      Fields[11].AsFloat:= StrToFloat(AccountY.Text);
+      Post;
+    End; {With}
+End;
+
 Procedure TFormSetup.ClrBtnClick(Sender: TObject);
 Begin
   ScriptX.Text := '';
@@ -1608,6 +1636,8 @@ Begin
   DateY.Text := '';
   AmountX.Text := '';
   AmountY.Text := '';
+  MemoX.Text := '';
+  MemoY.Text := '';
   DupY.Text := '';
   AccountY.Text := '';
 End;
@@ -1757,6 +1787,11 @@ begin
        delete;
      end;
    BtnPayClrClick(Self);
+end;
+
+procedure TFormSetup.AGroupChecksClick(Sender: TObject);
+begin
+
 end;
 
 Procedure TFormSetup.BtnPostPayClick(Sender: TObject);
@@ -2879,6 +2914,7 @@ procedure TFormSetup.GridGroupDblClick(Sender: TObject);
 begin
 
 end;
+
 
 procedure TFormSetup.ToolButton1Click(Sender: TObject);
 begin

@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 6
+    PageIndex = 7
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -1258,6 +1258,7 @@ object FormSetup: TFormSetup
         Font.Name = 'System'
         ParentFont = False
         TabOrder = 0
+        OnClick = AGroupChecksClick
         OnMouseDown = ShowContext
         object Label28: TLabel
           Left = 443
@@ -1570,6 +1571,21 @@ object FormSetup: TFormSetup
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 13
+        end
+        object LoadBtn: TButton
+          Left = 520
+          Height = 33
+          Top = 502
+          Width = 89
+          HelpContext = 770
+          Anchors = []
+          Caption = 'Load'
+          Font.Height = -15
+          Font.Name = 'System'
+          OnClick = LoadBtnClick
+          OnMouseDown = ShowContext
+          ParentFont = False
+          TabOrder = 14
         end
       end
     end
