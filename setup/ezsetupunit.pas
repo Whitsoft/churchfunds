@@ -1599,6 +1599,7 @@ end;
 
 Procedure TFormSetup.PostBtnClick(Sender: TObject);
 Begin
+   DataMod.ZTblXY.Open;
   DataMod.ZTblXY.First;
   With DataMod.ZTblXY Do
     Begin

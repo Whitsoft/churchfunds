@@ -103,6 +103,7 @@ type
     procedure ZTblGroupAfterPost(DataSet: TDataSet);
     procedure ZTblGroupBeforePost(DataSet: TDataSet);
     procedure OpenTables;
+    procedure ZTblXYAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -130,6 +131,7 @@ begin
        ZTblPayroll.Open;
        ZTblFundGroups.Open;
 end;
+
 
 function TDataMod.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
 var
@@ -186,6 +188,15 @@ begin
   OpenTables;
 end;
 
+procedure TDataMod.ZTblXYAfterPost(DataSet: TDataSet);
+begin
+   With ZTblXY do
+   begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+    end;
+end;
 
 procedure TDataMod.ZTblAccountsAfterDelete(DataSet: TDataSet);
 begin
