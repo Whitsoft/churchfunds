@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 7
+    PageIndex = 6
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -58,9 +58,9 @@ object FormSetup: TFormSetup
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label6: TLabel
-          Left = 483
+          Left = 443
           Height = 33
-          Top = 20
+          Top = 38
           Width = 285
           Caption = 'Setup Fund Groups'
           Font.Color = clRed
@@ -71,9 +71,9 @@ object FormSetup: TFormSetup
           ParentFont = False
         end
         object GridFundGroups: TDBGrid
-          Left = 110
+          Left = 259
           Height = 625
-          Top = 150
+          Top = 110
           Width = 712
           HelpContext = 170
           Anchors = []
@@ -411,79 +411,17 @@ object FormSetup: TFormSetup
           ParentColor = False
           ParentFont = False
         end
-        object Vendor: TLabel
-          Left = 19
-          Height = 20
-          Top = 204
-          Width = 54
-          Caption = 'Vendor'
-          Font.Height = -16
-          Font.Name = 'System'
-          ParentColor = False
-          ParentFont = False
-        end
-        object Name: TLabel
-          Left = 22
-          Height = 20
-          Top = 221
-          Width = 45
-          Caption = 'Name'
-          Font.Height = -16
-          Font.Name = 'System'
-          ParentColor = False
-          ParentFont = False
-        end
-        object BtnVendorClear: TButton
-          Left = 83
-          Height = 32
-          Top = 164
-          Width = 75
-          HelpContext = 360
-          Caption = 'Clear'
-          Font.Height = -16
-          Font.Name = 'System'
-          OnClick = BtnVendorClearClick
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 0
-        end
-        object EditVendor: TEdit
-          Left = 83
-          Height = 29
-          Top = 212
-          Width = 178
-          HelpContext = 340
-          Font.Height = -16
-          Font.Name = 'System'
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 1
-        end
-        object BtnVendorPost: TButton
-          Left = 82
-          Height = 32
-          Top = 268
-          Width = 75
-          HelpContext = 350
-          Caption = 'Post'
-          Font.Height = -16
-          Font.Name = 'System'
-          OnClick = BtnVendorPostClick
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 2
-        end
         object VendorGrid: TDBGrid
-          Left = 83
-          Height = 339
-          Top = 324
+          Left = 291
+          Height = 728
+          Top = 78
           Width = 624
           HelpContext = 330
           Anchors = []
           Color = clWindow
           Columns = <>
           DataSource = DataMod.VendSrc
-          TabOrder = 3
+          TabOrder = 0
           TitleFont.Height = -13
           TitleFont.Name = 'System'
           OnMouseDown = ShowContext
@@ -537,19 +475,6 @@ object FormSetup: TFormSetup
           TitleFont.Name = 'System'
           OnCellClick = PayGridCellClick
           OnMouseDown = ShowContext
-        end
-        object BtnDelPay: TButton
-          Left = 107
-          Height = 30
-          Top = 103
-          Width = 81
-          Caption = 'Delete'
-          Font.Height = -16
-          Font.Name = 'System'
-          OnClick = BtnDelPayClick
-          OnMouseDown = ShowContext
-          ParentFont = False
-          TabOrder = 1
         end
       end
     end
@@ -863,7 +788,7 @@ object FormSetup: TFormSetup
           Height = 30
           Top = 164
           Width = 81
-          HelpContext = 435
+          HelpContext = 615
           Anchors = []
           Caption = 'Clear'
           Font.Height = -16
@@ -1577,7 +1502,7 @@ object FormSetup: TFormSetup
           Height = 33
           Top = 502
           Width = 89
-          HelpContext = 770
+          HelpContext = 755
           Anchors = []
           Caption = 'Load'
           Font.Height = -15

@@ -96,6 +96,7 @@ object DataMod: TDataMod
     IndexName = 'DEFAULT_ORDER'
     Active = True
     AfterPost = ZTblXYAfterPost
+    BeforePost = ZTblXYBeforePost
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -119,12 +120,26 @@ object DataMod: TDataMod
   end
   object ZTblVendor: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
-    Active = True
+    AfterDelete = ZTblVendorAfterDelete
+    AfterPost = ZTblVendorAfterPost
+    BeforePost = ZTblVendorBeforePost
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
       '    SELECT * FROM VENDORS'
+      '    order by VENDOR_NAME'
+    )
+    UpdateSQL.Strings = (
+      '    Update  VENDORS'
+      '       Set  VENDOR_NAME =:VENDOR_NAME'
+      '    where'
+      '       VENDOR_NAME = :OLD_VENDOR_NAME'
+      ''
+    )
+    DeleteSQL.Strings = (
+      ' delete from VENDORS'
+      '   where VENDOR_NAME =:OLD_VENDOR_NAME'
     )
     Params = <>
     left = 704
