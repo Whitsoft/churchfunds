@@ -81,11 +81,6 @@ Type
     Label1: TLabel;
     AGroupVendor: TGroupBox;
     Label12: TLabel;
-    BtnVendorClear: TButton;
-    EditVendor: TEdit;
-    Vendor: TLabel;
-    // Name: TLabel;
-    BtnVendorPost: TButton;
     VendorGrid: TDBGrid;
     AGroupVuPay: TGroupBox;
     Label13: TLabel;
@@ -193,7 +188,6 @@ Type
     GridFunds: TDBGrid;
     Label73: TLabel;
     Label74: TLabel;
-    BtnDelPay: TButton;
     EditOldDP: TEdit;
     Label75: TLabel;
     Label76: TLabel;
@@ -244,8 +238,6 @@ Type
     Procedure AccountGridDrawDataCell(Sender: TObject; Const Rect: TRect;
                                       Field: TField; State: TGridDrawState);
     Procedure BtnAccClearClick(Sender: TObject);
-    Procedure BtnVendorClearClick(Sender: TObject);
-    Procedure BtnVendorPostClick(Sender: TObject);
     procedure SearchPayroll;
     Procedure EditNameChange(Sender: TObject);
     Procedure EditNameKeyPress(Sender: TObject; Var Key: Char);
@@ -330,7 +322,6 @@ Type
     Procedure FormClose(Sender: TObject);
     Procedure GridFundsDrawDataCell(Sender: TObject; Const Rect: TRect;
                                     Field: TField; State: TGridDrawState);
-    Procedure BtnDelPayClick(Sender: TObject);
 
     procedure ReportFunds;
     procedure FundReportHeader;
@@ -979,33 +970,6 @@ Begin
   EditAccIn.SetFocus;
 End;
 
-Procedure TFormSetup.BtnVendorClearClick(Sender: TObject);
-Begin
-  EditVendor.Text := '';
-End;
-
-Procedure TFormSetup.BtnVendorPostClick(Sender: TObject);
-Begin
-  If EditVendor.Text<>'' Then
-    Begin
-      With DataMod.ZTblVendor Do
-          Try
-            If Not EOF Then
-              Begin
-                Last
-              End;
-            Insert;
-            FieldByName('VENDOR_NAME').AsString := EditVendor.Text;
-            Post;
-            ShowMessage('Vendor '+EditVendor.Text+' has been added.');
-            EditVendor.Text := '';
-            Close;
-            Open;
-          Except
-            ShowMessage('Error, check your entry, it could be a duplicate.');
-          End
-    End
-End;
 
 procedure TFormSetup.SearchPayroll;
 var
@@ -1625,6 +1589,7 @@ Begin
       Fields[11].AsFloat:= StrToFloat(AccountY.Text);
       Post;
     End; {With}
+    OpenTables;
 End;
 
 Procedure TFormSetup.ClrBtnClick(Sender: TObject);
@@ -2763,16 +2728,6 @@ Begin
 End;
 
 
-Procedure TFormSetup.BtnDelPayClick(Sender: TObject);
-Begin
-  If MessageDlg('OK to delete payroll info for social security number '+
-     DataMod.ZTblPay.FieldByName('SOC_SEC_NO').AsString+' ?',
-     mtConfirmation, [mbYes, mbNo], 0) = mrNo Then
-    Begin
-      exit
-    End;
-  DataMod.ZTblPay.Delete;
-End;
 
 Procedure TFormSetup.printLiability;
 Var

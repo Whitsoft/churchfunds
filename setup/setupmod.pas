@@ -103,7 +103,11 @@ type
     procedure ZTblGroupAfterPost(DataSet: TDataSet);
     procedure ZTblGroupBeforePost(DataSet: TDataSet);
     procedure OpenTables;
+    procedure ZTblVendorAfterDelete(DataSet: TDataSet);
+    procedure ZTblVendorAfterPost(DataSet: TDataSet);
+    procedure ZTblVendorBeforePost(DataSet: TDataSet);
     procedure ZTblXYAfterPost(DataSet: TDataSet);
+    procedure ZTblXYBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -198,6 +202,11 @@ begin
     end;
 end;
 
+procedure TDataMod.ZTblXYBeforePost(DataSet: TDataSet);
+begin
+
+end;
+
 procedure TDataMod.ZTblAccountsAfterDelete(DataSet: TDataSet);
 begin
    With ZTblAccounts do
@@ -228,6 +237,41 @@ begin
       Tag := 0;
     end;
     OpenTables;
+end;
+
+procedure TDataMod.ZTblVendorAfterDelete(DataSet: TDataSet);
+begin
+    With ZTblVendor do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      OpenTables;
+    end;
+end;
+
+procedure TDataMod.ZTblVendorAfterPost(DataSet: TDataSet);
+begin
+  With ZTblVendor do
+    begin
+      applyUpdates;
+      SQLTransactionEZ.commit;
+      close;
+      openTables;
+      If Tag = SQLINSERT then
+        ShowMessage('New data has been inserted into Vendors')
+      else if Tag = SQLEDIT then
+        ShowMessage('Vendors have been edited.');
+      Tag := 0;
+    end;
+end;
+
+procedure TDataMod.ZTblVendorBeforePost(DataSet: TDataSet);
+begin
+  if (DataSet.State = dsInsert) then
+     ZTblVendor.Tag := SQLINSERT
+  else if (DataSet.State = dsEdit) then
+    ZTblVendor.Tag := SQLEDIT;
 end;
 
 procedure TDataMod.ZTblAccountsBeforePost(DataSet: TDataSet);
