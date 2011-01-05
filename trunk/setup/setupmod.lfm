@@ -93,11 +93,25 @@ object DataMod: TDataMod
     top = 664
   end
   object ZTblXY: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
+    AfterPost = ZTblXYAfterPost
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
     SQL.Strings = (
       '    select * from CHECKXY'
+    )
+    UpdateSQL.Strings = (
+      'Update  CHECKXY'
+      '  Set'
+      '            SCRIPTX = :SCRIPTX, SCRIPTY = :SCRIPTY,'
+      '            PAYX = :PAYX,  PAYY= :PAYY,'
+      '            DATEX = :DATEX, DATEY = :DATEY,'
+      '            AMOUNTX = :AMOUNTX, AMOUNTY = :AMOUNTY,'
+      '            MEMOX = :MEMOX, MEMOY = :MEMOY,'
+      '            DUPY = :DUPY, ACCOUNTY = :ACCOUNTY'
+      ''
     )
     Params = <>
     left = 552
