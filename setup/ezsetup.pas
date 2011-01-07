@@ -6,7 +6,8 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Forms, Interfaces, ezsetupunit, setupmod,SQLDBLaz, printer4lazarus;
+  Forms, Interfaces, ezsetupunit, setupmod, rprintclass, SQLDBLaz,
+  printer4lazarus;
 
 {$IFDEF WINDOWS}{$R projectEZTest.rc}{$ENDIF}
 

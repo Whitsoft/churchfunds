@@ -797,7 +797,10 @@ begin
   DataMod.ZTblAcc.First;
   With RPrinter do
     begin
-      setPageMargins(0.25, 0.25, 0.5, 0.5);
+      MarginLeft := 0.5;
+      MarginTop :=  0.5;
+      MarginBottom := 0.5;
+      MarginRight :=  0.5;
       FreeTabs(7);
       TmpTab := NewTab(7 ,1.0,JUSTIFYCENTER,1.00,0.05, ABSOLUT,  BOXLINEALL,0);
       TmpTab := NewTab(7 ,0.0,JUSTIFYLEFT,  2.50,0.05, RELATIVE, BOXLINEALL,0);
@@ -2252,7 +2255,10 @@ begin
     setTabBoxHeight(3,BH12);
     setTabBoxHeight(4,BH12);
     setTabBoxHeight(5,BH12);
-    setPageMargins(0.5, 0.25, 0.5, 0.5);
+      MarginLeft := 0.5;
+      MarginTop :=  0.5;
+      MarginBottom := 0.5;
+      MarginRight :=  0.5;
   end; //with
 
 end;
