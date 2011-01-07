@@ -24,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 7
+    PageIndex = 5
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -511,11 +511,13 @@ object FormCont: TFormCont
           Height = 24
           Top = 454
           Width = 160
+          HelpContext = 235
           AutoSize = False
           Caption = 'Member'
           Font.Height = -17
           Font.Name = 'System'
           Font.Style = [fsBold]
+          OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 5
         end
@@ -531,6 +533,7 @@ object FormCont: TFormCont
           TabOrder = 6
           TitleFont.Height = -15
           TitleFont.Name = 'System'
+          OnMouseDown = ShowContext
         end
       end
     end
@@ -1817,7 +1820,7 @@ object FormCont: TFormCont
           Height = 33
           Top = 243
           Width = 99
-          HelpContext = 730
+          HelpContext = 705
           Caption = 'Print All'
           Font.Height = -15
           Font.Name = 'System'

@@ -46,7 +46,7 @@
         <Filename Value="contributions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="contributions"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="13"/>
@@ -62,7 +62,7 @@
         <UnitName Value="cont"/>
         <TopLine Value="708"/>
         <CursorPos X="95" Y="713"/>
-        <UsageCount Value="130"/>
+        <UsageCount Value="129"/>
       </Unit1>
       <Unit2>
         <Filename Value="../firebird/ezcont/ContOld/contmod.pas"/>
@@ -72,7 +72,7 @@
         <UnitName Value="contmod"/>
         <TopLine Value="121"/>
         <CursorPos X="37" Y="124"/>
-        <UsageCount Value="137"/>
+        <UsageCount Value="136"/>
       </Unit2>
       <Unit3>
         <Filename Value="../firebird/EZSetup/ezsetupunit.pas"/>
@@ -82,40 +82,40 @@
         <UnitName Value="ezsetupunit"/>
         <TopLine Value="2468"/>
         <CursorPos X="52" Y="2482"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit3>
       <Unit4>
         <Filename Value="../firebird/ezcont/ContOld/cont.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit4>
       <Unit5>
         <Filename Value="../firebird/ezcont/ContOld/projcont.lrs"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="137"/>
+        <UsageCount Value="136"/>
       </Unit5>
       <Unit6>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/include/customform.inc"/>
         <TopLine Value="483"/>
         <CursorPos X="1" Y="498"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit6>
       <Unit7>
         <Filename Value="../firebird/ezcont/ContOld/newpsclass.pas"/>
         <UnitName Value="newpsclass"/>
         <TopLine Value="1"/>
         <CursorPos X="63" Y="207"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="49"/>
       </Unit7>
       <Unit8>
         <Filename Value="../firebird/ezcont/ContOld/labelunit.pas"/>
         <UnitName Value="labelclass"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="23"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../../media/windows/ECN/ECN/Source/ACC/EZCont/CONT.PAS"/>
@@ -123,7 +123,7 @@
         <UnitName Value="Cont"/>
         <TopLine Value="1588"/>
         <CursorPos X="25" Y="1588"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit9>
       <Unit10>
         <Filename Value="../firebird/EZTest/accounts.pas"/>
@@ -133,26 +133,26 @@
         <UnitName Value="accounts"/>
         <TopLine Value="5440"/>
         <CursorPos X="30" Y="5461"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit10>
       <Unit11>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/include/control.inc"/>
         <TopLine Value="3376"/>
         <CursorPos X="1" Y="3391"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit11>
       <Unit12>
         <Filename Value="../firebird/EZSetup/setuphlp.txt"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit12>
       <Unit13>
         <Filename Value="../firebird/ezcont/ContOld/conthlp.txt"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit13>
       <Unit14>
@@ -160,14 +160,14 @@
         <UnitName Value="LHelpControl"/>
         <TopLine Value="11"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../../usr/lib/lazarus/0.9.28.2/lcl/grids.pas"/>
         <UnitName Value="Grids"/>
         <TopLine Value="5017"/>
         <CursorPos X="1" Y="5032"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit15>
       <Unit16>
         <Filename Value="cont.pas"/>
@@ -177,11 +177,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="156"/>
+        <TopLine Value="876"/>
+        <CursorPos X="11" Y="910"/>
+        <UsageCount Value="163"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit16>
@@ -196,7 +196,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="17"/>
-        <UsageCount Value="156"/>
+        <UsageCount Value="163"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit17>
@@ -204,16 +204,14 @@
         <Filename Value="projcont.lrs"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit18>
       <Unit19>
         <Filename Value="contmod.lfm"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="686"/>
         <CursorPos X="21" Y="686"/>
-        <UsageCount Value="29"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="32"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit19>
       <Unit20>
@@ -223,21 +221,21 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit20>
       <Unit21>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/include/application.inc"/>
         <TopLine Value="1242"/>
         <CursorPos X="1" Y="1257"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit21>
       <Unit22>
         <Filename Value="../../contributions/projcont.pas"/>
         <UnitName Value="projcont"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit22>
       <Unit23>
         <Filename Value="../setup/ezsetupunit.pas"/>
@@ -245,19 +243,17 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2075"/>
         <CursorPos X="60" Y="2109"/>
-        <UsageCount Value="43"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="46"/>
       </Unit23>
       <Unit24>
         <Filename Value="/usr/lib/lazarus/0.9.28.2/lcl/lclproc.pas"/>
         <UnitName Value="LCLProc"/>
         <TopLine Value="1490"/>
         <CursorPos X="1" Y="1505"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit24>
       <Unit25>
         <Filename Value="/media/windows/Program Files/Borland/Delphi5/Projects/EZCont/CONT.PAS"/>
@@ -265,13 +261,13 @@
         <UnitName Value="Cont"/>
         <TopLine Value="1"/>
         <CursorPos X="85" Y="26"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit25>
       <Unit26>
         <Filename Value="/media/windows/Program Files/Borland/Delphi5/Projects/EZCont/CONT.lfm"/>
         <TopLine Value="231"/>
         <CursorPos X="38" Y="246"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit26>
       <Unit27>
@@ -280,7 +276,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="5"/>
         <CursorPos X="9" Y="13"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit27>
       <Unit28>
         <Filename Value="../checks/accounts.pas"/>
@@ -291,7 +287,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="5542"/>
         <CursorPos X="24" Y="5550"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit28>
       <Unit29>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/forms.pp"/>
@@ -299,7 +295,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="647"/>
         <CursorPos X="37" Y="68"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="10"/>
       </Unit29>
       <Unit30>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/grids.pas"/>
@@ -307,7 +303,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="9147"/>
         <CursorPos X="1" Y="9171"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit30>
       <Unit31>
         <Filename Value="../HowToGrid.pas"/>
@@ -315,7 +311,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="16"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit31>
       <Unit32>
         <Filename Value="newpsclass.pas"/>
@@ -323,16 +319,16 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1293"/>
         <CursorPos X="50" Y="1303"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit32>
       <Unit33>
         <Filename Value="../rprintclass.pas"/>
         <UnitName Value="RPrintclass"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1082"/>
         <CursorPos X="16" Y="1103"/>
-        <UsageCount Value="63"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
       </Unit33>
       <Unit34>
@@ -341,14 +337,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1037"/>
         <CursorPos X="31" Y="1071"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="14"/>
       </Unit34>
       <Unit35>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/canvas.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="548"/>
         <CursorPos X="21" Y="582"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="14"/>
       </Unit35>
       <Unit36>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/lclproc.pas"/>
@@ -356,15 +352,15 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1522"/>
         <CursorPos X="1" Y="1543"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit36>
       <Unit37>
         <Filename Value="../../../lazarus/lazarus_svn/components/chmhelp/lhelp/chmcontentprovider.pas"/>
         <UnitName Value="chmcontentprovider"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="65"/>
-        <CursorPos X="1" Y="106"/>
-        <UsageCount Value="2"/>
+        <TopLine Value="782"/>
+        <CursorPos X="1" Y="803"/>
+        <UsageCount Value="9"/>
       </Unit37>
       <Unit38>
         <Filename Value="../../../fpc/fpc_svn/packages/chm/src/chmreader.pas"/>
@@ -372,26 +368,24 @@
         <WindowIndex Value="0"/>
         <TopLine Value="782"/>
         <CursorPos X="1" Y="823"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit38>
       <Unit39>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/customimage.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="27"/>
         <CursorPos X="1" Y="48"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit39>
       <Unit40>
         <Filename Value="../setup/setupmod.lfm"/>
         <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="36"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="39"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit40>
       <Unit41>
@@ -400,28 +394,28 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
       </Unit41>
       <Unit42>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/control.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2702"/>
         <CursorPos X="1" Y="2723"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit42>
       <Unit43>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/wincontrol.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5442"/>
         <CursorPos X="1" Y="5469"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
       </Unit43>
       <Unit44>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/customform.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="883"/>
         <CursorPos X="1" Y="918"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit44>
       <Unit45>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/dbgrids.pas"/>
@@ -429,130 +423,126 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3225"/>
         <CursorPos X="1" Y="3246"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="33"/>
       </Unit45>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="269" Column="15" TopLine="235"/>
+        <Caret Line="296" Column="21" TopLine="262"/>
       </Position1>
       <Position2>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="270" Column="15" TopLine="236"/>
+        <Caret Line="319" Column="70" TopLine="285"/>
       </Position2>
       <Position3>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="293" Column="20" TopLine="259"/>
+        <Caret Line="320" Column="72" TopLine="286"/>
       </Position3>
       <Position4>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="294" Column="21" TopLine="260"/>
+        <Caret Line="331" Column="21" TopLine="297"/>
       </Position4>
       <Position5>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="295" Column="20" TopLine="261"/>
+        <Caret Line="632" Column="15" TopLine="598"/>
       </Position5>
       <Position6>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="296" Column="21" TopLine="262"/>
+        <Caret Line="800" Column="23" TopLine="766"/>
       </Position6>
       <Position7>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="319" Column="70" TopLine="285"/>
+        <Caret Line="822" Column="21" TopLine="788"/>
       </Position7>
       <Position8>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="320" Column="72" TopLine="286"/>
+        <Caret Line="842" Column="25" TopLine="808"/>
       </Position8>
       <Position9>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="331" Column="21" TopLine="297"/>
+        <Caret Line="883" Column="24" TopLine="849"/>
       </Position9>
       <Position10>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="632" Column="15" TopLine="598"/>
+        <Caret Line="891" Column="10" TopLine="857"/>
       </Position10>
       <Position11>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="800" Column="23" TopLine="766"/>
+        <Caret Line="896" Column="10" TopLine="862"/>
       </Position11>
       <Position12>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="822" Column="21" TopLine="788"/>
+        <Caret Line="908" Column="1" TopLine="876"/>
       </Position12>
       <Position13>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="842" Column="25" TopLine="808"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position13>
       <Position14>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="883" Column="24" TopLine="849"/>
+        <Caret Line="824" Column="9" TopLine="801"/>
       </Position14>
       <Position15>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="891" Column="10" TopLine="857"/>
+        <Caret Line="885" Column="27" TopLine="851"/>
       </Position15>
       <Position16>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="896" Column="10" TopLine="862"/>
+        <Caret Line="893" Column="13" TopLine="871"/>
       </Position16>
       <Position17>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="908" Column="1" TopLine="876"/>
+        <Caret Line="898" Column="13" TopLine="871"/>
       </Position17>
       <Position18>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="912" Column="30" TopLine="878"/>
       </Position18>
       <Position19>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="824" Column="9" TopLine="801"/>
+        <Caret Line="1026" Column="8" TopLine="995"/>
       </Position19>
       <Position20>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="885" Column="27" TopLine="851"/>
+        <Caret Line="1030" Column="15" TopLine="996"/>
       </Position20>
       <Position21>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="893" Column="13" TopLine="871"/>
+        <Caret Line="1043" Column="3" TopLine="1009"/>
       </Position21>
       <Position22>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="898" Column="13" TopLine="871"/>
+        <Caret Line="1045" Column="30" TopLine="1011"/>
       </Position22>
       <Position23>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="912" Column="30" TopLine="878"/>
+        <Caret Line="1056" Column="8" TopLine="1022"/>
       </Position23>
       <Position24>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1026" Column="8" TopLine="995"/>
+        <Caret Line="1058" Column="15" TopLine="1024"/>
       </Position24>
       <Position25>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1030" Column="15" TopLine="996"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1043" Column="3" TopLine="1009"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1045" Column="30" TopLine="1011"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1056" Column="8" TopLine="1022"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1058" Column="15" TopLine="1024"/>
-      </Position29>
-      <Position30>
         <Filename Value="cont.pas"/>
         <Caret Line="2377" Column="31" TopLine="2348"/>
-      </Position30>
+      </Position25>
+      <Position26>
+        <Filename Value="cont.pas"/>
+        <Caret Line="13" Column="102" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="cont.pas"/>
+        <Caret Line="16" Column="43" TopLine="1"/>
+      </Position27>
+      <Position28>
+        <Filename Value="cont.pas"/>
+        <Caret Line="22" Column="13" TopLine="1"/>
+      </Position28>
+      <Position29>
+        <Filename Value="cont.pas"/>
+        <Caret Line="875" Column="18" TopLine="841"/>
+      </Position29>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
