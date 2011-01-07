@@ -48,7 +48,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="ezsetup.pas"/>
         <IsPartOfProject Value="True"/>
@@ -71,8 +71,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="291"/>
-        <CursorPos X="1" Y="325"/>
+        <TopLine Value="766"/>
+        <CursorPos X="5" Y="800"/>
         <UsageCount Value="139268"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -92,13 +92,19 @@
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="../rprintclass.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="rprintclass"/>
+        <UsageCount Value="20"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/lcl/include;$(LazarusDir)/components/printers/unix"/>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit;.."/>
       <UnitOutputDirectory Value="/home/don/churchfunds/trunk/setup"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
@@ -130,15 +136,15 @@
       </Item3>
       <Item4>
         <Source Value="ezsetupunit.pas"/>
-        <Line Value="2137"/>
+        <Line Value="2140"/>
       </Item4>
       <Item5>
         <Source Value="ezsetupunit.pas"/>
-        <Line Value="2119"/>
+        <Line Value="2122"/>
       </Item5>
       <Item6>
         <Source Value="ezsetupunit.pas"/>
-        <Line Value="973"/>
+        <Line Value="976"/>
       </Item6>
     </BreakPoints>
     <Exceptions Count="3">

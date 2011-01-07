@@ -8,7 +8,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,  LResources, dbgrids, accounts, unit30, SQLDBLaz, printer4lazarus;
+  Forms, LResources, accounts, unit30, RPrintclass, SQLDBLaz,
+  printer4lazarus;
 
 begin
   {$I checks.lrs}

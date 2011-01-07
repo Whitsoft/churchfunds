@@ -1276,7 +1276,11 @@ begin
   try
     if RPrinter = nil then
        RPrinter := TReportPrinterClass.Create(self);
-    RPrinter.setPageMargins(0.25, 0.25, 0.25, 0.5);
+    RPrinter.MarginLeft := 0.5;
+    RPrinter.MarginTop :=  0.5;
+    RPrinter.MarginBottom := 0.5;
+    RPrinter.MarginRight :=  0.5;
+
     setMonthDayTabs;
     Year:=StrToInt(YearEd.Text);
     BegDate:=BegMonth(1,Year);
@@ -2567,7 +2571,11 @@ begin
       //BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
       RestoreFont(2); //Helvetica 10
-      setPageMargins(0.5, 0.25, 0.25, 0.25);
+      MarginLeft := 0.5;
+      MarginTop :=  0.5;
+      MarginBottom := 0.5;
+      MarginRight :=  0.5;
+
       RPrinter.Newpage;
       PrintCenterPage(ChurchName);
       Newline;

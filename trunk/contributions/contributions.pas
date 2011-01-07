@@ -5,7 +5,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,  LResources, contmod, cont, SQLDBLaz ;
+  Forms,  LResources, contmod, cont, RPrintclass, SQLDBLaz ;
 
 {$IFDEF WINDOWS}{$R projcont.rc}{$ENDIF}
 

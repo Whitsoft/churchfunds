@@ -179,8 +179,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="876"/>
-        <CursorPos X="11" Y="910"/>
+        <TopLine Value="1259"/>
+        <CursorPos X="14" Y="1280"/>
         <UsageCount Value="163"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -323,6 +323,7 @@
       </Unit32>
       <Unit33>
         <Filename Value="../rprintclass.pas"/>
+        <IsPartOfProject Value="True"/>
         <UnitName Value="RPrintclass"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
@@ -426,130 +427,134 @@
         <UsageCount Value="33"/>
       </Unit45>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="296" Column="21" TopLine="262"/>
+        <Caret Line="800" Column="23" TopLine="766"/>
       </Position1>
       <Position2>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="319" Column="70" TopLine="285"/>
+        <Caret Line="822" Column="21" TopLine="788"/>
       </Position2>
       <Position3>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="320" Column="72" TopLine="286"/>
+        <Caret Line="842" Column="25" TopLine="808"/>
       </Position3>
       <Position4>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="331" Column="21" TopLine="297"/>
+        <Caret Line="883" Column="24" TopLine="849"/>
       </Position4>
       <Position5>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="632" Column="15" TopLine="598"/>
+        <Caret Line="891" Column="10" TopLine="857"/>
       </Position5>
       <Position6>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="800" Column="23" TopLine="766"/>
+        <Caret Line="896" Column="10" TopLine="862"/>
       </Position6>
       <Position7>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="822" Column="21" TopLine="788"/>
+        <Caret Line="908" Column="1" TopLine="876"/>
       </Position7>
       <Position8>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="842" Column="25" TopLine="808"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position8>
       <Position9>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="883" Column="24" TopLine="849"/>
+        <Caret Line="824" Column="9" TopLine="801"/>
       </Position9>
       <Position10>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="891" Column="10" TopLine="857"/>
+        <Caret Line="885" Column="27" TopLine="851"/>
       </Position10>
       <Position11>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="896" Column="10" TopLine="862"/>
+        <Caret Line="893" Column="13" TopLine="871"/>
       </Position11>
       <Position12>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="908" Column="1" TopLine="876"/>
+        <Caret Line="898" Column="13" TopLine="871"/>
       </Position12>
       <Position13>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="912" Column="30" TopLine="878"/>
       </Position13>
       <Position14>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="824" Column="9" TopLine="801"/>
+        <Caret Line="1026" Column="8" TopLine="995"/>
       </Position14>
       <Position15>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="885" Column="27" TopLine="851"/>
+        <Caret Line="1030" Column="15" TopLine="996"/>
       </Position15>
       <Position16>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="893" Column="13" TopLine="871"/>
+        <Caret Line="1043" Column="3" TopLine="1009"/>
       </Position16>
       <Position17>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="898" Column="13" TopLine="871"/>
+        <Caret Line="1045" Column="30" TopLine="1011"/>
       </Position17>
       <Position18>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="912" Column="30" TopLine="878"/>
+        <Caret Line="1056" Column="8" TopLine="1022"/>
       </Position18>
       <Position19>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1026" Column="8" TopLine="995"/>
+        <Caret Line="1058" Column="15" TopLine="1024"/>
       </Position19>
       <Position20>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1030" Column="15" TopLine="996"/>
+        <Filename Value="cont.pas"/>
+        <Caret Line="2377" Column="31" TopLine="2348"/>
       </Position20>
       <Position21>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1043" Column="3" TopLine="1009"/>
+        <Filename Value="cont.pas"/>
+        <Caret Line="13" Column="102" TopLine="1"/>
       </Position21>
       <Position22>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1045" Column="30" TopLine="1011"/>
+        <Filename Value="cont.pas"/>
+        <Caret Line="16" Column="43" TopLine="1"/>
       </Position22>
       <Position23>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1056" Column="8" TopLine="1022"/>
+        <Filename Value="cont.pas"/>
+        <Caret Line="22" Column="13" TopLine="1"/>
       </Position23>
       <Position24>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1058" Column="15" TopLine="1024"/>
+        <Filename Value="cont.pas"/>
+        <Caret Line="875" Column="18" TopLine="841"/>
       </Position24>
       <Position25>
         <Filename Value="cont.pas"/>
-        <Caret Line="2377" Column="31" TopLine="2348"/>
+        <Caret Line="883" Column="47" TopLine="876"/>
       </Position25>
       <Position26>
         <Filename Value="cont.pas"/>
-        <Caret Line="13" Column="102" TopLine="1"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
         <Filename Value="cont.pas"/>
-        <Caret Line="16" Column="43" TopLine="1"/>
+        <Caret Line="2381" Column="20" TopLine="2347"/>
       </Position27>
       <Position28>
         <Filename Value="cont.pas"/>
-        <Caret Line="22" Column="13" TopLine="1"/>
+        <Caret Line="2355" Column="90" TopLine="2349"/>
       </Position28>
       <Position29>
         <Filename Value="cont.pas"/>
-        <Caret Line="875" Column="18" TopLine="841"/>
+        <Caret Line="1283" Column="1" TopLine="1258"/>
       </Position29>
+      <Position30>
+        <Filename Value="cont.pas"/>
+        <Caret Line="2574" Column="6" TopLine="2540"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/lcl/include;$(LazarusDir)/components/printers/unix"/>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit;.."/>
       <UnitOutputDirectory Value="/home/don/churchfunds/trunk/contributions"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>

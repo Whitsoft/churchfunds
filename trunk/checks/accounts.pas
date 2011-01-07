@@ -3286,6 +3286,7 @@ procedure TCheckForm.PrintCheckBtnClick(Sender: TObject);
 var
   CheckValue: String;
   beginCheck, endCheck: Integer;
+  MarginsRec: FloatMargins;
 begin
   If DataMod.ZTblTempChecks.RecordCount<=0 then exit;
   With DataMod.ZTblTempChecks do
@@ -3297,10 +3298,15 @@ begin
        endCheck:=FieldByName('CHECK_NO').AsInteger;
      end;
      try
+       MarginsRec := RPrinter.PageMargins;
+       RPrinter.MarginLeft :=0.0;
+       RPrinter.MarginTop := 0.0;
        CheckPrinterPrint(beginCheck, endCheck);
+       RPrinter.PageMargins := MarginsRec;
      finally
      end;
   doBalance;
+
   CheckPrintTables;
 end;
 
@@ -4257,7 +4263,10 @@ begin
     // fName := 'paystub' + '-'+DateToStr(Date)+'.ps';
      // OpenPrintFile(fName);
       //LineSpacing := 0.30;
-      SetPageMargins(0.1,0.5,0.5,0.5);
+      MarginLeft := 0.1;
+      MarginTop :=  0.5;
+      MarginBottom := 0.5;
+      MarginRight :=  0.5;
       Home;
       NewLine;
       NewLine;

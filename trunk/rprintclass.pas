@@ -34,6 +34,29 @@ const
   ABSOLUT = FALSE;
 
 Type
+   Margins = record
+      TopMargin:    Integer;
+      LeftMargin:   Integer;
+      RightMargin:  Integer;
+      BottomMargin: Integer;
+   end;
+
+Type
+   FloatMargins = record
+
+      TopMargin:    Double;
+      LeftMargin:   Double;
+      RightMargin:  Double;
+      BottomMargin: Double;
+end;
+
+{     TRect = record
+    case Integer of
+      0: (Left, Top, Right, Bottom: Integer);
+      1: (TopLeft, BottomRight: TPoint);
+  end;    }
+
+Type
   PFontType = ^FontType;
   FontType = record
     FontName: String;
@@ -96,10 +119,7 @@ Type
 	  fPrintFile        : Text;
 	  fPrintFileName    : String;
           fPageNo           : Integer;
-	  fLeftMargin       : Integer;
-	  fTopMargin        : Integer;
-	  fRightMargin      : Integer;
-	  fBottomMargin     : Integer;
+          fMargins          : Margins;
 	  fErrorCode        : Integer;
 	  fPageLength       : integer;
 	  fpageWidth        : integer;
@@ -132,7 +152,18 @@ Type
 	 procedure   setPageWidth( Wd: Double);
          function    getPageLength: Double;
 	 function    getPageWidth: Double;
-	 
+
+         function    getPageMargins: FloatMargins;
+         procedure   setPageMargins(Margins: FloatMargins);
+         function    getMarginTop: Double;
+         procedure   setMarginTop(Top: Double);
+         function    getMarginLeft: Double;
+         procedure   setMarginLeft(Left: Double);
+         function    getMarginRight: Double;
+         procedure   setMarginRight(Right: Double);
+         function    getMarginBottom: Double;
+         procedure   setMarginBottom(Bottom: Double);
+
 	 procedure   PrintPointXY(S: String; XPos, YPos: Integer);
 	 function    CalcCenterPage: Integer;
 
@@ -172,6 +203,11 @@ Type
 	 property    PageWidthInt: Integer read fPageWidth;
          property    PrintForm: TForm read fPrintForm;
          property    PageArray: TPageArray read fPageArray;
+         property    PageMargins: FloatMargins read getPageMargins write setPageMargins;
+         property    MarginTop: Double read getMarginTop write setMarginTop;
+         property    MarginLeft: Double read getMarginLeft write setMarginLeft;
+         property    MarginRight: Double read getMarginRight write setMarginRight;
+         property    MarginBottom: Double read getMarginBottom write setMarginBottom;
 
 	 function    getBoxLeft(Combined: Byte): Boolean;
 	 function    getBoxBottom(Combined: Byte): Boolean;
@@ -228,8 +264,6 @@ Type
          function    EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
                                     boxLines, boxShade: integer): PTab;
 									
-	 procedure   setPageMargins(Lf, Tp, Rt, Bt: Double);
-
 	 function    LinesLeft(LineSize: Double): Integer;
 	 function    TransXFloat(X: Double): Integer;    //User to x points
 	 function    TransYFloat(Y: Double): Integer;    //User to y points
@@ -271,7 +305,7 @@ type
         // fMarginLeft       : integer;
          fTextMarginTop    : Integer;
          fTextMarginLeft   : Integer;
-         fPostNetWeight : Integer;
+         fPostNetWeight    : Integer;
          fLabelWidth       : integer;
          fLabelHeight      : integer;
          fSpacingWidth     : integer;
@@ -289,10 +323,6 @@ type
  protected
    function getRadius: Double;
    procedure setRadius(Rad: Double);
-   function getMarginTop: Double;
-   procedure setMarginTop(Top: Double);
-   function getMarginLeft: Double;
-   procedure setMarginLeft(Left: Double);
    function getTextMarginTop: Double;
    procedure setTextMarginTop(Top: Double);
    function getTextMarginLeft: Double;
@@ -317,8 +347,7 @@ type
    property LabelStyle: String read fLabelStyle write fLabelStyle;
    property NumAcross: Integer read fNumAcross write fNumAcross;
    property NumDown: Integer read fNumDown write fNumDown;
-   property MarginTop: Double read getMarginTop write setMarginTop;
-   property MarginLeft: Double read getMarginLeft write setMarginLeft;
+
    property TextMarginTop: Double read getTextMarginTop write setTextMarginTop;
    property TextMarginLeft: Double read getTextMarginLeft write setTextMarginLeft;
    property LabelWidth: Double read getLabelWidth write setLabelWidth;
@@ -381,18 +410,23 @@ implementation
         FillRect(0,0,Width,Height);
         FillRect(0,0,Width,Height);
       end;
-    CurX := fLeftMargin;
-    CurY := fTopMargin ;
+    CurX := fMargins.LeftMargin;
+    CurY := fMargins.TopMargin ;
     ShowReport;
 end;
 
  procedure TReportPrinterClass.PrintFormCreate(Sender: TObject);
   var
     ButtonR, ButtonF,ButtonPrint, ButtonPrintAll: TToolButton;
+    Margins: FLoatMargins;
  begin
-    	setPageMargins(0.5, 0.5, 0.5, 0.5);
-	CurX := fLeftMargin;
-	CurY := fTopMargin ;
+        MarginLeft := 0.5;
+        MarginTop := 0.5;
+        MarginRight := 0.5;
+        MarginBottom := 0.5;
+
+	CurX := fMargins.LeftMargin;
+	CurY := fMargins.TopMargin ;
         fPrintForm := TForm.Create(Sender as TComponent);
         fPrintForm.OnClose := @PrintFormClose;
         fPrintForm.OnDestroy := @RFormDestroy;
@@ -469,7 +503,6 @@ end;
    var
      APrinter: TPrinter;
      ARect: TRect;
-     LMargin, BMargin: Integer;
    begin
      if fCurrentPage = nil then exit;
      APrinter := Printer;
@@ -773,8 +806,8 @@ begin
   
   procedure TReportPrinterClass.Home;
   begin
-    CurX := fLeftMargin;
-    CurY := fTopMargin;
+    CurX := fMargins.LeftMargin;
+    CurY := fMargins.TopMargin;
   end;
 
   function TReportPrinterClass.getBoxLeft(Combined: Byte): boolean;
@@ -829,23 +862,23 @@ begin
   
   procedure TReportPrinterClass.setCurrentX(XLoc: Double);
   begin
-    fCurrentX := round(XLoc*POINTS) + fLeftMargin;
+    fCurrentX := round(XLoc*POINTS) + fMargins.LeftMargin;
   end; 
   
   function  TReportPrinterClass.getCurrentX: Double;
   begin
-    getCurrentX := Double(fCurrentX)/POINTS - fLeftMargin;
+    getCurrentX := Double(fCurrentX)/POINTS - fMargins.LeftMargin;
   end;
   
   
   procedure TReportPrinterClass.setCurrentY(YLoc: Double);
   begin
-    fCurrentY := round(YLoc*POINTS) + fTopMargin;
+    fCurrentY := round(YLoc*POINTS) + fMargins.TopMargin;
   end; 
   
   function  TReportPrinterClass.getCurrentY: Double;
   begin
-    getCurrentY := Double(fCurrentY)/POINTS - fTopMargin;
+    getCurrentY := Double(fCurrentY)/POINTS - fMargins.TopMargin;
   end;
 
   function TReportPrinterClass.TabYPos(S: String; BBase, BHght: Integer): Integer;
@@ -1091,7 +1124,7 @@ end;
  
  function TReportPrinterClass.CalcCenterPage: Integer;
  begin
-   CalcCenterPage := (fPageWidth - fRightMargin- fLeftMargin) div 2 + fLeftMargin;
+   CalcCenterPage := (fPageWidth - fMargins.RightMargin- fMargins.LeftMargin) div 2 + fMargins.LeftMargin;
  end;
   
   
@@ -1185,22 +1218,29 @@ end;
         TextOut(XPos - Wide,TransYPoint(CurY),S);
       end;
  end;
- 
-  procedure TReportPrinterClass.setPageMargins(Lf, Tp, Rt, Bt: Double);
+
+ function TReportPrinterClass.getPageMargins: FloatMargins;
  begin
-   fLeftMargin := InchToPoint(Lf); 
-   fTopMargin := InchToPoint(Tp); 
-   fRightMargin := InchToPoint(Rt); 
-   fBottomMargin := InchToPoint(Bt); 
+   Result.TopMargin    := PointToInch(fMargins.TopMargin);
+   Result.LeftMargin   := PointToInch(fMargins.LeftMargin);
+   Result.RightMargin  := PointToInch(fMargins.RightMargin);
+   Result.BottomMargin := PointToInch(fMargins.BottomMargin);
  end;
  
+ procedure TReportPrinterClass.setPageMargins(Margins:FloatMargins);
+ begin
+   fMargins.TopMargin    :=  InchToPoint(Margins.TopMargin);
+   fMargins.LeftMargin   :=  InchToPoint(Margins.LeftMargin);
+   fMargins.RightMargin   := InchToPoint(Margins.RightMargin);
+   fMargins.BottomMargin  := InchToPoint(Margins.BottomMargin);
+ end;
 
-  function TReportPrinterClass.LinesLeft(LineSize: Double): Integer;
+ function TReportPrinterClass.LinesLeft(LineSize: Double): Integer;
   var
     PageUsed, LineSizeInt: Integer;
   begin
     LineSizeInt := InchToPoint(LineSize);
-    PageUsed := fPageLength - CurY - fBottomMargin;
+    PageUsed := fPageLength - CurY - fMargins.BottomMargin;
     result := PageUsed div LineSizeInt;
   end;
 
@@ -1235,12 +1275,12 @@ end;
   
   function TReportPrinterClass.TransXPoint(X: Integer): Integer;
   begin
-    TransXPoint := X + fLeftMargin;
+    TransXPoint := X + fMargins.LeftMargin;
   end; 
   	
   function TReportPrinterClass.TransYPoint(Y: Integer): Integer;
   begin
-    TransYPoint := fTopMargin + Y;
+    TransYPoint := fMargins.TopMargin + Y;
     //TransYPoint := fPageLength - fTopMargin - Y;
    end;	
 
@@ -1273,7 +1313,47 @@ end;
   begin	
 
   end;	
-   
+
+    function TReportPrinterClass.getMarginTop: Double;
+    begin
+      result := PointToInch(fMargins.TopMargin);
+    end;
+
+    procedure TReportPrinterClass.setMarginTop(Top: Double);
+    begin
+       fMargins.TopMargin := InchToPoint(Top);
+    end;
+
+    function TReportPrinterClass.getMarginLeft: Double;
+    begin
+      result := PointToInch(fMargins.LeftMargin);
+    end;
+
+    procedure TReportPrinterClass.setMarginLeft(Left: Double);
+    begin
+      fMargins.LeftMargin := InchToPoint(Left);
+    end;
+
+    function TReportPrinterClass.getMarginRight: Double;
+    begin
+      result := PointToInch(fMargins.RightMargin);
+    end;
+
+    procedure TReportPrinterClass.setMarginRight(Right: Double);
+    begin
+      fMargins.RightMargin := InchToPoint(Right);
+    end;
+
+    function TReportPrinterClass.getMarginBottom: Double;
+    begin
+      result := PointToInch(fMargins.BottomMargin);
+    end;
+
+    procedure TReportPrinterClass.setMarginBottom(Bottom: Double);
+    begin
+      fMargins.BottomMargin := InchToPoint(Bottom);
+    end;
+
   procedure TReportPrinterClass.RFormDestroy(Sender: TObject);
   begin
   // InitCriticalSection(fCriticalSection); 
@@ -1423,27 +1503,7 @@ end;
      fRadius := InchToPoint(Rad);
    end;
 
-    function TAddressLabelClass.getMarginTop: Double;
-    begin
-      result := PointToInch(fTopMargin);
-    end;
-
-    procedure TAddressLabelClass.setMarginTop(Top: Double);
-    begin
-       fTopMargin := InchToPoint(Top);
-    end;
-
-    function TAddressLabelClass.getMarginLeft: Double;
-    begin
-      result := PointToInch(fLeftMargin);
-    end;
-
-    procedure TAddressLabelClass.setMarginLeft(Left: Double);
-    begin
-      fLeftMargin := InchToPoint(Left);
-    end;
-
-    function TAddressLabelClass.getTextMarginTop: Double;
+  function TAddressLabelClass.getTextMarginTop: Double;
     begin
       result := PointToInch(fTextMarginTop);
     end;
@@ -1515,13 +1575,13 @@ end;
      Across, Down: Integer;
      tmp: TColor;
    begin
-     X := fLeftMargin;
-     Y := fTopMargin;
+     X := fMargins.LeftMargin;
+     Y := fMargins.TopMargin;
      for Across := 0 to fNumAcross - 1 do
         for Down := 0 to fNumDown - 1 do
           begin
-            X := fLeftMargin + Across * fSpacingWidth;
-            Y := fTopMargin + Down * fSpacingHeight;
+            X := fMargins.LeftMargin + Across * fSpacingWidth;
+            Y := fMargins.TopMargin + Down * fSpacingHeight;
             tmp := fCurrentPage.Canvas.Pen.Color;
             fCurrentPage.Canvas.Pen.Color := OutlineColor;
             fCurrentPage.Canvas.RoundRect(X, Y , X + fLabelWidth, Y + fLabelHeight, fRadius, fRadius);
@@ -1537,8 +1597,8 @@ end;
     Zip: String;
    begin
       LineToLine := round(font.fontsize * fLineScale);
-      X := fLeftMargin + fTextMarginLeft + fColPointer * (fSpacingWidth );
-      Y := fTopMargin  + fTextMarginTop
+      X := fMargins.LeftMargin + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fMargins.TopMargin  + fTextMarginTop
                        + fRowPointer * (fSpacingHeight);
       YAdd1 := Y + LineToLine;
       if fAddressRecord.Add2 <> '' then
