@@ -803,7 +803,7 @@ object FormSetup: TFormSetup
           Height = 30
           Top = 113
           Width = 81
-          HelpContext = 425
+          HelpContext = 625
           Anchors = []
           Caption = 'Post'
           Font.Height = -16
