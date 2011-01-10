@@ -8,7 +8,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, LResources, accounts, unit30, RPrintclass, SQLDBLaz,
+  Forms, LResources, accounts, unit30, rprintclass, SQLDBLaz,
   printer4lazarus;
 
 begin
