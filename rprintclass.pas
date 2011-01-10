@@ -21,6 +21,8 @@ const
   HELVETICABOLD = 'Helvetica-Bold';
   HELVETICACONDENSED = 'Helvetica-Condensed';
   POINTS = 72.0;
+
+  BOXSPACE  = 6;      //Extra height to fit current font
   BOXMARGIN = 4;      //Margin for left or right between box sides and text
 
   BOXLINEALL = 15;
@@ -66,6 +68,7 @@ Type
   FontType = record
     FontName: String;
     FontSize: Integer;
+    FontHeight: Integer;
   end;
 
 Type
@@ -115,8 +118,6 @@ Type
 	  fTabArrayIndex    : Integer;
 	  fCurrentX         : Integer;    //Page Cursor
           fCurrentY         : Integer;
-	  fCurrentFontName  : String;
-	  fCurrentFontSize  : Integer;
           fPages            : Integer;   // Number of pages in report
           fPageArray        : TPageArray;
 	  fLineScale        : Double;
@@ -158,6 +159,8 @@ Type
          property    CurrentPage: TImage read fCurrentPage;
 	 procedure   setPageLength(Ln: Double);
 	 procedure   setPageWidth( Wd: Double);
+         function    ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
+         function    getFontHeight: Integer;
          function    getPageLength: Double;
 	 function    getPageWidth: Double;
 
@@ -174,11 +177,12 @@ Type
 	 function    NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
                                      TabRel: Boolean; boxLines, boxShade: integer): PTab;
 
-         function   TabYPos(S: String; BBase, BHght: Integer): Integer;
+         function    TabYPos(S: String; BBase, BHght: Integer): Integer;
          procedure   PrintFormClose(Sender: TObject; var act: TCloseAction);
    public
 	 constructor Create(Sender: TObject);
          procedure   PrintFormCreate(Sender: TObject);
+         property    FontHeight:Integer read getFontHeight;
          property    Landscape: Boolean read fLandscape write setLandscape;
          property    PageNo: Integer read fPageNo write fPageNo;
          property    font: FontType read fFont write setFont;
@@ -222,11 +226,8 @@ Type
 	 function    getBoxWidth(TabPtr: PTab):Double;
 	 function    getBoxHeight(ListPtr: PTabList):Double;
 
-	 procedure   setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
-         function    getTabBoxHeightInt(IDX: Integer): Integer;
-
-         procedure   setTabBoxHeight(IDX: Integer; BHeight: Double);
-         function    getTabBoxHeight(IDX: Integer): Double;
+	 procedure   setTabBoxHeight(IDX: Integer);
+         function    getTabBoxHeight(IDX: Integer): Integer;
 
          procedure   ShowReport;
 	 procedure   PrintXY(XPos, YPos: Double; S: String);
@@ -236,8 +237,8 @@ Type
 
 	 procedure   printTab(IDX: integer; S: String);
          function    resetTab(IDX: Integer): PTab;
-	 procedure   SaveFontName(IDX: Integer; FName: String);
-         procedure   SaveFontSize(IDX, FSize: Integer);
+	 procedure   SaveTabFont(IDX: Integer; FName: String; Size: Integer);
+         procedure   SaveFont(FName: String; Size: Integer);
 	 procedure   RestoreFont(IDX: Integer);
 
          procedure   setBoxShade(TabPtr: PTab; Shade: Integer);
@@ -308,6 +309,8 @@ type
          fLabelHeight      : integer;
          fSpacingWidth     : integer;
          fSpacingHeight    : integer;
+         fSpacingTop       : integer;
+         fSpacingLeft      : integer;
          fRadius           : integer;
          fPostNetHeight    : Double;
          fPostNetSpacing   : Double;
@@ -333,6 +336,10 @@ type
    procedure setSpacingWidth(SpacingWidth: Double);
    function getSpacingHeight: Double;
    procedure setSpacingHeight(SpacingHeight: Double);
+   function getSpacingLeft: Double;
+   procedure setSpacingLeft(SpacingLeft: Double);
+   function getSpacingTop: Double;
+   procedure setSpacingTop(SpacingTop: Double);
    procedure setPostnetLineWidth(Width: Double);
    procedure setAddressRecord(Title, fName, lName, Addr1, Addr2, City, State, Zip: String);
  public
@@ -350,6 +357,8 @@ type
    property TextMarginLeft: Double read getTextMarginLeft write setTextMarginLeft;
    property LabelWidth: Double read getLabelWidth write setLabelWidth;
    property LabelHeight: Double read getLabelHeight write setLabelHeight;
+   property SpacingTop: Double read getSpacingTop write setSpacingTop;
+   property SpacingLeft: Double read getSpacingLeft write setSpacingLeft;
    property SpacingWidth: Double read getSpacingWidth write setSpacingWidth;
    property SpacingHeight: Double read getSpacingHeight write setSpacingHeight;
    property PostNetHeight: Double read fPostNetHeight write fPostNetHeight;
@@ -600,26 +609,15 @@ end;
 	  	end;
    end;
 
-   procedure  TReportPrinterClass.setTabBoxHeightInt(IDX: Integer; BHeight: Integer);
+   procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer);
    begin
-     fTabArray[IDX]^.boxHeight := BHeight;
+     fTabArray[IDX]^.boxHeight := fFont.FontHeight + BoxSpace;
    end;
 
-   function   TReportPrinterClass.getTabBoxHeightInt(IDX: Integer): Integer;
+   function   TReportPrinterClass.getTabBoxHeight(IDX: Integer): Integer;
    begin
      result :=fTabArray[IDX]^.boxHeight;
    end;
-
-   procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer; BHeight: Double);
-   begin
-     setTabBoxHeightInt(IDX, InchToPoint(BHeight));
-   end;
-
-
-  function TReportPrinterClass.getTabBoxHeight(IDX: Integer): Double;
-  begin
-    result := PointToInch(getTabBoxHeightInt(IDX));
-  end;
 
 
  function TReportPrinterClass.EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
@@ -640,7 +638,7 @@ end;
 	  exit;
 	end;
 
-   setTabBoxHeight(IDX, BHeight);
+   setTabBoxHeight(IDX);
    fTabArray[IDX]^.TabCount := num;
   for I := 1 to Num do
     begin
@@ -921,31 +919,44 @@ begin
     getCurrentY := Double(fCurrentY)/POINTS - MarginTop;
   end;
 
+  function TReportPrinterClass.getFontHeight:Integer;
+  begin
+    result := fFont.FontHeight;
+  end;
+
+  function TReportPrinterClass.ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
+  var
+    JnkCanvas: TCanvas;
+  begin
+    JnkCanvas := TCanvas.Create;
+    JnkCanvas.Font.Name := FntName;
+    JnkCanvas.Font.Size:= FntSize;
+    result := Abs(JnkCanvas.font.height);
+    JnkCanvas.Free;
+  end;
+
   function TReportPrinterClass.TabYPos(S: String; BBase, BHght: Integer): Integer;
   var
-     High, TpMargin: Integer;
+     High, BotMargin: Integer;
   begin
      With CurrentPage.Canvas do
        begin
-          High := TextHeight(S);
-          TpMargin := (BHght - High) div 2;
-          TpMargin := TpMargin + (TpMargin mod 2);
+          High := fFont.FontHeight;
+          BotMargin := (BHght - High) div 2;
+          BotMargin := BotMargin - (BotMargin mod 2);    //Weight toward bottom
           If BHght <= High then
              begin
                Result := BBase - BHght + 1;
                exit;
              end
           else
-            Result := BBase - BHght + TpMargin;
+            Result := BBase - BotMargin ;  //RText out adjusts to measure to bottom of text
        end;
     end;
 
   procedure TReportPrinterClass.RTextOut(X, Y: Integer; S: String);
-  var
-     H: Integer;
   begin
-    H := fCurrentPage.Canvas.font.height;
-    fCurrentPage.Canvas.TextOut(X, Y - H, S); //measure to bottom of text
+    fCurrentPage.Canvas.TextOut(X, Y - FontHeight, S); //measure to bottom of text
   end;
 
   procedure  TReportPrinterClass.printTab(IDX: Integer; S: String);
@@ -1295,7 +1306,6 @@ end;
           If Dash > 0 then
              fFont.FontName := LeftStr(fFont.FontName,Dash-1);
         end;
-      // PrintCurrentFont(Self);
   end;
 
 
@@ -1314,9 +1324,9 @@ end;
 
   procedure TReportPrinterClass.TabNewLine(IDX: Integer);
   begin
-    CurY := CurY + Trunc(fTabArray[IDX]^.boxHeight);
-    if  (BOXLINEBOTTOM) and (fTabArray[IDX]^.TabPos^.BLines)> 0
-      then CurY := CurY + 1;
+    CurY := CurY + fTabArray[IDX]^.boxHeight;
+   // if  (BOXLINEBOTTOM) and (fTabArray[IDX]^.TabPos^.BLines)> 0
+    //  then CurY := CurY + 1;
   end;
 
   procedure TReportPrinterClass.NewLine;
@@ -1339,23 +1349,25 @@ end;
 end;
 
 
-  procedure TReportPrinterClass.SaveFontName(IDX: Integer; FName: String);
-  // Type
-  //   PFontType = ^FontType;
-  //   FontType = record
-  //   FontName: String;
-  //   FontSize: Integer;
+  procedure TReportPrinterClass.SaveFont(FName: String; Size: Integer);
   begin
-    if fFontArray[IDX] <> nil then
-      fFontArray[IDX]^.FontName := FName;
+      begin
+        fFont.FontName := FName;
+        fFont.FontSize := Size;
+        fFont.FOntHeight := ComputeFontHeight(FName, Size);
+      end;
   end;
 
-
-  procedure TReportPrinterClass.SaveFontSize(IDX, FSize: Integer);
+  procedure TReportPrinterClass.SaveTabFont(IDX: Integer; FName: String; Size: Integer);
   begin
     if fFontArray[IDX] <> nil then
-      fFontArray[IDX]^.FontSize := FSize;
+      begin
+        fFontArray[IDX]^.FontName := FName;
+        fFontArray[IDX]^.FontSize := Size;
+        fFontArray[IDX]^.FontHeight := ComputeFontHeight(FName, Size);
+      end;
   end;
+
 
   procedure TReportPrinterClass.RestoreFont(IDX: Integer);
   begin
@@ -1371,6 +1383,7 @@ end;
  begin
    fFont.fontName := AFont.FontName;
    fFont.fontSize := AFont.FontSize;
+   fFont.FontHeight := ComputeFontHeight(AFont.FontName, AFont.FontSize);
  end;
 
 
@@ -1528,6 +1541,26 @@ end;
       fSPacingWidth := InchToPoint(SpacingWidth);
     end;
 
+    function TAddressLabelClass.getSpacingLeft: Double;
+    begin
+      result := PointToInch(fSpacingLeft);
+    end;
+
+    procedure TAddressLabelClass.setSpacingLeft(SpacingLeft: Double);
+    begin
+      fSPacingLeft := InchToPoint(SpacingLeft);
+    end;
+
+    function TAddressLabelClass.getSpacingTop: Double;
+    begin
+      result := PointToInch(fSpacingTop);
+    end;
+
+    procedure TAddressLabelClass.setSpacingTop(SpacingTop: Double);
+    begin
+      fSPacingTop := InchToPoint(SpacingTop);
+    end;
+
     function TAddressLabelClass.getSpacingHeight: Double;
     begin
       result := PointToInch(fSpacingHeight);
@@ -1546,18 +1579,18 @@ end;
 
    procedure TAddressLabelClass.OutlineLabel;
    var
-     X, Y, Rad: Integer;
+     X0, Y0, X, Y, Rad: Integer;
      Across, Down: Integer;
      tmp: TColor;
    begin
-     X := 0;
-     X := X - MarginLeft;
-     Y := CurrentPage.Canvas.font.height - MarginTop;
+     X0 := fSpacingLeft - MarginLeft;
+     Y0 := fSpacingTop - MarginTop;
+
      for Across := 0 to fNumAcross - 1 do
         for Down := 0 to fNumDown - 1 do
           begin
-            X := X + Across * fSpacingWidth;
-            Y := Y + Down * fSpacingHeight;
+            X := X0 + Across * fSpacingWidth;
+            Y := Y0 + Down * fSpacingHeight;
             tmp := fCurrentPage.Canvas.Pen.Color;
             fCurrentPage.Canvas.Pen.Color := OutlineColor;
             fCurrentPage.Canvas.RoundRect(X, Y , X + fLabelWidth, Y + fLabelHeight, fRadius, fRadius);
@@ -1567,15 +1600,16 @@ end;
 
    procedure TAddressLabelClass.PrintOneLabel;
    var
-     X, X2, Y: Integer;
+     X0, Y0, X, Y: Integer;
     YAdd1, YAdd2, YCSZ,YPostNet: Integer;
     LineToLine: Integer;
     Zip: String;
    begin
-      LineToLine := round(font.fontsize * fLineScale);
-      X := 0;
-      X := X - MarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
-      Y := CurrentPage.Canvas.Height - MarginTop  + fTextMarginTop
+      LineToLine := round(font.fontHeight * fLineScale);
+      X0 := fSpacingLeft;
+      Y0 := fSpacingTop + fFont.FontHeight;;
+      X := X0 + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := Y0 + fTextMarginTop
                        + fRowPointer * (fSpacingHeight);
       YAdd1 := Y + LineToLine;
       if fAddressRecord.Add2 <> '' then
@@ -1594,14 +1628,12 @@ end;
         end;
       if fPrintPostNet then
         begin
-          YPostNet := YAdd2 + 2 * (LineToLine  + inchToPoint(fPostNetHeight));
+          YPostNet := YAdd2 + 2 + (LineToLine  + inchToPoint(fPostNetHeight));
         //  YPostNet := fTopMargin + fLabelHeight + fTextMarginTop +
         //               fRowPointer * (fSpacingHeight);
 
       Zip := fAddressRecord.ZipCode;
-      X2 := X + 2;
-      PostNetXY(Zip,X2,YPostNet,CurrentPage);
-      X := X2;
+      PostNetXY(Zip,X,YPostNet,CurrentPage);
         end;
       inc(fColPointer);
       if fColPointer = fNumAcross then

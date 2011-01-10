@@ -24,7 +24,7 @@ object FormCont: TFormCont
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 5
+    PageIndex = 7
     ParentFont = False
     TabOrder = 0
     object PageEntry: TPage
@@ -1544,10 +1544,10 @@ object FormCont: TFormCont
           Caption = 'Spacing Height'
           ParentColor = False
         end
-        object Label41: TLabel
+        object LabelSPL: TLabel
           Left = 83
           Height = 20
-          Top = 580
+          Top = 574
           Width = 122
           Caption = 'Text Start Left'
           Color = clBtnFace
@@ -1559,10 +1559,10 @@ object FormCont: TFormCont
           ParentFont = False
           Transparent = False
         end
-        object Label42: TLabel
-          Left = 83
+        object LabelSPT: TLabel
+          Left = 84
           Height = 20
-          Top = 614
+          Top = 607
           Width = 117
           Caption = 'Text Start Top'
           Font.Color = clTeal
@@ -1575,7 +1575,7 @@ object FormCont: TFormCont
         object Label43: TLabel
           Left = 83
           Height = 20
-          Top = 648
+          Top = 646
           Width = 73
           Caption = 'FontSize'
           Font.Color = clTeal

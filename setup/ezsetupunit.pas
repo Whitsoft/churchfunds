@@ -471,10 +471,8 @@ Begin
   If RPrinter <> nil then
     With RPrinter do
       begin
-        SaveFontName(1, HELVETICA);
-        SaveFontSize(1,12);
-        SaveFontName(2, HELVETICA);
-        SaveFontSize(1,10);
+        SaveTabFont(1, HELVETICA, 12);
+        SaveTabFont(2, HELVETICA, 10);
       end;
   OpenTables;
 end;
@@ -659,7 +657,6 @@ procedure TFormSetup.FundReportSetup;
 var
    FundFont: FontType;
    TmpTab: PTab;
-   BH12: Double;
 begin
   DataMod.ZTblFunds.First;
   With RPrinter do
@@ -671,10 +668,9 @@ begin
       TmpTab := NewTab(6,0.75,JUSTIFYCENTER,1.0,0.05,ABSOLUT,BOXLINEALL,0);
       TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.75,0.05,RELATIVE,BOXLINEALL,0);
       TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.50,0.05,RELATIVE,BOXLINEALL,0);
-      BH12 := PointToInch(Round(12* LineScale));
-      SaveFontName(6, HELVETICA);
-      SaveFontSize(6,12);
-      setTabBoxHeight(6,BH12);
+      SaveFont(HELVETICA, 10);
+      SaveTabFont(6, HELVETICA, 12);
+      setTabBoxHeight(6);
    end;
 end;
 
@@ -791,16 +787,11 @@ procedure TFormSetup.AccountReportSetup;
 var
    FundFont: FontType;
    TmpTab: PTab;
-   BH12: Double;
 begin
   if not DataMod.ZTblAcc.active then DataMod.ZTblAcc.open;
   DataMod.ZTblAcc.First;
   With RPrinter do
     begin
-      MarginLeft := 0.5;
-      MarginTop :=  0.5;
-      MarginBottom := 0.5;
-      MarginRight :=  0.5;
       FreeTabs(7);
       TmpTab := NewTab(7 ,1.0,JUSTIFYCENTER,1.00,0.05, ABSOLUT,  BOXLINEALL,0);
       TmpTab := NewTab(7 ,0.0,JUSTIFYLEFT,  2.50,0.05, RELATIVE, BOXLINEALL,0);
@@ -808,10 +799,9 @@ begin
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  1.25,0.05, RELATIVE, BOXLINEALL,0);
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  2.00,0.05, RELATIVE, BOXLINEALL,0);
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  0.75,0.05, RELATIVE, BOXLINEALL,0);
-      BH12 := PointToInch(Round(12* LineScale));
-      SaveFontName(7, HELVETICA);
-      SaveFontSize(7,12);
-      setTabBoxHeight(7,BH12);
+      SaveTabFont(1,HELVETICA,10);
+      SaveTabFont(7,HELVETICA,10);
+      setTabBoxHeight(7);
    end;
 end;
 
@@ -2198,16 +2188,11 @@ begin
   DataMod.ZTblGroup.First;
   With RPrinter do
     begin
-      SaveFontName(1, HELVETICA);
-      SaveFontSize(1,12);
-      SaveFontName(2, HELVETICA);
-      SaveFontSize(1,10);
-      SaveFontName(3, HELVETICA);
-      SaveFontSize(3,12);
-      SaveFontName(4, HELVETICA);
-      SaveFontSize(4,10);
-      SaveFontName(5, HELVETICA);
-      SaveFontSize(4,10);
+      SaveTabFont(1, HELVETICA,12 );
+      SaveTabFont(2, HELVETICA, 10);
+      SaveTabFont(3, HELVETICA, 12);
+      SaveTabFont(4, HELVETICA, 10);
+      SaveTabFont(5, HELVETICA, 10);
       //fLineToLine := round(fFont.FontSize * fLineScale);
 
     FreeTabs(1);  //Page Header
@@ -2250,15 +2235,11 @@ begin
 
     BH10 := PointToInch(Round(10*LineScale));
     BH12 := PointToInch(Round(12* LineScale));
-    setTabBoxHeight(1,BH12);
-    setTabBoxHeight(2,BH12);
-    setTabBoxHeight(3,BH12);
-    setTabBoxHeight(4,BH12);
-    setTabBoxHeight(5,BH12);
-      MarginLeft := 0.5;
-      MarginTop :=  0.5;
-      MarginBottom := 0.5;
-      MarginRight :=  0.5;
+    setTabBoxHeight(1);
+    setTabBoxHeight(2);
+    setTabBoxHeight(3);
+    setTabBoxHeight(4);
+    setTabBoxHeight(5);
   end; //with
 
 end;
@@ -2319,7 +2300,6 @@ end;
 procedure TFormSetup.doLastpage;
 var
   TmpTab: PTab;
-  BH10, BH12: Double;
 begin
   With RPrinter do
     begin
@@ -2334,9 +2314,8 @@ begin
       PrintTab(5, FormatFloat('0.00',DPTotalYearIncome));
       PrintTab(5, FormatFloat('0.00',DPTotalYearSpent));
       PrintTab(5, FormatFloat('0.00',0.0));
-      BH10 := PointToInch(Round(10*LineScale));
-      BH12 := PointToInch(Round(12*LineScale));
-      setTabBoxHeight(5,BH12);
+      SaveTabFont(5,HELVETICA,10);
+
       TotalMonthIncome:=TotalMonthIncome+DPTotalMonthIncome;
       TotalMonthSpent:=TotalMonthSpent+DPTotalMonthSpent;
       TotalYearIncome:=TotalYearIncome+DPTotalYearIncome;
@@ -2361,7 +2340,8 @@ begin
       TmpTab := NewTab(9, 2.6,JUSTIFYRIGHT,1.1,0.05, ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05, ABSOLUT,BOXLINEALL,5);
-      setTabBoxHeight(9,BH12);
+      SaveTabFont(9, HELVETICA, 10);
+      setTabBoxHeight(9);
       NewLine;
       If LinesLeft(0.3) < 2 then ReportNewPage;
       //TabNewLine(9);
@@ -2738,7 +2718,7 @@ End;
 Procedure TFormSetup.printLiability;
 Var
   Account: Integer;
-  NegTotal,PosTotal,Total,Amount, BH10, BH12: Double;
+  NegTotal,PosTotal,Total,Amount: Double;
   TmpTab: PTab;
 Begin
 
@@ -2754,9 +2734,8 @@ Begin
       TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.5,0.05,ABSOLUT, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,3);
-      BH10 := PointToInch(Round(10*LineScale));
-      BH12 := PointToInch(Round(12*LineScale));
-      setTabBoxHeight(5,BH12);
+      SaveTabFont(5, HELVETICA, 10);
+      setTabBoxHeight(5);
       Bold:=True;
       PrintTab(5,'Liability Accounts');
       Bold:=False;
@@ -2793,8 +2772,8 @@ Begin
       TmpTab := NewTab(5,2.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
       TmpTab := NewTab(5,3.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
       TmpTab := NewTab(5,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,3);
-      BH10 := PointToInch(Round(10*LineScale));
-      setTabBoxHeight(5,BH12);
+      SaveTabFont(5, HELVETICA, 10);
+      setTabBoxHeight(5);
       Total:=PosTotal+NegTotal;
       Bold:=True;
       PrintTab(5,'Total ');
@@ -2811,7 +2790,8 @@ Begin
       NewLine;
       TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,ABSOLUT, BOXLINEALL,4);
       TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,4);
-      setTabBoxHeight(8,BH12);
+      SaveTabFont(8, HELVETICA, 10);
+      setTabBoxHeight(8);
       PrintTab(8, 'Ending Balance including liabilities');
       If Total>=0.0 then
         PrintTab(8,FormatFloat('0.00',Total))

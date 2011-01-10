@@ -3333,7 +3333,6 @@ const
    MonStr, MonStr1:    String;
    Accy,ScriptX,ScriptY,DupY,DateX,DateY: Double;
    VendX,VendY,MemoX,MemoY,AmountX,AmountY: Double;
-   CheckFont: FontType;
    prt: boolean;
  begin
    try
@@ -3360,11 +3359,8 @@ const
      begin
        RPRinter.Landscape:=false;
       // RPrinter.NewPage;
-       CheckFont.FontName := HELVETICA;
-       CheckFont.FontSize := 10;
-       Font := CheckFont;
-       BH12 := PointToInch(Round(12* LineScale));
-       setTabBoxHeight(1,BH12);
+       SaveFont(HELVETICA, 10);
+       setTabBoxHeight(1);
      end;  //With RPrinter do
    for CheckNo:=begCK to endCK do   //range of checks
       begin
@@ -3408,8 +3404,9 @@ const
                Open;
                First;
                FreeTabs(1);
-               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINENONE,0);
-               setTabBoxHeight(1,BH12);
+               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.75,0.05,False,BOXLINENONE,0);
+               SaveTabFont(1,'HELVETICA',10);
+               SetTabBoxheight(1);
                //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
                PrintXY(1.0,AccY,'Payed to:  '+Vend);
                PrintXY(DateX,AccY,CkDate);
@@ -3424,7 +3421,7 @@ const
                    Dot := Pos('.',MonStr1);
                    for I := 5 downto Dot do
                      MonStr1 := '  ' + MonStr1;
-                   PrintTab(1, 'Account  '+Fields[1].AsString+' '+ MonStr1);
+                   PrintTab(1, 'Account  '+Fields[1].AsString+'       '+ MonStr1);
                   // NewLine;
                    next;
                  end;
@@ -4300,7 +4297,7 @@ begin
       PayFont.FontName := HELVETICA;
       PayFont.FontSize := 8;
       Font := PayFont;
-      setTabBoxHeight(1,BH);
+      setTabBoxHeight(1);
 
       PrintCenterPage('Pay Stub');
       Newline;
@@ -4327,8 +4324,8 @@ begin
 
      // NewLine;
       FreeTabs(TABLISTINDEX);
-      setTabBoxHeight(1,BH);
 
+      setTabBoxHeight(1);
       TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYCENTER,2.5,0.05,False,BOXLINEALL,0);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYCENTER,2.5,0.05,True,BOXLINEALL,0);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYCENTER,2.5,0.05,True,BOXLINEALL,0);
@@ -4342,7 +4339,7 @@ begin
 
       //NewLine;
       FreeTabs(TABLISTINDEX);
-      setTabBoxHeight(1,BH);
+      setTabBoxHeight(1);
 
 
       TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYRIGHT,0.834,0.05,False,BOXLINEALL,0);
@@ -4369,7 +4366,7 @@ begin
     //  NewLine;
       FreeTabs(TABLISTINDEX);
 
-      setTabBoxHeight(1,BH);
+      setTabBoxHeight(1);
 
       TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYRIGHT,0.833,0.05,False,BOXLINELEFT,0);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.833,0.05,True,BOXLINELEFT,0);
@@ -4590,7 +4587,7 @@ begin
         //NewLine;
 
         FreeTabs(TABLISTINDEX);
-        setTabBoxHeight(1,BH);
+        setTabBoxHeight(1);
 
         TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYRIGHT,0.834,0.05,False,BOXLINEALL,0);
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.833,0.05,True,BOXLINEALL,0);
@@ -4616,7 +4613,7 @@ begin
        // NewLine;
 
         FreeTabs(TABLISTINDEX);
-        setTabBoxHeight(1,BH);
+        setTabBoxHeight(1);
 
         TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYCENTER,1.666,0.05,True,BOXLINEALL,2);
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.834,0.05,True,BOXLINEALL,0);

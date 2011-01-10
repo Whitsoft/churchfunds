@@ -141,8 +141,8 @@ type
     BtnLabel: TButton;
     BtnLabClr: TButton;
  //   ReportSysLabel: TRvSystem;
-    Label41: TLabel;
-    Label42: TLabel;
+    LabelSPL: TLabel;
+    LabelSPT: TLabel;
     EDXPos: TEdit;
     EdYPos: TEdit;
     EdFontSize: TEdit;
@@ -668,10 +668,7 @@ var
   If RPrinter <> nil then
     With RPrinter do
       begin
-        SaveFontName(1, HELVETICA);
-        SaveFontSize(1,12);
-        SaveFontName(2, HELVETICA);
-        SaveFontSize(1,10);
+        SaveFont(HELVETICA,10);
       end;
    initPledges;
    initFunds;
@@ -1183,10 +1180,13 @@ procedure TFormCont.setMonthDayTabs;
 var
   TmpTab: PTab;
   BH12: Double;
+  CheckFont: FontType;
 begin
    With RPrinter do
     begin
-      BH12 := PointToInch(Round(10 * LineScale));
+      CheckFont.FontName := HELVETICA;
+      CheckFont.FontSize := 10;
+      Font := CheckFont;
       FreeTabs(1);
       FreeTabs(2);
       FreeTabs(3);
@@ -1215,11 +1215,11 @@ begin
       TmpTab := NewTab(4, 0.5,JUSTIFYCENTER,8.0,0.05, False,BOXLINENONE,0);
 
 
-      setTabBoxHeight(1,BH12);
-      setTabBoxHeight(2,BH12);
-      setTabBoxHeight(3,BH12);
-      setTabBoxHeight(4,BH12);
-      setTabBoxHeight(5,BH12);
+      setTabBoxHeight(1);
+      setTabBoxHeight(2);
+      setTabBoxHeight(3);
+      setTabBoxHeight(4);
+      setTabBoxHeight(5);
     end;
 end;
 
@@ -1276,10 +1276,6 @@ begin
   try
     if RPrinter = nil then
        RPrinter := TReportPrinterClass.Create(self);
-    RPrinter.MarginLeft := 0.5;
-    RPrinter.MarginTop :=  0.5;
-    RPrinter.MarginBottom := 0.5;
-    RPrinter.MarginRight :=  0.5;
 
     setMonthDayTabs;
     Year:=StrToInt(YearEd.Text);
@@ -2348,6 +2344,7 @@ var
   EZLabelClass: TAddressLabelClass;
   Add1,ZipCode, fName: String;
   LabelFont: FontType;
+  TmpScale: DOuble;
 begin
     try
       If EdXPos.Text<>'' then
@@ -2376,17 +2373,21 @@ begin
        LabelFont.FontSize := SEFontSize.value;
      With EZLabelClass do
        try
+         TmpScale := LineScale;
+         LineScale := 1.12;
          Font:= LabelFont;
          PrintPostNet := CheckBoxPostNet.Checked;
          PostNetHeight := 0.22;
          NumDown :=  strToInt(EdNumRows.Text);
          NumAcross := StrToInt(EdNumCols.text);
-         MarginTop := StrToFloat(EdTopMargin.text);
-         MarginLeft := StrToFloat(EdLeftMargin.text);
+         //MarginTop := StrToFloat(EdTopMargin.text);
+        // MarginLeft := StrToFloat(EdLeftMargin.text);
          TextMarginTop := StrToFloat(EdYPos.Text);
          TextMarginLeft := StrToFloat(EDXPos.Text);
          LabelWidth := StrToFloat(EdLabelWide.Text);
          LabelHeight := StrToFloat(EdLabelHigh.Text);
+         SpacingLeft := StrToFloat(EdLeftMargin.Text);
+         SpacingTop  := StrToFloat(EdTopMargin.Text);
          SpacingWidth := StrToFloat(EdSpaceWide.Text);
          SpacingHeight := StrToFloat(EdSpaceHigh.Text);
 
@@ -2396,6 +2397,7 @@ begin
        except
          ShowMessage('Bad number in at least one label edit box.');
        end;
+       EZLabelClass.LineScale := TmpScale;
  end;
 
 {procedure TFormCont.LabelShellLabelPrint(ReportPrinter: TBaseReport;
@@ -2498,6 +2500,7 @@ var
   TmpTab: PTab;
   BH10: Double;
   BH12: Double;
+  CheckFont: FontType;
 begin
   With RPrinter do
   begin
@@ -2506,7 +2509,10 @@ begin
     for I := 1 to 9 do
       begin
         FreeTabs(I);
-        setTabBoxHeight(I,BH12);
+        CheckFont.FontName := HELVETICA;
+        CheckFont.FontSize := 10;
+        Font := CheckFont;
+        setTabBoxHeight(I);
       end;
     TmpTab := NewTab(1, 0.5,JUSTIFYLEFT, 1.25,0.05, ABSOLUT, BOXLINENONE,0);
     TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINENONE,0);
@@ -2571,10 +2577,6 @@ begin
       //BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
       RestoreFont(2); //Helvetica 10
-      MarginLeft := 0.5;
-      MarginTop :=  0.5;
-      MarginBottom := 0.5;
-      MarginRight :=  0.5;
 
       RPrinter.Newpage;
       PrintCenterPage(ChurchName);
