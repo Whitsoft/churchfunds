@@ -611,7 +611,7 @@ end;
 
    procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer);
    begin
-     fTabArray[IDX]^.boxHeight := fFont.FontHeight + BoxSpace;
+     fTabArray[IDX]^.boxHeight := fFontArray[IDX]^.FontHeight + BoxSpace;
    end;
 
    function   TReportPrinterClass.getTabBoxHeight(IDX: Integer): Integer;
@@ -1354,7 +1354,7 @@ end;
       begin
         fFont.FontName := FName;
         fFont.FontSize := Size;
-        fFont.FOntHeight := ComputeFontHeight(FName, Size);
+        fFont.FontHeight := ComputeFontHeight(FName, Size);
       end;
   end;
 
@@ -1365,6 +1365,7 @@ end;
         fFontArray[IDX]^.FontName := FName;
         fFontArray[IDX]^.FontSize := Size;
         fFontArray[IDX]^.FontHeight := ComputeFontHeight(FName, Size);
+        setTabBoxHeight(IDX);
       end;
   end;
 

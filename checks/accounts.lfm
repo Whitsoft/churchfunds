@@ -32,7 +32,7 @@ object CheckForm: TCheckForm
     Font.Name = 'System'
     OnChangeBounds = NoteBookChangeBounds
     OnMouseDown = ShowContext
-    PageIndex = 2
+    PageIndex = 10
     ParentFont = False
     TabOrder = 0
     object Page1: TPage

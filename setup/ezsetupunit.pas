@@ -670,7 +670,6 @@ begin
       TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.50,0.05,RELATIVE,BOXLINEALL,0);
       SaveFont(HELVETICA, 10);
       SaveTabFont(6, HELVETICA, 12);
-      setTabBoxHeight(6);
    end;
 end;
 
@@ -801,7 +800,6 @@ begin
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  0.75,0.05, RELATIVE, BOXLINEALL,0);
       SaveTabFont(1,HELVETICA,10);
       SaveTabFont(7,HELVETICA,10);
-      setTabBoxHeight(7);
    end;
 end;
 
@@ -2183,16 +2181,10 @@ end;
 procedure TFormSetup.ReportSetup;
 var
   TmpTab: PTab;
-  BH10, BH12: Double;
 begin
   DataMod.ZTblGroup.First;
   With RPrinter do
     begin
-      SaveTabFont(1, HELVETICA,12 );
-      SaveTabFont(2, HELVETICA, 10);
-      SaveTabFont(3, HELVETICA, 12);
-      SaveTabFont(4, HELVETICA, 10);
-      SaveTabFont(5, HELVETICA, 10);
       //fLineToLine := round(fFont.FontSize * fLineScale);
 
     FreeTabs(1);  //Page Header
@@ -2233,13 +2225,11 @@ begin
     TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
     TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,ABSOLUT,BOXLINEALL,2);
 
-    BH10 := PointToInch(Round(10*LineScale));
-    BH12 := PointToInch(Round(12* LineScale));
-    setTabBoxHeight(1);
-    setTabBoxHeight(2);
-    setTabBoxHeight(3);
-    setTabBoxHeight(4);
-    setTabBoxHeight(5);
+    SaveTabFont(1, HELVETICA,12 );
+    SaveTabFont(2, HELVETICA, 10);
+    SaveTabFont(3, HELVETICA, 12);
+    SaveTabFont(4, HELVETICA, 10);
+    SaveTabFont(5, HELVETICA, 10);
   end; //with
 
 end;
@@ -2341,7 +2331,6 @@ begin
       TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05, ABSOLUT,BOXLINEALL,5);
       SaveTabFont(9, HELVETICA, 10);
-      setTabBoxHeight(9);
       NewLine;
       If LinesLeft(0.3) < 2 then ReportNewPage;
       //TabNewLine(9);
@@ -2735,7 +2724,7 @@ Begin
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,3);
       SaveTabFont(5, HELVETICA, 10);
-      setTabBoxHeight(5);
+
       Bold:=True;
       PrintTab(5,'Liability Accounts');
       Bold:=False;
@@ -2773,7 +2762,7 @@ Begin
       TmpTab := NewTab(5,3.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
       TmpTab := NewTab(5,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,3);
       SaveTabFont(5, HELVETICA, 10);
-      setTabBoxHeight(5);
+
       Total:=PosTotal+NegTotal;
       Bold:=True;
       PrintTab(5,'Total ');
@@ -2791,7 +2780,7 @@ Begin
       TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,ABSOLUT, BOXLINEALL,4);
       TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,4);
       SaveTabFont(8, HELVETICA, 10);
-      setTabBoxHeight(8);
+
       PrintTab(8, 'Ending Balance including liabilities');
       If Total>=0.0 then
         PrintTab(8,FormatFloat('0.00',Total))
