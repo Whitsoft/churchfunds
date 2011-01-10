@@ -19,8 +19,8 @@ WHERE id = :id}
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
-  RPrintClass;
+  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp, OSPrinters,
+  rprintclass;
 
 type
   PayInfo = record
@@ -3286,7 +3286,6 @@ procedure TCheckForm.PrintCheckBtnClick(Sender: TObject);
 var
   CheckValue: String;
   beginCheck, endCheck: Integer;
-  MarginsRec: FloatMargins;
 begin
   If DataMod.ZTblTempChecks.RecordCount<=0 then exit;
   With DataMod.ZTblTempChecks do
@@ -3298,12 +3297,8 @@ begin
        endCheck:=FieldByName('CHECK_NO').AsInteger;
      end;
      try
-       MarginsRec := RPrinter.PageMargins;
-       RPrinter.MarginLeft :=0.0;
-       RPrinter.MarginTop := 0.0;
        CheckPrinterPrint(beginCheck, endCheck);
-       RPrinter.PageMargins := MarginsRec;
-     finally
+      finally
      end;
   doBalance;
 
@@ -3343,22 +3338,23 @@ const
  begin
    try
     Cnt:=0;
+    With  RPrinter do
     With DataMod.ZTblXY do   //get check format parameters
       begin
         if not active then open;
         First;
-        VendX:=FieldByName('PAYX').AsFloat;
-        VendY:=FieldByName('PAYY').AsFloat;
-        DateX:=FieldByName('DateX').AsFloat;
-        DateY:=FieldByName('DateY').AsFloat;
-        ScriptX:=FieldByName('ScriptX').AsFloat;
-        ScriptY:=FieldByName('ScriptY').AsFloat;
-        MemoX:=FieldByName('MemoX').AsFloat;
-        MemoY:=FieldByName('MemoY').AsFloat;
-        DupY:=FieldByName('DupY').AsFloat;
+        VendX:=FieldByName('PAYX').AsFloat ;
+        VendY:=FieldByName('PAYY').AsFloat ;
+        DateX:=FieldByName('DateX').AsFloat ;
+        DateY:=FieldByName('DateY').AsFloat ;
+        ScriptX:=FieldByName('ScriptX').AsFloat ;
+        ScriptY:=FieldByName('ScriptY').AsFloat ;
+        MemoX:=FieldByName('MemoX').AsFloat  ;
+        MemoY:=FieldByName('MemoY').AsFloat  ;
+        DupY:=FieldByName('DupY').AsFloat ;
         AmountX:=FieldByName('AmountX').AsFloat;
-        AmountY:=FieldByName('AmountY').AsFloat;
-        AccY:=FieldByName('AccountY').AsFloat;
+        AmountY:=FieldByName('AmountY').AsFloat ;
+        AccY:=FieldByName('AccountY').AsFloat ;
       end;
    With RPrinter do
      begin
@@ -4263,10 +4259,6 @@ begin
     // fName := 'paystub' + '-'+DateToStr(Date)+'.ps';
      // OpenPrintFile(fName);
       //LineSpacing := 0.30;
-      MarginLeft := 0.1;
-      MarginTop :=  0.5;
-      MarginBottom := 0.5;
-      MarginRight :=  0.5;
       Home;
       NewLine;
       NewLine;
