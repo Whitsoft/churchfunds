@@ -83,10 +83,10 @@
       <Unit3>
         <Filename Value="../rprintclass.pas"/>
         <UnitName Value="rprintclass"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1557"/>
-        <CursorPos X="46" Y="1578"/>
+        <TopLine Value="913"/>
+        <CursorPos X="1" Y="947"/>
         <UsageCount Value="68154"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -159,11 +159,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="accounts"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3323"/>
-        <CursorPos X="1" Y="3337"/>
-        <UsageCount Value="196"/>
+        <TopLine Value="3382"/>
+        <CursorPos X="79" Y="3410"/>
+        <UsageCount Value="199"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit13>
@@ -255,11 +255,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="chelp"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="44" Y="17"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="63"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit24>
@@ -486,11 +486,11 @@
       </Unit51>
       <Unit52>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/include/canvas.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1208"/>
-        <CursorPos X="19" Y="1229"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="918"/>
+        <CursorPos X="1" Y="940"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit52>
       <Unit53>
@@ -639,20 +639,18 @@
       </Unit70>
       <Unit71>
         <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters.inc"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit71>
       <Unit72>
         <Filename Value="../../../lazarus/lazarus_svn/components/printers/readme.txt"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit72>
@@ -682,22 +680,18 @@
       </Unit75>
       <Unit76>
         <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters_h.inc"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="61"/>
         <CursorPos X="34" Y="78"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit76>
       <Unit77>
         <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsdyn.pp"/>
         <UnitName Value="cupsdyn"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="526"/>
         <CursorPos X="1" Y="561"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit77>
       <Unit78>
         <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/printerprop.lrs"/>
@@ -717,134 +711,132 @@
       <Unit80>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/printers.pas"/>
         <UnitName Value="Printers"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1039"/>
         <CursorPos X="1" Y="1071"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit80>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="804" Column="13" TopLine="769"/>
+        <Caret Line="983" Column="1" TopLine="950"/>
       </Position1>
       <Position2>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="848" Column="34" TopLine="814"/>
+        <Caret Line="985" Column="1" TopLine="951"/>
       </Position2>
       <Position3>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="870" Column="31" TopLine="836"/>
+        <Caret Line="986" Column="1" TopLine="952"/>
       </Position3>
       <Position4>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="955" Column="56" TopLine="914"/>
+        <Caret Line="987" Column="1" TopLine="953"/>
       </Position4>
       <Position5>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1181" Column="80" TopLine="1147"/>
+        <Caret Line="933" Column="1" TopLine="912"/>
       </Position5>
       <Position6>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1348" Column="7" TopLine="1314"/>
+        <Caret Line="934" Column="1" TopLine="912"/>
       </Position6>
       <Position7>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="936" Column="35" TopLine="912"/>
       </Position7>
       <Position8>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="165" Column="35" TopLine="131"/>
+        <Caret Line="963" Column="1" TopLine="942"/>
       </Position8>
       <Position9>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1346" Column="1" TopLine="1310"/>
+        <Caret Line="964" Column="1" TopLine="942"/>
       </Position9>
       <Position10>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="965" Column="1" TopLine="942"/>
       </Position10>
       <Position11>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="165" Column="35" TopLine="131"/>
+        <Caret Line="967" Column="1" TopLine="942"/>
       </Position11>
       <Position12>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="968" Column="1" TopLine="942"/>
       </Position12>
       <Position13>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="165" Column="35" TopLine="131"/>
+        <Caret Line="969" Column="1" TopLine="966"/>
       </Position13>
       <Position14>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="212" Column="49" TopLine="178"/>
+        <Caret Line="972" Column="1" TopLine="964"/>
       </Position14>
       <Position15>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="974" Column="1" TopLine="964"/>
       </Position15>
       <Position16>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="164" Column="1" TopLine="131"/>
+        <Caret Line="977" Column="1" TopLine="964"/>
       </Position16>
       <Position17>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1332" Column="1" TopLine="1306"/>
+        <Caret Line="979" Column="1" TopLine="964"/>
       </Position17>
       <Position18>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="860" Column="49" TopLine="839"/>
+        <Caret Line="980" Column="1" TopLine="964"/>
       </Position18>
       <Position19>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="859" Column="35" TopLine="841"/>
+        <Caret Line="981" Column="1" TopLine="964"/>
       </Position19>
       <Position20>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="13"/>
+        <Caret Line="982" Column="1" TopLine="964"/>
       </Position20>
       <Position21>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="860" Column="53" TopLine="839"/>
+        <Caret Line="983" Column="1" TopLine="964"/>
       </Position21>
       <Position22>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1177" Column="42" TopLine="1156"/>
+        <Caret Line="985" Column="1" TopLine="964"/>
       </Position22>
       <Position23>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1278" Column="30" TopLine="1257"/>
+        <Caret Line="986" Column="1" TopLine="964"/>
       </Position23>
       <Position24>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1551" Column="46" TopLine="1533"/>
+        <Caret Line="987" Column="1" TopLine="964"/>
       </Position24>
       <Position25>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="169" Column="1" TopLine="169"/>
+        <Caret Line="934" Column="1" TopLine="913"/>
       </Position25>
       <Position26>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1278" Column="29" TopLine="1257"/>
+        <Caret Line="936" Column="1" TopLine="913"/>
       </Position26>
       <Position27>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1554" Column="21" TopLine="1533"/>
+        <Caret Line="937" Column="1" TopLine="913"/>
       </Position27>
       <Position28>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1577" Column="34" TopLine="1556"/>
+        <Caret Line="938" Column="1" TopLine="913"/>
       </Position28>
       <Position29>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1578" Column="50" TopLine="1557"/>
+        <Caret Line="939" Column="1" TopLine="913"/>
       </Position29>
       <Position30>
-        <Filename Value="accounts.pas"/>
-        <Caret Line="3300" Column="1" TopLine="3268"/>
+        <Filename Value="../rprintclass.pas"/>
+        <Caret Line="945" Column="1" TopLine="913"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -892,7 +884,7 @@
       </Item3>
       <Item4>
         <Source Value="accounts.pas"/>
-        <Line Value="4202"/>
+        <Line Value="4201"/>
       </Item4>
       <Item5>
         <Source Value="/media/windows/Program Files/Borland/Delphi7/projects/EZCheck/Accounts.pas"/>

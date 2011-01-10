@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 6
+    PageIndex = 8
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage

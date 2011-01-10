@@ -68,11 +68,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ezsetupunit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="766"/>
-        <CursorPos X="5" Y="800"/>
+        <TopLine Value="2091"/>
+        <CursorPos X="1" Y="2112"/>
         <UsageCount Value="139268"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -96,7 +95,12 @@
         <Filename Value="../rprintclass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="rprintclass"/>
-        <UsageCount Value="20"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1340"/>
+        <CursorPos X="44" Y="1361"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
       </Unit3>
     </Units>
   </ProjectOptions>
@@ -121,7 +125,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="6">
+    <BreakPoints Count="4">
       <Item1>
         <Source Value="../../../firebird/EZSetup/sqldb.pp"/>
         <Line Value="1427"/>
@@ -136,16 +140,8 @@
       </Item3>
       <Item4>
         <Source Value="ezsetupunit.pas"/>
-        <Line Value="2140"/>
+        <Line Value="966"/>
       </Item4>
-      <Item5>
-        <Source Value="ezsetupunit.pas"/>
-        <Line Value="2122"/>
-      </Item5>
-      <Item6>
-        <Source Value="ezsetupunit.pas"/>
-        <Line Value="976"/>
-      </Item6>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
