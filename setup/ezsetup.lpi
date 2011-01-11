@@ -71,8 +71,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2749"/>
-        <CursorPos X="1" Y="2783"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="139268"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -96,11 +96,11 @@
         <Filename Value="../rprintclass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="rprintclass"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1340"/>
-        <CursorPos X="69" Y="1347"/>
-        <UsageCount Value="21"/>
+        <TopLine Value="217"/>
+        <CursorPos X="32" Y="251"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit3>
     </Units>

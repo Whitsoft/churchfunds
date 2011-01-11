@@ -39,7 +39,7 @@ object FormSetup: TFormSetup
     Font.Height = -15
     Font.Name = 'System'
     OnMouseDown = ShowContext
-    PageIndex = 8
+    PageIndex = 4
     ParentFont = False
     TabOrder = 0
     object PAGE1: TPage
@@ -296,7 +296,6 @@ object FormSetup: TFormSetup
           KeyField = 'GROUP_NO'
           ListField = 'DESCRIPTION'
           ListFieldIndex = 0
-          ListSource = DataMod.SrcGroup
           LookupCache = False
           OnMouseDown = ShowContext
           ParentFont = False
