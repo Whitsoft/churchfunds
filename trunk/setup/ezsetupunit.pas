@@ -471,8 +471,8 @@ Begin
   If RPrinter <> nil then
     With RPrinter do
       begin
-        SaveTabFont(1, HELVETICA, 12);
-        SaveTabFont(2, HELVETICA, 10);
+        PutTabFont(1, HELVETICA, 12);
+        PutTabFont(2, HELVETICA, 10);
       end;
   OpenTables;
 end;
@@ -613,10 +613,10 @@ begin
   With RPrinter do
     begin
       Bold:=True;
-      RestoreFont(1);
+      IndexFont(1);
       //report Title
       PrintCenterPage(ChurchName);
-      RestoreFont(2);
+      IndexFont(2);
       Bold:=False;
       NewLine;
       Newline;
@@ -639,7 +639,7 @@ begin
     begin
       EndPage;
       NewPage;
-      RestoreFont(1);
+      IndexFont(1);
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
@@ -668,8 +668,8 @@ begin
       TmpTab := NewTab(6,0.75,JUSTIFYCENTER,1.0,0.05,ABSOLUT,BOXLINEALL,0);
       TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.75,0.05,RELATIVE,BOXLINEALL,0);
       TmpTab := NewTab(6,0.0,JUSTIFYLEFT,2.50,0.05,RELATIVE,BOXLINEALL,0);
-      SaveFont(HELVETICA, 10);
-      SaveTabFont(6, HELVETICA, 12);
+      PutCurrentFont(HELVETICA, 10);
+      PutTabFont(6, HELVETICA, 12);
    end;
 end;
 
@@ -741,10 +741,10 @@ begin
  With RPrinter do
     begin
       Bold:=True;
-      RestoreFont(1);
+      IndexFont(1);
       //report Title
       PrintCenterPage(ChurchName);
-      RestoreFont(2);
+      IndexFont(2);
       Bold:=False;
       PrintCenterPage('Accounts Report');
       PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
@@ -767,7 +767,7 @@ begin
     begin
       EndPage;
       NewPage;
-      RestoreFont(1);
+      IndexFont(1);
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
@@ -798,8 +798,8 @@ begin
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  1.25,0.05, RELATIVE, BOXLINEALL,0);
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  2.00,0.05, RELATIVE, BOXLINEALL,0);
       TmpTab := NewTab(7, 0.0,JUSTIFYLEFT,  0.75,0.05, RELATIVE, BOXLINEALL,0);
-      SaveTabFont(1,HELVETICA,10);
-      SaveTabFont(7,HELVETICA,10);
+      PutTabFont(1,HELVETICA,10);
+      PutTabFont(7,HELVETICA,10);
    end;
 end;
 
@@ -2140,12 +2140,12 @@ begin
     begin
       ChurchName := StripRight(DataMod.TableChurch.FieldByName('NAME').AsString);
       Bold:=True;
-      RestoreFont(1);
+      IndexFont(1);
       CurrentY := 0.15;
       PageNo := 1;
       //report Title
       PrintCenterPage(ChurchName);
-      RestoreFont(2);
+      IndexFont(2);
       Bold:=False;
       NewLine;
        PrintCenterPage('General Fund Report');
@@ -2164,7 +2164,7 @@ begin
     begin
       EndPage;
       NewPage;
-      RestoreFont(1);
+      IndexFont(1);
       PageNo := PageNo + 1;
       If PageNo > 1 then
         begin
@@ -2225,11 +2225,12 @@ begin
     TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
     TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,ABSOLUT,BOXLINEALL,2);
 
-    SaveTabFont(1, HELVETICA,12 );
-    SaveTabFont(2, HELVETICA, 10);
-    SaveTabFont(3, HELVETICA, 12);
-    SaveTabFont(4, HELVETICA, 10);
-    SaveTabFont(5, HELVETICA, 10);
+    PutTabFont(1, HELVETICA, 12 );
+    PutTabFont(2, HELVETICA, 10);
+    PutTabFont(3, HELVETICA, 12);
+    PutTabFont(4, HELVETICA, 10);
+    PutTabFont(5, HELVETICA, 10);
+    PutCurrentFont(HELVETICA,10);
   end; //with
 
 end;
@@ -2304,7 +2305,7 @@ begin
       PrintTab(5, FormatFloat('0.00',DPTotalYearIncome));
       PrintTab(5, FormatFloat('0.00',DPTotalYearSpent));
       PrintTab(5, FormatFloat('0.00',0.0));
-      SaveTabFont(5,HELVETICA,10);
+      PutTabFont(5,HELVETICA,10);
 
       TotalMonthIncome:=TotalMonthIncome+DPTotalMonthIncome;
       TotalMonthSpent:=TotalMonthSpent+DPTotalMonthSpent;
@@ -2330,7 +2331,7 @@ begin
       TmpTab := NewTab(9, 2.6,JUSTIFYRIGHT,1.1,0.05, ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05, ABSOLUT,BOXLINEALL,5);
-      SaveTabFont(9, HELVETICA, 10);
+      PutTabFont(9, HELVETICA, 10);
       NewLine;
       If LinesLeft(0.3) < 2 then ReportNewPage;
       //TabNewLine(9);
@@ -2723,7 +2724,7 @@ Begin
       TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.5,0.05,ABSOLUT, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,3);
-      SaveTabFont(5, HELVETICA, 10);
+      PutTabFont(5, HELVETICA, 10);
 
       Bold:=True;
       PrintTab(5,'Liability Accounts');
@@ -2761,7 +2762,7 @@ Begin
       TmpTab := NewTab(5,2.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
       TmpTab := NewTab(5,3.85,JUSTIFYRIGHT,0.9,0.05,ABSOLUT, BOXLINEALL,3);
       TmpTab := NewTab(5,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,3);
-      SaveTabFont(5, HELVETICA, 10);
+      PutTabFont(5, HELVETICA, 10);
 
       Total:=PosTotal+NegTotal;
       Bold:=True;
@@ -2779,7 +2780,7 @@ Begin
       NewLine;
       TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,ABSOLUT, BOXLINEALL,4);
       TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,4);
-      SaveTabFont(8, HELVETICA, 10);
+      PutTabFont(8, HELVETICA, 10);
 
       PrintTab(8, 'Ending Balance including liabilities');
       If Total>=0.0 then

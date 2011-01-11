@@ -1,0 +1,336 @@
+object Form1: TForm1
+  Left = 868
+  Height = 499
+  Top = 92
+  Width = 739
+  Caption = 'Form1'
+  ClientHeight = 499
+  ClientWidth = 739
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  LCLVersion = '0.9.29'
+  object Button1: TButton
+    Left = 89
+    Height = 25
+    Top = 63
+    Width = 75
+    Caption = 'Frame'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object EdXDPI: TEdit
+    Left = 144
+    Height = 27
+    Top = 120
+    Width = 80
+    TabOrder = 1
+    Text = 'EdXDPI'
+  end
+  object EdYDPI: TEdit
+    Left = 144
+    Height = 27
+    Top = 166
+    Width = 80
+    TabOrder = 2
+    Text = 'EdYDPI'
+  end
+  object EdWidth: TEdit
+    Left = 145
+    Height = 27
+    Top = 208
+    Width = 80
+    TabOrder = 3
+    Text = 'EdWidth'
+  end
+  object EdLength: TEdit
+    Left = 144
+    Height = 27
+    Top = 256
+    Width = 80
+    TabOrder = 4
+    Text = 'EdLength'
+  end
+  object EdTop: TEdit
+    Left = 456
+    Height = 27
+    Top = 121
+    Width = 80
+    TabOrder = 5
+    Text = 'EdTop'
+  end
+  object EdLf: TEdit
+    Left = 456
+    Height = 27
+    Top = 166
+    Width = 80
+    TabOrder = 6
+    Text = 'EdLf'
+  end
+  object Label1: TLabel
+    Left = 32
+    Height = 18
+    Top = 130
+    Width = 34
+    Caption = 'XPDI'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 32
+    Height = 18
+    Top = 173
+    Width = 33
+    Caption = 'YPDI'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 32
+    Height = 18
+    Top = 211
+    Width = 42
+    Caption = 'Width'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 32
+    Height = 18
+    Top = 254
+    Width = 50
+    Caption = 'Length'
+    ParentColor = False
+  end
+  object EdRt: TEdit
+    Left = 456
+    Height = 27
+    Top = 217
+    Width = 80
+    TabOrder = 7
+    Text = 'EdRt'
+  end
+  object EdBt: TEdit
+    Left = 456
+    Height = 27
+    Top = 260
+    Width = 80
+    TabOrder = 8
+    Text = 'EdBt'
+  end
+  object Label5: TLabel
+    Left = 362
+    Height = 18
+    Top = 128
+    Width = 62
+    Caption = 'TopMarg'
+    ParentColor = False
+  end
+  object Label6: TLabel
+    Left = 362
+    Height = 18
+    Top = 175
+    Width = 50
+    Caption = 'LfMarg'
+    ParentColor = False
+  end
+  object Label7: TLabel
+    Left = 360
+    Height = 18
+    Top = 224
+    Width = 52
+    Caption = 'RtMarg'
+    ParentColor = False
+  end
+  object LabelBot: TLabel
+    Left = 360
+    Height = 18
+    Top = 264
+    Width = 52
+    Caption = 'BtMarg'
+    ParentColor = False
+  end
+  object PgLfMarg: TEdit
+    Left = 112
+    Height = 27
+    Top = 376
+    Width = 80
+    TabOrder = 9
+    Text = 'PgLfMarg'
+  end
+  object PgTpMarg: TEdit
+    Left = 288
+    Height = 27
+    Top = 320
+    Width = 80
+    TabOrder = 10
+    Text = 'PgTpMarg'
+  end
+  object PgBtMarg: TEdit
+    Left = 272
+    Height = 27
+    Top = 432
+    Width = 80
+    TabOrder = 11
+    Text = 'PgBtMarg'
+  end
+  object PgRtMarg: TEdit
+    Left = 416
+    Height = 27
+    Top = 368
+    Width = 80
+    TabOrder = 12
+    Text = 'PgRtMarg'
+  end
+  object Label8: TLabel
+    Left = 16
+    Height = 18
+    Top = 384
+    Width = 84
+    Caption = 'LfPageMarg'
+    ParentColor = False
+  end
+  object Label9: TLabel
+    Left = 176
+    Height = 18
+    Top = 328
+    Width = 96
+    Caption = 'TopPageMarg'
+    ParentColor = False
+  end
+  object Label10: TLabel
+    Left = 320
+    Height = 18
+    Top = 376
+    Width = 86
+    Caption = 'RtPageMarg'
+    ParentColor = False
+  end
+  object Label11: TLabel
+    Left = 168
+    Height = 18
+    Top = 440
+    Width = 95
+    Caption = 'BotPageMarg'
+    ParentColor = False
+  end
+  object Label12: TLabel
+    Left = 248
+    Height = 18
+    Top = 217
+    Width = 58
+    Caption = 'Label12'
+    ParentColor = False
+  end
+  object Label13: TLabel
+    Left = 247
+    Height = 18
+    Top = 262
+    Width = 58
+    Caption = 'Label13'
+    ParentColor = False
+  end
+  object Label14: TLabel
+    Left = 585
+    Height = 18
+    Top = 131
+    Width = 58
+    Caption = 'Label14'
+    ParentColor = False
+  end
+  object Label15: TLabel
+    Left = 583
+    Height = 18
+    Top = 170
+    Width = 58
+    Caption = 'Label15'
+    ParentColor = False
+  end
+  object Label16: TLabel
+    Left = 584
+    Height = 18
+    Top = 219
+    Width = 58
+    Caption = 'Label16'
+    ParentColor = False
+  end
+  object Label17: TLabel
+    Left = 587
+    Height = 18
+    Top = 260
+    Width = 58
+    Caption = 'Label17'
+    ParentColor = False
+  end
+  object Label18: TLabel
+    Left = 209
+    Height = 18
+    Top = 380
+    Width = 58
+    Caption = 'Label18'
+    ParentColor = False
+  end
+  object Label19: TLabel
+    Left = 381
+    Height = 18
+    Top = 327
+    Width = 58
+    Caption = 'Label19'
+    ParentColor = False
+  end
+  object Label20: TLabel
+    Left = 512
+    Height = 18
+    Top = 376
+    Width = 58
+    Caption = 'Label20'
+    ParentColor = False
+  end
+  object Label21: TLabel
+    Left = 368
+    Height = 18
+    Top = 436
+    Width = 58
+    Caption = 'Label21'
+    ParentColor = False
+  end
+  object Button2: TButton
+    Left = 240
+    Height = 25
+    Top = 63
+    Width = 75
+    Caption = 'Label'
+    OnClick = Button2Click
+    TabOrder = 13
+  end
+  object Button3: TButton
+    Left = 504
+    Height = 25
+    Top = 63
+    Width = 99
+    Caption = 'AddFrames'
+    OnClick = Button3Click
+    TabOrder = 14
+  end
+  object Button4: TButton
+    Left = 352
+    Height = 25
+    Top = 64
+    Width = 75
+    Caption = 'Tab'
+    OnClick = Button4Click
+    TabOrder = 15
+  end
+  object Edit1: TEdit
+    Left = 617
+    Height = 27
+    Top = 454
+    Width = 80
+    TabOrder = 16
+    Text = '24'
+  end
+  object Label22: TLabel
+    Left = 621
+    Height = 18
+    Top = 435
+    Width = 65
+    Caption = 'Font Size'
+    ParentColor = False
+  end
+end

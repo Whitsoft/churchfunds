@@ -77,7 +77,7 @@ Type
 Type
 	PTab = ^TTab;                  //A pointer to a tab
 	TTab = record
-	  XPos:         Integer;       //tab stop - use integers to reduce conversions
+          XPos:         Integer;       //tab stop - use integers to reduce conversions
 	  justifyText:  Integer;
 	  BoxWidth:     Integer;       //width of this tab box
 	  Margin:       Integer;       //Distance from left tab edge and start of text
@@ -93,6 +93,7 @@ Type
 	  TabIndex:  integer;
 	  TabCount:  integer;     //Number of tabs in this list
 	  boxHeight: integer;     //All boxes in these tab list are this high
+          TabFont:   FontType;
 	  TabPos:    PTab;        //Current tab in list
 	  TabHead:   PTab;        //Pointer to first tab in this tab list
 	  TabTail:   PTab;        //Pointer to last tab in this tab list
@@ -132,7 +133,7 @@ Type
 	  fErrorCode        : Integer;
 	  fPageLength       : integer;
 	  fPageWidth        : integer;
-          fFont             : FontType;
+          fCurrentFont      : FontType;
           fBold             : Boolean;
           fLandscape        : Boolean;
           fSender           : TObject;
@@ -156,7 +157,7 @@ Type
 	 function    getCurrentX: Double;
 	 function    getCurrentY: Double;
          procedure   Swap(var L, W: integer);
-         property    CurrentPage: TImage read fCurrentPage;
+         //property    CurrentPage: TImage read fCurrentPage;
 	 procedure   setPageLength(Ln: Double);
 	 procedure   setPageWidth( Wd: Double);
          function    ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
@@ -170,6 +171,7 @@ Type
 	 function    CalcCenterPage: Integer;
 
          procedure   RTextOut(X, Y: Integer; S: String);
+          procedure  TabTextOut(IDX, X, Y, BWidth, BLeft: Integer; S: String);
          procedure   PrintLeftPoint(S: String; XPos: integer);
 	 procedure   PrintCenterPoint(S: String; XPos: integer);
 	 procedure   PrintRightPoint(S: String; XPos: integer);
@@ -177,15 +179,16 @@ Type
 	 function    NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
                                      TabRel: Boolean; boxLines, boxShade: integer): PTab;
 
-         function    TabYPos(S: String; BBase, BHght: Integer): Integer;
+         function    TabYPos(S: String; FHigh, BBase, BHght: Integer): Integer;
          procedure   PrintFormClose(Sender: TObject; var act: TCloseAction);
    public
+         property    CurrentPage: TImage read fCurrentPage;
 	 constructor Create(Sender: TObject);
          procedure   PrintFormCreate(Sender: TObject);
          property    FontHeight:Integer read getFontHeight;
          property    Landscape: Boolean read fLandscape write setLandscape;
          property    PageNo: Integer read fPageNo write fPageNo;
-         property    font: FontType read fFont write setFont;
+         property    font: FontType read fCurrentFont write setFont;
          property    TabArrayIndex: Integer read fTabArrayIndex write fTabArrayIndex;
 	 property    PrintFileOpen: boolean read fPrintFileOpen;
 	 property    PrintFile: Text read fPrintFile;
@@ -213,6 +216,11 @@ Type
          property    MarginRight: Integer read fPageMargins.RightMargin;
          property    MarginBottom: Integer read fPageMargins.BottomMargin;
 
+         property    PrMarginTop:   Integer read fPrinterMargins.TopMargin;
+         property    PrMarginLeft:  Integer read fPrinterMargins.LeftMargin;
+         property    PrMarginRight: Integer read fPrinterMargins.RightMargin;
+         property    PrMarginBottom: Integer read fPrinterMargins.BottomMargin;
+
 	 function    getBoxLeft(Combined: Byte): Boolean;
 	 function    getBoxBottom(Combined: Byte): Boolean;
 	 function    getBoxRite(Combined: Byte): Boolean;
@@ -237,9 +245,11 @@ Type
 
 	 procedure   printTab(IDX: integer; S: String);
          function    resetTab(IDX: Integer): PTab;
-	 procedure   SaveTabFont(IDX: Integer; FName: String; Size: Integer);
-         procedure   SaveFont(FName: String; Size: Integer);
-	 procedure   RestoreFont(IDX: Integer);
+
+         procedure   PutCurrentFont(FName: String; Size: Integer);                   //set current font
+	 function    IndexFont(IDX: Integer): Boolean;                                 //Set current font from saved tab array
+         procedure   PutTabFont(IDX: Integer; FName: String; Size: Integer);  //set font for tab[IDX]
+         function    IndexTabFont(IDX: Integer): Boolean;                              //Set font for tab[IDX] from saved tab array
 
          procedure   setBoxShade(TabPtr: PTab; Shade: Integer);
          function    getBoxShade(TabPtr: PTab): Integer;
@@ -475,15 +485,16 @@ end;
         fPrinter := TCupsPrinter.Create;
         setPrinterMargins;
         fPageLength := 792 + 36;             //11.0
-	fPageWidth := 612 + 36;              //8.5
+	fPageWidth := 576 + 36;              //8.5
         CreateFontArray;
         //create empty tab array
         CreateTabArray;
         //CreatePageArray;
         fPageNo := 0;
         fPages := 0;
-	fFont.FontName := TIMESROMAN;
-	fFont.FontSize := 10;
+	fCurrentFont.FontName := TIMESROMAN;
+	fCurrentFont.FontSize := 10;
+        fCurrentFont.FontHeight := ComputeFontHeight(TIMESROMAN,10);
 	fLineScale := 1.5;
         fLineSpace := 4;
 	fPrintFileName := '';
@@ -513,9 +524,9 @@ end;
          ARect.Right := PageWidth;
          ARect.Bottom := PageHeight;
          BeginDoc;
-         Canvas.Font.Name := fFont.FontName;
-         Canvas.Font.Size := fFont.FontSize;
-         Canvas.Font.Color := clBlack;
+         {Canvas.Font.Name := fCurrentFont.FontName;
+         Canvas.Font.Size := fCurrentFont.FontSize;
+         Canvas.Font.Color := clBlack; }
          Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);
         //         APrinter.Canvas.CopyRect(Classes.Rect(0, 0, APrinter.PaperSize.Width, APrinter.PaperSize.Height),
         //   CurrentPage.Canvas, Classes.Rect(0,0, CurrentPage.Width, CurrentPage.Height));
@@ -535,8 +546,8 @@ end;
          ARect.Right := PageWidth;
          ARect.Bottom := PageHeight;
          BeginDoc;
-         Canvas.Font.Name := fFont.FontName;
-         Canvas.Font.Size := fFont.FontSize;
+         Canvas.Font.Name := fCurrentFont.FontName;
+         Canvas.Font.Size := fCurrentFont.FontSize;
          Canvas.Font.Color := clBlack;
          for IDX := 1 to fPages do
            Canvas.StretchDraw(ARect, fPageArray[IDX].Picture.Bitmap);
@@ -611,7 +622,7 @@ end;
 
    procedure  TReportPrinterClass.setTabBoxHeight(IDX: Integer);
    begin
-     fTabArray[IDX]^.boxHeight := fFontArray[IDX]^.FontHeight + BoxSpace;
+     fTabArray[IDX]^.boxHeight := fTabArray[IDX]^.TabFont.FontHeight + BoxSpace;
    end;
 
    function   TReportPrinterClass.getTabBoxHeight(IDX: Integer): Integer;
@@ -921,7 +932,7 @@ begin
 
   function TReportPrinterClass.getFontHeight:Integer;
   begin
-    result := fFont.FontHeight;
+    result := fCurrentFont.FontHeight;
   end;
 
   function TReportPrinterClass.ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
@@ -935,16 +946,15 @@ begin
     JnkCanvas.Free;
   end;
 
-  function TReportPrinterClass.TabYPos(S: String; BBase, BHght: Integer): Integer;
+  function TReportPrinterClass.TabYPos(S: String; FHigh, BBase, BHght: Integer): Integer;
   var
-     High, BotMargin: Integer;
+     BotMargin: Integer;
   begin
      With CurrentPage.Canvas do
        begin
-          High := fFont.FontHeight;
-          BotMargin := (BHght - High) div 2;
-          BotMargin := BotMargin - (BotMargin mod 2);    //Weight toward bottom
-          If BHght <= High then
+          BotMargin := (BHght - FHigh) div 2 + 1;
+         // BotMargin := BotMargin - (BotMargin mod 2);    //Weight toward bottom
+          If BHght <= FHigh then
              begin
                Result := BBase - BHght + 1;
                exit;
@@ -959,6 +969,24 @@ begin
     fCurrentPage.Canvas.TextOut(X, Y - FontHeight, S); //measure to bottom of text
   end;
 
+  procedure TReportPrinterClass.TabTextOut(IDX, X, Y, BWidth, BLeft: Integer; S: String);
+  var
+    TS: String;
+    TWidth, XS: Integer;
+  begin
+    XS := X;
+    TS := S;
+    While (fCurrentPage.Canvas.TextWidth(TS) > (BWidth - 2 * BOXSPACE)) do
+      begin
+        TS:=LeftStr(TS, Length(TS) -1);
+        if TS = '' then break;
+      end;
+
+    if X < BLeft + BOXSPACE then
+       XS := BLeft + BOXSPACE;
+    fCurrentPage.Canvas.TextOut(XS, Y - fTabArray[IDX]^.TabFont.FontHeight, TS); //measure to bottom of text
+  end;
+
   procedure  TReportPrinterClass.printTab(IDX: Integer; S: String);
   var
         YPos, TmpY, Wide: Integer;
@@ -969,8 +997,10 @@ begin
     With CurrentPage.Canvas do
       begin
         Wide := TextWidth(S);
-        Font.Size := fFont.FontSize;
-        Font.Name := fFont.FontName;
+        Font.Size := fTabArray[IDX]^.TabFont.FontSize;
+        Font.Name := fTabArray[IDX]^.TabFont.FontName;
+
+        FH := fTabArray[IDX]^.TabFont.FontHeight;
       end;
     if (IDX <= 0) or (IDX > 10) then exit;
     YPos:= CurY;
@@ -992,7 +1022,7 @@ begin
 	    //BoxTop := BoxBase + BoxHght;          //could eliminate one function call
 	    just := justifyText;
 	    Box := BLines;
-            SY := TabYPos(S, BoxBottom,BoxHght);
+            SY := TabYPos(S, FH, BoxBottom,BoxHght);
 	  end;
 
 	 //fill tab box
@@ -1031,7 +1061,7 @@ begin
 	       if just = JUSTIFYRIGHT then
 	         begin
 		   XStart := BoxRight - Wide - BOXMARGIN;
-                   RTextOut(XStart, SY, S);
+                   TabTextOut(IDX, XStart, SY, BoxWdth, BoxLeft, S);
 		 end
 	       else if just = JUSTIFYCENTER then
 	         begin
@@ -1039,12 +1069,12 @@ begin
                      XStart := BoxLeft + BOXMARGIN
                    else
 	             XStart := BoxLeft + (BoxWdth - Wide) div 2;
-		   RTextOut(XStart, SY, S);
+		   TabTextOut(IDX, XStart, SY, BoxWdth, BoxLeft, S);
 	         end
 	       else
 	         begin
                    XStart := BoxLeft + BOXMARGIN;
-		   RTextOut(XStart, SY , S);
+		   TabTextOut(IDX, XStart, SY, BoxWdth, BoxLeft , S);
 		 end;
 	       CurY := TmpY;
 	     end;  //if S <>
@@ -1056,8 +1086,8 @@ begin
  procedure TReportPrinterClass.PrintPointXY(S: String; XPos, YPos: Integer);
  //Print a string at X & Y without altering CurY
  begin
-   Currentpage.canvas.Font.Size := fFont.FontSize;
-   Currentpage.canvas.Font.Name := fFont.FontName;
+   Currentpage.canvas.Font.Size := fCurrentFont.FontSize;
+   Currentpage.canvas.Font.Name := fCurrentFont.FontName;
    RTextOut(XPos - MarginLeft ,YPos - MarginTop, S);
  end;
 
@@ -1173,8 +1203,8 @@ end;
  begin
    With CurrentPage.Canvas do
      begin
-       Font.Size := fFont.FontSize;
-       Font.Name := fFont.FontName;
+       Font.Size := fCurrentFont.FontSize;
+       Font.Name := fCurrentFont.FontName;
        Y := TextWidth(S);
        X := CalcCenterPage;
        St := X - (Y div 2);
@@ -1185,14 +1215,14 @@ end;
 
  function TReportPrinterClass.CalcCenterPage: Integer;
  begin
-   CalcCenterPage := (fPageWidth - MarginRight- MarginLeft) div 2 + MarginLeft;
+   CalcCenterPage := (MarginRight- MarginLeft) div 2 + MarginLeft;
  end;
 
 
  procedure TReportPrinterClass.PrintLeft(S: String; XPos: Double);
  begin
-   Currentpage.canvas.Font.Size := fFont.FontSize;
-   Currentpage.canvas.Font.Name := fFont.FontName;
+   Currentpage.canvas.Font.Size := fCurrentFont.FontSize;
+   Currentpage.canvas.Font.Name := fCurrentFont.FontName;
    RTextOut(InchToPoint(Xpos),CurY,S);
  end;
 
@@ -1203,8 +1233,8 @@ end;
    X := InchToPoint(XPos);
    With CurrentPage.Canvas do
      begin
-       Font.Size := fFont.FontSize;
-       Font.Name := fFont.FontName;
+       Font.Size := fCurrentFont.FontSize;
+       Font.Name := fCurrentFont.FontName;
        Wide := TextWidth(S);
        RTextOut(X - Wide div 2, CurY, S);
      end;
@@ -1217,8 +1247,8 @@ end;
    X := InchToPoint(XPos);
    With CurrentPage.Canvas do
      begin
-       Font.Size := fFont.FontSize;
-       Font.Name := fFont.FontName;
+       Font.Size := fCurrentFont.FontSize;
+       Font.Name := fCurrentFont.FontName;
        Wide := TextWidth(S);
        RTextOut(X - Wide, CurY, S);
      end;
@@ -1242,8 +1272,8 @@ end;
    X := X - charW * Dot;
    With CurrentPage.Canvas do
      begin
-       Font.Size := fFont.FontSize;
-       Font.Name := fFont.FontName;
+       Font.Size := fCurrentFont.FontSize;
+       Font.Name := fCurrentFont.FontName;
        RTextOut(X , Y, S);
      end;
  end;
@@ -1273,8 +1303,8 @@ end;
  begin
     With CurrentPage.Canvas do
       begin
-        Font.Size := fFont.FontSize;
-        Font.Name := fFont.FontName;
+        Font.Size := fCurrentFont.FontSize;
+        Font.Name := fCurrentFont.FontName;
         Wide := TextWidth(S);
         RTextOut(XPos - Wide,CurY,S);
       end;
@@ -1294,17 +1324,17 @@ end;
   var
     Dash: Integer;
   begin
-     Dash:=pos('-',fFont.FontName);
+     Dash:=pos('-',fCurrentFont.FontName);
      If BoldOn then
        begin
          if Dash <=0 then
-           fFont.FontName:=fFont.FontName+'-Bold';
+           fCurrentFont.FontName:=fCurrentFont.FontName+'-Bold';
        end
       else
         begin
-          Dash:=pos('-Bold',fFont.FontName);
+          Dash:=pos('-Bold',fCurrentFont.FontName);
           If Dash > 0 then
-             fFont.FontName := LeftStr(fFont.FontName,Dash-1);
+             fCurrentFont.FontName := LeftStr(fCurrentFont.FontName,Dash-1);
         end;
   end;
 
@@ -1349,42 +1379,66 @@ end;
 end;
 
 
-  procedure TReportPrinterClass.SaveFont(FName: String; Size: Integer);
+  procedure TReportPrinterClass.PutCurrentFont(FName: String; Size: Integer);
   begin
       begin
-        fFont.FontName := FName;
-        fFont.FontSize := Size;
-        fFont.FontHeight := ComputeFontHeight(FName, Size);
+        fCurrentFont.FontName := FName;
+        fCurrentFont.FontSize := Size;
+        fCurrentFont.FontHeight := ComputeFontHeight(FName, Size);
       end;
   end;
 
-  procedure TReportPrinterClass.SaveTabFont(IDX: Integer; FName: String; Size: Integer);
+  procedure TReportPrinterClass.PutTabFont(IDX: Integer; FName: String; Size: Integer);
   begin
-    if fFontArray[IDX] <> nil then
       begin
-        fFontArray[IDX]^.FontName := FName;
-        fFontArray[IDX]^.FontSize := Size;
-        fFontArray[IDX]^.FontHeight := ComputeFontHeight(FName, Size);
+        fTabArray[IDX]^.TabFont.FontName := FName;
+        fTabArray[IDX]^.TabFont.FontSize := Size;
+        fTabArray[IDX]^.TabFont.FontHeight := ComputeFontHeight(FName, Size);
         setTabBoxHeight(IDX);
       end;
   end;
 
-
-  procedure TReportPrinterClass.RestoreFont(IDX: Integer);
+  function TReportPrinterClass.IndexTabFont(IDX: Integer):Boolean;
   begin
+    if fFontArray[IDX]^.FontName = '' then
+      begin
+        result := false;
+        exit;
+      end
+   else
+     result := true;
+
+    With fTabArray[IDX]^.TabFont do
+      begin
+        FontName := fFontArray[IDX]^.FontName;
+        FontSize := fFontArray[IDX]^.FontSize;
+        FontHeight := fFontArray[IDX]^.FontHeight;
+      end;
+  end;
+
+  function TReportPrinterClass.IndexFont(IDX: Integer): Boolean;
+  begin
+    if fFontArray[IDX]^.FontName = '' then
+      begin
+        result := false;
+        exit;
+      end
+   else
+     result := true;
     If fFontArray[IDX] <> nil then
        begin
-         fFont.FontName := fFontArray[IDX]^.FontName;
-         fFont.FontSize := fFontArray[IDX]^.FontSize;
+         fCurrentFont.FontName := fFontArray[IDX]^.FontName;
+         fCurrentFont.FontSize := fFontArray[IDX]^.FontSize;
+         fCurrentFont.FontHeight := fFontArray[IDX]^.FontHeight;
        end;
   end;
 
 
  procedure TReportPrinterClass.setFont(AFont: FontType);
  begin
-   fFont.fontName := AFont.FontName;
-   fFont.fontSize := AFont.FontSize;
-   fFont.FontHeight := ComputeFontHeight(AFont.FontName, AFont.FontSize);
+   fCurrentFont.fontName := AFont.FontName;
+   fCurrentFont.fontSize := AFont.FontSize;
+   fCurrentFont.FontHeight := ComputeFontHeight(AFont.FontName, AFont.FontSize);
  end;
 
 
@@ -1608,7 +1662,7 @@ end;
    begin
       LineToLine := round(font.fontHeight * fLineScale);
       X0 := fSpacingLeft;
-      Y0 := fSpacingTop + fFont.FontHeight;;
+      Y0 := fSpacingTop + fCurrentFont.FontHeight;;
       X := X0 + fTextMarginLeft + fColPointer * (fSpacingWidth );
       Y := Y0 + fTextMarginTop
                        + fRowPointer * (fSpacingHeight);

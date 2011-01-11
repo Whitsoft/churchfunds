@@ -668,7 +668,7 @@ var
   If RPrinter <> nil then
     With RPrinter do
       begin
-        SaveFont(HELVETICA,10);
+        PutCurrentFont(HELVETICA,10);
       end;
    initPledges;
    initFunds;
@@ -1212,10 +1212,10 @@ begin
       TmpTab := NewTab(3, 6.00,JUSTIFYRIGHT,1.50,0.05,False,BOXLINEALL,0);
 
       TmpTab := NewTab(4, 0.5,JUSTIFYCENTER,8.0,0.05, False,BOXLINENONE,0);
-      SaveTabFont(1, HELVETICA, 10);
-      SaveTabFont(2, HELVETICA, 10);
-      SaveTabFont(3, HELVETICA, 10);
-      SaveTabFont(4, HELVETICA, 10);
+      PutTabFont(1, HELVETICA, 10);
+      PutTabFont(2, HELVETICA, 10);
+      PutTabFont(3, HELVETICA, 10);
+      PutTabFont(4, HELVETICA, 10);
     end;
 end;
 
@@ -2514,41 +2514,41 @@ begin
     TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 0.875,0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(1, 0.0, JUSTIFYLEFT, 2.125,0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(1, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINENONE,0);
-    SaveTabFont(1, HELVETICA, 10);
+    PutTabFont(1, HELVETICA, 10);
 
     TmpTab := NewTab(2, 0.5, JUSTIFYLEFT, 1.25,0.05, ABSOLUT,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT, 1.0,0.05, RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
     TmpTab := NewTab(2, 0.0, JUSTIFYCENTER, 0.5,0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(2, 0.0, JUSTIFYLEFT, 2.5,0.05, RELATIVE, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(2, 0.0, JUSTIFYRIGHT,1.0,0.05, RELATIVE, BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
-    SaveTabFont(2, HELVETICA, 10);
+    PutTabFont(2, HELVETICA, 10);
 
     TmpTab := NewTab(3,0.5,JUSTIFYLEFT,5.35,0.05,ABSOLUT, BOXLINEALL,2);
     TmpTab := NewTab(3,5.95,JUSTIFYRIGHT,1.3,0.05,ABSOLUT, BOXLINEALL,2);
-    SaveTabFont(3, HELVETICA, 10);
+    PutTabFont(3, HELVETICA, 10);
 
     TmpTab := NewTab(4, 4.5,JUSTIFYRIGHT,3.0,0.05, ABSOLUT, BOXLINENONE,0);
-    SaveTabFont(4, HELVETICA, 10);
+    PutTabFont(4, HELVETICA, 10);
 
     TmpTab := NewTab(5, 0.5, JUSTIFYLEFT, 0.8, 0.05, ABSOLUT, BOXLINENONE,0);
     TmpTab := NewTab(5, 0.0, JUSTIFYLEFT, 1.75, 0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
     TmpTab := NewTab(5, 0.0, JUSTIFYRIGHT, 1.4, 0.05, RELATIVE, BOXLINENONE,0);
-    SaveTabFont(5, HELVETICA, 10);
+    PutTabFont(5, HELVETICA, 10);
 
     TmpTab := NewTab(6,0.5,JUSTIFYLEFT,0.8,0.05,ABSOLUT,BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(6,0.0,JUSTIFYLEFT,1.75,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINEBOTTOM,2);
     TmpTab := NewTab(6,0.0,JUSTIFYRIGHT,1.4,0.05,RELATIVE,BOXLINETOP+BOXLINERIGHT+BOXLINEBOTTOM,2);
-    SaveTabFont(6, HELVETICA, 10);
+    PutTabFont(6, HELVETICA, 10);
 
     TmpTab := NewTab(8,4.5,JUSTIFYRIGHT,3.0,0.05,ABSOLUT,BOXLINENONE,0);
-    SaveTabFont(8, HELVETICA, 10);
+    PutTabFont(8, HELVETICA, 10);
 
     TmpTab := NewTab(9,4.5,JUSTIFYRIGHT,3.0,0.05,ABSOLUT,BOXLINENONE,0);
-    SaveTabFont(9, HELVETICA, 10);
+    PutTabFont(9, HELVETICA, 10);
   end;
 end;
 
@@ -2578,7 +2578,7 @@ begin
       begin
       //BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
-      RestoreFont(2); //Helvetica 10
+      IndexFont(2); //Helvetica 10
 
       RPrinter.Newpage;
       PrintCenterPage(ChurchName);
