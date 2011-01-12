@@ -3403,7 +3403,7 @@ const
                Open;
                First;
                FreeTabs(1);
-               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,1.75,0.05,False,BOXLINENONE,0);
+               TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,3.75,0.05,False,BOXLINENONE,0);
                PutTabFont(1,'HELVETICA',10);
                //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
                PrintXY(1.0,AccY,'Payed to:  '+Vend);

@@ -484,7 +484,7 @@ end;
    	inherited create;               //Set defaults
         fPrinter := TCupsPrinter.Create;
         setPrinterMargins;
-        fPageLength := 792 + 36;             //11.0
+        fPageLength := 756 + 36;             //11.0
 	fPageWidth := 576 + 36;              //8.5
         CreateFontArray;
         //create empty tab array
@@ -514,6 +514,7 @@ end;
    end;
 
    procedure TReportPrinterClass.PrintPage(Sender: TObject);
+
    var
      ARect: TRect;
    begin
@@ -521,13 +522,11 @@ end;
      With fPrinter do
        begin
          ARect.Left := 0; ARect.Top := 0;
-         ARect.Right := PageWidth;
-         ARect.Bottom := PageHeight;
+         ARect.Right := PaperSize.Width;
+         ARect.Bottom := PaperSize.Height;
          BeginDoc;
-         {Canvas.Font.Name := fCurrentFont.FontName;
-         Canvas.Font.Size := fCurrentFont.FontSize;
-         Canvas.Font.Color := clBlack; }
          Canvas.StretchDraw(ARect, CurrentPage.Picture.Bitmap);
+
         //         APrinter.Canvas.CopyRect(Classes.Rect(0, 0, APrinter.PaperSize.Width, APrinter.PaperSize.Height),
         //   CurrentPage.Canvas, Classes.Rect(0,0, CurrentPage.Width, CurrentPage.Height));
          EndDoc;
@@ -543,12 +542,9 @@ end;
      With fPrinter do
        begin
          ARect.Left := 0; ARect.Top := 0;
-         ARect.Right := PageWidth;
-         ARect.Bottom := PageHeight;
+         ARect.Right := PaperSize.Width;
+         ARect.Bottom := PaperSize.Height;
          BeginDoc;
-         Canvas.Font.Name := fCurrentFont.FontName;
-         Canvas.Font.Size := fCurrentFont.FontSize;
-         Canvas.Font.Color := clBlack;
          for IDX := 1 to fPages do
            Canvas.StretchDraw(ARect, fPageArray[IDX].Picture.Bitmap);
          EndDoc;
@@ -1088,7 +1084,7 @@ begin
  begin
    Currentpage.canvas.Font.Size := fCurrentFont.FontSize;
    Currentpage.canvas.Font.Name := fCurrentFont.FontName;
-   RTextOut(XPos - MarginLeft ,YPos - MarginTop, S);
+   RTextOut(XPos,YPos , S);
  end;
 
 

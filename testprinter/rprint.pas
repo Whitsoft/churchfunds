@@ -5,7 +5,8 @@ unit rprint;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, rprintclass;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  PrintersDlgs, rprintclass;
 
 type
 
@@ -133,7 +134,7 @@ end;
 procedure TForm1.FormActivate(Sender: TObject);
 begin
   With RPrinter do
-    begin
+     begin
       EdXDPI.Text := IntToStr(PRDotsPI.XDotsPI);
       EdYDPI.Text := IntToStr(PRDotsPI.YDotsPI);
       EdWidth.Text := IntToStr(PageWidthInt);
