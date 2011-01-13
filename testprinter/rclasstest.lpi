@@ -4,8 +4,10 @@
     <Version Value="9"/>
     <General>
       <MainUnit Value="0"/>
+      <Title Value="rclasstest"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <i18n>
@@ -28,44 +30,39 @@
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="1">
       <Item1>
-        <PackageName Value="Printer4Lazarus"/>
-        <MinVersion Minor="5" Valid="True"/>
-      </Item1>
-      <Item2>
         <PackageName Value="LCL"/>
-      </Item2>
+      </Item1>
     </RequiredPackages>
-    <Units Count="7">
+    <Units Count="31">
       <Unit0>
         <Filename Value="rclasstest.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="rclasstest"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="14"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="rprint.pas"/>
+        <Filename Value="../../testprinter/rprint.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="rprint"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="81"/>
-        <CursorPos X="4" Y="83"/>
-        <UsageCount Value="25"/>
+        <TopLine Value="101"/>
+        <CursorPos X="107" Y="101"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../trunk/setup/ezsetupunit.pas"/>
+        <Filename Value="../setup/ezsetupunit.pas"/>
         <ComponentName Value="FormSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
@@ -73,164 +70,278 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../trunk/rprintclass.pas"/>
+        <Filename Value="../../testprinter/rprintclass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="rprintclass"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="383"/>
-        <CursorPos X="28" Y="385"/>
-        <UsageCount Value="25"/>
+        <TopLine Value="671"/>
+        <CursorPos X="23" Y="705"/>
+        <UsageCount Value="45"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="rprintclass.pas"/>
-        <UnitName Value="RPrintclass"/>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/include/customimage.inc"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="663"/>
-        <CursorPos X="11" Y="684"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
       </Unit4>
       <Unit5>
-        <Filename Value="../../lazarus/lazarus_svn/lcl/include/customimage.inc"/>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/include/graphic.inc"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="27"/>
-        <CursorPos X="63" Y="34"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
       </Unit5>
       <Unit6>
-        <Filename Value="../rprintclass.pas"/>
-        <UnitName Value="rprintclass"/>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/include/picture.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="121"/>
+        <CursorPos X="27" Y="542"/>
+        <UsageCount Value="8"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/graphics.pp"/>
+        <UnitName Value="Graphics"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="518"/>
-        <CursorPos X="1" Y="548"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/graphutil.pp"/>
+        <UnitName Value="GraphUtil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/graphtype.pp"/>
+        <UnitName Value="GraphType"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="217"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/extgraphics.pas"/>
+        <UnitName Value="extgraphics"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="241"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/framepagesetup.pas"/>
+        <UnitName Value="framePageSetup"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/udlgpagesetup.pas"/>
+        <UnitName Value="udlgpagesetup"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/qt/qtprinters.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="350"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/qt/qtprinters_h.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/qt/qtprndialogs.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/udlgpropertiesprinter.pp"/>
+        <UnitName Value="uDlgPropertiesPrinter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="337"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters_h.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="73"/>
+        <CursorPos X="26" Y="107"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters.inc"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="351"/>
+        <CursorPos X="64" Y="362"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-      </Unit6>
-    </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
-      <Position1>
+      </Unit18>
+      <Unit19>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/osprinters.pas"/>
+        <UnitName Value="OSPrinters"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="47"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="../../../fpc/fpc_svn/packages/fcl-image/src/fpimage.pp"/>
+        <UnitName Value="FPimage"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="406"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="../../../fpc/fpc_svn/packages/fcl-image/src/fpimage.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="433"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../../../fpc/fpc_svn/packages/fcl-image/src/fpimgcanv.pp"/>
+        <UnitName Value="FPImgCanv"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="13"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="../../../fpc/fpc_svn/packages/fcl-image/src/fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="234"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../../../fpc/fpc_svn/packages/fcl-image/src/fpcanvas.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="433"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../../../lazarus/lazarus_svn/lcl/printers.pas"/>
+        <UnitName Value="Printers"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="350"/>
+        <CursorPos X="1" Y="373"/>
+        <UsageCount Value="11"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupslcl.pas"/>
+        <UnitName Value="cupslcl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsdyn.pp"/>
+        <UnitName Value="cupsdyn"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1298"/>
+        <CursorPos X="24" Y="1332"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="newpsclass.pas"/>
+        <UnitName Value="newpsclass"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1064"/>
+        <CursorPos X="44" Y="1084"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="../rprintclass.pas"/>
-        <Caret Line="462" Column="46" TopLine="428"/>
+        <UnitName Value="rprintclass"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="54"/>
+        <CursorPos X="11" Y="75"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../../testprinter/rprintclass.pas"/>
+        <UnitName Value="rprintclass"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="993"/>
+        <CursorPos X="20" Y="1014"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+    </Units>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="504" Column="41" TopLine="470"/>
       </Position1>
       <Position2>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="463" Column="49" TopLine="429"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="453" Column="28" TopLine="448"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="270" Column="62" TopLine="233"/>
       </Position3>
       <Position4>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="1628" Column="1" TopLine="1587"/>
       </Position4>
       <Position5>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="527" Column="33" TopLine="502"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position5>
       <Position6>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="176" Column="96" TopLine="145"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="267" Column="28" TopLine="233"/>
       </Position6>
       <Position7>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="178" Column="96" TopLine="147"/>
+        <Filename Value="newpsclass.pas"/>
+        <Caret Line="362" Column="42" TopLine="328"/>
       </Position7>
       <Position8>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="166" Column="20" TopLine="135"/>
+        <Filename Value="../rprintclass.pas"/>
+        <Caret Line="256" Column="9" TopLine="222"/>
       </Position8>
       <Position9>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="139" Column="31" TopLine="121"/>
+        <Filename Value="../rprintclass.pas"/>
+        <Caret Line="75" Column="15" TopLine="49"/>
       </Position9>
       <Position10>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="140" Column="18" TopLine="122"/>
+        <Filename Value="../rprintclass.pas"/>
+        <Caret Line="8" Column="30" TopLine="1"/>
       </Position10>
-      <Position11>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="126" Column="5" TopLine="123"/>
-      </Position11>
-      <Position12>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position12>
-      <Position13>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="63" Column="23" TopLine="29"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="511" Column="63" TopLine="502"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1896" Column="13" TopLine="1699"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="536" Column="28" TopLine="502"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="552" Column="1" TopLine="526"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="560" Column="30" TopLine="526"/>
-      </Position19>
-      <Position20>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="536" Column="28" TopLine="502"/>
-      </Position21>
-      <Position22>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="560" Column="30" TopLine="526"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="524" Column="1" TopLine="502"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="528" Column="28" TopLine="502"/>
-      </Position25>
-      <Position26>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="141" Column="1" TopLine="127"/>
-      </Position26>
-      <Position27>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position27>
-      <Position28>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="63" Column="24" TopLine="29"/>
-      </Position28>
-      <Position29>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="89" Column="58" TopLine="83"/>
-      </Position29>
-      <Position30>
-        <Filename Value="rprint.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -240,7 +351,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/lcl/include;$(LazarusDir)/components/printers/unix"/>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl;/home/don/churchfunds/trunk/;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit;.."/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl;/home/don/churchfunds/trunk/;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit;../.."/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -254,10 +365,31 @@
       </Options>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="4">
+      <Item1>
+        <Source Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters.inc"/>
+        <Line Value="759"/>
+      </Item1>
+      <Item2>
+        <Source Value="../../../lazarus/lazarus_svn/components/printers/unix/cupsprinters.inc"/>
+        <Line Value="746"/>
+      </Item2>
+      <Item3>
+        <Source Value="newpsclass.pas"/>
+        <Line Value="364"/>
+      </Item3>
+      <Item4>
+        <Source Value="../rprintclass.pas"/>
+        <Line Value="327"/>
+      </Item4>
+    </BreakPoints>
     <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>
