@@ -4,12 +4,12 @@ unit newpsclass;
 //{$linklib c}
 {$mode objfpc} 
 interface
- uses BaseUnix, unixtype,initc, errors, sysutils, classes, strings, ctypes, db, sqldb;
+ uses BaseUnix, unixtype,initc, errors, sysutils, classes, strings, FileUtil,
+   Graphics, GraphType, OSPRinters, Printers, CUPSDyn, ctypes, db, sqldb;
 
-const 
+const
   CR = #13;
   LF = #10;
-  FATFONT = 0.5;
   JUSTIFYLEFT = 0;
   JUSTIFYCENTER = 1;
   JUSTIFYRIGHT = 2;
@@ -22,6 +22,8 @@ const
   HELVETICACONDENSED = 'Helvetica-Condensed';
   POINTS = 72.0;
 
+  BOXSPACE  = 6;      //Extra height to fit current font
+  BOXMARGIN = 4;      //Margin for left or right between box sides and text
 
   BOXLINEALL = 15;
   BOXLINENONE = 0;
@@ -30,49 +32,75 @@ const
   BOXLINERIGHT = 4;
   BOXLINEBOTTOM = 8;
 
-  PORTRAIT = 0;
-  LANDSCAPE = 1;
+  RELATIVE = TRUE;
+  ABSOLUT = FALSE;
+
 
 Type
-	PTab = ^TTab;                  //A pointer to a tab
-	TTab = record
-	  XPos:         Integer;       //tab stop - use integers to reduce conversions
-	  justifyText:  Integer;
-	  BoxWidth:     Integer;       //width of this tab box
-	  Margin:       Integer;       //Distance from lefte tab edge and start of text
-	  BShade:       byte;          //Shadeing in box 
-	  BLines:       byte;          //Box lines
-	  Next:         PTab;
-	  Prev:         PTab;
-	end;  
-     
-Type
-    PTabList = ^TTabList;            //A pointer to a linked list of tabs
-	TTabList = record
-	  TabIndex:  integer;
-	  TabCount:  integer;     //Number of tabs in this list
-	  boxHeight: integer;     //All boxes in these tab list are this high
-	  TabPos:    PTab;        //Current tab in list	  
-	  TabHead:   PTab;        //Pointer to first tab in this tab list
-	  TabTail:   PTab;        //Pointer to last tab in this tab list
-end;
+   PrinterMargins = record
+      TopMargin:    Integer;
+      LeftMargin:   Integer;
+      RightMargin:  Integer;
+      BottomMargin: Integer;
+   end;
 
 Type
-  TTabsArray = array [1..10] of PTabList;
+   PrinterDotsPI = record
+     XDotsPI: Integer;
+     YDotsPI: Integer;
+   end;
+
+{     TRect = record
+    case Integer of
+      0: (Left, Top, Right, Bottom: Integer);
+      1: (TopLeft, BottomRight: TPoint);
+  end;    }
 
 Type
   PFontType = ^FontType;
   FontType = record
     FontName: String;
     FontSize: Integer;
+    FontHeight: Integer;
   end;
-
 
 Type
   TFontArray = array [1..10] of PFontType;
 
+Type
+	PTab = ^TTab;                  //A pointer to a tab
+	TTab = record
+          XPos:         Integer;       //tab stop - use integers to reduce conversions
+	  justifyText:  Integer;
+	  BoxWidth:     Integer;       //width of this tab box
+	  Margin:       Integer;       //Distance from left tab edge and start of text
+	  BShade:       TGraphicsColor;          //Shadeing in box image
+          PSBShade:     byte;                    //shading in box postscript
+	  BLines:       byte;          //Box lines
+	  Next:         PTab;
+	  Prev:         PTab;
+	end;
+
+Type
+    PTabList = ^TTabList;            //A pointer to a linked list of tabs
+	TTabList = record
+	  TabIndex:  integer;
+	  TabCount:  integer;     //Number of tabs in this list
+	  boxHeight: integer;     //All boxes in these tab list are this high
+          TabFont:   FontType;
+	  TabPos:    PTab;        //Current tab in list
+	  TabHead:   PTab;        //Pointer to first tab in this tab list
+	  TabTail:   PTab;        //Pointer to last tab in this tab list
+end;
+
+
+Type
+	TTabsArray = array [1..10] of PTabList;
+
+
   TPostscriptClass = class(TObject)
   private
+          fPrinter          : TCUPSPrinter;
 	  fTabArray         : TTabsArray;
           fFontArray        : TFontArray;
 	  fTabArrayIndex    : Integer;
@@ -80,20 +108,20 @@ Type
           fCurrentY         : Integer;
 	  fCurrentFontName  : String;
 	  fCurrentFontSize  : Integer;
+          fPSDotsPI         : PrinterDotsPI;
 	  fLineScale        : Double;
 	  fPrintFileOpen    : Boolean;
 	  fPrintFile        : Text;
 	  fPrintFileName    : String;
+          fPages            : Integer;
           fPageNo           : Integer;
-	  fLeftMargin       : Integer;
-	  fTopMargin        : Integer;
-	  fRightMargin      : Integer;
-	  fBottomMargin     : Integer;
+          fMargins          : PrinterMargins;
+          fLineSpace        : Integer;
 	  fLineToLine       : Integer;
 	  fErrorCode        : Integer;
 	  fPageLength       : integer;
 	  fpageWidth        : integer;
-          fFont             : FontType;
+          fCurrentFont      : FontType;
           fBold             : Boolean;
           fOnFontChange     : TNotifyEvent;
           fErrorMessage     : String;
@@ -116,29 +144,39 @@ Type
 	 procedure   setPageWidth( Wd: Double);
          function    getPageLength: Double;
 	 function    getPageWidth: Double;
-	 
+	 procedure   getPrinterDotsPI;
+         function    PrinterDotsToInchX(Pnt: Integer): Double;
+         function    PrinterDotsToInchY(Pnt: Integer): Double;
 		 
 	 procedure   setLineToLine(Spc: Double);
 	 function    getLineToLine: Double;
-	 procedure   PrintPointXY(S: String; XPos, YPos: Integer);
+	 procedure   PrintPSPointXY(S: String; XPos, YPos: Integer);
 	 function    CalcCenterPage: Integer;
 
-         procedure   PrintLeftPoint(S: String; XPos: integer);
-	 procedure   PrintCenterPoint(S: String; XPos: integer);
-	 procedure   PrintRightPoint(S: String; XPos: integer);
+         procedure   PrintPSLeftPoint(S: String; XPos: integer);
+	 procedure   PrintPSCenterPoint(S: String; XPos: integer);
+	 procedure   PrintPSRightPoint(S: String; XPos: integer);
 	 function    NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
-                                     TabRel: Boolean; boxLines, boxShade: byte): PTab;
+                                     TabRel: Boolean; boxLines, boxShade: Integer): PTab;
 
-         procedure  PrintCurrentFont(Sender: TObject);
+         procedure   PrintCurrentFont(Sender: TObject);
+         function    ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
+         function    getFontHeight: Integer;
+         function    ShadeToGreyScale(Shade: Integer): TGraphicsColor;
+         function    GreyScaleToShade(Shade: TGraphicsColor): Integer;
+         function    getPrintFileName: String; //from cupsPrinters.inc
 
    public
 	 constructor Create;
 	 destructor  Destroy; override;
 
+         function    getBoxShadePercent(TabPtr: PTab): Integer;
  	 function    getBoxShadeString(TabPtr: PTab): String;  //for printing	 function    getFontName(ListPtr: PTabList): String;
          property    PageNo: Integer read fPageNo write fPageNo;
 
-         property    font: FontType read fFont write setFont;
+         property    font: FontType read fCurrentFont write setFont;
+         property    LineSpace: integer read fLinespace write fLinespace;
+         property    PRDotsPI: PrinterDotsPI read fPSDotsPI;
 
          property    TabArrayIndex: Integer read fTabArrayIndex write fTabArrayIndex;
 	 property    PrintFileOpen: boolean read fPrintFileOpen;
@@ -154,6 +192,12 @@ Type
 	 property    CurrentX: Double read getCurrentX write setCurrentX;
 	 property    CurrentY: Double read getCurrentY write setCurrentY;
 
+         property    MarginTop:   Integer read fMargins.TopMargin;
+         property    MarginLeft:  Integer read fMargins.LeftMargin;
+         property    MarginRight: Integer read fMargins.RightMargin;
+         property    MarginBottom: Integer read fMargins.BottomMargin;
+         procedure   GetPrinterMargins;
+
          property    PgeNo: Integer read fPageNo write fPageNo;
          property    PageLength: Double read getPageLength write setPageLength;
 	 property    PageWidth: Double  read getPageWidth  write setPageWidth;
@@ -165,27 +209,35 @@ Type
 	 function    getBoxRite(Combined: Byte): Boolean;
 	 function    getBoxTop(Combined: Byte): Boolean;
 
-	 function    ShadePercentToByte(Percent: Double): Byte; 
+	 function    ShadePercentToByte(Percent: integer): Byte;
          function    BoxLinesToByte(Lf, Tp, Rt, Bt: Boolean): Byte;
 	 procedure   setBoxWidth(TabPtr: PTab; BWidth: Double);  
 	 function    getBoxWidth(TabPtr: PTab):Double;
+         procedure   setBoxHeight(ListPtr: PTabList; BHeight: Double);
+         function    getBoxHeight(ListPtr: PTabList):Double;
 
-	 function    getTabBoxHeight(IDX: Integer):Double;
-         procedure   setTabBoxHeight(IDX: Integer; BHeight: Double);
+	 function    getTabBoxHeight(IDX: Integer): Integer;
+         procedure   setTabBoxHeight(IDX: Integer);
 
-	 procedure   PrintXY(XPos, YPos: Double; S: String);
-	 procedure   PrintLeft(S: String; XPos: Double);
-	 procedure   PrintCenter(S: String; XPos: Double);
-	 procedure   PrintRight(S: String; XPos: Double);
+
+	 procedure   PrintPSXY(S: String; XPos, YPos: Double);
+	 procedure   PrintPSLeft(S: String; XPos: Double);
+	 procedure   PrintPSCenter(S: String; XPos: Double);
+	 procedure   PrintPSRight(S: String; XPos: Double);
 	 
-	 procedure   printTab(IDX: integer; S: String);
+	 procedure   PrintPSTab(IDX: integer; S: String);
          function    resetTab(IDX: Integer): PTab;
 	 
 	 procedure   SaveFontName(IDX: Integer; FName: String);
          procedure   SaveFontSize(IDX, FSize: Integer);
          procedure   RestoreFont(IDX: Integer);
-	 procedure   setBoxShade(TabPtr: PTab; Percent: Double);
-	 
+	 procedure   setBoxShade(TabPtr: PTab; Percent: integer);
+	 property    FontHeight:Integer read getFontHeight;
+         procedure   PutCurrentFont(FName: String; Size: Integer);                   //set current font
+	 function    IndexFont(IDX: Integer): Boolean;                                 //Set current font from saved tab array
+         procedure   PutTabFont(IDX: Integer; FName: String; Size: Integer);  //set font for tab[IDX]
+         function    IndexTabFont(IDX: Integer): Boolean;                              //Set font for tab[IDX] from saved tab array
+
 	 function    PointToInch(Pnt: Integer): Double;
 	 function    InchToPoint(Inch: Double): Integer;
 	 procedure   FreeAllTabs;
@@ -199,24 +251,24 @@ Type
     function    calcStringY(Base, Height: Integer): integer;
 	//New tab creates a new tab in tabs array width index = IDX
 	 function NewTab(IDX: Integer; XPosition: Double; just: Integer;XWidth, XMargin: Double;
-	                    TabRel: Boolean; boxLines, boxShade: byte): PTab;	
+	                    TabRel: Boolean; boxLines, boxShade: integer): PTab;
 							
      function    EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
-                                    boxLines, boxShade: byte): PTab;	
+                                    boxLines, boxShade: integer): PTab;
 									
-	 procedure   setPageMargins(Lf, Tp, Rt, Bt: Double);
 
-	 function    LinesLeft: Integer;
+	 function    LinesLeft(LineSize: Double): Integer;
 	 function    TransXFloat(X: Double): Integer;    //User to x points
 	 function    TransYFloat(Y: Double): Integer;    //User to y points
 	 function    TransXPoint(X: Integer): Integer;   //user x points to PS points
 	 function    TransYPoint(Y: Integer): Integer;   //User y points to PS points
 	 procedure   NewLine;
+         procedure   TabNewLine(IDX: Integer);
 	 procedure   OpenPrintFile(FileName: String);    // Open file - discriptor goes to fPrintFile
 	 procedure   ClosePrintFile;
-	 procedure   PrintCenterPage(S: String);
+	 procedure   PrintPSCenterPage(S: String);
 	 procedure   setLineScale(Scale: Double);
-	 procedure   GotoXY(X, Y: Double);
+	 procedure   GotoPSXY(X, Y: Double);
 	 //postscript procedures
 	 procedure   XLocation(X: Double);
 	 procedure   PSProcs;
@@ -242,8 +294,8 @@ Type
           fLabelStyle       : String;
           fNumAcross        : integer;
           fNumDown          : integer;
-         // fMarginTop        : integer;
-         // fMarginLeft       : integer;
+          fMarginTop        : integer;
+          fMarginLeft       : integer;
           fTextMarginTop    : Integer;
           fTextMarginLeft   : Integer;
           fLabelWidth       : integer;
@@ -300,8 +352,8 @@ Type
     property PrintPostNet: Boolean read fPrintPostNet write fPrintPostNet;
     procedure putText(S: String);
     procedure PrintPostNetXY(S: String; X, Y: Integer);
-    procedure PrintLabels(LabelDataSrc: TDataSource);
-    procedure PrintOneLabel;
+    procedure PrintPSLabels(LabelDataSrc: TDataSource);
+    procedure PrintOnePSLabel;
   end;
 
 
@@ -320,21 +372,28 @@ implementation
  constructor TPostScriptClass.Create;   
     begin
    	inherited create;               //Set defaults
-	fPageLength := 792;             //11.0
+        fPrinter := TCupsPrinter.Create;
+        GetPrinterMargins;
+        fPageNo := 0;
+        fPages := 0;
+	fCurrentFont.FontName := HELVETICA;
+	fCurrentFont.FontSize := 10;
+        fCurrentFont.FontHeight := ComputeFontHeight(HELVETICA,10);
+	fLineScale := 1.5;
+        fLineSpace := 4;
+
+        fPageLength := 792;             //11.0
 	fPageWidth := 612;              //8.5
-	fLeftMargin := 36;
-	fTopMargin := 36;
+
         CreateTabArray;                 //create empty tab array
         CreateFontArray;                //Create default Font Array
-	fFont.FontName := HELVETICA;
-	fFont.FontSize := 10;
-	fLineScale := 1.5;
-        fLineToLine := round(fFont.FontSize * fLineScale);
+	fCurrentFont.FontName := HELVETICA;
+        fLineToLine := round(fCurrentFont.FontSize * fLineScale);
 	fPrintFileName := '';
 	fPrintFileOpen := false;
-	setPageMargins(0.25, 0.5, 0.5, 0.75);
-	CurX := fLeftMargin;
-	CurY := fTopMargin + fLineToLine;
+
+        CurX := MarginLeft;
+        CurY := MarginTop ;
         fOnFontChange:= @PrintCurrentFont;
         fPageNo:= 1;
         fBold := false;
@@ -358,27 +417,31 @@ implementation
        end;
   end;
 
-  function TPostScriptClass.LinesLeft: Integer;
+
+ function TPostScriptClass.LinesLeft(LineSize: Double): Integer;
+  var
+    PageUsed, LineSizeInt: Integer;
   begin
-   // result := trunc((fCurrentY - fBottomMargin) / fLineToLine);
-   result := trunc((fPageLength-fCurrentY - fBottomMargin) / fLineToLine);
+    LineSizeInt := InchToPoint(LineSize);
+    PageUsed := MarginBottom - CurY;
+    result := PageUsed div LineSizeInt;
   end;
 
   procedure TPostScriptClass.setBold(BoldOn: Boolean);
   var
     Dash: Integer;
   begin
-     Dash:=pos('-',fFont.FontName);
+     Dash:=pos('-',fCurrentFont.FontName);
      If BoldOn then
        begin
          if Dash <=0 then
-           fFont.FontName:=fFont.FontName+'-Bold';
+           fCurrentFont.FontName:=fCurrentFont.FontName+'-Bold';
        end
       else
         begin
-          Dash:=pos('-Bold',fFont.FontName);
+          Dash:=pos('-Bold',fCurrentFont.FontName);
           If Dash > 0 then
-             fFont.FontName := LeftStr(fFont.FontName,Dash-1);
+             fCurrentFont.FontName := LeftStr(fCurrentFont.FontName,Dash-1);
         end;
        PrintCurrentFont(Self);
   end;
@@ -393,14 +456,50 @@ implementation
 	   end;
   end;
 
+
+  function TPostScriptClass.IndexFont(IDX: Integer): Boolean;
+  begin
+    if fFontArray[IDX]^.FontName = '' then
+      begin
+        result := false;
+        exit;
+      end
+   else
+     result := true;
+    If fFontArray[IDX] <> nil then
+       begin
+         fCurrentFont.FontName := fFontArray[IDX]^.FontName;
+         fCurrentFont.FontSize := fFontArray[IDX]^.FontSize;
+         fCurrentFont.FontHeight := fFontArray[IDX]^.FontHeight;
+       end;
+  end;
+
+  function TPostScriptClass.getFontHeight:Integer;
+  begin
+    result := fCurrentFont.FontHeight;
+  end;
+
  procedure TPostScriptClass.setFont(AFont: FontType);
  begin
-   fFont.fontName := AFont.FontName;
-   fFont.fontSize := AFont.FontSize;
-   fLineToLine := round(fFont.fontSize * LineScale);
-   if Assigned(fOnFontChange) then
-      OnFontChange(Self);
+   fCurrentFont.fontName := AFont.FontName;
+   fCurrentFont.fontSize := AFont.FontSize;
+   fCurrentFont.FontHeight := ComputeFontHeight(AFont.FontName, AFont.FontSize);
  end;
+
+
+   function TPostScriptClass.ComputeFontHeight(FntName: String; FntSize: Integer): Integer;
+  var
+    JnkCanvas: TPrinterCanvas;
+    JnkPrinter: TCupsPrinter;
+  begin
+    JnkPrinter := TCupsPrinter.Create;
+    JnkCanvas := TPrinterCanvas.Create(JnkPrinter);
+    JnkCanvas.Font.Name := FntName;
+    JnkCanvas.Font.Size:= FntSize;
+    result := Abs(JnkCanvas.font.height);
+    JnkCanvas.Free;
+    JnkPrinter.Free;
+  end;
 
   procedure TPostScriptClass.ClosePrintFile;
   begin
@@ -453,19 +552,32 @@ implementation
        end;
    end;
 
-  function  TPostScriptClass.getTabBoxHeight(IDX: Integer):Double;
-  begin
-    getTabBoxHeight := PointToInch( fTabArray[IDX]^.boxHeight);
-  end;
+ procedure TPostScriptClass.GetPrinterMargins;
+ begin
+   getPrinterDotsPI;
+   With fPrinter.PaperSize.PaperRect.WorkRect do
+     begin
+       fMargins.TopMargin   := Top;
+       fMargins.LeftMargin  := Left;
+       fMargins.RightMargin := Right;
+       fMargins.BottomMargin:= Bottom;
+     end;
+ end;
 
-   procedure  TPostScriptClass.setTabBoxHeight(IDX: Integer; BHeight: Double);
 
+   procedure  TPostScriptClass.setTabBoxHeight(IDX: Integer);
    begin
-     fTabArray[IDX]^.boxHeight :=InchToPoint(BHeight);
+     fTabArray[IDX]^.boxHeight := fTabArray[IDX]^.TabFont.FontHeight + BoxSpace;
    end;
 
+   function   TPostScriptClass.getTabBoxHeight(IDX: Integer): Integer;
+   begin
+     result :=fTabArray[IDX]^.boxHeight;
+   end;
+
+
  function TpostScriptClass.EvenTabs(IDX, XPosition, just, XWidth, XMargin, BHeight, Space, Num: integer;
-                                    boxLines, boxShade: byte): PTab;
+                                    boxLines, boxShade: integer): PTab;
  //A tab list of evenly spaced evenly sized tabs - just a utility									
 										
  var
@@ -482,7 +594,7 @@ implementation
 	  exit;
 	end;  
 	
-   setTabBoxHeight(IDX, BHeight);
+   setTabBoxHeight(IDX);
    fTabArray[IDX]^.TabCount := num;	
   for I := 1 to Num do
     begin
@@ -499,7 +611,7 @@ implementation
   end;   					
   				
 function TPostScriptClass.NewTab(IDX: Integer; XPosition: Double; just: Integer;XWidth, XMargin: Double;
-	                    TabRel: Boolean; boxLines, boxShade: byte): PTab;		
+	                    TabRel: Boolean; boxLines, boxShade: integer): PTab;
 var
   XP, XW, XM: Integer;
 begin
@@ -510,7 +622,7 @@ begin
 end;								
 						    
  function TPostScriptClass.NewTabPoint(IDX, XPosition, just, XWidth, XMargin: integer;
-                                  TabRel: Boolean; boxLines, boxShade: byte): PTab;
+                                  TabRel: Boolean; boxLines, boxShade: integer): PTab;
    // Create a new tab
  var 
     NewPTab: PTab;
@@ -554,7 +666,8 @@ end;
 		 justifyText := just;  
 	         BoxWidth := XWidth;
 		 Margin := XMargin;
-		 BShade := boxShade;
+		 BShade := ShadeToGreyScale(BoxShade);
+                 PSBShade := boxShade;
 		 BLines := boxLines;
 	   end;
 	 NewTabPoint := NewPTab;  
@@ -581,11 +694,10 @@ end;
      getPageWidth := Double(fPageWidth)/POINTS;
   end;
   
-  function  TPostScriptClass.ShadePercentToByte(Percent: Double): Byte; 
+  function  TPostScriptClass.ShadePercentToByte(Percent: Integer): Byte;
  var
    B: Byte;
   begin
-   
     If (Percent < 1) then
 	  B := 0
 	else if (Percent >= 100) then
@@ -595,17 +707,56 @@ end;
 	//B := B shl 4;
 	ShadePercentToByte := B;
 
-  end;	
-  
- procedure  TPostScriptClass.setBoxShade(TabPtr: PTab; Percent: Double);
+  end;
+
+  function  TPostScriptClass.GreyScaleToShade(Shade: TGraphicsColor): Integer;
+ var
+   Intensity: Integer;
+begin
+   Intensity := Shade shr 4;
+   if Intensity >= 255 then
+      result := 0
+   else if Intensity <= 0 then
+      result := 10
+   else
+      result := 255 - intensity;
+
+end;
+
+  //scale 1 to 100 - percent
+  function  TPostScriptClass.ShadeToGreyScale(Shade: Integer): TGraphicsColor;
+  var
+  red, blue, green: Integer;   //0 is black, 255 white   $FF
+begin
+   If (Shade <= 0) then
+     Red := 255
+   else if (Shade >= 100) then
+     Red := 0
+   else
+     Red := 255 - trunc(255.0 / 100.0 * Shade);
+
+   Green := Red shl 8;
+   Blue := Red shl 16;
+   result := Red or Green or Blue;
+ end;
+
+
+
+ function TPostScriptClass.getBoxShadePercent(TabPtr: PTab): Integer;
+   begin
+     result := GreyScaleToShade(TabPtr^.BShade);
+   end;
+
+ procedure  TPostScriptClass.setBoxShade(TabPtr: PTab; Percent: integer);
  begin
-    TabPtr^.BShade := ShadePercentToByte(Percent);
+    TabPtr^.PSBShade := ShadePercentToByte(Percent);
+    TabPtr^.BShade := ShadeToGreyScale(Percent);;
  end;
   
  function  TPostScriptClass.getBoxShadeString(TabPtr: PTab): String;
   begin
     //20.0 should be 15.0 but grays tend to be too dark
-    getBoxShadeString := FloatToStrF(1.0 - TabPtr^.BShade/20.0, ffFixed, 3, 1);
+    getBoxShadeString := FloatToStrF(1.0 - TabPtr^.PSBShade/20.0, ffFixed, 3, 1);
   end;
   
   
@@ -652,10 +803,48 @@ end;
     Font := TmpFont;
   end;
 
+
+  procedure TPostScriptClass.PutCurrentFont(FName: String; Size: Integer);
+  begin
+      begin
+        fCurrentFont.FontName := FName;
+        fCurrentFont.FontSize := Size;
+        fCurrentFont.FontHeight := ComputeFontHeight(FName, Size);
+      end;
+  end;
+
+  procedure TPostScriptClass.PutTabFont(IDX: Integer; FName: String; Size: Integer);
+  begin
+      begin
+        fTabArray[IDX]^.TabFont.FontName := FName;
+        fTabArray[IDX]^.TabFont.FontSize := Size;
+        fTabArray[IDX]^.TabFont.FontHeight := ComputeFontHeight(FName, Size);
+        setTabBoxHeight(IDX);
+      end;
+  end;
+
+  function TPostScriptClass.IndexTabFont(IDX: Integer):Boolean;
+  begin
+    if fFontArray[IDX]^.FontName = '' then
+      begin
+        result := false;
+        exit;
+      end
+   else
+     result := true;
+
+    With fTabArray[IDX]^.TabFont do
+      begin
+        FontName := fFontArray[IDX]^.FontName;
+        FontSize := fFontArray[IDX]^.FontSize;
+        FontHeight := fFontArray[IDX]^.FontHeight;
+      end;
+  end;
+
   procedure TPostScriptClass.Home;
   begin
-    CurX := fLeftMargin;
-    CurY := fTopMargin;
+    CurX := MarginLeft;
+    CurY := MarginTop;
   end;
 
   function TPostScriptClass.getBoxLeft(Combined: Byte): boolean;
@@ -677,12 +866,29 @@ end;
   begin  
     getBoxTop:=(Combined and 2) > 0;   
   end;	  
-  
+
+  procedure TPostScriptClass.setBoxWidth(TabPtr: PTab; BWidth: Double);
+  begin
+    TabPtr^.BoxWidth := InchToPoint(BWidth);
+  end;
+
+
   function  TPostScriptClass.getBoxWidth(TabPtr: PTab):Double;
   begin
     getBoxWidth := PointToInch(TabPtr^.BoxWidth);
   end;
-  
+
+
+  procedure TPostScriptClass.setBoxHeight(ListPtr: PTabList; BHeight: Double);
+  begin
+    ListPtr^.BoxHeight := InchToPoint(BHeight);
+  end;
+
+  function  TPostScriptClass.getBoxHeight(ListPtr: PTabList):Double;
+  begin
+    getBoxHeight := PointToInch(ListPtr^.BoxHeight);
+  end;
+
   function  TPostScriptClass.InchToPoint(Inch: Double): Integer;
   begin
     InchToPoint := round(Inch * POINTS);
@@ -693,33 +899,29 @@ end;
       PointToInch := Double(Pnt)/POINTS;
    end;
   	
-  procedure TPostScriptClass.setBoxWidth(TabPtr: PTab; BWidth: Double);
-  begin
-    TabPtr^.BoxWidth := InchToPoint(BWidth);
-  end;
-  
+
   procedure TPostScriptClass.setCurrentX(XLoc: Double);
   begin
-    fCurrentX := round(XLoc*POINTS) + fLeftMargin;
+    fCurrentX := round(XLoc*POINTS) + MarginLeft;
   end; 
   
   function  TPostScriptClass.getCurrentX: Double;
   begin
-    getCurrentX := Double(fCurrentX)/POINTS - fLeftMargin;
+    getCurrentX := Double(fCurrentX)/POINTS - MarginLeft;
   end;
   
   
   procedure TPostScriptClass.setCurrentY(YLoc: Double);
   begin
-    fCurrentY := round(YLoc*POINTS) + fTopMargin;
+    fCurrentY := round(YLoc*POINTS) + MarginTop;
   end; 
   
   function  TPostScriptClass.getCurrentY: Double;
   begin
-    getCurrentY := Double(fCurrentY)/POINTS - fTopMargin;
+    getCurrentY := Double(fCurrentY)/POINTS - MarginTop;
   end;
   
-  procedure  TPostScriptClass.printTab(IDX: Integer; S: String);
+  procedure  TPostScriptClass.PrintPSTab(IDX: Integer; S: String);
   var
     YPos, TmpY: Integer;
 	Shade: String;
@@ -795,23 +997,23 @@ end;
 	       if just = JUSTIFYRIGHT then
 	         begin
 		   XStart := BoxRight - Font.Fontsize div 2;
-		   PrintRightPoint(S, XStart);
+		   PrintPSRightPoint(S, XStart);
 		 end
 	       else if just = JUSTIFYCENTER then
 	         begin
 	           XStart := BoxLeft + BoxWdth div 2;
-		   PRintCenterPoint(S,XStart);
+		   PrintPSCenterPoint(S,XStart);
 	         end
 	       else
 	         begin
-		   printLeftPoint(S, BoxLeft + Marg);
+		   PrintPSLeftPoint(S, BoxLeft + Marg);
 		 end;
 	       CurY := TmpY;
 	     end;  //if S <>
            nextTab(IDX);
   end;
   
- procedure TPostScriptClass.PrintPointXY(S: String; XPos, YPos: Integer); 
+ procedure TPostScriptClass.PrintPSPointXY(S: String; XPos, YPos: Integer);
  //Print a string at X & Y without altering CurY
  begin
   if (not PrintFileOpen) then exit;
@@ -917,20 +1119,20 @@ end;
       end;
 end;	 	
 
- procedure TPostScriptClass.PrintXY(XPos, YPos: Double; S: String);
+ procedure TPostScriptClass.PrintPSXY(S: String; XPos, YPos: Double);
  //Print a string at X & Y without altering CurY
  var
    X, Y: Integer;
  begin
    if fPrintFileOpen then
      begin
-	   X := TransXFloat(XPos);
-	   Y := TransYFloat(YPos);
-       PrintPointXY(S, X, Y);
-	end;
+       X := TransXFloat(XPos);
+       Y := TransYFloat(YPos);
+       PrintPSPointXY(S, X, Y);
+     end;
  end;
  
- procedure TPostScriptClass.GotoXY(X, Y: Double);
+ procedure TPostScriptClass.GotoPSXY(X, Y: Double);
  var
    XInt, YInt: Integer;
  begin
@@ -940,7 +1142,7 @@ end;
    CurY := YInt;
   end;
  
- procedure TPostScriptClass.PrintCenterPage(S: String);
+ procedure TPostScriptClass.PrintPSCenterPage(S: String);
  var
    X: Integer;
  begin
@@ -951,17 +1153,17 @@ end;
 
  function TPostScriptClass.CalcCenterPage: Integer;
  begin
-   CalcCenterPage := (fPageWidth - fRightMargin- fLeftMargin) div 2 + fLeftMargin;
+   CalcCenterPage := (MarginRight- MarginLeft) div 2 + MarginLeft;
  end;
   
   
- procedure TPostScriptClass.PrintLeft(S: String; XPos: Double);
+ procedure TPostScriptClass.PrintPSLeft(S: String; XPos: Double);
  begin
    writeln(PrintFile,TransXFloat(XPos),' ',TransYPoint(CurY),' moveto');
    writeln(PrintFile,'(',S,')', ' show');
  end;
  
- procedure TPostScriptClass.PrintCenter(S: String; XPos: Double);
+ procedure TPostScriptClass.PrintPSCenter(S: String; XPos: Double);
  var
    X: Integer;
  begin 
@@ -970,7 +1172,7 @@ end;
    writeln(PrintFile,'(',S,') centershow');  
  end;
   
- procedure TPostScriptClass.PrintRight(S: String; XPos: Double);
+ procedure TPostScriptClass.PrintPSRight(S: String; XPos: Double);
  var
    X: Integer;
  begin 
@@ -979,32 +1181,25 @@ end;
    writeln(PrintFile,'(',S,') rightshow');  
  end;
   
-  procedure TPostScriptClass.PrintLeftPoint(S: String; XPos: integer);
+  procedure TPostScriptClass.PrintPSLeftPoint(S: String; XPos: integer);
  begin
    writeln(PrintFile,XPos,' ',TransYPoint(CurY),' moveto');
    writeln(PrintFile,'(',S,')', ' show');
  end;
  
- procedure TPostScriptClass.PrintCenterPoint(S: String; XPos: integer);
+ procedure TPostScriptClass.PrintPSCenterPoint(S: String; XPos: integer);
   begin 
    writeln(PrintFile,XPos,' ',TransYPoint(CurY),' moveto');
    writeln(PrintFile,'(',S,') centershow');  
  end;
   
- procedure TPostScriptClass.PrintRightPoint(S: String; XPos: integer);
+ procedure TPostScriptClass.PrintPSRightPoint(S: String; XPos: integer);
  begin 
     writeln(PrintFile,XPos,' ',TransYPoint(fCurrentY),' moveto');
    writeln(PrintFile,'(',S,') rightshow');  
  end;
- 
-  procedure TPostScriptClass.setPageMargins(Lf, Tp, Rt, Bt: Double);
- begin
-   fLeftMargin := InchToPoint(Lf); 
-   fTopMargin := InchToPoint(Tp); 
-   fRightMargin := InchToPoint(Rt); 
-   fBottomMargin := InchToPoint(Bt); 
- end;
- 
+
+
   procedure TPostScriptClass.setLineToLine(Spc: Double);
   begin
     fLineToLine := round(Double(fCurrentFontSize) * fLineScale);
@@ -1015,7 +1210,22 @@ end;
     getLineToLine := PointToInch(fLineToLine);
   end;
   
-    	 
+
+  procedure  TPostScriptClass.getPrinterDotsPI;
+  begin
+    fPSDotsPI.XDotsPI := fPrinter.XDPI;
+    fPSDotsPI.YDotsPI := fPrinter.YDPI;
+  end;
+
+  function  TPostScriptClass.PrinterDotsToInchX(Pnt: Integer): Double;
+  begin
+    Result := Double(Pnt ) / fPSDotsPI.XDotsPI;
+  end;
+
+  function  TPostScriptClass.PrinterDotsToInchY(Pnt: Integer): Double;
+  begin
+    Result := Double(Pnt ) / fPSDotsPI.YDotsPI;
+  end;
  { function TPostScriptClass.LinesLeft: Integer;
   var
     PageUsed: Integer;	
@@ -1036,12 +1246,12 @@ end;
   
   function TPostScriptClass.TransXPoint(X: Integer): Integer;
   begin
-    TransXPoint := X + fLeftMargin;
+    TransXPoint := X + MarginLeft;
   end; 
   	
   function TPostScriptClass.TransYPoint(Y: Integer): Integer; 
   begin
-    TransYPoint := fPageLength - fTopMargin - Y;
+    TransYPoint := fPageLength - MarginTop - Y;
    end;	
 
 procedure TPostScriptClass.XLocation(X: Double);
@@ -1080,11 +1290,19 @@ end;
   procedure TPostScriptClass.setLineScale(Scale: Double);
   begin
     fLineScale := Scale;
-  end;	
-	 	 
+  end;
+
+  procedure TPostScriptClass.TabNewLine(IDX: Integer);
+  begin
+    CurY := CurY + fTabArray[IDX]^.boxHeight;
+   // if  (BOXLINEBOTTOM) and (fTabArray[IDX]^.TabPos^.BLines)> 0
+    //  then CurY := CurY + 1;
+  end;
+
   procedure TPostScriptClass.NewLine;
   begin
-    CurY := CurY + InchToPoint(LineSpacing);//fLineToLine;
+    CurY := CurY + Round(Font.FontSize * LineScale) + 1;
+   // CurY := CurY + InchToPoint(LineSpacing);//fLineToLine;
   end;
      
   destructor TPostScriptClass.Destroy;
@@ -1096,6 +1314,43 @@ end;
 		
 	//DoneCriticalSection(fCriticalSection);	
 end;
+
+
+ procedure TPostScriptClass.RRect(X1, Y1, Rad, Ang1, Ang2: Integer);  //in points
+ var
+   XS, YS, RS, A1, A2: String;
+ begin
+     XS := IntToStr(X1);
+     YS := IntToStr(Y1);
+     RS := IntToStr(Rad);
+     A1 := IntToStr(Ang1);
+     A2 := IntToStr(Ang2);
+
+     writeln(PrintFile,'/RRect {');
+     writeln(PrintFile,'5 dict begin');
+     writeln(PrintFile,'/radius exch def');
+     writeln(PrintFile,'/y2 exch def');
+     writeln(PrintFile,'/x2 exch def');
+     writeln(PrintFile,'/y1 exch def');
+     writeln(PrintFile,'/x1 exch def');
+     writeln(PrintFile,'gsave');
+     writeln(PrintFile,'stroke');
+     writeln(PrintFile,'newpath');
+     writeln(PrintFile,'x1 radius add y1 radius add radius 180 270 arc');
+     writeln(PrintFile,'x2 radius sub y1 radius add radius 270 0 arc');
+     writeln(PrintFile,'x2 radius sub y2 radius sub radius 0 90 arc');
+     writeln(PrintFile,'x1 radius add y2 radius sub radius 90 180 arc');
+     writeln(PrintFile,'closepath');
+     writeln(PrintFile,'stroke');
+     writeln(PrintFile,'grestore');
+     writeln(PrintFile,'show');
+     writeln(PrintFile,'end');
+     writeln(PrintFile,'}');
+     writeln(PrintFile,'def');
+
+
+    writeln(PrintFile,XS+' ' YS+' '+ RA+' '+ A1+' '+ A2 +' RRect');
+ end;
 
    constructor TAddressLabelClass.Create;
     begin
@@ -1125,24 +1380,25 @@ end;
        fAddressRecord.ZipCode := Zip;
      end;
 
+
     function TAddressLabelClass.getMarginTop: Double;
     begin
-      result := PointToInch(fTopMargin);
+      result := PointToInch(fMarginTop);
     end;
 
     procedure TAddressLabelClass.setMarginTop(Top: Double);
     begin
-       fTopMargin := InchToPoint(Top);
+       fMarginTop := InchToPoint(Top);
     end;
 
     function TAddressLabelClass.getMarginLeft: Double;
     begin
-      result := PointToInch(fLeftMargin);
+      result := PointToInch(fMarginLeft);
     end;
 
     procedure TAddressLabelClass.setMarginLeft(Left: Double);
     begin
-      fLeftMargin := InchToPoint(Left);
+      fMarginLeft := InchToPoint(Left);
     end;
 
     function TAddressLabelClass.getTextMarginTop: Double;
@@ -1205,13 +1461,13 @@ end;
        fSPacingHeight := InchToPoint(SpacingHeight);
     end;
 
-   procedure TAddressLabelClass.PrintOneLabel;
+   procedure TAddressLabelClass.PrintOnePSLabel;
    var
      X, Y: Integer;
     YAdd1, YAdd2, YCSZ,YPostNet: Integer;
    begin
-      X := fLeftMargin + fTextMarginLeft + fColPointer * (fSpacingWidth );
-      Y := fPageLength - fTopMargin  - fTextMarginTop
+      X := fMarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fPageLength - fMarginTop  - fTextMarginTop
                        - fRowPointer * (fSpacingHeight);
       YAdd1 := Y - fLineToLine;
       if fAddressRecord.Add2 <> '' then
@@ -1222,15 +1478,15 @@ end;
 
       With fAddressRecord do
         begin
-          PrintPointXY(AName, X, Y);
-          PrintPointXY(Add1, X, YAdd1);
+          PrintPSPointXY(AName, X, Y);
+          PrintPSPointXY(Add1, X, YAdd1);
           if Add2 <> '' then
-          PrintPointXY(Add2, X, YAdd2);
-          PrintPointXY(CityState+' '+ZipCode, X, YCSZ);
+          PrintPSPointXY(Add2, X, YAdd2);
+          PrintPSPointXY(CityState+' '+ZipCode, X, YCSZ);
         end;
       if fPrintPostNet then
         begin
-          YPostNet := fPageLength - fTopMargin - fLabelHeight + fTextMarginTop -
+          YPostNet := fPageLength - fMarginTop - fLabelHeight + fTextMarginTop -
                        fRowPointer * (fSpacingHeight);
 
           PrintPostNetXY(faddressRecord.ZipCode, X+2, YPostNet);
@@ -1249,7 +1505,7 @@ end;
         end;
    end;
 
-   procedure TAddressLabelClass.PrintLabels(LabelDataSrc: TDataSource);
+   procedure TAddressLabelClass.PrintPSLabels(LabelDataSrc: TDataSource);
     begin
       if not PrintFileOpen then exit;
    // DataSet :=
@@ -1269,7 +1525,7 @@ end;
              fAddressRecord.CityState    := FieldByName('CITY').AsString + ',' +
                                     FieldByName('STATE').AsString;
              fAddressRecord.ZipCode      := FieldByName('ZIP').AsString;
-             PrintOneLabel;
+             PrintOnePSLabel;
              next;
           end; //While not EOF
       end; //With DataSet
@@ -1373,10 +1629,34 @@ end;
       // example 72 576 moveto
       //(164331115) barshow
    end;
+
+//PrintFile(aFileName: String): longint;   -1 is error
+function TPostScriptClass.getPrintFileName: String; //from cupsPrinters.inc
+var
+  NewPath: String;
+
+  function TryTemporaryPath(const Path: string): Boolean;
+  var
+    CurPath: String;
+  begin
+    CurPath:=CleanAndExpandDirectory(Path);
+    Result:=DirPathExists(CurPath);
+    if Result then NewPath:=CurPath;
+  end;
+
+begin
+
+  if (not TryTemporaryPath('~/tmp/'))
+  and (not TryTemporaryPath('/tmp/'))
+  and (not TryTemporaryPath('/var/tmp/')) then
+    NewPath:='';
+
+  result := AppendPathDelim(NewPath)+  'OutPrinter_'+FormatDateTime('yyyymmmddd-hhnnss',Now) + '.ps';
+  fPrintFileName := result;
+  //  TFilePrinterCanvas(Canvas).OutputFileName := FOutputFileName;
+  end;
+
 end.
 
 
-    end;
-
-end.
 
