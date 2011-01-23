@@ -5,7 +5,7 @@ unit newpsclass;
 {$mode objfpc} 
 interface
  uses BaseUnix, unixtype,initc, errors, sysutils, classes, strings, FileUtil,
-   Graphics, GraphType, OSPRinters, Printers, CUPSDyn, ctypes, db, sqldb;
+   Graphics, GraphType, OSPRinters, Printers, CUPSDyn, Process, ctypes, db, sqldb;
 
 const
   CR = #13;
@@ -111,7 +111,7 @@ Type
           fPSDotsPI         : PrinterDotsPI;
 	  fLineScale        : Double;
 	  fPrintFileOpen    : Boolean;
-	  fPrintFile        : Text;
+	  fPrintFileID      : Text;
 	  fPrintFileName    : String;
           fPages            : Integer;
           fPageNo           : Integer;
@@ -123,13 +123,19 @@ Type
 	  fpageWidth        : integer;
           fCurrentFont      : FontType;
           fBold             : Boolean;
+          fLandscape        : Boolean;
+          fOnLandscapeChange: TNotifyEvent;
           fOnFontChange     : TNotifyEvent;
           fErrorMessage     : String;
 	
 	 procedure   CreateTabArray;
          procedure   CreateFontArray;
    protected
+          property    OnLandscapeChange: TNotifyEvent
+                     read fOnLandscapeChange write fOnLandscapeChange;
 
+         procedure   LandscapeChange(Sender: TObject);
+         procedure   setLandscape(LS: boolean);
          property    OnFontChange: TNotifyEvent
                      read fOnFontChange write fOnFontChange;
 
@@ -165,22 +171,26 @@ Type
          function    ShadeToGreyScale(Shade: Integer): TGraphicsColor;
          function    GreyScaleToShade(Shade: TGraphicsColor): Integer;
          function    getPrintFileName: String; //from cupsPrinters.inc
+         procedure   RecRoutine;
 
    public
 	 constructor Create;
 	 destructor  Destroy; override;
+         procedure   RRect(X1, Y1, X2, Y2, Rad: Integer);  //in points
 
          function    getBoxShadePercent(TabPtr: PTab): Integer;
  	 function    getBoxShadeString(TabPtr: PTab): String;  //for printing	 function    getFontName(ListPtr: PTabList): String;
          property    PageNo: Integer read fPageNo write fPageNo;
 
+         property    Landscape: Boolean read fLandscape write setLandscape;
+         property    PrintFileName: String read fPrintFileName write fPrintFileName;
          property    font: FontType read fCurrentFont write setFont;
          property    LineSpace: integer read fLinespace write fLinespace;
          property    PRDotsPI: PrinterDotsPI read fPSDotsPI;
 
          property    TabArrayIndex: Integer read fTabArrayIndex write fTabArrayIndex;
 	 property    PrintFileOpen: boolean read fPrintFileOpen;
-	 property    PrintFile: Text read fPrintFile;
+	 property    PrintFileID: Text read fPrintFileID;
 	 property    TabArray: TTabsArray read fTabArray;
 
          property    Bold: Boolean read fBold write setBold;
@@ -236,15 +246,19 @@ Type
          procedure   PutCurrentFont(FName: String; Size: Integer);                   //set current font
 	 function    IndexFont(IDX: Integer): Boolean;                                 //Set current font from saved tab array
          procedure   PutTabFont(IDX: Integer; FName: String; Size: Integer);  //set font for tab[IDX]
-         function    IndexTabFont(IDX: Integer): Boolean;                              //Set font for tab[IDX] from saved tab array
 
-	 function    PointToInch(Pnt: Integer): Double;
+         function    IndexTabFont(IDX: Integer): Boolean;                              //Set font for tab[IDX] from saved tab array
+         function    PToSX(X: Integer): Integer;
+         function    PToSY(Y: Integer): Integer;
+
+         function    PointToInch(Pnt: Integer): Double;
 	 function    InchToPoint(Inch: Double): Integer;
 	 procedure   FreeAllTabs;
 	 procedure   FreeTabs(IDX: Integer);
          procedure   FreeFont(IDX: Integer);
          procedure   FreeAllFonts;
 	 function    nextTab(IDX: Integer): PTab;
+         function    TransArc(Ang: Integer):Integer;
          procedure   Home;
 
 	
@@ -262,8 +276,8 @@ Type
 	 function    TransYFloat(Y: Double): Integer;    //User to y points
 	 function    TransXPoint(X: Integer): Integer;   //user x points to PS points
 	 function    TransYPoint(Y: Integer): Integer;   //User y points to PS points
-	 procedure   NewLine;
-         procedure   TabNewLine(IDX: Integer);
+	 procedure   PSNewLine;
+         procedure   PSTabNewLine(IDX: Integer);
 	 procedure   OpenPrintFile(FileName: String);    // Open file - discriptor goes to fPrintFile
 	 procedure   ClosePrintFile;
 	 procedure   PrintPSCenterPage(S: String);
@@ -274,6 +288,8 @@ Type
 	 procedure   PSProcs;
 	 procedure   NewPage;
          procedure   EndPage;
+         procedure   ViewFile;
+         procedure   doPrint;
         // procedure   showPage;
   end;
 
@@ -294,12 +310,15 @@ Type
           fLabelStyle       : String;
           fNumAcross        : integer;
           fNumDown          : integer;
-          fMarginTop        : integer;
-          fMarginLeft       : integer;
+         // fMarginTop        : integer;
+          //fMarginLeft       : integer;
           fTextMarginTop    : Integer;
           fTextMarginLeft   : Integer;
           fLabelWidth       : integer;
           fLabelHeight      : integer;
+          fRadius           : Integer;
+          fSpacingTop       : Integer;
+          fSpacingLeft      : Integer;
           fSpacingWidth     : integer;
           fSpacingHeight    : integer;
           fPostNetHeight    : Double;
@@ -312,10 +331,12 @@ Type
           fAddressRecord    : TAddressRecord;
           fAddressDataSource: TDataSource;
   protected
-    function getMarginTop: Double;
-    procedure setMarginTop(Top: Double);
-    function getMarginLeft: Double;
-    procedure setMarginLeft(Left: Double);
+    function getRadius: Double;
+    procedure setRadius(Rad: Double);
+    //function getMarginTop: Double;
+    //procedure setMarginTop(Top: Double);
+    //function getMarginLeft: Double;
+    //procedure setMarginLeft(Left: Double);
     function getTextMarginTop: Double;
     procedure setTextMarginTop(Top: Double);
     function getTextMarginLeft: Double;
@@ -324,25 +345,34 @@ Type
     procedure setLabelWidth(LabelWidth: Double);
     function getLabelHeight: Double;
     procedure setLabelHeight(LabelHeight: Double);
+
+    function getSpacingTop: Double;
+    procedure setSpacingTop(SpacingTop: Double);
+    function getSpacingLeft: Double;
+    procedure setSpacingLeft(SpacingLeft: Double);
     function getSpacingWidth: Double;
     procedure setSpacingWidth(SpacingWidth: Double);
     function getSpacingHeight: Double;
     procedure setSpacingHeight(SpacingHeight: Double);
+
     procedure setAddressRecord(Title, fName, lName, Addr1, Addr2, City, State, Zip: String);
   public
     constructor Create;
     procedure initPostnet;
     destructor  Destroy; override;
    // property Address: TAddressRecord  write setAddressRecord;
+    property Radius: Double read getRadius write setRadius;
     property LabelStyle: String read fLabelStyle write fLabelStyle;
     property NumAcross: Integer read fNumAcross write fNumAcross;
     property NumDown: Integer read fNumDown write fNumDown;
-    property MarginTop: Double read getMarginTop write setMarginTop;
-    property MarginLeft: Double read getMarginLeft write setMarginLeft;
+    //property MarginTop: Double read getMarginTop write setMarginTop;
+   // property MarginLeft: Double read getMarginLeft write setMarginLeft;
     property TextMarginTop: Double read getTextMarginTop write setTextMarginTop;
     property TextMarginLeft: Double read getTextMarginLeft write setTextMarginLeft;
     property LabelWidth: Double read getLabelWidth write setLabelWidth;
     property LabelHeight: Double read getLabelHeight write setLabelHeight;
+    property SpacingTop: Double read getSpacingTop write setSpacingTop;
+    property SpacingLeft: Double read getSpacingLeft write setSpacingLeft;
     property SpacingWidth: Double read getSpacingWidth write setSpacingWidth;
     property SpacingHeight: Double read getSpacingHeight write setSpacingHeight;
     property PostNetHeight: Double read fPostNetHeight write fPostNetHeight;
@@ -352,8 +382,9 @@ Type
     property PrintPostNet: Boolean read fPrintPostNet write fPrintPostNet;
     procedure putText(S: String);
     procedure PrintPostNetXY(S: String; X, Y: Integer);
-    procedure PrintPSLabels(LabelDataSrc: TDataSource);
+    procedure PrintPSLabels(LabelDataSrc: TDataSource; Outline: Boolean);
     procedure PrintOnePSLabel;
+    procedure OutlinePSLabel;
   end;
 
 
@@ -361,13 +392,26 @@ implementation
  
  procedure TPostScriptClass.OpenPrintFile(FileName: String);
    begin
-     assignfile(fPrintFile, FileName);
-     reWrite(fPrintFile);
+     assignfile(fPrintFileID, FileName);
+     reWrite(fPrintFileID);
 	 fPrintFileOpen := True;
      if Assigned(fOnFontChange) then
         OnFontChange(Self);
      psProcs;
    end;
+
+ procedure TPostScriptClass.doPrint;
+ begin
+   if fPrintFileName <>'' then
+      fPrinter.PrintFile(PrintFileName);
+ end;
+
+  procedure TPostScriptClass.ClosePrintFile;
+  begin
+    if PrintFileOpen then
+      CloseFile(fPrintFileID);
+	fPrintFileOpen := false;
+  end;
    
  constructor TPostScriptClass.Create;   
     begin
@@ -395,6 +439,7 @@ implementation
         CurX := MarginLeft;
         CurY := MarginTop ;
         fOnFontChange:= @PrintCurrentFont;
+        fOnLandscapeChange:= @LandscapeChange;
         fPageNo:= 1;
         fBold := false;
    end;
@@ -403,7 +448,7 @@ implementation
   begin
      if (PrintFileOpen)  then
        begin
-         writeln(PrintFile, 'save');
+         writeln(PrintFileID, 'save');
        end;
      CurrentY :=0.0;
   end;
@@ -412,8 +457,8 @@ implementation
   begin
      if (PrintFileOpen)  then
        begin
-         writeln(PrintFile, 'restore');
-         writeln(PrintFile, 'showpage');
+         writeln(PrintFileID, 'restore');
+         writeln(PrintFileID, 'showpage');
        end;
   end;
 
@@ -450,9 +495,9 @@ implementation
   begin
     if (PrintFileOpen)  then
 	  begin
-	     writeln(PrintFile,'/',Font.FontName,' findfont');
-             writeln(PrintFile,Font.FontSize,' scalefont');
-             writeln(PrintFile,'setfont');
+	     writeln(PrintFileID,'/',Font.FontName,' findfont');
+             writeln(PrintFileID,Font.FontSize,' scalefont');
+             writeln(PrintFileID,'setfont');
 	   end;
   end;
 
@@ -501,12 +546,6 @@ implementation
     JnkPrinter.Free;
   end;
 
-  procedure TPostScriptClass.ClosePrintFile;
-  begin
-    if PrintFileOpen then
-      CloseFile(fPrintFile);
-	fPrintFileOpen := false;
-  end;	   
 
    procedure TPostScriptClass.CreateFontArray; //Array 1..10 of font records
   // Type
@@ -847,6 +886,18 @@ begin
     CurY := MarginTop;
   end;
 
+function TPostScriptClass.PToSX(X: Integer): Integer;
+begin
+   With fPrinter do
+     result := trunc(X / PRDotsPI.XDotsPI * 72.0)
+end;
+
+function TPostScriptClass.PToSY(Y: Integer): Integer;
+begin
+   With fPrinter do
+     result := trunc(Y / PRDotsPI.YDotsPI * 72.0)
+end;
+
   function TPostScriptClass.getBoxLeft(Combined: Byte): boolean;
   begin  
     getBoxLeft:=(Combined and 1) > 0;   
@@ -955,40 +1006,40 @@ begin
 	  end;			
 	
 	 //fill tab box
-	 Writeln(PrintFile,Shade,  ' setgray');  
-	 Writeln(PrintFile,'newpath');
-	 Writeln(PrintFile,BoxLeft,' ',BoxBase,' moveto');
-	 Writeln(PrintFile,BoxWdth,' ',0,' rlineto');
-	 Writeln(PrintFile,0,' ',BoxHght,' rlineto');
-	 Writeln(PrintFile,-BoxWdth,' ',0,' rlineto');
-	 Writeln(PrintFile,'closepath');
-	 Writeln(PrintFile,'fill');
-         Writeln(PrintFile, '0.0 setgray');
+	 writeln(PrintFileID,Shade,  ' setgray');
+	 writeln(PrintFileID,'newpath');
+	 writeln(PrintFileID,BoxLeft,' ',BoxBase,' moveto');
+	 writeln(PrintFileID,BoxWdth,' ',0,' rlineto');
+	 writeln(PrintFileID,0,' ',BoxHght,' rlineto');
+	 writeln(PrintFileID,-BoxWdth,' ',0,' rlineto');
+	 writeln(PrintFileID,'closepath');
+	 writeln(PrintFileID,'fill');
+         writeln(PrintFileID, '0.0 setgray');
 
 	 //box lines if any
 	 if getBoxBottom(Box) then
 	    begin
-	      Writeln(PrintFile,BoxLeft,' ',BoxBase,' moveto');
-	      Writeln(PrintFile,BoxWdth,' ',0,' rlineto');
-		  Writeln(PrintFile,'stroke');
+	      writeln(PrintFileID,BoxLeft,' ',BoxBase,' moveto');
+	      writeln(PrintFileID,BoxWdth,' ',0,' rlineto');
+		  writeln(PrintFileID,'stroke');
 		end;
 	  if getBoxRite(Box) then
 	    begin	
-		  Writeln(PrintFile,BoxRight,' ',BoxBase,' moveto'); 
-	      Writeln(PrintFile,0,' ',BoxHght,' rlineto');
-		  Writeln(PrintFile,'stroke');
+		  writeln(PrintFileID,BoxRight,' ',BoxBase,' moveto');
+	      writeln(PrintFileID,0,' ',BoxHght,' rlineto');
+		  writeln(PrintFileID,'stroke');
 		end;
 	  if getBoxTop(Box) then
 	    begin	
-		   Writeln(PrintFile,BoxLeft,' ',BoxTop,' moveto');  
-	       Writeln(PrintFile,BoxWdth,' ',0,' rlineto');
-		   Writeln(PrintFile,'stroke');
+		   writeln(PrintFileID,BoxLeft,' ',BoxTop,' moveto');
+	       writeln(PrintFileID,BoxWdth,' ',0,' rlineto');
+		   writeln(PrintFileID,'stroke');
 		end;
 	   if getBoxLeft(Box) then
 	     begin	  
-	       Writeln(PrintFile,BoxLeft,' ',BoxBase,' moveto');
-	       Writeln(PrintFile,0,' ',BoxHght,' rlineto');
-	       Writeln(PrintFile,'stroke');
+	       writeln(PrintFileID,BoxLeft,' ',BoxBase,' moveto');
+	       writeln(PrintFileID,0,' ',BoxHght,' rlineto');
+	       writeln(PrintFileID,'stroke');
 	     end;
 	   if S <> '' then
 	     begin
@@ -1017,9 +1068,9 @@ begin
  //Print a string at X & Y without altering CurY
  begin
   if (not PrintFileOpen) then exit;
-    Writeln(PrintFile,'0.0 setgray');
-    Writeln(PrintFile,XPos,' ',YPos,' moveto');
-	Writeln(PrintFile,'(',S,')',' show');
+    writeln(PrintFileID,'0.0 setgray');
+    writeln(PrintFileID,XPos,' ',YPos,' moveto');
+	writeln(PrintFileID,'(',S,')',' show');
  end;
  
 
@@ -1043,7 +1094,7 @@ begin
 		    begin
 		      TabPos := TabHead;
 		      TabIndex := 1;
-                      NewLine;             //Automatic newline after last tab
+                      PSNewLine;             //Automatic newline after last tab
 	 	   end
 		  else
 		    begin
@@ -1138,7 +1189,7 @@ end;
  begin
    XInt := TransXFloat(X);
    YInt := TransYFloat(Y);
-   Writeln(PrintFile, XInt,' ',Yint,' moveto');
+   writeln(PrintFileID, XInt,' ',Yint,' moveto');
    CurY := YInt;
   end;
  
@@ -1147,8 +1198,8 @@ end;
    X: Integer;
  begin
    X := CalcCenterPage;
-   writeln(PrintFile,X,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFile,'(',S,') centershow');
+   writeln(PrintFileID,X,' ',TransYPoint(CurY),' moveto');
+   writeln(PrintFileID,'(',S,') centershow');
   end;
 
  function TPostScriptClass.CalcCenterPage: Integer;
@@ -1159,8 +1210,8 @@ end;
   
  procedure TPostScriptClass.PrintPSLeft(S: String; XPos: Double);
  begin
-   writeln(PrintFile,TransXFloat(XPos),' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFile,'(',S,')', ' show');
+   writeln(PrintFileID,TransXFloat(XPos),' ',TransYPoint(CurY),' moveto');
+   writeln(PrintFileID,'(',S,')', ' show');
  end;
  
  procedure TPostScriptClass.PrintPSCenter(S: String; XPos: Double);
@@ -1168,8 +1219,8 @@ end;
    X: Integer;
  begin 
    X := TransXFloat(XPos);
-   writeln(PrintFile,X,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFile,'(',S,') centershow');  
+   writeln(PrintFileID,X,' ',TransYPoint(CurY),' moveto');
+   writeln(PrintFileID,'(',S,') centershow');
  end;
   
  procedure TPostScriptClass.PrintPSRight(S: String; XPos: Double);
@@ -1177,26 +1228,26 @@ end;
    X: Integer;
  begin 
    X := TransXFloat(XPos);
-   writeln(PrintFile,X,' ',TransYPoint(fCurrentY),' moveto');
-   writeln(PrintFile,'(',S,') rightshow');  
+   writeln(PrintFileID,X,' ',TransYPoint(fCurrentY),' moveto');
+   writeln(PrintFileID,'(',S,') rightshow');
  end;
   
   procedure TPostScriptClass.PrintPSLeftPoint(S: String; XPos: integer);
  begin
-   writeln(PrintFile,XPos,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFile,'(',S,')', ' show');
+   writeln(PrintFileID,XPos,' ',TransYPoint(CurY),' moveto');
+   writeln(PrintFileID,'(',S,')', ' show');
  end;
  
  procedure TPostScriptClass.PrintPSCenterPoint(S: String; XPos: integer);
   begin 
-   writeln(PrintFile,XPos,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFile,'(',S,') centershow');  
+   writeln(PrintFileID,XPos,' ',TransYPoint(CurY),' moveto');
+   writeln(PrintFileID,'(',S,') centershow');
  end;
   
  procedure TPostScriptClass.PrintPSRightPoint(S: String; XPos: integer);
  begin 
-    writeln(PrintFile,XPos,' ',TransYPoint(fCurrentY),' moveto');
-   writeln(PrintFile,'(',S,') rightshow');  
+    writeln(PrintFileID,XPos,' ',TransYPoint(fCurrentY),' moveto');
+   writeln(PrintFileID,'(',S,') rightshow');
  end;
 
 
@@ -1238,7 +1289,17 @@ end;
   begin
     TransXFloat := TransXPoint(InchToPoint(X));
   end;
-  
+
+  function TPostScriptClass.TransArc(Ang: Integer):Integer;
+  begin
+    if Ang = 270 then
+      result := 90
+    else if Ang = 90 then
+       result := 270
+    else
+       result := Ang;
+  end;
+
   function TPostScriptClass.TransYFloat(Y: Double): Integer;
   begin
     TransYFloat := TransYPoint(InchToPoint(Y));
@@ -1251,7 +1312,7 @@ end;
   	
   function TPostScriptClass.TransYPoint(Y: Integer): Integer; 
   begin
-    TransYPoint := fPageLength - MarginTop - Y;
+    TransYPoint := fPAgeLength - Y; //fPageLength - MarginTop - Y;
    end;	
 
 procedure TPostScriptClass.XLocation(X: Double);
@@ -1261,7 +1322,7 @@ begin
  if (PrintFileOpen)  then
    begin
      XInt := InchToPoint(X);
- 	 writeln(PrintFile,'/loc ',Xint,' def');
+ 	 writeln(PrintFileID,'/loc ',Xint,' def');
    end; 
  // /loc Xint def
 end;
@@ -1270,20 +1331,22 @@ procedure TPostScriptClass.psProcs;
 begin
   if (PrintFileOpen)  then
     begin
-	  writeln(PrintFile,'/rightshow');
-	  writeln(PrintFile,'{dup stringwidth pop');
-	  writeln(PrintFile,'0 exch sub');
-	  writeln(PrintFile,'0 rmoveto');
-	  writeln(PrintFile,'show} def');
-	  writeln(PrintFile);
+	  writeln(PrintFileID,'/rightshow');
+	  writeln(PrintFileID,'{dup stringwidth pop');
+	  writeln(PrintFileID,'0 exch sub');
+	  writeln(PrintFileID,'0 rmoveto');
+	  writeln(PrintFileID,'show} def');
+	  writeln(PrintFileID);
 	  
-	  writeln(PrintFile,'/centershow');
-	  writeln(PrintFile,'{dup stringwidth pop');
-	  writeln(PrintFIle,'2 div');
-	  writeln(PrintFile,'0 exch sub');
-	  writeln(PrintFile,'0 rmoveto');
-	  writeln(PrintFile,'show} def');
-	  writeln(PrintFile);
+	  writeln(PrintFileID,'/centershow');
+	  writeln(PrintFileID,'{dup stringwidth pop');
+	  writeln(PrintFileID,'2 div');
+	  writeln(PrintFileID,'0 exch sub');
+	  writeln(PrintFileID,'0 rmoveto');
+	  writeln(PrintFileID,'show} def');
+	  writeln(PrintFileID);
+
+          RecRoutine;
 	 end; 
 end;
 
@@ -1292,14 +1355,14 @@ end;
     fLineScale := Scale;
   end;
 
-  procedure TPostScriptClass.TabNewLine(IDX: Integer);
+  procedure TPostScriptClass.PSTabNewLine(IDX: Integer);
   begin
     CurY := CurY + fTabArray[IDX]^.boxHeight;
    // if  (BOXLINEBOTTOM) and (fTabArray[IDX]^.TabPos^.BLines)> 0
     //  then CurY := CurY + 1;
   end;
 
-  procedure TPostScriptClass.NewLine;
+  procedure TPostScriptClass.PSNewLine;
   begin
     CurY := CurY + Round(Font.FontSize * LineScale) + 1;
    // CurY := CurY + InchToPoint(LineSpacing);//fLineToLine;
@@ -1315,41 +1378,66 @@ end;
 	//DoneCriticalSection(fCriticalSection);	
 end;
 
+ procedure TPostScriptClass.RecRoutine;
+ begin
+   if PrintFileOpen then
+     begin
+       writeln(PrintFileID,'/RRect {');
+       writeln(PrintFileID,'5 dict begin');
+       writeln(PrintFileID,'/radius exch def');
+       writeln(PrintFileID,'/y2 exch def');
+       writeln(PrintFileID,'/x2 exch def');
+       writeln(PrintFileID,'/y1 exch def');
+       writeln(PrintFileID,'/x1 exch def');
+       writeln(PrintFileID,'gsave');
+       writeln(PrintFileID,'newpath');
+       writeln(PrintFileID,'x1 radius add y1 radius add radius 180 270 arc');
+       writeln(PrintFileID,'x2 radius sub y1 radius add radius 270 0 arc');
+       writeln(PrintFileID,'x2 radius sub y2 radius sub radius 0 90 arc');
+       writeln(PrintFileID,'x1 radius add y2 radius sub radius 90 180 arc');
+       writeln(PrintFileID,'closepath');
+       writeln(PrintFileID,'stroke');
+       writeln(PrintFileID,'grestore');
+       writeln(PrintFileID,'end');
+       writeln(PrintFileID,'}');
+       writeln(PrintFileID,'def');
+       writeln(PrintFileID);
+     end;
+ end;
 
- procedure TPostScriptClass.RRect(X1, Y1, Rad, Ang1, Ang2: Integer);  //in points
+ procedure TPostScriptClass.setLandscape(LS: boolean);
+begin
+  fLandscape := LS;
+  if Assigned(fOnLandscapeChange) then
+        OnLandscapeChange(Self);
+end;
+
+
+procedure TPostScriptClass.LandscapeChange(Sender: TObject);
+   begin
+     { if fLandscape then
+        begin
+          if fPageHeight >= fPageWidth then
+            swap(fPageHeight, fPagewidth);
+        end
+     else
+        begin
+           if fPageWidth >= fPageHeight then
+            swap(fPageHeight, fPagewidth);
+        end;  }
+end;
+
+ procedure TPostScriptClass.RRect(X1, Y1, X2, Y2, Rad: Integer);  //in points
  var
-   XS, YS, RS, A1, A2: String;
+   XS, YS, XS2, YS2, RA: String;
  begin
      XS := IntToStr(X1);
-     YS := IntToStr(Y1);
-     RS := IntToStr(Rad);
-     A1 := IntToStr(Ang1);
-     A2 := IntToStr(Ang2);
-
-     writeln(PrintFile,'/RRect {');
-     writeln(PrintFile,'5 dict begin');
-     writeln(PrintFile,'/radius exch def');
-     writeln(PrintFile,'/y2 exch def');
-     writeln(PrintFile,'/x2 exch def');
-     writeln(PrintFile,'/y1 exch def');
-     writeln(PrintFile,'/x1 exch def');
-     writeln(PrintFile,'gsave');
-     writeln(PrintFile,'stroke');
-     writeln(PrintFile,'newpath');
-     writeln(PrintFile,'x1 radius add y1 radius add radius 180 270 arc');
-     writeln(PrintFile,'x2 radius sub y1 radius add radius 270 0 arc');
-     writeln(PrintFile,'x2 radius sub y2 radius sub radius 0 90 arc');
-     writeln(PrintFile,'x1 radius add y2 radius sub radius 90 180 arc');
-     writeln(PrintFile,'closepath');
-     writeln(PrintFile,'stroke');
-     writeln(PrintFile,'grestore');
-     writeln(PrintFile,'show');
-     writeln(PrintFile,'end');
-     writeln(PrintFile,'}');
-     writeln(PrintFile,'def');
-
-
-    writeln(PrintFile,XS+' ' YS+' '+ RA+' '+ A1+' '+ A2 +' RRect');
+     YS2 := IntToStr(TransYPoint(Y1));
+     XS2 := IntToStr(X2);
+     YS := IntToStr(TransYPoint(Y2));
+     RA := IntToStr(Rad);
+    if PrintFileOpen then
+      writeln(PrintFileID,XS+' '+ YS+' '+ XS2+' '+ YS2+' '+ RA +' RRect');
  end;
 
    constructor TAddressLabelClass.Create;
@@ -1381,25 +1469,35 @@ end;
      end;
 
 
-    function TAddressLabelClass.getMarginTop: Double;
+   function TAddressLabelClass.getRadius: Double;
+   begin
+     result := PointToInch(fRadius);
+   end;
+
+   procedure TAddressLabelClass.setRadius(Rad: Double);
+   begin
+     fRadius := InchToPoint(Rad);
+   end;
+
+   { function TAddressLabelClass.getMarginTop: Double;
     begin
-      result := PointToInch(fMarginTop);
+      result := PointToInch(MarginTop);
     end;
 
     procedure TAddressLabelClass.setMarginTop(Top: Double);
     begin
-       fMarginTop := InchToPoint(Top);
+       MarginTop := InchToPoint(Top);
     end;
 
     function TAddressLabelClass.getMarginLeft: Double;
     begin
-      result := PointToInch(fMarginLeft);
+      result := PointToInch(MarginLeft);
     end;
 
     procedure TAddressLabelClass.setMarginLeft(Left: Double);
     begin
-      fMarginLeft := InchToPoint(Left);
-    end;
+      MarginLeft := InchToPoint(Left);
+    end;   }
 
     function TAddressLabelClass.getTextMarginTop: Double;
     begin
@@ -1446,6 +1544,26 @@ end;
       result := PointToInch(fSpacingWidth);
     end;
 
+    procedure TAddressLabelClass.setSpacingLeft(SpacingLeft: Double);
+    begin
+      fSPacingLeft := InchToPoint(SpacingLeft);
+    end;
+
+    function TAddressLabelClass.getSpacingLeft: Double;
+    begin
+      result := PointToInch(fSpacingLeft);
+    end;
+
+     procedure TAddressLabelClass.setSpacingTop(SpacingTop: Double);
+    begin
+      fSPacingTop := InchToPoint(SpacingTop);
+    end;
+
+    function TAddressLabelClass.getSpacingTop: Double;
+    begin
+      result := PointToInch(fSpacingTop);
+    end;
+
     procedure TAddressLabelClass.setSpacingWidth(SpacingWidth: Double);
     begin
       fSPacingWidth := InchToPoint(SpacingWidth);
@@ -1466,8 +1584,8 @@ end;
      X, Y: Integer;
     YAdd1, YAdd2, YCSZ,YPostNet: Integer;
    begin
-      X := fMarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
-      Y := fPageLength - fMarginTop  - fTextMarginTop
+      X := MarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fPageLength - MarginTop  - fTextMarginTop
                        - fRowPointer * (fSpacingHeight);
       YAdd1 := Y - fLineToLine;
       if fAddressRecord.Add2 <> '' then
@@ -1486,7 +1604,7 @@ end;
         end;
       if fPrintPostNet then
         begin
-          YPostNet := fPageLength - fMarginTop - fLabelHeight + fTextMarginTop -
+          YPostNet := fPageLength - MarginTop - fLabelHeight + fTextMarginTop -
                        fRowPointer * (fSpacingHeight);
 
           PrintPostNetXY(faddressRecord.ZipCode, X+2, YPostNet);
@@ -1505,15 +1623,19 @@ end;
         end;
    end;
 
-   procedure TAddressLabelClass.PrintPSLabels(LabelDataSrc: TDataSource);
+
+   procedure TAddressLabelClass.PrintPSLabels(LabelDataSrc: TDataSource; Outline: Boolean);
     begin
-      if not PrintFileOpen then exit;
+      if not PrintFileOpen then
+        OpenPrintFile(GetPrintFileName);
    // DataSet :=
     if fPrintPostNet then  initPostnet;
     With LabelDataSrc.DataSet do
       begin
         if not active then open;
         first;
+        Newpage;
+        if OutLine then OutlinePSLabel;
         while not EOF do
           begin
             fPageDone := False;
@@ -1526,25 +1648,49 @@ end;
                                     FieldByName('STATE').AsString;
              fAddressRecord.ZipCode      := FieldByName('ZIP').AsString;
              PrintOnePSLabel;
+             if fPageDone then
+               begin
+                 Newpage;
+                 if Outline then OutlinePSLabel;
+                 fPageDone := false;
+               end;
              next;
           end; //While not EOF
       end; //With DataSet
       if fPageDone then
-        begin
           fPageDone := false;
-          EndPage;
-        end;
+      endPage;
+    ClosePrintFile;
+ end;
+
+   procedure TAddressLabelClass.OutlinePSLabel;
+   var
+     X0, Y0, X, Y, Rad: Integer;
+     Across, Down: Integer;
+   begin
+     X0 := fSpacingLeft - MarginLeft;
+     Y0 := fSpacingTop - MarginTop;
+
+     for Across := 0 to fNumAcross - 1 do
+        for Down := 0 to fNumDown - 1 do
+          begin
+            X := X0 + Across * fSpacingWidth;
+            Y := Y0 + Down * fSpacingHeight;
+            RRect(X, Y , X + fLabelWidth, Y + fLabelHeight, fRadius);
+          end;
    end;
+
+
 
    procedure TAddressLabelClass.putText(S: String);
    begin
-     writeln(PrintFile,S);
+     writeln(PrintFileID,S);
    end;
 
    procedure TAddressLabelClass.PrintPostNetXY(S: String; X, Y: Integer);
    begin
-     Writeln(PrintFile,IntToStr(X)+' '+IntToStr(Y)+' '+'moveto');
-     Writeln(PrintFile,'('+S+')'+' barshow');
+     writeln(PrintFileID,IntToStr(X)+' '+IntToStr(Y)+' '+'moveto');
+     writeln(PrintFileID,'('+S+')'+' barshow');
            // example 72 576 moveto
       //(164331115) barshow
    end;
@@ -1651,12 +1797,70 @@ begin
   and (not TryTemporaryPath('/var/tmp/')) then
     NewPath:='';
 
-  result := AppendPathDelim(NewPath)+  'OutPrinter_'+FormatDateTime('yyyymmmddd-hhnnss',Now) + '.ps';
-  fPrintFileName := result;
+  fPrintFileName := AppendPathDelim(NewPath)+  'OutPrinter_'+FormatDateTime('yyyymmmddd-hhnnss',Now) + '.ps';
+  result := fPrintFileName;
   //  TFilePrinterCanvas(Canvas).OutputFileName := FOutputFileName;
   end;
 
+procedure TPostScriptClass.ViewFile;
+ var
+     AProcess:TProcess;
+     EPath: String;
+     FName: String;
+ begin
+    if fPrintFileName <> '' then
+      FName := fPrintFileName
+    else
+      exit;
+    EPath := FindDefaultExecutablePath('okular');
+    AProcess := TProcess.create(nil);
+    AProcess.CommandLine := EPath +' '+fPrintFileName;
+    AProcess.Options := AProcess.Options + [poWaitOnExit];
+    AProcess.Execute;
+    AProcess.Free;
+ end;
+
+
 end.
+{
 
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, Process;
 
+type
 
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { private declarations }
+  public
+    { public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+    AProcess:TProcess;
+    EPath: String;
+begin
+   EPath := FindDefaultExecutablePath('okular');
+   AProcess := TProcess.create(nil);
+   AProcess.CommandLine := EPath +' /home/don/tmp/tst.ps';
+   AProcess.Options := AProcess.Options + [poWaitOnExit];
+   AProcess.Execute;
+   AProcess.Free;
+end;
+
+end.
+                   }

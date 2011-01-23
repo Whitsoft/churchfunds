@@ -19,8 +19,8 @@ WHERE id = :id}
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp, OSPrinters,
-  rprintclass;
+  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
+  newpsclass;
 
 type
   PayInfo = record
@@ -652,7 +652,7 @@ type
     procedure ClearStubs;
     procedure InitDPGrid;
     procedure InitCheckGrid;
-    procedure DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
+    procedure DisplayReportPage(RPrinter: TPostScriptClass; Page: Integer);
 
            { Private declarations }
   private
@@ -692,7 +692,7 @@ const
    HelpFN: String='../help/ezcheck.chm';
 var
   CheckForm: TCheckForm;
-  RPrinter:  TReportPrinterClass;
+  RPrinter:  TPostScriptClass;
   SocList:   TStringList;
   PayStubInfo: PayInfo;
 
@@ -758,7 +758,7 @@ begin
    ChkBal:=0.0;
    GlobalAct:=False;
    SocList:=TStringList.Create;
-   RPrinter := TReportPrinterClass.Create(Sender as TObject);
+   RPrinter := TPostScriptClass.Create;
  end;
 
 
@@ -2450,9 +2450,9 @@ begin
                    ZQueryTranAcc.Params[0].AsInteger:=Account;
                    ZQueryTranAcc.Open;
                    Sum:=ZQueryTranAcc.Fields[0].AsFloat;
-                   PrintTab(1,FieldByName('ACCOUNT').AsString);
-                   PrintTab(1,FieldByName('NAME').AsString);
-                   PrintTab(1,FormatFloat('0.00',Sum));
+                   PrintPSTab(1,FieldByName('ACCOUNT').AsString);
+                   PrintPSTab(1,FieldByName('NAME').AsString);
+                   PrintPSTab(1,FormatFloat('0.00',Sum));
                    NewLine;
                    Total:=Total+Sum;
                    next;
@@ -2460,9 +2460,9 @@ begin
               Close;
               Params[0].AsString:='~';
               //RestoreTabs(2);
-              PrintTab(2,'Wage Total = ');
-              PrintTab(2,'');
-              PrintTab(2,FormatFloat('0.00',Total));
+              PrintPSTab(2,'Wage Total = ');
+              PrintPSTab(2,'');
+              PrintPSTab(2,FormatFloat('0.00',Total));
               doPrint941(Sender,BDate,EDate);
               doPrintOther(Sender,Bdate,EDate);
         end; {With ZQueryPayTrans}
@@ -2516,9 +2516,9 @@ begin
          If Sum>0.0 then
            begin
              //RestoreTabs(1);
-             PrintTab(1, FieldByName('ACCOUNT').AsString);
-             PrintTab(1, FieldByName('NAME').AsString);
-             PrintTab(1, FormatFloat('0.00',Mult*Sum));
+             PrintPSTab(1, FieldByName('ACCOUNT').AsString);
+             PrintPSTab(1, FieldByName('NAME').AsString);
+             PrintPSTab(1, FormatFloat('0.00',Mult*Sum));
              NewLine;
            end;
          Total:=Total+Mult*Sum;
@@ -2526,9 +2526,9 @@ begin
        end;
        If Total<=0.0 then exit;
       // RestoreTabs(2);
-       PrintTab(2, AccDesc+' Total = ');
-       PrintTab(2, '');
-       PrintTab(2, FormatFloat('0.00',Total));
+       PrintPSTab(2, AccDesc+' Total = ');
+       PrintPSTab(2, '');
+       PrintPSTab(2, FormatFloat('0.00',Total));
     end;
 end;
 
@@ -3306,11 +3306,11 @@ begin
 end;
 
 
-procedure TCheckForm.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
+procedure TCheckForm.DisplayReportPage(RPrinter: TPostScriptClass; Page: Integer);
 var
   PrintPageImage: TImage;
 begin
-  with RPrinter do
+  {with RPrinter do
     begin
       PrintPageImage:= PageArray[Page];
       if PrintPageImage <> nil then
@@ -3318,7 +3318,7 @@ begin
           ShowReport;
           PrintPageImage.BringToFront;
          end;
-    end;
+    end;  }
 end;
 
 procedure TCheckForm.CheckPrinterPrint(begCK,endCK: Integer);
@@ -3391,11 +3391,11 @@ const
        With RPrinter do
          begin
            NewPage;
-           PrintXY(VendX,VendY,Vend);
-           PrintXY(DateX,DateY,CkDate);
-           PrintXY(ScriptX,ScriptY,MonText);
-           PrintXY(AmountX,AmountY,MonStr);
-           PrintXY(MemoX,MemoY,Note);
+           PrintPSXY(Vend,VendX,VendY);
+           PrintPSXY(CkDate,DateX,DateY);
+           PrintPSXY(MonText,ScriptX,ScriptY);
+           PrintPSXY(MonStr,AmountX,AmountY);
+           PrintPSXY(Note,MemoX,MemoY);
            With DataMod.ZQueryPrintTran do
              try
                Close;
@@ -3406,8 +3406,8 @@ const
                TmpTab := NewTab(1, 1.5,JUSTIFYLEFT,3.75,0.05,False,BOXLINENONE,0);
                PutTabFont(1,'HELVETICA',10);
                //SetTab(1.5,pjLeft,4.25,5,BOXLINENONE,0);
-               PrintXY(1.0,AccY,'Payed to:  '+Vend);
-               PrintXY(DateX,AccY,CkDate);
+               PrintPSXY('Payed to:  '+Vend,1.0,AccY);
+               PrintPSXY(CkDate,DateX,AccY);
                CurY := InchToPoint(AccY);
                NewLine;
                NewLine;
@@ -3419,18 +3419,18 @@ const
                    Dot := Pos('.',MonStr1);
                    for I := 5 downto Dot do
                      MonStr1 := '  ' + MonStr1;
-                   PrintTab(1, 'Account  '+Fields[1].AsString+'       '+ MonStr1);
+                   PrintPSTab(1, 'Account  '+Fields[1].AsString+'       '+ MonStr1);
                   // NewLine;
                    next;
                  end;
              except
                ShowMessage('Error in print check');
              end;
-           PrintXY(VendX,DupY+VendY,Vend);
-           PrintXY(DateX,DupY+DateY,CkDate);
-           PrintXY(ScriptX,DupY+ScriptY,MonText);
-           PrintXY(AmountX,DupY+AmountY,MonStr);
-           PrintXY(MemoX,DupY+MemoY,Note);
+           PrintPSXY(Vend,VendX,DupY+VendY);
+           PrintPSXY(CkDate,DateX,DupY+DateY);
+           PrintPSXY(MonText,ScriptX,DupY+ScriptY);
+           PrintPSXY(MonStr,AmountX,DupY+AmountY);
+           PrintPSXY(Note,MemoX,DupY+MemoY);
            endPage;
          end; //{With RPrinter}
      end;
@@ -4291,7 +4291,7 @@ begin
     begin
       PutCurrentFont(HELVETICA,8);
 
-      PrintCenterPage('Pay Stub');
+      PrintPSCenterPage('Pay Stub');
       Newline;
       NewLine;
       NewLine;
@@ -4304,17 +4304,17 @@ begin
       //NewLine;
 
       ResetTab(TABLISTINDEX);
-      printTab(TABLISTINDEX,'Check No');
-      printTab(TABLISTINDEX,'Soc Sec#');
-      printTab(TABLISTINDEX,'Name');
-      printTab(TABLISTINDEX,'Pay Date');
+      PrintPSTab(TABLISTINDEX,'Check No');
+      PrintPSTab(TABLISTINDEX,'Soc Sec#');
+      PrintPSTab(TABLISTINDEX,'Name');
+      PrintPSTab(TABLISTINDEX,'Pay Date');
 
      // NewLine;
       ResetTab(TABLISTINDEX);
-      printTab(TABLISTINDEX, IntToStr(Info.PCheckNo));
-      printTab(TABLISTINDEX, Info.PSocNo);
-      printTab(TABLISTINDEX, Info.PName);
-      printTab(TABLISTINDEX, Info.PDate);
+      PrintPSTab(TABLISTINDEX, IntToStr(Info.PCheckNo));
+      PrintPSTab(TABLISTINDEX, Info.PSocNo);
+      PrintPSTab(TABLISTINDEX, Info.PName);
+      PrintPSTab(TABLISTINDEX, Info.PDate);
 
      // NewLine;
       FreeTabs(TABLISTINDEX);
@@ -4325,9 +4325,9 @@ begin
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYCENTER,2.5,0.05,True,BOXLINEALL,0);
 
       ResetTab(TABLISTINDEX);
-      printTab(TABLISTINDEX, 'EARNINGS');
-      printTab(TABLISTINDEX, 'TAXES');
-      printTab(TABLISTINDEX, 'OTHER DEDUCTIONS');
+      PrintPSTab(TABLISTINDEX, 'EARNINGS');
+      PrintPSTab(TABLISTINDEX, 'TAXES');
+      PrintPSTab(TABLISTINDEX, 'OTHER DEDUCTIONS');
       FreeTabs(TABLISTINDEX);
 
 
@@ -4346,15 +4346,15 @@ begin
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYCENTER,0.833,0.05,True,BOXLINEALL,0);
 
       ResetTab(TABLISTINDEX);
-      printTab(TABLISTINDEX, 'Hours');
-      printTab(TABLISTINDEX, 'Rate');
-      printTab(TABLISTINDEX, 'Amnt');
-      printTab(TABLISTINDEX, 'Tax');
-      printTab(TABLISTINDEX, 'Current');
-      printTab(TABLISTINDEX, 'YTD');
-      printTab(TABLISTINDEX, 'Deduct');
-      printTab(TABLISTINDEX, 'Current');
-      printTab(TABLISTINDEX, 'YTD');
+      PrintPSTab(TABLISTINDEX, 'Hours');
+      PrintPSTab(TABLISTINDEX, 'Rate');
+      PrintPSTab(TABLISTINDEX, 'Amnt');
+      PrintPSTab(TABLISTINDEX, 'Tax');
+      PrintPSTab(TABLISTINDEX, 'Current');
+      PrintPSTab(TABLISTINDEX, 'YTD');
+      PrintPSTab(TABLISTINDEX, 'Deduct');
+      PrintPSTab(TABLISTINDEX, 'Current');
+      PrintPSTab(TABLISTINDEX, 'YTD');
 
     //  NewLine;
       FreeTabs(TABLISTINDEX);
@@ -4371,211 +4371,211 @@ begin
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.833,0.05,True,BOXLINELEFT+BOXLINERIGHT,0);
 
       ResetTab(TABLISTINDEX);
-      printTab(TABLISTINDEX, FormatFloat('0',Info.PHours));
-      printTab(TABLISTINDEX, FormatFloat('0.00',Info.PRate));
-      printTab(TABLISTINDEX, FormatFloat('0.00',Info.PGross));
-      PrintTab(TABLISTINDEX, 'FIT W/H');
-      printTab(TABLISTINDEX, FormatFloat('0.00',Info.PFed));
-      printTab(TABLISTINDEX, CheckForm.FedEd.Text);
+      PrintPSTab(TABLISTINDEX, FormatFloat('0',Info.PHours));
+      PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PRate));
+      PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PGross));
+      PrintPSTab(TABLISTINDEX, 'FIT W/H');
+      PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PFed));
+      PrintPSTab(TABLISTINDEX, CheckForm.FedEd.Text);
 
       if (Info.PPen>0.0) then
         begin
-          printTab(TABLISTINDEX, 'Pension');
-          printTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
-          printTab(TABLISTINDEX, CheckForm.PenEd.Text);
+          PrintPSTab(TABLISTINDEX, 'Pension');
+          PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
+          PrintPSTab(TABLISTINDEX, CheckForm.PenEd.Text);
         end
      else
         begin
-           printTab(TABLISTINDEX,'');
-           printTab(TABLISTINDEX,'');
-           printTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
         end;
 
      // NewLine;
-      printTab(TABLISTINDEX,'');
-      printTab(TABLISTINDEX,'');
-      printTab(TABLISTINDEX,'');
-      printTab(TABLISTINDEX,'FICA');
-      printTab(TABLISTINDEX, FormatFloat('0.00',Info.PFICA));
-      printTab(TABLISTINDEX, CheckForm.FICAEd.Text);
+      PrintPSTab(TABLISTINDEX,'');
+      PrintPSTab(TABLISTINDEX,'');
+      PrintPSTab(TABLISTINDEX,'');
+      PrintPSTab(TABLISTINDEX,'FICA');
+      PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PFICA));
+      PrintPSTab(TABLISTINDEX, CheckForm.FICAEd.Text);
 
       if (Info.PD1>0.0) and (DedType[1]=9) then        //Second set of columns
         begin
-          printTab(TABLISTINDEX,Copy(CheckForm.LabelRDed1.Caption,1,10));
-          PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD1));
-          PrintTab(TABLISTINDEX, CheckForm.EditRDed1.Text);
+          PrintPSTab(TABLISTINDEX,Copy(CheckForm.LabelRDed1.Caption,1,10));
+          PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD1));
+          PrintPSTab(TABLISTINDEX, CheckForm.EditRDed1.Text);
         end
        else
          begin
-           printTab(TABLISTINDEX,'');
-           printTab(TABLISTINDEX,'');
-           printTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
+           PrintPSTab(TABLISTINDEX,'');
          end;
 
       // NewLine;
-       printTab(TABLISTINDEX,'');
-       printTab(TABLISTINDEX,'');
-       printTab(TABLISTINDEX,'');
-       printTab(TABLISTINDEX,'Medicare');
-       printTab(TABLISTINDEX,FormatFloat('0.00',Info.PMed));
-       PrintTab(TABLISTINDEX, CheckForm.MedEd.Text);
+       PrintPSTab(TABLISTINDEX,'');
+       PrintPSTab(TABLISTINDEX,'');
+       PrintPSTab(TABLISTINDEX,'');
+       PrintPSTab(TABLISTINDEX,'Medicare');
+       PrintPSTab(TABLISTINDEX,FormatFloat('0.00',Info.PMed));
+       PrintPSTab(TABLISTINDEX, CheckForm.MedEd.Text);
 
        If (Info.PD2>0.0) and (DedType[1]=9) then
           begin
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed2.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD2));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed2.Text);
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed2.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD2));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed2.Text);
           end
         else
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
           end;
 
       //  NewLine;
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, 'PA');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PStait));
-        PrintTab(TABLISTINDEX, CheckForm.StEd.Text);
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, 'PA');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PStait));
+        PrintPSTab(TABLISTINDEX, CheckForm.StEd.Text);
 
          If (Info.PD3>0.0) and (DedType[1]=9) then
            begin
-             PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed3.Caption,1,10));
-             PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD3));
-             PrintTab(TABLISTINDEX, CheckForm.EditRDed3.Text);
+             PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed3.Caption,1,10));
+             PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD3));
+             PrintPSTab(TABLISTINDEX, CheckForm.EditRDed3.Text);
            end
          else
            begin
-             PrintTab(TABLISTINDEX, '');
-             PrintTab(TABLISTINDEX, '');
-             PrintTab(TABLISTINDEX, '');
+             PrintPSTab(TABLISTINDEX, '');
+             PrintPSTab(TABLISTINDEX, '');
+             PrintPSTab(TABLISTINDEX, '');
           end;
 
         //NewLine;
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, 'Local');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PLocal));
-        PrintTab(TABLISTINDEX, CheckForm.LocEd.Text);
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, 'Local');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PLocal));
+        PrintPSTab(TABLISTINDEX, CheckForm.LocEd.Text);
 
         If (Info.PD4>0.0) and (DedType[1]=9) then
           begin
-        PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed4.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD4));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed4.Text);
+        PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed4.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD4));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed4.Text);
           end
         else
           begin
-            PrintTab(TABLISTINDEX, '');
-            printTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
           end;
 
       // NewLine;
         If (Info.PD1>0.0) and (DedType[1]=8) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed1.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD1));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed1.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed1.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD1));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed1.Text);
             If (Info.PD5>0.0) and (DedType[5]=9) then
               begin
-                PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
-                PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
-                PrintTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
+                PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
+                PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
+                PrintPSTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
               //  NewLine;
               end
             else
               begin
-                PrintTab(TABLISTINDEX, '');
-                PrintTab(TABLISTINDEX, '');
-                PrintTab(TABLISTINDEX, '');
+                PrintPSTab(TABLISTINDEX, '');
+                PrintPSTab(TABLISTINDEX, '');
+                PrintPSTab(TABLISTINDEX, '');
               //  NewLine;
               end;
           end
         else if (Info.PD5>0.0) and (DedType[1]=9) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
           //  NewLine;
           end;
 
         If (Info.PD2>0.0) and (DedType[2]=8) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed2.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD2));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed2.Text);
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed2.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD2));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed2.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
           //  NewLine;
           end;
         If (Info.PD3>0.00) and (DedType[3]=9) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed3.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD3));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed3.Text);
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed3.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD3));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed3.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
           //  NewLine;
           end;
 
         If (Info.PD4>0.00) and (DedType[4]=9) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed4.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD4));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed4.Text);
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed4.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD4));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed4.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
          //   NewLine;
           end;
 
         If (Info.PD5>0.0) and (DedType[5]=9) then
           begin
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
-            PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
-            PrintTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
-            PrintTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
+            PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
+            PrintPSTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
+            PrintPSTab(TABLISTINDEX, '');
          //   NewLine;
           end;
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, '');
         //NewLine;
 
         FreeTabs(TABLISTINDEX);
@@ -4593,15 +4593,15 @@ begin
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.833,0.05,True,BOXLINEALL,0);
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.833,0.05,True,BOXLINEALL,0);
 
-        PrintTab(TABLISTINDEX, FormatFloat('0',Info.PHours));
-        PrintTab(TABLISTINDEX, '');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PGross));
-        PrintTab(TABLISTINDEX, 'Totals');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',TaxTotal));
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PYTDTotal));
-        PrintTab(TABLISTINDEX, 'Totals');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
-        PrintTab(TABLISTINDEX, CheckForm.PenEd.Text);
+        PrintPSTab(TABLISTINDEX, FormatFloat('0',Info.PHours));
+        PrintPSTab(TABLISTINDEX, '');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PGross));
+        PrintPSTab(TABLISTINDEX, 'Totals');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',TaxTotal));
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PYTDTotal));
+        PrintPSTab(TABLISTINDEX, 'Totals');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
+        PrintPSTab(TABLISTINDEX, CheckForm.PenEd.Text);
        // NewLine;
 
         FreeTabs(TABLISTINDEX);
@@ -4613,14 +4613,14 @@ begin
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYCENTER,1.666,0.05,True,BOXLINEALL,0);
         TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYRIGHT,0.834,0.05,True,BOXLINEALL,0);
 
-        PrintTab(TABLISTINDEX, 'Gross Pay YTD');
-        PrintTab(TABLISTINDEX, CheckForm.GrossEd.Text);
-        PrintTab(TABLISTINDEX, ' ');
-        PrintTab(TABLISTINDEX, 'NetPay');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',Info.PNet));
+        PrintPSTab(TABLISTINDEX, 'Gross Pay YTD');
+        PrintPSTab(TABLISTINDEX, CheckForm.GrossEd.Text);
+        PrintPSTab(TABLISTINDEX, ' ');
+        PrintPSTab(TABLISTINDEX, 'NetPay');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PNet));
        // NewLine;
-        PrintTab(TABLISTINDEX, 'Net Pay YTD');
-        PrintTab(TABLISTINDEX, FormatFloat('0.00',TextToFloat(CheckForm.NetEd.Text)));
+        PrintPSTab(TABLISTINDEX, 'Net Pay YTD');
+        PrintPSTab(TABLISTINDEX, FormatFloat('0.00',TextToFloat(CheckForm.NetEd.Text)));
         FreeTabs(TABLISTINDEX);
      end; //do
 end;
