@@ -41,7 +41,7 @@
         <PackageName Value="SQLDBLaz"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="48">
+    <Units Count="49">
       <Unit0>
         <Filename Value="contributions.pas"/>
         <IsPartOfProject Value="True"/>
@@ -176,12 +176,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="637"/>
-        <CursorPos X="79" Y="669"/>
-        <UsageCount Value="166"/>
+        <TopLine Value="2357"/>
+        <CursorPos X="1" Y="2389"/>
+        <UsageCount Value="168"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit16>
@@ -196,7 +195,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="17"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="168"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit17>
@@ -325,12 +324,10 @@
         <Filename Value="../rprintclass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="rprintclass"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="38" Y="8"/>
-        <UsageCount Value="69"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="71"/>
       </Unit33>
       <Unit34>
         <Filename Value="../../../lazarus/lazarus_svn/lcl/graphics.pp"/>
@@ -440,127 +437,138 @@
         <CursorPos X="1" Y="342"/>
         <UsageCount Value="10"/>
       </Unit47>
+      <Unit48>
+        <Filename Value="../newpsclass.pas"/>
+        <UnitName Value="newpsclass"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1643"/>
+        <CursorPos X="1" Y="1663"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit48>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1608" Column="24" TopLine="1575"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1629" Column="5" TopLine="1599"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="281" Column="28" TopLine="247"/>
       </Position2>
       <Position3>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="393" Column="42" TopLine="359"/>
       </Position3>
       <Position4>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1629" Column="34" TopLine="1595"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position4>
       <Position5>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="385" Column="28" TopLine="351"/>
       </Position5>
       <Position6>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1601" Column="16" TopLine="1583"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1630" Column="41" TopLine="1597"/>
       </Position6>
       <Position7>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1635" Column="1" TopLine="1590"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1629" Column="1" TopLine="1597"/>
       </Position7>
       <Position8>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1630" Column="1" TopLine="1597"/>
       </Position8>
       <Position9>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="123" Column="14" TopLine="89"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1794" Column="1" TopLine="1773"/>
       </Position9>
       <Position10>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="195" Column="65" TopLine="161"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1796" Column="1" TopLine="1773"/>
       </Position10>
       <Position11>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2403" Column="30" TopLine="2372"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1801" Column="1" TopLine="1773"/>
       </Position11>
       <Position12>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="487" Column="12" TopLine="453"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1802" Column="1" TopLine="1773"/>
       </Position12>
       <Position13>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1334" Column="50" TopLine="1300"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1804" Column="1" TopLine="1773"/>
       </Position13>
       <Position14>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2380" Column="27" TopLine="2358"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1632" Column="1" TopLine="1611"/>
       </Position14>
       <Position15>
-        <Filename Value="cont.pas"/>
-        <Caret Line="672" Column="1" TopLine="650"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1633" Column="1" TopLine="1611"/>
       </Position15>
       <Position16>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1635" Column="1" TopLine="1611"/>
       </Position16>
       <Position17>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1606" Column="55" TopLine="1584"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1636" Column="1" TopLine="1611"/>
       </Position17>
       <Position18>
-        <Filename Value="../rprintclass.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1637" Column="1" TopLine="1611"/>
       </Position18>
       <Position19>
-        <Filename Value="cont.pas"/>
-        <Caret Line="671" Column="17" TopLine="637"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1638" Column="1" TopLine="1611"/>
       </Position19>
       <Position20>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1639" Column="1" TopLine="1611"/>
       </Position20>
       <Position21>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1219" Column="1" TopLine="1184"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1641" Column="1" TopLine="1611"/>
       </Position21>
       <Position22>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2538" Column="4" TopLine="2534"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1643" Column="1" TopLine="1611"/>
       </Position22>
       <Position23>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1644" Column="1" TopLine="1611"/>
       </Position23>
       <Position24>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2529" Column="80" TopLine="2517"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1646" Column="1" TopLine="1612"/>
       </Position24>
       <Position25>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1665" Column="12" TopLine="1636"/>
       </Position25>
       <Position26>
-        <Filename Value="cont.pas"/>
-        <Caret Line="663" Column="76" TopLine="637"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="282" Column="29" TopLine="248"/>
       </Position27>
       <Position28>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2561" Column="62" TopLine="2547"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="409" Column="44" TopLine="375"/>
       </Position28>
       <Position29>
-        <Filename Value="cont.pas"/>
-        <Caret Line="667" Column="45" TopLine="650"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1664" Column="5" TopLine="1643"/>
       </Position29>
       <Position30>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="825" Column="38" TopLine="801"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>

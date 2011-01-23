@@ -1736,7 +1736,7 @@ object FormCont: TFormCont
           Left = 539
           Height = 33
           Top = 243
-          Width = 91
+          Width = 104
           HelpContext = 700
           Caption = 'Print'
           Font.Height = -15
@@ -1750,7 +1750,7 @@ object FormCont: TFormCont
           Left = 539
           Height = 32
           Top = 124
-          Width = 91
+          Width = 104
           HelpContext = 710
           Caption = 'Reset'
           Font.Height = -15
@@ -1815,16 +1815,16 @@ object FormCont: TFormCont
           OnMouseDown = ShowContext
           TabOrder = 15
         end
-        object BtnPrintAll: TButton
-          Left = 880
+        object BtnView: TButton
+          Left = 539
           Height = 33
-          Top = 243
-          Width = 99
+          Top = 190
+          Width = 104
           HelpContext = 705
-          Caption = 'Print All'
+          Caption = 'View Labels'
           Font.Height = -15
           Font.Name = 'System'
-          OnClick = BtnPrintAllClick
+          OnClick = BtnViewClick
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 16

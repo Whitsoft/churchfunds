@@ -8,7 +8,7 @@ interface
 Uses
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp, IBConnection, db, Grids,
-ComCtrls, Spin, StrUtils, LHelpControl, rprintclass, Keyboard;
+ComCtrls, Spin, StrUtils, LHelpControl, newpsclass, Keyboard;
 
 type
 
@@ -18,7 +18,7 @@ type
     Bevel1: TBevel;
     BtnCan: TButton;
     BtnPost: TButton;
-    BtnPrintAll: TButton;
+    BtnView: TButton;
     CBMember: TCheckBox;
     CheckBoxPostNet: TCheckBox;
     DBNameGrid: TDBGrid;
@@ -159,7 +159,7 @@ type
     Label46: TLabel;
     LabelName: TLabel;
     procedure BtnLabelClick(Sender: TObject);
-    procedure BtnPrintAllClick(Sender: TObject);
+    procedure BtnViewClick(Sender: TObject);
     procedure CheckBoxPostNetChange(Sender: TObject);
     procedure EditFromDateExit(Sender: TObject);
     procedure EditSrchEnvExit(Sender: TObject);
@@ -304,7 +304,7 @@ type
     procedure ReportMonthDay;
     procedure doConFunds;
     procedure doMultiFunds;
-    procedure ReportLabel(Src: TDataSource);
+    procedure ReportLabel(Src: TDataSource; Outline: Boolean);
     procedure ReportContributions;
    // procedure MonthDayBeforePrint;
     procedure setConTabs;
@@ -340,7 +340,7 @@ var
   HForm: THelpForm;
   LogFile: Text;
   Activated: Boolean;
-  RPrinter: TReportPrinterClass;
+  RPrinter: TPostScriptClass;
   GlobRun: Boolean;
   GlobLabel: Boolean;
   GlobPage: Integer;
@@ -1168,7 +1168,7 @@ end; }
 procedure TFormCont.BtnMonPrntClick(Sender: TObject);
 begin
   If RPrinter = nil then
-       RPrinter := TReportPrinterClass.Create(Sender as TObject);
+       RPrinter := TPostscriptClass.Create;
   RPrinter.PageNo:=0;
   If not DataMod.TableRFund.active then DataMod.TableRFund.open;
   DataMod.TableRFund.First;
@@ -1235,27 +1235,27 @@ begin
           Font := RepFont;
           Bold:=True;
           If RadioRepType.ItemIndex<=0 then
-              PrintTab(4,'Contributions Entered on  '+PickerRep.Text)
+              PrintPSTab(4,'Contributions Entered on  '+PickerRep.Text)
           else
-            PrintTab(4,'Financial Report for the Month of '+ConRepBox.Text +' '+
+            PrintPSTab(4,'Financial Report for the Month of '+ConRepBox.Text +' '+
                     YearEd.Text);
           RepFont.FontSize := 10;
           Font := RepFont;
-          NewLine;
+          PSNewline;
           Bold := False;
         end; //if PageNo
 
        PageNo := PageNo + 1;
-       NewLine;
+       PSNewline;
       // RestoreTabs(2);
       // SetFont('Arial',10);
        Bold:=True;
-       PrintTab(2,'Fund');
-       PrintTab(2,'Description');
-       PrintTab(2,'Cash');
-       PrintTab(2,'Checks');
-       PrintTab(2,YearEd.Text+' to Date');
-       NewLine;
+       PrintPSTab(2,'Fund');
+       PrintPSTab(2,'Description');
+       PrintPSTab(2,'Cash');
+       PrintPSTab(2,'Checks');
+       PrintPSTab(2,YearEd.Text+' to Date');
+       PSNewline;
     end; //With Repclass
 end;
 
@@ -1271,7 +1271,7 @@ begin
   CashGroupTotal:=0.0;CashReportTotal:=0.0;
   try
     if RPrinter = nil then
-       RPrinter := TReportPrinterClass.Create(self);
+       RPrinter := TPostscriptClass.Create;
 
     setMonthDayTabs;
     Year:=StrToInt(YearEd.Text);
@@ -1336,11 +1336,11 @@ begin
             CashReportTotal:=CashReportTotal+CashTotal;
             ReportTotalYear:=ReportTotalYear+YrTotal;
 
-            RPrinter.PrintTab(1,DataMod.QueryFGroup.FieldByName('Detail_Fund_No').AsString);
-            RPrinter.PrintTab(1,DataMod.QueryFGroup.FieldByName('Description').asString);
-            RPrinter.PrintTab(1,Format('%m',[CashTotal]));
-            RPrinter.PrintTab(1,Format('%m',[CheckTotal]));
-            RPrinter.PrintTab(1,Format('%m',[YrTotal]));
+            RPrinter.PrintPSTab(1,DataMod.QueryFGroup.FieldByName('Detail_Fund_No').AsString);
+            RPrinter.PrintPSTab(1,DataMod.QueryFGroup.FieldByName('Description').asString);
+            RPrinter.PrintPSTab(1,Format('%m',[CashTotal]));
+            RPrinter.PrintPSTab(1,Format('%m',[CheckTotal]));
+            RPrinter.PrintPSTab(1,Format('%m',[YrTotal]));
 
               DataMod.QueryFGroup.Next;
          except
@@ -1349,22 +1349,22 @@ begin
 
          If RPrinter.LinesLeft(LINESIZE)<3 then MonthDayNewPage;
 
-         RPrinter.PrintTab(3,DataMod.TableFundGroups.FieldByName('FUND_GROUP').AsString);
-         RPrinter.PrintTab(3,DataMod.TableFundGroups.FieldByName('DESCRIPTION').AsString);
-         RPrinter.PrintTab(3,Format('%m',[CashGroupTotal]));
-         RPrinter.PrintTab(3,Format('%m',[GroupTotal]));
-         RPrinter.PrintTab(3,Format('%m',[GroupTotalYear]));
-         RPrinter.NewLine;
+         RPrinter.PrintPSTab(3,DataMod.TableFundGroups.FieldByName('FUND_GROUP').AsString);
+         RPrinter.PrintPSTab(3,DataMod.TableFundGroups.FieldByName('DESCRIPTION').AsString);
+         RPrinter.PrintPSTab(3,Format('%m',[CashGroupTotal]));
+         RPrinter.PrintPSTab(3,Format('%m',[GroupTotal]));
+         RPrinter.PrintPSTab(3,Format('%m',[GroupTotalYear]));
+         RPrinter.PSNewline;
          DataMod.TableFundGroups.Next;
      end; //While TableFundGroups not EOF/
 
      If RPrinter.LinesLeft(LINESIZE)<3 then MonthDayNewPage;
-     RPrinter.NewLine;
-     RPrinter.PrintTab(3,'All');
-     RPrinter.PrintTab(3,'Funds');
-     RPrinter.PrintTab(3,Format('%m',[CashReportTotal]));
-     RPrinter.PrintTab(3,Format('%m',[ReportTotal]));
-     RPrinter.PrintTab(3,Format('%m',[ReportTotalYear]));
+     RPrinter.PSNewline;
+     RPrinter.PrintPSTab(3,'All');
+     RPrinter.PrintPSTab(3,'Funds');
+     RPrinter.PrintPSTab(3,Format('%m',[CashReportTotal]));
+     RPrinter.PrintPSTab(3,Format('%m',[ReportTotal]));
+     RPrinter.PrintPSTab(3,Format('%m',[ReportTotalYear]));
      DataMod.TableRFund.Next;
   end;
   RPrinter.CLosePrintFile;
@@ -2287,12 +2287,6 @@ end;
 
 
 
-procedure TFormCont.BtnPrintAllClick(Sender: TObject);
-begin
-  if MessageDlg('OK to print labels for all members ?',
-    mtConfirmation, [mbNo, mbYes], 0) = mrYes then
-     ReportLabel(DataMod.SrcMemAll);
-end;
 
 procedure TFormCont.CheckBoxPostNetChange(Sender: TObject);
 begin
@@ -2331,10 +2325,15 @@ end;
 
 procedure TFormCont.BtnLabelClick(Sender: TObject);
 begin
-  ReportLabel(DataMod.SrcMemAll);
+  ReportLabel(DataMod.SrcMemAll, false);
 end;
 
- procedure TFormCont.ReportLabel(Src: TDataSource);
+procedure TFormCont.BtnViewClick(Sender: TObject);
+begin
+  ReportLabel(DataMod.SrcMemAll, true);
+end;
+
+ procedure TFormCont.ReportLabel(Src: TDataSource; Outline: Boolean);
 var
   X,Y: Single;
   EZLabelClass: TAddressLabelClass;
@@ -2356,7 +2355,7 @@ begin
        exit;
      end;
 
-     EZLabelClass := TAddressLabelClass.Create(Self);
+     EZLabelClass := TAddressLabelClass.Create;
      //fName := 'Labels' + '-'+DateToStr(Date)+'.ps';
     // EZLabelClass.OpenPrintFile(fName);
      If EdFontSize.Tag <> 0 then
@@ -2387,9 +2386,10 @@ begin
          SpacingWidth := StrToFloat(EdSpaceWide.Text);
          SpacingHeight := StrToFloat(EdSpaceHigh.Text);
 
-         PrintLabels(Src);
+         PrintPSLabels(Src, Outline);
          //ClosePrintFile;
         // Destroy;
+        ViewFile;
        except
          ShowMessage('Bad number in at least one label edit box.');
        end;
@@ -2450,7 +2450,7 @@ begin
         Y:=LabelShell.SpacingHeight-0.25;
         PrintBarCode(ReportPrinter,Add1,ZipCode,X,Y);
       end;  //if
-    NewLine;
+    PSNewline;
 
   end;  //with
 end; }
@@ -2564,7 +2564,7 @@ begin
   FundSum:=0.0;
   TmpDate:=0.0;
    if RPrinter = nil then
-    RPrinter := TReportPrinterClass.Create(self);
+    RPrinter := TPostScriptClass.Create;
   SetConTabs;
   With DataMod.TableChurch do
     begin
@@ -2581,24 +2581,24 @@ begin
       IndexFont(2); //Helvetica 10
 
       RPrinter.Newpage;
-      PrintCenterPage(ChurchName);
-      Newline;
-      NewLine;
+      PrintPSCenterPage(ChurchName);
+      PSNewline;
+      PSNewline;
      // SetFont('Arial',10);
-      PrintLeft(GlobTitle+' '+GlobFName+' '+GlobName,0.5);
-      PrintCenterPage('Contributions');
-      PrintRight(GlobFrom+' Thru '+GlobThru, 7.5);
+      PrintPSLeft(GlobTitle+' '+GlobFName+' '+GlobName,0.5);
+      PrintPSCenterPage('Contributions');
+      PrintPSRight(GlobFrom+' Thru '+GlobThru, 7.5);
       Bold:=False;
-      NewLine;
-      Newline;
+      PSNewline;
+      PSNewline;
 
-      NewLine;
-      PrintTab(2,'DATE');
-      PrintTab(2,'AMOUNT');
-      PrintTab(2,' ');
-      PrintTab(2,'FUND DESCRIPTION');
-      PrintTab(2,'AMOUNT');
-      //NewLine;
+      PSNewline;
+      PrintPSTab(2,'DATE');
+      PrintPSTab(2,'AMOUNT');
+      PrintPSTab(2,' ');
+      PrintPSTab(2,'FUND DESCRIPTION');
+      PrintPSTab(2,'AMOUNT');
+      //PSNewline;
 
       While not EOF do
         begin
@@ -2624,24 +2624,24 @@ begin
                 (not EOF) do
             begin
               If TmpDate<>0.0 then
-                 PrintTab(1, DateTimeToStr(TmpDate))
+                 PrintPSTab(1, DateTimeToStr(TmpDate))
               else
-                 PrintTab(1, ' ');
-              PrintTab(1, ConSumStr);
-              PrintTab(1, FieldByName('DETAIL_FUND').AsString);
+                 PrintPSTab(1, ' ');
+              PrintPSTab(1, ConSumStr);
+              PrintPSTab(1, FieldByName('DETAIL_FUND').AsString);
 
               With DataMod.QueryFundDesc do
              begin
                FundDesc :=getDetailDesc(DataMod.QueryRCButions.FieldByName('DETAIL_FUND').AsInteger);
                If FundDesc <> '' then
-                  PrintTab(1, FundDesc)
+                  PrintPSTab(1, FundDesc)
                else
-                  PrintTab(1, ' ');
+                  PrintPSTab(1, ' ');
              end;
 
-              PrintTab(1, Format('%m',[FieldByName('AMOUNT').AsFloat]));
+              PrintPSTab(1, Format('%m',[FieldByName('AMOUNT').AsFloat]));
               FundSum:=FundSum+FieldByName('AMOUNT').AsFloat;
-              //NewLine;
+              //PSNewline;
               If LinesLeft(LINESIZE)<3 then NewPage;
               TmpDate:=0.0;
               ConSumStr:='';
@@ -2651,29 +2651,29 @@ begin
          //next;
        end; //While not eof
 
-      PrintTab(2, ' ');
-      PrintTab(2, Format('%m',[ConSum]));
-      PrintTab(2, ' ');
-      PrintTab(2, 'Total');
-      PrintTab(2, Format('%m',[FundSum]));
+      PrintPSTab(2, ' ');
+      PrintPSTab(2, Format('%m',[ConSum]));
+      PrintPSTab(2, ' ');
+      PrintPSTab(2, 'Total');
+      PrintPSTab(2, Format('%m',[FundSum]));
        If LinesLeft(LINESIZE)<3 then NewPage;
        doConFunds;
        If LinesLeft(LINESIZE)<3 then NewPage;
        doMultiFunds;
-       NewLine;
-       NewLine;
-       NewLine;
+       PSNewline;
+       PSNewline;
+       PSNewline;
        If LinesLeft(LINESIZE)<4 then
           NewPage;
 
        Bold:=True;
-       PrintTab(3,'Total Contributions for period '+
+       PrintPSTab(3,'Total Contributions for period '+
                  GlobFrom+' Thru '+GlobThru);
 
-       PrintTab(3,Format('%m',[FundSum]));
-       NewLine;
-       NewLine;
-       PrintCenterPage('Thank you for contributing to these ministries.');
+       PrintPSTab(3,Format('%m',[FundSum]));
+       PSNewline;
+       PSNewline;
+       PrintPSCenterPage('Thank you for contributing to these ministries.');
        EndPage;
    end; //With
 end;
@@ -2688,25 +2688,25 @@ begin
     With RPrinter do
     begin
       TotAmnt:=0.0;TotPledge:=0.0;TotRem:=0.0;
-      NewLine;
-      NewLine;
-      NewLine;
+      PSNewline;
+      PSNewline;
+      PSNewline;
       Bold:=True;
-      PrintCenterPage('Single Year Summary ');
+      PrintPSCenterPage('Single Year Summary ');
       Bold:=False;
-      PrintRight(GlobFrom+' Thru '+GlobThru, 7.50);
-      //PrintTab(4, GlobFrom+' Through '+GlobThru);
-      NewLine;
-      Newline;
+      PrintPSRight(GlobFrom+' Thru '+GlobThru, 7.50);
+      //PrintPSTab(4, GlobFrom+' Through '+GlobThru);
+      PSNewline;
+      PSNewline;
 
-      NewLine;
+      PSNewline;
       ResetTab(6);
-      PrintTab(6,'FUND');
-      PrintTab(6,'DESCRIPTION');
-      PrintTab(6,'AMOUNT');
-      PrintTab(6,'PLEDGE');
-      PrintTab(6,'REMAINDER');
-     // NewLine;
+      PrintPSTab(6,'FUND');
+      PrintPSTab(6,'DESCRIPTION');
+      PrintPSTab(6,'AMOUNT');
+      PrintPSTab(6,'PLEDGE');
+      PrintPSTab(6,'REMAINDER');
+     // PSNewline;
       Close;
       Params[0].AsInteger:=GlobEnv;   //ByName('EnvNo')
       Params[1].AsDateTime:=StrToDate(GlobFrom); //ByName('FromDate')
@@ -2726,21 +2726,21 @@ begin
            DataMod.QueryRPledge.Params[1].AsInteger:=Junk;     //ByName('Fund')
            DataMod.QueryRPledge.Params[2].AsString:='%';      //ByName('Type')
            DataMod.QueryRPledge.Open;
-           PrintTab(5, IntToStr(Junk));
+           PrintPSTab(5, IntToStr(Junk));
            With DataMod.QueryFundDesc do
              begin
                close;
                params[0].AsInteger := Junk;
                open;
                if FieldByName('DESCRIPTION').AsString <> '' then
-                  PrintTab(5, FieldByName('DESCRIPTION').AsString)
+                  PrintPSTab(5, FieldByName('DESCRIPTION').AsString)
                else
-                  PrintTab(5, ' ');
+                  PrintPSTab(5, ' ');
              end;
 
            Amnt:=Fields[0].AsFloat;
            TotAmnt:=TotAmnt+Amnt;
-           PrintTab(5, Format('%m',[Amnt]));
+           PrintPSTab(5, Format('%m',[Amnt]));
            If (DataMod.QueryRPledge.RecordCount>0) and
               (DataMod.QueryRPledge.FieldByName('Type').AsString<>'F') then
                  begin
@@ -2749,17 +2749,17 @@ begin
                    Rem:=Pledge-Amnt;
                    TotRem:=TotRem+Rem;
                    If Rem<0 then Rem:=0.0;
-                   PrintTab(5,Format('%m',[Pledge]));
-                   PrintTab(5,Format('%m',[Rem]));
+                   PrintPSTab(5,Format('%m',[Pledge]));
+                   PrintPSTab(5,Format('%m',[Rem]));
                  end;
-              //NewLine;
+              //PSNewline;
         end; {for IDX}
 
-        PrintTab(6,' ');
-        PrintTab(6,'Totals');
-        PrintTab(6,Format('%m',[TotAmnt]));
-        PrintTab(6,Format('%m',[TotPledge]));
-        PrintTab(6,Format('%m',[TotRem]));
+        PrintPSTab(6,' ');
+        PrintPSTab(6,'Totals');
+        PrintPSTab(6,Format('%m',[TotAmnt]));
+        PrintPSTab(6,Format('%m',[TotPledge]));
+        PrintPSTab(6,Format('%m',[TotRem]));
     end;
 end;
 
@@ -2784,22 +2784,22 @@ begin
       If RecordCount<=0 then exit;
       With RPrinter do
         begin
-          NewLine;
-          NewLine;
-          NewLine;
+          PSNewline;
+          PSNewline;
+          PSNewline;
           Bold:=True;
-          PrintCenter('Multi Year Summary', 4.0);
+          PrintPSCenter('Multi Year Summary', 4.0);
           Bold:=False;
-          PrintTab(8, BDateStr+' Thru '+GlobThru);
-          NewLine;
-          NewLine;
+          PrintPSTab(8, BDateStr+' Thru '+GlobThru);
+          PSNewline;
+          PSNewline;
 
-          PrintTab(6, 'FUND');
-          PrintTab(6, 'DESCRIPTION');
-          PrintTab(6, 'AMOUNT');
-          PrintTab(6, 'PLEDGE');
-          PrintTab(6, 'REMAINDER');
-         // NewLine;
+          PrintPSTab(6, 'FUND');
+          PrintPSTab(6, 'DESCRIPTION');
+          PrintPSTab(6, 'AMOUNT');
+          PrintPSTab(6, 'PLEDGE');
+          PrintPSTab(6, 'REMAINDER');
+         // PSNewline;
 
           While not EOF do
             begin
@@ -2813,16 +2813,16 @@ begin
 
               DataMod.QueryFund.Open;
               Junk:=FieldByName('Fund').AsInteger;
-              PrintTab(5, IntToStr(Junk));
+              PrintPSTab(5, IntToStr(Junk));
               fDesc := getDetailDesc(Junk);
                  if FDesc <>'' then
-                   PrintTab(5, FDesc)
+                   PrintPSTab(5, FDesc)
                  else
-                   PrintTab(5, ' ');
+                   PrintPSTab(5, ' ');
 
               Amnt:=DataMod.QueryFund.Fields[0].AsFloat;
               TotAmnt:=TotAmnt+Amnt;
-              PrintTab(5,Format('%m',[Amnt]));
+              PrintPSTab(5,Format('%m',[Amnt]));
               If DataMod.QueryMulti.RecordCount>0 then
                  begin
                    Pledge:=DataMod.QueryMulti.FieldByName('AMOUNT').AsFloat;
@@ -2830,18 +2830,18 @@ begin
                    Rem:=Pledge-Amnt;
                    TotRem:=TotRem+Rem;
                    If Rem<0 then Rem:=0.0;
-                   PrintTab(5, Format('%m',[Pledge]));
-                   PrintTab(5, Format('%m',[Rem]));
+                   PrintPSTab(5, Format('%m',[Pledge]));
+                   PrintPSTab(5, Format('%m',[Rem]));
                  end;
-             // NewLine;
+             // PSNewline;
               next;
             end; //While
 
-          PrintTab(6, ' ');
-          PrintTab(6,'Totals');
-          PrintTab(6, Format('%m',[TotAmnt]));
-          PrintTab(6, Format('%m',[TotPledge]));
-          PrintTab(6, Format('%m',[TotRem]));
+          PrintPSTab(6, ' ');
+          PrintPSTab(6,'Totals');
+          PrintPSTab(6, Format('%m',[TotAmnt]));
+          PrintPSTab(6, Format('%m',[TotPledge]));
+          PrintPSTab(6, Format('%m',[TotRem]));
         end; //With RPrinter
      end; //with datamod.QueryMulti
 end;
