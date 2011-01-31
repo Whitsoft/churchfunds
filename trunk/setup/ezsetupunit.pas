@@ -6,7 +6,7 @@ Interface
 Uses 
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, LCLType, chelp, IBConnection, db,
-Grids,  ComCtrls, PrintersDlgs, RPrintClass;
+Grids,  ComCtrls, PrintersDlgs,newpsclass;
 
    { TFormSetup }
 
@@ -345,7 +345,6 @@ Type
     procedure ReportNewPage;
 
     procedure ReportSetup;
-    procedure DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
 
     procedure ReportPrintGroup(var Done: Boolean);
    // procedure ReportAfterGroup;
@@ -376,7 +375,7 @@ Var
   AccNum: Integer;
   Activated: Boolean;
  // EZPSClass: TPostscriptClass;
-    RPrinter: TReportPrinterClass;
+    RPrinter: TPostScriptClass;
 
 Implementation
 
@@ -551,7 +550,6 @@ If RadioPrint.ItemIndex=0 then
 else
   ReportAccounts;
   RPrinter.EndPage;
-  DisplayReportPage(RPrinter, 1);
 End;
 
 
@@ -615,17 +613,17 @@ begin
       Bold:=True;
       IndexFont(1);
       //report Title
-      PrintCenterPage(ChurchName);
+      PrintPSCenterPage(ChurchName);
       IndexFont(2);
       Bold:=False;
-      NewLine;
-      Newline;
-      PrintCenterPage('Funds Report');
-      PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
+      PSNewLine;
+      PSNewline;
+      PrintPSCenterPage('Funds Report');
+      PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
       If PageNo>1 then
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      NewLine;
-      Newline;
+      PrintPSXY('Page '+IntToStr(PageNo),7.25,0.05);
+      PSNewLine;
+      PSNewline;
       FundReportHeader;
     end;
 end;
@@ -643,12 +641,12 @@ begin
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
-          PrintCenterPage('Fund Report');
-          PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
+          PrintPSCenterPage('Fund Report');
+          PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
         end;
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      Newline;
-      Newline;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewline;
+      PSNewline;
       FundReportHeader;
     end;
  end;
@@ -678,11 +676,11 @@ procedure TFormSetup.FundReportHeader;
 begin
  With RPrinter do
    begin
-     NewLine;
+     PSNewLine;
     // TabJustify := tjCenter;
-     PrintTab(6,'Fund');
-     PrintTab(6,'Description');
-     PrintTab(6,'Account');
+     PrintPSTab(6,'Fund');
+     PrintPSTab(6,'Description');
+     PrintPSTab(6,'Account');
     // NewLine;
     end;
 end;
@@ -699,10 +697,10 @@ begin
    // Font := FundFont;
     Acc := getAccountName(DataMod.ZTblFundsACCOUNT.AsInteger);
     Bold := true;
-    PrintTab(6, DataMod.ZTblFundsDETAIL_FUND_NO.AsString);
+    PrintPSTab(6, DataMod.ZTblFundsDETAIL_FUND_NO.AsString);
     Bold := False;
-    PrintTab(6, DataMod.ZTblFundsDESCRIPTION.AsString);
-    PrintTab(6, Acc); //DataMod.ZTblFundsACCOUNT.AsString);
+    PrintPSTab(6, DataMod.ZTblFundsDESCRIPTION.AsString);
+    PrintPSTab(6, Acc); //DataMod.ZTblFundsACCOUNT.AsString);
    // NewLine;
     If  LinesLeft(0.3)<4 then
        FundReportNewPage;
@@ -743,16 +741,16 @@ begin
       Bold:=True;
       IndexFont(1);
       //report Title
-      PrintCenterPage(ChurchName);
+      PrintPSCenterPage(ChurchName);
       IndexFont(2);
       Bold:=False;
-      PrintCenterPage('Accounts Report');
-      PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
+      PrintPSCenterPage('Accounts Report');
+      PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
       If PageNo>1 then
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      Newline;
-      Newline;
-      Newline;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewline;
+      PSNewline;
+      PSNewline;
       AccountReportHeader;
      // MyNewPage:=True;
     end;
@@ -771,13 +769,13 @@ begin
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
-          PrintCenterPage('Accounts Report');
-          PrintLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
-           Newline;
-           Newline;
+          PrintPSCenterPage('Accounts Report');
+          PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
+           PSNewline;
+           PSNewline;
         end;
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      NewLine;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewLine;
       AccountReportHeader;
     end;
  end;
@@ -810,12 +808,12 @@ begin
    begin
     // NewLine;
     // TabJustify := tjCenter;
-     PrintTab(7, 'Account');
-     PrintTab(7, 'Description');
-     PrintTab(7, 'Budget');
-     PrintTab(7, 'Type');
-     PrintTab(7, 'Group');
-     PrintTab(7, 'Payroll');
+     PrintPSTab(7, 'Account');
+     PrintPSTab(7, 'Description');
+     PrintPSTab(7, 'Budget');
+     PrintPSTab(7, 'Type');
+     PrintPSTab(7, 'Group');
+     PrintPSTab(7, 'Payroll');
    end;
 end;
 
@@ -828,16 +826,16 @@ begin
         begin
           Budget := AddDecimalPoint( DataMod.ZTblAccBUDGET.AsString);
           Bold:=True;
-          PrintTab(7, DataMod.ZTblAccACCOUNT.AsString);
+          PrintPSTab(7, DataMod.ZTblAccACCOUNT.AsString);
           Bold:=False;
-          PrintTab(7, DataMod.ZTblAccNAME.AsString);
-          PrintTab(7,Budget);
-          PrintTab(7, getType(DataMod.ZTblAccACC_TYPE.AsInteger-1));
-          PrintTab(7, getGroupDesc(DataMod.ZTblAccGROUP_NO.AsInteger));
+          PrintPSTab(7, DataMod.ZTblAccNAME.AsString);
+          PrintPSTab(7,Budget);
+          PrintPSTab(7, getType(DataMod.ZTblAccACC_TYPE.AsInteger-1));
+          PrintPSTab(7, getGroupDesc(DataMod.ZTblAccGROUP_NO.AsInteger));
           If DataMod.ZTblAccPayroll.AsString<>'' then
-              PrintTab(7, 'True')
+              PrintPSTab(7, 'True')
            else
-              PrintTab(7, ' ');
+              PrintPSTab(7, ' ');
            //NewLine;
            If  LinesLeft(0.3)<3 then
              AccountReportNewPage;
@@ -1624,7 +1622,7 @@ Begin
   //Application.OnMessage := AppMessage;
   //NoteBook.PageIndex:=TabSet1.TabIndex;
   Activated := False;
-  RPrinter := TReportPrinterClass.Create(Sender as TObject);
+  RPrinter := TPostScriptClass.Create;
   WindowState := wsNormal;
 End;
 
@@ -2087,20 +2085,6 @@ Begin
 End;
 
 
-procedure TFormSetup.DisplayReportPage(RPrinter: TReportPrinterClass; Page: Integer);
-var
-  CurPage: TImage;
-begin
-  with RPrinter do
-    begin
-      CurPage:= PageArray[Page];
-      if CurPage <> nil then
-         begin
-          ShowReport;
-          CurPage.BringToFront;
-         end;
-    end;
-end;
 
 procedure TFormSetup.ReportFinances;
 var
@@ -2114,11 +2098,7 @@ begin
   doLastPage;
 
   RPrinter.EndPage;
-  With RPrinter do
-    begin
-      DisplayReportPage(RPrinter, 1);
-     // NewPage;
-     end;
+  RPrinter.ViewFile;
 end;
 
 
@@ -2131,6 +2111,19 @@ begin
   RPrinter.NewPage;
 end;
 
+function stripRight(S: String): String;
+var
+  Tmp: String;
+  I1, I2 : Integer;
+begin
+  Tmp := '123456789';
+  I2 := Length(S);
+  while S[I2] = ' ' do
+    dec(I2);
+  for I1 := 1 to I2 do
+    Tmp[I1] := S[I1];
+  result := Tmp;
+end;
 
 procedure TFormSetup.ReportTitle;
 var
@@ -2144,16 +2137,16 @@ begin
       CurrentY := 0.15;
       PageNo := 1;
       //report Title
-      PrintCenterPage(ChurchName);
+      PrintPSCenterPage(ChurchName);
       IndexFont(2);
       Bold:=False;
-      NewLine;
-       PrintCenterPage('General Fund Report');
-      PrintLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
+      PSNewLine;
+      PrintPSCenterPage('General Fund Report');
+      PrintPSLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
       If PageNo>1 then
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      NewLine;
-      NewLine;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewLine;
+      PSNewLine;
      // MyNewPage:=True;
     end;
 end;
@@ -2168,12 +2161,12 @@ begin
       PageNo := PageNo + 1;
       If PageNo > 1 then
         begin
-          PrintCenterPage('General Fund Report');
-          PrintLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
+          PrintPSCenterPage('General Fund Report');
+          PrintPSLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
          end;
-      PrintXY(7.25,0.05,'Page '+IntToStr(PageNo));
-      Newline;
-      NewLine;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewline;
+      PSNewLine;
     end;
 end;
 
@@ -2266,24 +2259,24 @@ var
 begin
   With RPrinter do
     begin
-      NewLine;
+      PSNewLine;
 
-      PrintTab(2,'');
-      PrintTab(2,'');
-      PrintTab(2,'');
-      PrintTab(2,'ToDate');
-      PrintTab(2,'ToDate');
-      PrintTab(2,EditYear.Text);
+      PrintPSTab(2,'');
+      PrintPSTab(2,'');
+      PrintPSTab(2,'');
+      PrintPSTab(2,'ToDate');
+      PrintPSTab(2,'ToDate');
+      PrintPSTab(2,EditYear.Text);
       //NewLine;
 
       Bold:=True;
-      PrintTab(3,Group);
+      PrintPSTab(3,Group);
       Bold:=False;
-      PrintTab(3,'Income');
-      PrintTab(3,'Spent');
-      PrintTab(3,'Income');
-      PrintTab(3,'Spent');
-      PrintTab(3,'Budget');
+      PrintPSTab(3,'Income');
+      PrintPSTab(3,'Spent');
+      PrintPSTab(3,'Income');
+      PrintPSTab(3,'Spent');
+      PrintPSTab(3,'Budget');
    end; //With ReportPrinter
 end;
 
@@ -2297,14 +2290,14 @@ begin
       If LinesLeft(0.3) < 4 then ReportNewPage;
       doGroupHeader('Direct Post');
       ReportDP;
-      NewLine;
+      PSNewLine;
       Bold:=True;
-      PrintTab(5, 'Total = ');
-      PrintTab(5, FormatFloat('0.00',DPTotalMonthIncome));
-      PrintTab(5, FormatFloat('0.00',DPTotalMonthSpent));
-      PrintTab(5, FormatFloat('0.00',DPTotalYearIncome));
-      PrintTab(5, FormatFloat('0.00',DPTotalYearSpent));
-      PrintTab(5, FormatFloat('0.00',0.0));
+      PrintPSTab(5, 'Total = ');
+      PrintPSTab(5, FormatFloat('0.00',DPTotalMonthIncome));
+      PrintPSTab(5, FormatFloat('0.00',DPTotalMonthSpent));
+      PrintPSTab(5, FormatFloat('0.00',DPTotalYearIncome));
+      PrintPSTab(5, FormatFloat('0.00',DPTotalYearSpent));
+      PrintPSTab(5, FormatFloat('0.00',0.0));
       PutTabFont(5,HELVETICA,10);
 
       TotalMonthIncome:=TotalMonthIncome+DPTotalMonthIncome;
@@ -2315,14 +2308,14 @@ begin
       Bold:=False;
       If LinesLeft(0.3) < 4 then ReportNewPage;
       doGroupHeader('Total Income & Expense');
-      TabNewLine(5);
+      PSTabNewLine(5);
       Bold:=True;
-      PrintTab(5, 'Total = ');
-      PrintTab(5, FormatFloat('0.00',TotalMonthIncome));
-      PrintTab(5, FormatFloat('0.00',TotalMonthSpent));
-      PrintTab(5, FormatFloat('0.00',TotalYearIncome));
-      PrintTab(5, FormatFloat('0.00',TotalYearSpent));
-      PrintTab(5, FormatFloat('0.00',TotalYearBudget));
+      PrintPSTab(5, 'Total = ');
+      PrintPSTab(5, FormatFloat('0.00',TotalMonthIncome));
+      PrintPSTab(5, FormatFloat('0.00',TotalMonthSpent));
+      PrintPSTab(5, FormatFloat('0.00',TotalYearIncome));
+      PrintPSTab(5, FormatFloat('0.00',TotalYearSpent));
+      PrintPSTab(5, FormatFloat('0.00',TotalYearBudget));
 
       //TabNewLine(9);
       CalcBalance;
@@ -2332,13 +2325,13 @@ begin
       TmpTab := NewTab(9, 3.75,JUSTIFYLEFT,2.35,0.05,ABSOLUT,BOXLINEALL,5);
       TmpTab := NewTab(9, 6.2,JUSTIFYRIGHT,1.2,0.05, ABSOLUT,BOXLINEALL,5);
       PutTabFont(9, HELVETICA, 10);
-      NewLine;
+      PSNewLine;
       If LinesLeft(0.3) < 2 then ReportNewPage;
       //TabNewLine(9);
-      PrintTab(9,'Beginning Balance = ');
-      PrintTab(9, FormatFloat('0.00',BBalance));
-      PrintTab(9,'Ending Balance = ');
-      PrintTab(9, FormatFloat('0.00',EBalance));
+      PrintPSTab(9,'Beginning Balance = ');
+      PrintPSTab(9, FormatFloat('0.00',BBalance));
+      PrintPSTab(9,'Ending Balance = ');
+      PrintPSTab(9, FormatFloat('0.00',EBalance));
       PrintLiability;
   end;
 end;
@@ -2406,12 +2399,12 @@ begin
              end;
           //NewLine;    auto NewLine at last tab
 
-          PrintTab(4,DataMod.ZQueryAccounts.FieldByName('Name').asString);
-          PrintTab(4,FormatFloat('0.00',Income));
-          PrintTab(4,FormatFloat('0.00',Spent));
-          PrintTab(4,FormatFloat('0.00',IncToDate));
-          PrintTab(4,FormatFloat('0.00',SpToDate));
-          PrintTab(4,FormatFloat('0.00',Budget));
+          PrintPSTab(4,DataMod.ZQueryAccounts.FieldByName('Name').asString);
+          PrintPSTab(4,FormatFloat('0.00',Income));
+          PrintPSTab(4,FormatFloat('0.00',Spent));
+          PrintPSTab(4,FormatFloat('0.00',IncToDate));
+          PrintPSTab(4,FormatFloat('0.00',SpToDate));
+          PrintPSTab(4,FormatFloat('0.00',Budget));
 
           GroupIncome:=GroupIncome+Income;
           TotalMonthIncome:=TotalMonthIncome+Income;
@@ -2438,12 +2431,12 @@ begin
     begin
      // NewLine;
       Bold:=True;
-      PrintTab(5,'Total = ');
-      PrintTab(5,FormatFloat('0.00',GroupIncome));
-      PrintTab(5,FormatFloat('0.00',GroupSpent));
-      PrintTab(5,FormatFloat('0.00',GroupYearIncome));
-      PrintTab(5,FormatFloat('0.00',GroupYearSpent));
-      PrintTab(5,FormatFloat('0.00',GroupBudget));
+      PrintPSTab(5,'Total = ');
+      PrintPSTab(5,FormatFloat('0.00',GroupIncome));
+      PrintPSTab(5,FormatFloat('0.00',GroupSpent));
+      PrintPSTab(5,FormatFloat('0.00',GroupYearIncome));
+      PrintPSTab(5,FormatFloat('0.00',GroupYearSpent));
+      PrintPSTab(5,FormatFloat('0.00',GroupBudget));
       Bold:=False;
       ZeroGroup;
    end;
@@ -2719,7 +2712,7 @@ Begin
     begin
       If LinesLeft(0.3) < (DataMod.ZQueryLiab.RecordCount + 4) then ReportNewPage;
       //NewLine;
-      NewLine;
+      PSNewLine;
       freetabs(5);
       TmpTab := NewTab(5,0.2,JUSTIFYLEFT,2.5,0.05,ABSOLUT, BOXLINELEFT+BOXLINETOP+BOXLINEBOTTOM,3);
       TmpTab := NewTab(5,0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINETOP+BOXLINEBOTTOM,3);
@@ -2727,10 +2720,10 @@ Begin
       PutTabFont(5, HELVETICA, 10);
 
       Bold:=True;
-      PrintTab(5,'Liability Accounts');
+      PrintPSTab(5,'Liability Accounts');
       Bold:=False;
-      PrintTab(5,'OverPaid');
-      PrintTab(5,'Owed');
+      PrintPSTab(5,'OverPaid');
+      PrintPSTab(5,'Owed');
 
       Bold:=False;
       ResetTab(4);
@@ -2738,22 +2731,22 @@ Begin
         While not EOF do
            begin
              Amount:=getLiability(FieldByName('ACCOUNT').AsInteger);
-             PrintTab(4,FieldByName('NAME').AsString);
+             PrintPSTab(4,FieldByName('NAME').AsString);
              If Amount>=0 then
                begin
                  PosTotal:=PosTotal+Amount;
-                 PrintTab(4,FormatFloat('0.00',Amount));
-                 PrintTab(4,' ');
+                 PrintPSTab(4,FormatFloat('0.00',Amount));
+                 PrintPSTab(4,' ');
                end
              else
                begin
                  NegTotal:=NegTotal+Amount;
-                 PrintTab(4,' ');
-                 PrintTab(4,'('+copy(FormatFloat('0.00',Amount),2,10)+')');
+                 PrintPSTab(4,' ');
+                 PrintPSTab(4,'('+copy(FormatFloat('0.00',Amount),2,10)+')');
                end;
-             PrintTab(4,' ');
-             PrintTab(4,' ');
-             PrintTab(4,' ');
+             PrintPSTab(4,' ');
+             PrintPSTab(4,' ');
+             PrintPSTab(4,' ');
             // NewLine;
              Next;
           end;
@@ -2766,27 +2759,27 @@ Begin
 
       Total:=PosTotal+NegTotal;
       Bold:=True;
-      PrintTab(5,'Total ');
-      PrintTab(5,FormatFloat('0.00',PosTotal));
-      PrintTab(5,'('+copy(FormatFloat('0.00',NegTotal),2,10)+')');
+      PrintPSTab(5,'Total ');
+      PrintPSTab(5,FormatFloat('0.00',PosTotal));
+      PrintPSTab(5,'('+copy(FormatFloat('0.00',NegTotal),2,10)+')');
       If Total>=0.0 then
-        PrintTab(5,FormatFloat('0.00',Total))
+        PrintPSTab(5,FormatFloat('0.00',Total))
       else
-        PrintTab(5,'('+copy(FormatFloat('0.00',Total),2,10)+')');
+        PrintPSTab(5,'('+copy(FormatFloat('0.00',Total),2,10)+')');
 
       Total:=Total+EBalance;
 
       FreeTabs(8);
-      NewLine;
+      PSNewLine;
       TmpTab := NewTab(8,0.25,JUSTIFYLEFT,4.70,0.05,ABSOLUT, BOXLINEALL,4);
       TmpTab := NewTab(8,6.20,JUSTIFYRIGHT,1.2,0.05,ABSOLUT,BOXLINEALL,4);
       PutTabFont(8, HELVETICA, 10);
 
-      PrintTab(8, 'Ending Balance including liabilities');
+      PrintPSTab(8, 'Ending Balance including liabilities');
       If Total>=0.0 then
-        PrintTab(8,FormatFloat('0.00',Total))
+        PrintPSTab(8,FormatFloat('0.00',Total))
       else
-        PrintTab(8,'('+copy(FormatFloat('0.00',Total),2,10)+')');
+        PrintPSTab(8,'('+copy(FormatFloat('0.00',Total),2,10)+')');
     end;
 End;
 

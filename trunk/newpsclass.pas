@@ -446,10 +446,9 @@ implementation
 
   procedure TPostScriptClass.NewPage;
   begin
-     if (PrintFileOpen)  then
-       begin
-         writeln(PrintFileID, 'save');
-       end;
+     if not PrintFileOpen then
+        OpenPrintFile(GetPrintFileName);
+     writeln(PrintFileID, 'save');
      CurrentY :=0.0;
   end;
 
