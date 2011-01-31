@@ -1858,4 +1858,5 @@ object FormCont: TFormCont
     left = 950
     top = 723
   end
-end
+end.
+
