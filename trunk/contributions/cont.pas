@@ -2339,7 +2339,7 @@ var
   EZLabelClass: TAddressLabelClass;
   Add1,ZipCode, fName: String;
   LabelFont: FontType;
-  TmpScale: DOuble;
+  TmpScale: Double;
 begin
     try
       If EdXPos.Text<>'' then
@@ -2385,7 +2385,7 @@ begin
          SpacingTop  := StrToFloat(EdTopMargin.Text);
          SpacingWidth := StrToFloat(EdSpaceWide.Text);
          SpacingHeight := StrToFloat(EdSpaceHigh.Text);
-
+         Radius := 0.25; //Just for visual effect
          PrintPSLabels(Src, Outline);
          //ClosePrintFile;
         // Destroy;
