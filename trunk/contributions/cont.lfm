@@ -1,45 +1,45 @@
 object FormCont: TFormCont
-  Left = 390
+  Left = 850
   Height = 797
-  Top = 226
-  Width = 1056
+  Top = 220
+  Width = 1062
   ActiveControl = NotebookCont
   Caption = 'Contributions'
   ClientHeight = 797
-  ClientWidth = 1056
+  ClientWidth = 1062
   Font.Height = -13
   Font.Name = 'System'
   OnActivate = FormActivate
-  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '0.9.29'
-  object NotebookCont: TNotebook
+  LCLVersion = '0.9.31'
+  object NotebookCont: TPageControl
     Left = 0
     Height = 797
     Top = 0
-    Width = 1056
+    Width = 1062
     HelpContext = 10
+    ActivePage = PageQuery
     Align = alClient
     Font.Height = -15
     Font.Name = 'System'
-    OnMouseDown = ShowContext
-    PageIndex = 7
     ParentFont = False
+    TabIndex = 4
     TabOrder = 0
-    object PageEntry: TPage
+    OnMouseDown = ShowContext
+    object PageEntry: TTabSheet
       Caption = 'Entry'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupCont: TGroupBox
         Left = 0
-        Height = 762
+        Height = 768
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 40
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 764
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label23: TLabel
@@ -59,7 +59,7 @@ object FormCont: TFormCont
           Left = 803
           Height = 25
           Top = 84
-          Width = 130
+          Width = 135
           Caption = 'Name Search'
           Font.Height = -20
           Font.Name = 'System'
@@ -70,7 +70,7 @@ object FormCont: TFormCont
           Left = 803
           Height = 25
           Top = 156
-          Width = 172
+          Width = 180
           Caption = 'Envelope Number'
           Font.Height = -20
           Font.Name = 'System'
@@ -81,7 +81,7 @@ object FormCont: TFormCont
           Left = 805
           Height = 25
           Top = 234
-          Width = 130
+          Width = 138
           Caption = 'Fund Number'
           Font.Height = -20
           Font.Name = 'System'
@@ -92,7 +92,7 @@ object FormCont: TFormCont
           Left = 811
           Height = 25
           Top = 316
-          Width = 76
+          Width = 81
           Caption = 'Amount'
           Font.Height = -20
           Font.Name = 'System'
@@ -101,9 +101,9 @@ object FormCont: TFormCont
         end
         object Label5: TLabel
           Left = 699
-          Height = 28
+          Height = 29
           Top = 390
-          Width = 87
+          Width = 91
           Caption = 'Posted'
           Color = clSilver
           Font.Color = clRed
@@ -132,7 +132,7 @@ object FormCont: TFormCont
           Left = 35
           Height = 25
           Top = 400
-          Width = 93
+          Width = 99
           Caption = 'Pick From'
           Font.Height = -20
           Font.Name = 'System'
@@ -143,7 +143,7 @@ object FormCont: TFormCont
           Left = 35
           Height = 25
           Top = 44
-          Width = 195
+          Width = 206
           Caption = 'Today''s Contribution'
           Font.Height = -20
           Font.Name = 'System'
@@ -165,7 +165,7 @@ object FormCont: TFormCont
         end
         object EditSrchEnv: TEdit
           Left = 805
-          Height = 29
+          Height = 26
           Top = 108
           Width = 184
           HelpContext = 50
@@ -174,7 +174,6 @@ object FormCont: TFormCont
           Font.Height = -15
           Font.Name = 'System'
           Font.Style = [fsBold]
-          OnExit = EditSrchEnvExit
           OnKeyDown = EditSrchEnvKeyDown
           OnKeyPress = EditSrchEnvKeyPress
           OnMouseDown = ShowContext
@@ -183,7 +182,7 @@ object FormCont: TFormCont
         end
         object EditEnv: TEdit
           Left = 805
-          Height = 29
+          Height = 26
           Top = 180
           Width = 121
           HelpContext = 60
@@ -199,7 +198,7 @@ object FormCont: TFormCont
         end
         object EditAmount: TEdit
           Left = 805
-          Height = 29
+          Height = 26
           Top = 340
           Width = 121
           HelpContext = 80
@@ -233,7 +232,7 @@ object FormCont: TFormCont
         end
         object ComboDetail: TComboBox
           Left = 805
-          Height = 31
+          Height = 26
           Top = 260
           Width = 191
           HelpContext = 70
@@ -263,7 +262,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 70
+          ClientHeight = 71
           ClientWidth = 172
           Font.Height = -15
           Font.Name = 'System'
@@ -271,7 +270,6 @@ object FormCont: TFormCont
             'Cash'
             'Checks'
           )
-          OnClick = RadioCashClick
           OnMouseDown = ShowContext
           ParentFont = False
           TabOrder = 6
@@ -325,19 +323,19 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageDetail: TPage
+    object PageDetail: TTabSheet
       Caption = 'DetailFunds'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupFunds: TGroupBox
         Left = 0
-        Height = 762
+        Height = 766
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 150
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 762
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label24: TLabel
@@ -373,26 +371,26 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageContrib: TPage
+    object PageContrib: TTabSheet
       Caption = 'Contributors'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupTors: TGroupBox
         Left = 0
-        Height = 762
+        Height = 766
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 170
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 762
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label13: TLabel
           Left = 659
           Height = 25
           Top = 364
-          Width = 41
+          Width = 44
           Caption = 'Title'
           Font.Height = -20
           Font.Name = 'System'
@@ -414,7 +412,7 @@ object FormCont: TFormCont
         end
         object TitleCombo: TComboBox
           Left = 659
-          Height = 31
+          Height = 28
           Top = 388
           Width = 168
           HelpContext = 200
@@ -537,26 +535,26 @@ object FormCont: TFormCont
         end
       end
     end
-    object PagePledge: TPage
+    object PagePledge: TTabSheet
       Caption = 'Pledges'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupPledge: TGroupBox
         Left = 0
-        Height = 762
+        Height = 766
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 240
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 762
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label7: TLabel
           Left = 739
           Height = 25
           Top = 588
-          Width = 47
+          Width = 51
           Caption = 'Fund'
           Font.Height = -20
           Font.Name = 'System'
@@ -567,7 +565,7 @@ object FormCont: TFormCont
           Left = 739
           Height = 25
           Top = 508
-          Width = 165
+          Width = 171
           Caption = 'Envelope - Name'
           Font.Height = -20
           Font.Name = 'System'
@@ -641,7 +639,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 70
+          ClientHeight = 71
           ClientWidth = 142
           Font.Height = -15
           Font.Name = 'System'
@@ -698,7 +696,7 @@ object FormCont: TFormCont
         end
         object FunAccBox: TComboBox
           Left = 739
-          Height = 31
+          Height = 28
           Top = 612
           Width = 231
           HelpContext = 290
@@ -710,7 +708,7 @@ object FormCont: TFormCont
         end
         object LookUpEnv: TComboBox
           Left = 739
-          Height = 31
+          Height = 28
           Top = 548
           Width = 231
           HelpContext = 280
@@ -735,19 +733,19 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageQuery: TPage
+    object PageQuery: TTabSheet
       Caption = 'Queries'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupQuery: TGroupBox
         Left = 0
-        Height = 762
+        Height = 768
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 360
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 764
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label22: TLabel
@@ -767,7 +765,7 @@ object FormCont: TFormCont
           Left = 59
           Height = 25
           Top = 148
-          Width = 89
+          Width = 93
           Caption = 'Envelope'
           Font.Height = -20
           Font.Name = 'System'
@@ -778,7 +776,7 @@ object FormCont: TFormCont
           Left = 59
           Height = 25
           Top = 188
-          Width = 47
+          Width = 51
           Caption = 'Fund'
           Font.Height = -20
           Font.Name = 'System'
@@ -789,7 +787,7 @@ object FormCont: TFormCont
           Left = 59
           Height = 25
           Top = 231
-          Width = 99
+          Width = 103
           Caption = 'Start Date'
           Font.Height = -20
           Font.Name = 'System'
@@ -800,7 +798,7 @@ object FormCont: TFormCont
           Left = 59
           Height = 25
           Top = 268
-          Width = 93
+          Width = 95
           Caption = 'Last Date'
           Font.Height = -20
           Font.Name = 'System'
@@ -811,7 +809,7 @@ object FormCont: TFormCont
           Left = 363
           Height = 25
           Top = 124
-          Width = 173
+          Width = 182
           Caption = 'Select from Funds'
           Font.Height = -20
           Font.Name = 'System'
@@ -822,7 +820,7 @@ object FormCont: TFormCont
           Left = 907
           Height = 25
           Top = 532
-          Width = 46
+          Width = 48
           Caption = 'Total'
           Font.Height = -20
           Font.Name = 'System'
@@ -831,7 +829,7 @@ object FormCont: TFormCont
         end
         object EditQEnv: TEdit
           Left = 200
-          Height = 29
+          Height = 26
           Top = 146
           Width = 121
           HelpContext = 370
@@ -843,7 +841,7 @@ object FormCont: TFormCont
         end
         object EditQFund: TEdit
           Left = 200
-          Height = 29
+          Height = 26
           Top = 184
           Width = 121
           HelpContext = 380
@@ -856,7 +854,7 @@ object FormCont: TFormCont
         end
         object EditQFromDate: TEdit
           Left = 200
-          Height = 29
+          Height = 26
           Top = 222
           Width = 121
           HelpContext = 390
@@ -868,7 +866,7 @@ object FormCont: TFormCont
         end
         object EditQToDate: TEdit
           Left = 200
-          Height = 29
+          Height = 26
           Top = 260
           Width = 121
           HelpContext = 400
@@ -926,7 +924,7 @@ object FormCont: TFormCont
         end
         object QueryBox: TComboBox
           Left = 363
-          Height = 31
+          Height = 26
           Top = 146
           Width = 207
           HelpContext = 380
@@ -941,7 +939,7 @@ object FormCont: TFormCont
         end
         object EditSumCont: TEdit
           Left = 875
-          Height = 29
+          Height = 26
           Top = 564
           Width = 120
           HelpContext = 440
@@ -954,7 +952,7 @@ object FormCont: TFormCont
         end
         object EdVuBox: TCheckBox
           Left = 864
-          Height = 24
+          Height = 25
           Top = 436
           Width = 126
           HelpContext = 415
@@ -980,10 +978,10 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageReport: TPage
+    object PageReport: TTabSheet
       Caption = 'Reports'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupRep: TGroupBox
         Left = 0
         Height = 764
@@ -1011,7 +1009,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 140
-          Width = 144
+          Width = 150
           Caption = 'From Envelope'
           Font.Height = -20
           Font.Name = 'System'
@@ -1022,7 +1020,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 198
-          Width = 116
+          Width = 120
           Caption = 'To Envelope'
           Font.Height = -20
           Font.Name = 'System'
@@ -1033,7 +1031,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 256
-          Width = 99
+          Width = 103
           Caption = 'Start Date'
           Font.Height = -20
           Font.Name = 'System'
@@ -1044,7 +1042,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 314
-          Width = 89
+          Width = 93
           Caption = 'End Date'
           Font.Height = -20
           Font.Name = 'System'
@@ -1068,7 +1066,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 572
-          Width = 124
+          Width = 132
           Caption = 'Select Month'
           Font.Height = -20
           Font.Name = 'System'
@@ -1079,7 +1077,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 636
-          Width = 106
+          Width = 110
           Caption = 'Select Year'
           Font.Height = -20
           Font.Name = 'System'
@@ -1090,7 +1088,7 @@ object FormCont: TFormCont
           Left = 51
           Height = 25
           Top = 508
-          Width = 111
+          Width = 116
           Caption = 'Select Date'
           Font.Height = -20
           Font.Name = 'System'
@@ -1113,7 +1111,7 @@ object FormCont: TFormCont
         end
         object EditFromEnv: TEdit
           Left = 211
-          Height = 29
+          Height = 26
           Top = 139
           Width = 121
           HelpContext = 460
@@ -1126,7 +1124,7 @@ object FormCont: TFormCont
         end
         object EditToEnv: TEdit
           Left = 211
-          Height = 29
+          Height = 26
           Top = 195
           Width = 121
           HelpContext = 470
@@ -1139,7 +1137,7 @@ object FormCont: TFormCont
         end
         object EditFromDate: TEdit
           Left = 211
-          Height = 29
+          Height = 26
           Top = 251
           Width = 121
           HelpContext = 480
@@ -1153,7 +1151,7 @@ object FormCont: TFormCont
         end
         object EditToDate: TEdit
           Left = 211
-          Height = 29
+          Height = 26
           Top = 307
           Width = 121
           HelpContext = 490
@@ -1193,7 +1191,7 @@ object FormCont: TFormCont
         end
         object ConRepBox: TComboBox
           Left = 219
-          Height = 31
+          Height = 26
           Top = 563
           Width = 145
           HelpContext = 520
@@ -1221,7 +1219,7 @@ object FormCont: TFormCont
         end
         object YearEd: TEdit
           Left = 219
-          Height = 29
+          Height = 26
           Top = 628
           Width = 73
           HelpContext = 530
@@ -1248,7 +1246,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 84
+          ClientHeight = 85
           ClientWidth = 220
           Font.Height = -15
           Font.Name = 'System'
@@ -1262,7 +1260,7 @@ object FormCont: TFormCont
         end
         object PickerRep: TEdit
           Left = 219
-          Height = 29
+          Height = 26
           Top = 500
           Width = 121
           HelpContext = 550
@@ -1282,19 +1280,19 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageMisc: TPage
+    object PageMisc: TTabSheet
       Caption = 'Pledge Sums'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupSum: TGroupBox
         Left = 0
-        Height = 762
+        Height = 768
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 740
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 764
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label25: TLabel
@@ -1314,7 +1312,7 @@ object FormCont: TFormCont
           Left = 152
           Height = 25
           Top = 196
-          Width = 47
+          Width = 51
           Caption = 'Fund'
           Font.Height = -20
           Font.Name = 'System'
@@ -1325,7 +1323,7 @@ object FormCont: TFormCont
           Left = 155
           Height = 25
           Top = 388
-          Width = 44
+          Width = 47
           Caption = 'Sum'
           Font.Height = -20
           Font.Name = 'System'
@@ -1336,7 +1334,7 @@ object FormCont: TFormCont
           Left = 587
           Height = 25
           Top = 196
-          Width = 173
+          Width = 182
           Caption = 'Select from Funds'
           Font.Height = -20
           Font.Name = 'System'
@@ -1345,7 +1343,7 @@ object FormCont: TFormCont
         end
         object EditPledgeFund: TEdit
           Left = 155
-          Height = 29
+          Height = 26
           Top = 228
           Width = 121
           HelpContext = 745
@@ -1358,7 +1356,7 @@ object FormCont: TFormCont
         end
         object EditPledgeSum: TEdit
           Left = 155
-          Height = 29
+          Height = 26
           Top = 428
           Width = 209
           HelpContext = 760
@@ -1385,7 +1383,7 @@ object FormCont: TFormCont
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 133
+          ClientHeight = 134
           ClientWidth = 221
           Font.Height = -15
           Font.Name = 'System'
@@ -1428,7 +1426,7 @@ object FormCont: TFormCont
         end
         object ComboPledgeFund: TComboBox
           Left = 584
-          Height = 31
+          Height = 26
           Top = 228
           Width = 200
           HelpContext = 750
@@ -1457,24 +1455,24 @@ object FormCont: TFormCont
         end
       end
     end
-    object PageLabels: TPage
+    object PageLabels: TTabSheet
       Caption = 'Labels'
-      ClientWidth = 1050
-      ClientHeight = 762
+      ClientHeight = 768
+      ClientWidth = 1058
       object AGroupLabel: TGroupBox
         Left = 0
-        Height = 762
+        Height = 766
         Top = 0
-        Width = 1050
+        Width = 1058
         HelpContext = 570
         Align = alClient
-        ClientHeight = 758
-        ClientWidth = 1046
+        ClientHeight = 762
+        ClientWidth = 1054
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label32: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 293
           Width = 80
           Caption = 'Num Rows'
@@ -1482,65 +1480,65 @@ object FormCont: TFormCont
         end
         object Label33: TLabel
           Left = 84
-          Height = 20
+          Height = 19
           Top = 124
-          Width = 86
+          Width = 82
           Caption = 'Avery Style'
           ParentColor = False
         end
         object Label34: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 252
-          Width = 108
+          Width = 104
           Caption = 'Num Columns'
           ParentColor = False
         end
         object Label35: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 375
-          Width = 83
+          Width = 79
           Caption = 'Margin Top'
           ParentColor = False
         end
         object Label36: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 334
-          Width = 86
+          Width = 83
           Caption = 'Margin Left'
           ParentColor = False
         end
         object Label37: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 416
-          Width = 91
+          Width = 86
           Caption = 'Label Width'
           ParentColor = False
         end
         object Label38: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 498
-          Width = 96
+          Width = 91
           Caption = 'Label Height'
           ParentColor = False
         end
         object Label39: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 457
-          Width = 112
+          Width = 105
           Caption = 'Spacing Width'
           ParentColor = False
         end
         object Label40: TLabel
           Left = 83
-          Height = 20
+          Height = 19
           Top = 539
-          Width = 117
+          Width = 110
           Caption = 'Spacing Height'
           ParentColor = False
         end
@@ -1548,7 +1546,7 @@ object FormCont: TFormCont
           Left = 83
           Height = 20
           Top = 574
-          Width = 122
+          Width = 132
           Caption = 'Text Start Left'
           Color = clBtnFace
           Font.Color = clTeal
@@ -1563,7 +1561,7 @@ object FormCont: TFormCont
           Left = 84
           Height = 20
           Top = 607
-          Width = 117
+          Width = 127
           Caption = 'Text Start Top'
           Font.Color = clTeal
           Font.Height = -16
@@ -1576,7 +1574,7 @@ object FormCont: TFormCont
           Left = 83
           Height = 20
           Top = 646
-          Width = 73
+          Width = 75
           Caption = 'FontSize'
           Font.Color = clTeal
           Font.Height = -16
@@ -1600,7 +1598,7 @@ object FormCont: TFormCont
         end
         object LabelBox: TComboBox
           Left = 259
-          Height = 31
+          Height = 28
           Top = 124
           Width = 210
           HelpContext = 580
@@ -1615,7 +1613,7 @@ object FormCont: TFormCont
         end
         object EdNumRows: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 286
           Width = 121
           HelpContext = 600
@@ -1629,7 +1627,7 @@ object FormCont: TFormCont
         end
         object EdNumCols: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 247
           Width = 121
           HelpContext = 590
@@ -1643,7 +1641,7 @@ object FormCont: TFormCont
         end
         object EdTopMargin: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 364
           Width = 121
           HelpContext = 620
@@ -1656,7 +1654,7 @@ object FormCont: TFormCont
         end
         object EdLeftMargin: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 325
           Width = 121
           HelpContext = 610
@@ -1669,7 +1667,7 @@ object FormCont: TFormCont
         end
         object EdLabelHigh: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 481
           Width = 121
           HelpContext = 650
@@ -1681,7 +1679,7 @@ object FormCont: TFormCont
         end
         object EdLabelWide: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 403
           Width = 121
           HelpContext = 630
@@ -1694,7 +1692,7 @@ object FormCont: TFormCont
         end
         object EdSpaceWide: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 442
           Width = 121
           HelpContext = 640
@@ -1707,7 +1705,7 @@ object FormCont: TFormCont
         end
         object EdSpaceHigh: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 520
           Width = 121
           HelpContext = 660
@@ -1762,7 +1760,7 @@ object FormCont: TFormCont
         end
         object EDXPos: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 559
           Width = 121
           HelpContext = 670
@@ -1776,7 +1774,7 @@ object FormCont: TFormCont
         end
         object EdYPos: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 598
           Width = 121
           HelpContext = 680
@@ -1791,7 +1789,7 @@ object FormCont: TFormCont
         end
         object EdFontSize: TEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 637
           Width = 121
           HelpContext = 690
@@ -1806,12 +1804,11 @@ object FormCont: TFormCont
         end
         object CheckBoxPostNet: TCheckBox
           Left = 830
-          Height = 23
+          Height = 22
           Top = 132
-          Width = 120
+          Width = 116
           HelpContext = 720
           Caption = 'Print Postnet'
-          OnChange = CheckBoxPostNetChange
           OnMouseDown = ShowContext
           TabOrder = 15
         end
@@ -1831,7 +1828,7 @@ object FormCont: TFormCont
         end
         object SEFontSize: TSpinEdit
           Left = 259
-          Height = 29
+          Height = 26
           Top = 182
           Width = 120
           MaxValue = 12
@@ -1841,9 +1838,9 @@ object FormCont: TFormCont
         end
         object Label8: TLabel
           Left = 84
-          Height = 21
+          Height = 22
           Top = 190
-          Width = 78
+          Width = 77
           Caption = 'Font Size'
           Font.Height = -17
           Font.Name = 'System'
@@ -1858,5 +1855,4 @@ object FormCont: TFormCont
     left = 950
     top = 723
   end
-end.
-
+end

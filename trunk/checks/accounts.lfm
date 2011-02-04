@@ -1,7 +1,7 @@
 object CheckForm: TCheckForm
   Left = 711
   Height = 917
-  Top = 106
+  Top = 100
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
@@ -17,28 +17,27 @@ object CheckForm: TCheckForm
   Font.Height = 9
   Font.Name = 'System'
   OnActivate = FormActivate
-  OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '0.9.29'
-  object NoteBook: TNotebook
+  LCLVersion = '0.9.31'
+  object NoteBook: TPageControl
     Left = 0
     Height = 917
     Top = 0
     Width = 1201
     HelpContext = 490
+    ActivePage = Page9
     Align = alClient
     Anchors = []
     Font.Height = -15
     Font.Name = 'System'
-    OnChangeBounds = NoteBookChangeBounds
-    OnMouseDown = ShowContext
-    PageIndex = 2
     ParentFont = False
+    TabIndex = 8
     TabOrder = 0
-    object Page1: TPage
+    OnMouseDown = ShowContext
+    object Page1: TTabSheet
       Caption = 'WrtChks'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupWrite: TGroupBox
         Left = 0
         Height = 880
@@ -51,9 +50,9 @@ object CheckForm: TCheckForm
         OnMouseDown = ShowContext
         object Label53: TLabel
           Left = 589
-          Height = 20
+          Height = 19
           Top = 609
-          Width = 135
+          Width = 128
           Caption = 'Checking Balance'
           Font.Height = -15
           Font.Name = 'System'
@@ -75,7 +74,7 @@ object CheckForm: TCheckForm
           Left = 31
           Height = 18
           Top = 515
-          Width = 83
+          Width = 82
           Caption = 'Check Date'
           Font.Height = -14
           Font.Name = 'System'
@@ -86,7 +85,7 @@ object CheckForm: TCheckForm
           Left = 31
           Height = 18
           Top = 576
-          Width = 57
+          Width = 55
           Caption = 'Amount'
           Font.Height = -14
           Font.Name = 'System'
@@ -97,7 +96,7 @@ object CheckForm: TCheckForm
           Left = 31
           Height = 18
           Top = 636
-          Width = 45
+          Width = 44
           Caption = 'Memo'
           Font.Height = -14
           Font.Name = 'System'
@@ -108,7 +107,7 @@ object CheckForm: TCheckForm
           Left = 348
           Height = 18
           Top = 515
-          Width = 59
+          Width = 58
           Caption = 'Account'
           Font.Height = -14
           Font.Name = 'System'
@@ -119,7 +118,7 @@ object CheckForm: TCheckForm
           Left = 348
           Height = 18
           Top = 451
-          Width = 52
+          Width = 50
           Caption = 'Vendor'
           Font.Color = clBlack
           Font.Height = -14
@@ -147,9 +146,9 @@ object CheckForm: TCheckForm
           TabOrder = 0
           object Label1: TLabel
             Left = 168
-            Height = 16
+            Height = 13
             Top = 35
-            Width = 144
+            Width = 99
             Caption = 'ANYTOWN CHURCH'
             Font.Color = clNavy
             Font.Height = 9
@@ -162,7 +161,7 @@ object CheckForm: TCheckForm
             Left = 207
             Height = 15
             Top = 53
-            Width = 79
+            Width = 81
             Caption = 'P.O. Box 689'
             Font.Color = clNavy
             Font.Height = -11
@@ -201,7 +200,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 139
-            Width = 23
+            Width = 24
             Caption = 'Pay'
             Font.Color = clNavy
             Font.Height = -11
@@ -214,7 +213,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 155
-            Width = 43
+            Width = 44
             Caption = 'To The'
             Font.Color = clNavy
             Font.Height = -11
@@ -227,7 +226,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 171
-            Width = 52
+            Width = 54
             Caption = 'Order of'
             Font.Color = clNavy
             Font.Height = -11
@@ -240,7 +239,7 @@ object CheckForm: TCheckForm
             Left = 555
             Height = 20
             Top = 220
-            Width = 70
+            Width = 72
             Caption = 'DOLLAR'
             Font.Color = clNavy
             Font.Height = -16
@@ -278,7 +277,7 @@ object CheckForm: TCheckForm
             Left = 187
             Height = 20
             Top = 216
-            Width = 51
+            Width = 53
             Caption = 'Script'
             Font.Color = clNavy
             Font.Height = -16
@@ -291,7 +290,7 @@ object CheckForm: TCheckForm
             Left = 555
             Height = 20
             Top = 166
-            Width = 68
+            Width = 70
             Caption = 'Amount'
             Font.Color = clNavy
             Font.Height = -16
@@ -304,7 +303,7 @@ object CheckForm: TCheckForm
             Left = 184
             Height = 20
             Top = 168
-            Width = 61
+            Width = 64
             Caption = 'Vendor'
             Font.Color = clNavy
             Font.Height = -16
@@ -317,7 +316,7 @@ object CheckForm: TCheckForm
             Left = 187
             Height = 20
             Top = 288
-            Width = 52
+            Width = 55
             Caption = 'Memo'
             Font.Color = clNavy
             Font.Height = -16
@@ -328,9 +327,9 @@ object CheckForm: TCheckForm
           end
           object CheckLabel: TLabel
             Left = 664
-            Height = 19
+            Height = 20
             Top = 24
-            Width = 46
+            Width = 51
             Caption = 'Check'
             Font.Color = clRed
             Font.Height = -16
@@ -354,7 +353,7 @@ object CheckForm: TCheckForm
         end
         object ComboVendor: TComboBox
           Left = 468
-          Height = 31
+          Height = 28
           Top = 442
           Width = 254
           HelpContext = 120
@@ -370,7 +369,7 @@ object CheckForm: TCheckForm
         end
         object ComboAcc: TComboBox
           Left = 467
-          Height = 31
+          Height = 28
           Top = 508
           Width = 254
           HelpContext = 30
@@ -385,7 +384,7 @@ object CheckForm: TCheckForm
         end
         object CKBal1: TEdit
           Left = 589
-          Height = 29
+          Height = 26
           Top = 639
           Width = 133
           HelpContext = 110
@@ -399,7 +398,7 @@ object CheckForm: TCheckForm
         end
         object CheckMemo: TEdit
           Left = 160
-          Height = 29
+          Height = 26
           Top = 636
           Width = 265
           HelpContext = 80
@@ -412,7 +411,7 @@ object CheckForm: TCheckForm
         end
         object CheckAmount: TEdit
           Left = 160
-          Height = 29
+          Height = 26
           Top = 572
           Width = 121
           HelpContext = 50
@@ -424,7 +423,7 @@ object CheckForm: TCheckForm
         end
         object CheckDate: TEdit
           Left = 160
-          Height = 29
+          Height = 26
           Top = 510
           Width = 121
           HelpContext = 70
@@ -437,7 +436,7 @@ object CheckForm: TCheckForm
         end
         object CheckEdit: TEdit
           Left = 160
-          Height = 29
+          Height = 26
           Top = 444
           Width = 121
           HelpContext = 90
@@ -472,9 +471,9 @@ object CheckForm: TCheckForm
             TabOrder = 0
             object Label21: TLabel
               Left = 47
-              Height = 21
+              Height = 16
               Top = 24
-              Width = 68
+              Width = 51
               Caption = 'Checks'
               Font.Color = clWhite
               Font.Height = 12
@@ -514,9 +513,9 @@ object CheckForm: TCheckForm
             TabOrder = 1
             object Label22: TLabel
               Left = 37
-              Height = 21
+              Height = 16
               Top = 22
-              Width = 88
+              Width = 65
               Caption = 'Accounts'
               Font.Color = clWhite
               Font.Height = 12
@@ -556,9 +555,9 @@ object CheckForm: TCheckForm
             TabOrder = 2
             object CanLabel: TLabel
               Left = 48
-              Height = 21
+              Height = 16
               Top = 22
-              Width = 64
+              Width = 48
               Caption = 'Cancel'
               Font.Color = clWhite
               Font.Height = 12
@@ -588,24 +587,24 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page2: TPage
+    object Page2: TTabSheet
       Caption = 'Edit'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupEdit: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 140
         Align = alClient
         Anchors = []
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label59: TLabel
-          Left = 475
+          Left = 476
           Height = 33
           Top = 22
           Width = 171
@@ -619,10 +618,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label60: TLabel
-          Left = 389
+          Left = 388
           Height = 25
           Top = 96
-          Width = 77
+          Width = 81
           Anchors = []
           Caption = 'Checks'
           Font.Color = clBlue
@@ -633,10 +632,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label61: TLabel
-          Left = 299
+          Left = 294
           Height = 25
-          Top = 553
-          Width = 209
+          Top = 556
+          Width = 221
           Anchors = []
           Caption = 'Check Transactions'
           Font.Color = clBlue
@@ -647,9 +646,9 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object FixChkGrid: TDBGrid
-          Left = 27
+          Left = 28
           Height = 286
-          Top = 196
+          Top = 198
           Width = 1016
           HelpContext = 170
           Anchors = []
@@ -665,9 +664,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
         end
         object FixTranGrid: TDBGrid
-          Left = 27
+          Left = 28
           Height = 200
-          Top = 651
+          Top = 654
           Width = 1016
           HelpContext = 230
           Anchors = []
@@ -684,9 +683,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
         end
         object NavChkEdit: TDBNavigator
-          Left = 459
+          Left = 460
           Height = 33
-          Top = 132
+          Top = 133
           Width = 180
           HelpContext = 190
           Anchors = []
@@ -709,7 +708,7 @@ object CheckForm: TCheckForm
         object ChkEdit: TButton
           Left = 163
           Height = 33
-          Top = 132
+          Top = 133
           Width = 60
           HelpContext = 180
           Anchors = []
@@ -722,9 +721,9 @@ object CheckForm: TCheckForm
           TabOrder = 3
         end
         object ChkCan: TButton
-          Left = 337
+          Left = 338
           Height = 33
-          Top = 132
+          Top = 133
           Width = 60
           HelpContext = 160
           Anchors = []
@@ -740,7 +739,7 @@ object CheckForm: TCheckForm
         object ChkEditPost: TButton
           Left = 221
           Height = 33
-          Top = 132
+          Top = 133
           Width = 60
           HelpContext = 200
           Anchors = []
@@ -756,7 +755,7 @@ object CheckForm: TCheckForm
         object AccEd: TButton
           Left = 163
           Height = 33
-          Top = 588
+          Top = 591
           Width = 60
           HelpContext = 250
           Anchors = []
@@ -771,7 +770,7 @@ object CheckForm: TCheckForm
         object AccEditPost: TButton
           Left = 221
           Height = 33
-          Top = 588
+          Top = 591
           Width = 60
           HelpContext = 270
           Anchors = []
@@ -785,9 +784,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object AccDel: TButton
-          Left = 279
+          Left = 280
           Height = 33
-          Top = 588
+          Top = 591
           Width = 60
           HelpContext = 240
           Anchors = []
@@ -800,9 +799,9 @@ object CheckForm: TCheckForm
           TabOrder = 8
         end
         object AccCan: TButton
-          Left = 337
+          Left = 338
           Height = 33
-          Top = 588
+          Top = 591
           Width = 60
           HelpContext = 220
           Anchors = []
@@ -818,7 +817,7 @@ object CheckForm: TCheckForm
         object EditTranTotal: TEdit
           Left = 35
           Height = 33
-          Top = 588
+          Top = 591
           Width = 90
           HelpContext = 280
           Anchors = []
@@ -833,7 +832,7 @@ object CheckForm: TCheckForm
         object EditCheckTotal: TEdit
           Left = 35
           Height = 33
-          Top = 134
+          Top = 135
           Width = 90
           HelpContext = 210
           Anchors = []
@@ -846,9 +845,9 @@ object CheckForm: TCheckForm
           TabOrder = 11
         end
         object NavEditTran: TDBNavigator
-          Left = 459
+          Left = 460
           Height = 33
-          Top = 588
+          Top = 591
           Width = 180
           HelpContext = 260
           Anchors = []
@@ -873,9 +872,9 @@ object CheckForm: TCheckForm
           VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
         end
         object BtnChkDel: TButton
-          Left = 279
+          Left = 280
           Height = 33
-          Top = 132
+          Top = 133
           Width = 60
           HelpContext = 290
           Anchors = []
@@ -889,24 +888,24 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page3: TPage
+    object Page3: TTabSheet
       Caption = 'PrntChks'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupPrint: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 320
         Align = alClient
         Anchors = []
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label62: TLabel
-          Left = 499
+          Left = 500
           Height = 33
           Top = 30
           Width = 185
@@ -920,10 +919,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label63: TLabel
-          Left = 35
+          Left = 33
           Height = 25
-          Top = 356
-          Width = 77
+          Top = 358
+          Width = 81
           Anchors = []
           Caption = 'Checks'
           Font.Color = clBlue
@@ -934,9 +933,9 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object CheckGrid: TDBGrid
-          Left = 27
+          Left = 28
           Height = 456
-          Top = 406
+          Top = 409
           Width = 1136
           HelpContext = 300
           Anchors = []
@@ -953,9 +952,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
         end
         object PanelPrint: TPanel
-          Left = 451
+          Left = 452
           Height = 113
-          Top = 125
+          Top = 126
           Width = 264
           HelpContext = 310
           Anchors = []
@@ -971,7 +970,7 @@ object CheckForm: TCheckForm
             Left = 104
             Height = 25
             Top = 14
-            Width = 54
+            Width = 57
             Caption = 'Print'
             Font.Color = clWhite
             Font.Height = -20
@@ -1001,34 +1000,34 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page4: TPage
+    object Page4: TTabSheet
       Caption = 'PayRoll'
       ChildSizing.EnlargeHorizontal = crsScaleChilds
       ChildSizing.EnlargeVertical = crsScaleChilds
       ChildSizing.ShrinkHorizontal = crsScaleChilds
       ChildSizing.ShrinkVertical = crsScaleChilds
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupPayroll: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 430
         Align = alClient
         ChildSizing.EnlargeHorizontal = crsScaleChilds
         ChildSizing.EnlargeVertical = crsScaleChilds
         ChildSizing.ShrinkHorizontal = crsScaleChilds
         ChildSizing.ShrinkVertical = crsScaleChilds
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label43: TLabel
           Left = 435
-          Height = 20
+          Height = 19
           Top = 476
-          Width = 45
+          Width = 44
           Caption = 'Hours'
           Font.Height = -15
           Font.Name = 'System'
@@ -1037,9 +1036,9 @@ object CheckForm: TCheckForm
         end
         object Label44: TLabel
           Left = 435
-          Height = 20
+          Height = 19
           Top = 556
-          Width = 75
+          Width = 72
           Caption = 'Employee'
           Font.Height = -15
           Font.Name = 'System'
@@ -1048,9 +1047,9 @@ object CheckForm: TCheckForm
         end
         object Label45: TLabel
           Left = 438
-          Height = 20
+          Height = 19
           Top = 636
-          Width = 72
+          Width = 70
           Caption = 'Check No'
           Font.Height = -15
           Font.Name = 'System'
@@ -1059,9 +1058,9 @@ object CheckForm: TCheckForm
         end
         object Label46: TLabel
           Left = 435
-          Height = 20
+          Height = 19
           Top = 715
-          Width = 88
+          Width = 85
           Caption = 'Check Date'
           Font.Height = -15
           Font.Name = 'System'
@@ -1070,9 +1069,9 @@ object CheckForm: TCheckForm
         end
         object Label87: TLabel
           Left = 955
-          Height = 21
+          Height = 22
           Top = 84
-          Width = 68
+          Width = 67
           Caption = 'Balance'
           Font.Height = -17
           Font.Name = 'System'
@@ -1081,9 +1080,9 @@ object CheckForm: TCheckForm
         end
         object Label93: TLabel
           Left = 955
-          Height = 21
+          Height = 22
           Top = 62
-          Width = 80
+          Width = 78
           Caption = 'Checking'
           Font.Height = -17
           Font.Name = 'System'
@@ -1109,9 +1108,9 @@ object CheckForm: TCheckForm
           TabOrder = 0
           object LabelPayMemo: TLabel
             Left = 288
-            Height = 16
+            Height = 13
             Top = 288
-            Width = 162
+            Width = 116
             Caption = '_______________________'
             Font.Color = clWhite
             Font.Height = 9
@@ -1145,9 +1144,9 @@ object CheckForm: TCheckForm
           end
           object Label17: TLabel
             Left = 56
-            Height = 16
+            Height = 13
             Top = 32
-            Width = 297
+            Width = 198
             Caption = 'ANYTOWN UNITED METHODIST CHURCH'
             Font.Color = clNavy
             Font.Height = 9
@@ -1160,7 +1159,7 @@ object CheckForm: TCheckForm
             Left = 207
             Height = 15
             Top = 53
-            Width = 79
+            Width = 81
             Caption = 'P.O. Box 689'
             Font.Color = clNavy
             Font.Height = -11
@@ -1222,9 +1221,9 @@ object CheckForm: TCheckForm
           end
           object PayCheckLabel: TLabel
             Left = 664
-            Height = 19
+            Height = 20
             Top = 24
-            Width = 46
+            Width = 51
             Caption = 'Check'
             Font.Color = clRed
             Font.Height = -16
@@ -1237,7 +1236,7 @@ object CheckForm: TCheckForm
             Left = 555
             Height = 20
             Top = 168
-            Width = 68
+            Width = 70
             Caption = 'Amount'
             Font.Color = clNavy
             Font.Height = -16
@@ -1250,7 +1249,7 @@ object CheckForm: TCheckForm
             Left = 555
             Height = 20
             Top = 220
-            Width = 70
+            Width = 72
             Caption = 'DOLLAR'
             Font.Color = clNavy
             Font.Height = -16
@@ -1274,7 +1273,7 @@ object CheckForm: TCheckForm
           end
           object ScriptLabel1: TLabel
             Left = 187
-            Height = 16
+            Height = 18
             Top = 216
             Width = 6
             Caption = '.'
@@ -1289,7 +1288,7 @@ object CheckForm: TCheckForm
             Left = 187
             Height = 20
             Top = 288
-            Width = 52
+            Width = 55
             Caption = 'Memo'
             Font.Color = clNavy
             Font.Height = -16
@@ -1302,7 +1301,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 139
-            Width = 23
+            Width = 24
             Caption = 'Pay'
             Font.Color = clNavy
             Font.Height = -11
@@ -1315,7 +1314,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 155
-            Width = 43
+            Width = 44
             Caption = 'To The'
             Font.Color = clNavy
             Font.Height = -11
@@ -1328,7 +1327,7 @@ object CheckForm: TCheckForm
             Left = 56
             Height = 15
             Top = 171
-            Width = 52
+            Width = 54
             Caption = 'Order of'
             Font.Color = clNavy
             Font.Height = -11
@@ -1361,7 +1360,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 20
-            Width = 95
+            Width = 97
             Caption = 'Gross Pay'
             Font.Color = clWhite
             Font.Height = -20
@@ -1373,7 +1372,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 60
-            Width = 73
+            Width = 75
             Caption = 'Fed Tax'
             Font.Color = clWhite
             Font.Height = -20
@@ -1385,7 +1384,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 100
-            Width = 44
+            Width = 47
             Caption = 'FICA'
             Font.Color = clWhite
             Font.Height = -20
@@ -1397,7 +1396,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 140
-            Width = 88
+            Width = 92
             Caption = 'Medicare'
             Font.Color = clWhite
             Font.Height = -20
@@ -1409,7 +1408,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 180
-            Width = 89
+            Width = 92
             Caption = 'State Tax'
             Font.Color = clWhite
             Font.Height = -20
@@ -1421,7 +1420,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 220
-            Width = 89
+            Width = 91
             Caption = 'Local Tax'
             Font.Color = clWhite
             Font.Height = -20
@@ -1433,7 +1432,7 @@ object CheckForm: TCheckForm
             Left = 24
             Height = 25
             Top = 260
-            Width = 73
+            Width = 76
             Caption = 'Net Pay'
             Font.Color = clWhite
             Font.Height = -20
@@ -1443,7 +1442,7 @@ object CheckForm: TCheckForm
           end
           object GrossEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 16
             Width = 140
             HelpContext = 330
@@ -1458,7 +1457,7 @@ object CheckForm: TCheckForm
           end
           object FedEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 57
             Width = 140
             HelpContext = 330
@@ -1473,7 +1472,7 @@ object CheckForm: TCheckForm
           end
           object FICAEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 98
             Width = 140
             HelpContext = 330
@@ -1488,7 +1487,7 @@ object CheckForm: TCheckForm
           end
           object MedEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 139
             Width = 140
             HelpContext = 330
@@ -1503,7 +1502,7 @@ object CheckForm: TCheckForm
           end
           object StateEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 180
             Width = 140
             HelpContext = 330
@@ -1518,7 +1517,7 @@ object CheckForm: TCheckForm
           end
           object LocalEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 221
             Width = 140
             HelpContext = 330
@@ -1533,7 +1532,7 @@ object CheckForm: TCheckForm
           end
           object NetEdit: TEdit
             Left = 164
-            Height = 29
+            Height = 26
             Top = 262
             Width = 140
             HelpContext = 330
@@ -1550,7 +1549,7 @@ object CheckForm: TCheckForm
         end
         object HoursEdit: TEdit
           Left = 435
-          Height = 29
+          Height = 26
           Top = 508
           Width = 121
           HelpContext = 350
@@ -1565,7 +1564,7 @@ object CheckForm: TCheckForm
         end
         object PayCheck: TEdit
           Left = 435
-          Height = 29
+          Height = 26
           Top = 662
           Width = 121
           HelpContext = 370
@@ -1581,7 +1580,7 @@ object CheckForm: TCheckForm
         end
         object PayCheckDate: TEdit
           Left = 435
-          Height = 29
+          Height = 26
           Top = 738
           Width = 121
           HelpContext = 380
@@ -1610,7 +1609,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 20
-            Width = 56
+            Width = 57
             Caption = 'Pension'
             Font.Color = clWhite
             Font.Height = -14
@@ -1623,7 +1622,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 68
-            Width = 56
+            Width = 57
             Caption = 'Pension'
             Font.Color = clWhite
             Font.Height = -14
@@ -1636,7 +1635,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 116
-            Width = 78
+            Width = 75
             Caption = 'LabelDed2'
             Font.Color = clWhite
             Font.Height = -14
@@ -1649,7 +1648,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 164
-            Width = 56
+            Width = 57
             Caption = 'Pension'
             Font.Color = clWhite
             Font.Height = -14
@@ -1662,7 +1661,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 212
-            Width = 56
+            Width = 57
             Caption = 'Pension'
             Font.Color = clWhite
             Font.Height = -14
@@ -1675,7 +1674,7 @@ object CheckForm: TCheckForm
             Left = 23
             Height = 18
             Top = 260
-            Width = 56
+            Width = 57
             Caption = 'Pension'
             Font.Color = clWhite
             Font.Height = -14
@@ -1686,7 +1685,7 @@ object CheckForm: TCheckForm
           end
           object PenEdit: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 16
             Width = 112
             HelpContext = 340
@@ -1702,7 +1701,7 @@ object CheckForm: TCheckForm
           end
           object EditDed1: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 65
             Width = 112
             HelpContext = 340
@@ -1717,7 +1716,7 @@ object CheckForm: TCheckForm
           end
           object EditDed2: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 114
             Width = 112
             HelpContext = 340
@@ -1732,7 +1731,7 @@ object CheckForm: TCheckForm
           end
           object EditDed3: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 163
             Width = 112
             HelpContext = 340
@@ -1747,7 +1746,7 @@ object CheckForm: TCheckForm
           end
           object EditDed4: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 212
             Width = 112
             HelpContext = 340
@@ -1762,7 +1761,7 @@ object CheckForm: TCheckForm
           end
           object EditDed5: TEdit
             Left = 242
-            Height = 29
+            Height = 26
             Top = 261
             Width = 112
             HelpContext = 340
@@ -1889,7 +1888,7 @@ object CheckForm: TCheckForm
         end
         object PayBal: TEdit
           Left = 947
-          Height = 29
+          Height = 26
           Top = 116
           Width = 99
           HelpContext = 390
@@ -1903,7 +1902,7 @@ object CheckForm: TCheckForm
         end
         object PayLookUp: TComboBox
           Left = 435
-          Height = 31
+          Height = 28
           Top = 584
           Width = 272
           HelpContext = 360
@@ -1917,26 +1916,26 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page5: TPage
+    object Page5: TTabSheet
       Caption = 'ViewPay'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupPayVu: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 450
         Align = alClient
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label64: TLabel
           Left = 395
-          Height = 28
+          Height = 29
           Top = 28
-          Width = 154
+          Width = 161
           Caption = 'View Payroll'
           Font.Color = clRed
           Font.Height = -23
@@ -1949,7 +1948,7 @@ object CheckForm: TCheckForm
           Left = 675
           Height = 20
           Top = 36
-          Width = 104
+          Width = 106
           Caption = 'Day Mon Year'
           Font.Height = -16
           Font.Name = 'System'
@@ -2029,7 +2028,7 @@ object CheckForm: TCheckForm
             Left = 25
             Height = 20
             Top = 40
-            Width = 87
+            Width = 94
             Caption = 'Start Date'
             Font.Color = clWhite
             Font.Height = -16
@@ -2042,7 +2041,7 @@ object CheckForm: TCheckForm
             Left = 25
             Height = 20
             Top = 120
-            Width = 81
+            Width = 87
             Caption = 'Last Date'
             Font.Color = clWhite
             Font.Height = -16
@@ -2053,7 +2052,7 @@ object CheckForm: TCheckForm
           end
           object FromDt: TEdit
             Left = 24
-            Height = 29
+            Height = 26
             Top = 64
             Width = 168
             HelpContext = 500
@@ -2065,7 +2064,7 @@ object CheckForm: TCheckForm
           end
           object ToDt: TEdit
             Left = 25
-            Height = 29
+            Height = 26
             Top = 144
             Width = 167
             HelpContext = 500
@@ -2104,9 +2103,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
           object Label108: TLabel
             Left = 661
-            Height = 16
+            Height = 13
             Top = 56
-            Width = 38
+            Width = 28
             Caption = 'Gross'
             Font.Color = clWhite
             Font.Height = 9
@@ -2116,9 +2115,9 @@ object CheckForm: TCheckForm
           end
           object Label109: TLabel
             Left = 496
-            Height = 16
+            Height = 13
             Top = 56
-            Width = 24
+            Width = 18
             Caption = 'Net'
             Font.Color = clWhite
             Font.Height = 9
@@ -2128,9 +2127,9 @@ object CheckForm: TCheckForm
           end
           object Label110: TLabel
             Left = 160
-            Height = 16
+            Height = 13
             Top = 168
-            Width = 48
+            Width = 38
             Caption = 'Federal'
             Font.Color = clWhite
             Font.Height = 9
@@ -2139,10 +2138,10 @@ object CheckForm: TCheckForm
             ParentFont = False
           end
           object Label111: TLabel
-            Left = 330
-            Height = 16
-            Top = 169
-            Width = 30
+            Left = 334
+            Height = 13
+            Top = 171
+            Width = 23
             Anchors = []
             Caption = 'FICA'
             Font.Color = clWhite
@@ -2153,9 +2152,9 @@ object CheckForm: TCheckForm
           end
           object Label112: TLabel
             Left = 496
-            Height = 16
+            Height = 13
             Top = 168
-            Width = 60
+            Width = 46
             Caption = 'Medicare'
             Font.Color = clWhite
             Font.Height = 9
@@ -2165,9 +2164,9 @@ object CheckForm: TCheckForm
           end
           object Label113: TLabel
             Left = 664
-            Height = 16
+            Height = 13
             Top = 168
-            Width = 35
+            Width = 28
             Caption = 'State'
             Font.Color = clWhite
             Font.Height = 9
@@ -2177,9 +2176,9 @@ object CheckForm: TCheckForm
           end
           object Label114: TLabel
             Left = 832
-            Height = 16
+            Height = 13
             Top = 168
-            Width = 35
+            Width = 27
             Caption = 'Local'
             Font.Color = clWhite
             Font.Height = 9
@@ -2189,9 +2188,9 @@ object CheckForm: TCheckForm
           end
           object Label115: TLabel
             Left = 32
-            Height = 16
+            Height = 13
             Top = 56
-            Width = 40
+            Width = 29
             Caption = 'Name'
             Font.Color = clWhite
             Font.Height = 9
@@ -2228,10 +2227,10 @@ object CheckForm: TCheckForm
             Visible = False
           end
           object Label136: TLabel
-            Left = 331
-            Height = 16
-            Top = 57
-            Width = 39
+            Left = 336
+            Height = 13
+            Top = 59
+            Width = 29
             Anchors = []
             Caption = 'Hours'
             Font.Color = clWhite
@@ -2270,9 +2269,9 @@ object CheckForm: TCheckForm
           end
           object LabDed4: TLabel
             Left = 664
-            Height = 16
+            Height = 13
             Top = 288
-            Width = 75
+            Width = 57
             Caption = 'Deduction4'
             Font.Color = clWhite
             Font.Height = 9
@@ -2297,7 +2296,7 @@ object CheckForm: TCheckForm
           end
           object EditVDed1: TEdit
             Left = 160
-            Height = 29
+            Height = 26
             Top = 312
             Width = 142
             HelpContext = 490
@@ -2312,7 +2311,7 @@ object CheckForm: TCheckForm
           end
           object Net: TEdit
             Left = 496
-            Height = 29
+            Height = 26
             Top = 80
             Width = 142
             HelpContext = 490
@@ -2325,7 +2324,7 @@ object CheckForm: TCheckForm
           end
           object LocalEd: TEdit
             Left = 832
-            Height = 29
+            Height = 26
             Top = 196
             Width = 142
             HelpContext = 490
@@ -2338,7 +2337,7 @@ object CheckForm: TCheckForm
           end
           object StateEd: TEdit
             Left = 664
-            Height = 29
+            Height = 26
             Top = 196
             Width = 142
             HelpContext = 490
@@ -2351,7 +2350,7 @@ object CheckForm: TCheckForm
           end
           object Medicare: TEdit
             Left = 496
-            Height = 29
+            Height = 26
             Top = 196
             Width = 142
             HelpContext = 490
@@ -2364,7 +2363,7 @@ object CheckForm: TCheckForm
           end
           object FICA: TEdit
             Left = 328
-            Height = 29
+            Height = 26
             Top = 196
             Width = 142
             HelpContext = 490
@@ -2377,7 +2376,7 @@ object CheckForm: TCheckForm
           end
           object Federal: TEdit
             Left = 160
-            Height = 29
+            Height = 26
             Top = 196
             Width = 142
             HelpContext = 490
@@ -2390,7 +2389,7 @@ object CheckForm: TCheckForm
           end
           object Gross: TEdit
             Left = 664
-            Height = 29
+            Height = 26
             Top = 80
             Width = 142
             HelpContext = 490
@@ -2415,7 +2414,7 @@ object CheckForm: TCheckForm
           end
           object PenTextEdit: TEdit
             Left = 832
-            Height = 29
+            Height = 26
             Top = 80
             Width = 142
             HelpContext = 490
@@ -2430,7 +2429,7 @@ object CheckForm: TCheckForm
           end
           object HrTextEdit: TEdit
             Left = 328
-            Height = 29
+            Height = 26
             Top = 80
             Width = 142
             HelpContext = 490
@@ -2443,7 +2442,7 @@ object CheckForm: TCheckForm
           end
           object EditVDed2: TEdit
             Left = 328
-            Height = 29
+            Height = 26
             Top = 312
             Width = 142
             HelpContext = 490
@@ -2458,7 +2457,7 @@ object CheckForm: TCheckForm
           end
           object EditVDed3: TEdit
             Left = 496
-            Height = 29
+            Height = 26
             Top = 312
             Width = 142
             HelpContext = 490
@@ -2473,7 +2472,7 @@ object CheckForm: TCheckForm
           end
           object EditVDed4: TEdit
             Left = 664
-            Height = 29
+            Height = 26
             Top = 312
             Width = 142
             HelpContext = 490
@@ -2488,7 +2487,7 @@ object CheckForm: TCheckForm
           end
           object EditVDed5: TEdit
             Left = 832
-            Height = 29
+            Height = 26
             Top = 314
             Width = 142
             HelpContext = 490
@@ -2503,7 +2502,7 @@ object CheckForm: TCheckForm
           end
           object EmpCombo: TComboBox
             Left = 32
-            Height = 31
+            Height = 28
             Top = 80
             Width = 269
             HelpContext = 490
@@ -2518,10 +2517,10 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page6: TPage
+    object Page6: TTabSheet
       Caption = 'View Checks'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AccLab: TLabel
         Left = 544
         Height = 1
@@ -2531,21 +2530,21 @@ object CheckForm: TCheckForm
       end
       object AGroupChecks: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 510
         Align = alClient
         AutoSize = True
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label70: TLabel
           Left = 627
           Height = 25
           Top = 46
-          Width = 69
+          Width = 71
           Anchors = []
           Caption = 'Vendor'
           Font.Height = -20
@@ -2554,8 +2553,8 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label71: TLabel
-          Left = 992
-          Height = 21
+          Left = 994
+          Height = 22
           Top = 124
           Width = 88
           Anchors = []
@@ -2566,10 +2565,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label72: TLabel
-          Left = 992
-          Height = 21
+          Left = 994
+          Height = 22
           Top = 206
-          Width = 79
+          Width = 78
           Anchors = []
           Caption = 'End Date'
           Font.Height = -17
@@ -2578,10 +2577,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label69: TLabel
-          Left = 992
-          Height = 21
+          Left = 994
+          Height = 22
           Top = 291
-          Width = 81
+          Width = 80
           Anchors = []
           Caption = 'Check No'
           Font.Height = -17
@@ -2590,10 +2589,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label57: TLabel
-          Left = 992
-          Height = 21
-          Top = 590
-          Width = 98
+          Left = 996
+          Height = 22
+          Top = 592
+          Width = 95
           Anchors = []
           Caption = 'Account No'
           Font.Height = -17
@@ -2602,10 +2601,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label75: TLabel
-          Left = 413
+          Left = 409
           Height = 25
-          Top = 547
-          Width = 202
+          Top = 550
+          Width = 213
           Anchors = []
           Caption = 'Account Transactions'
           Font.Height = -20
@@ -2614,10 +2613,10 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label124: TLabel
-          Left = 67
+          Left = 65
           Height = 25
-          Top = 547
-          Width = 76
+          Top = 550
+          Width = 80
           Anchors = []
           Caption = 'Ck Total'
           Font.Height = -20
@@ -2626,7 +2625,7 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object Label74: TLabel
-          Left = 371
+          Left = 372
           Height = 33
           Top = 14
           Width = 184
@@ -2677,9 +2676,9 @@ object CheckForm: TCheckForm
           VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
         end
         object GridSrchChecks: TDBGrid
-          Left = 67
+          Left = 68
           Height = 352
-          Top = 157
+          Top = 159
           Width = 816
           HelpContext = 530
           Anchors = []
@@ -2695,9 +2694,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
         end
         object SDateEdit: TEdit
-          Left = 987
-          Height = 29
-          Top = 158
+          Left = 989
+          Height = 26
+          Top = 160
           Width = 110
           HelpContext = 560
           Anchors = []
@@ -2708,9 +2707,9 @@ object CheckForm: TCheckForm
           TabOrder = 2
         end
         object EDateEdit: TEdit
-          Left = 987
-          Height = 29
-          Top = 241
+          Left = 989
+          Height = 26
+          Top = 243
           Width = 110
           HelpContext = 570
           Anchors = []
@@ -2721,9 +2720,9 @@ object CheckForm: TCheckForm
           TabOrder = 3
         end
         object EditCheckNo: TEdit
-          Left = 987
-          Height = 29
-          Top = 324
+          Left = 989
+          Height = 26
+          Top = 327
           Width = 110
           HelpContext = 580
           Anchors = []
@@ -2734,10 +2733,10 @@ object CheckForm: TCheckForm
           TabOrder = 4
         end
         object BtnSrchCheck: TButton
-          Left = 987
+          Left = 989
           Height = 33
           Hint = 'Find a check'
-          Top = 397
+          Top = 399
           Width = 94
           HelpContext = 590
           Anchors = []
@@ -2752,9 +2751,9 @@ object CheckForm: TCheckForm
           TabOrder = 5
         end
         object Edit3: TEdit
-          Left = 987
-          Height = 29
-          Top = 623
+          Left = 989
+          Height = 26
+          Top = 627
           Width = 110
           HelpContext = 600
           Anchors = []
@@ -2766,9 +2765,9 @@ object CheckForm: TCheckForm
           TabOrder = 6
         end
         object BtnSrchClear: TButton
-          Left = 997
+          Left = 999
           Height = 33
-          Top = 463
+          Top = 465
           Width = 75
           HelpContext = 610
           Anchors = []
@@ -2781,9 +2780,9 @@ object CheckForm: TCheckForm
           TabOrder = 7
         end
         object DGridCheckTrans: TDBGrid
-          Left = 67
+          Left = 68
           Height = 288
-          Top = 594
+          Top = 597
           Width = 816
           HelpContext = 540
           Anchors = []
@@ -2800,9 +2799,9 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
         end
         object VendorLook: TComboBox
-          Left = 626
-          Height = 31
-          Top = 80
+          Left = 627
+          Height = 28
+          Top = 81
           Width = 257
           HelpContext = 550
           Anchors = []
@@ -2816,10 +2815,10 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page7: TPage
+    object Page7: TTabSheet
       Caption = 'ViewTran'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupTrans: TGroupBox
         Left = 0
         Height = 882
@@ -3119,10 +3118,10 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page8: TPage
+    object Page8: TTabSheet
       Caption = 'DirectPost'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupDP: TGroupBox
         Left = 0
         Height = 882
@@ -3417,28 +3416,28 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page9: TPage
+    object Page9: TTabSheet
       Caption = 'Tools'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object APanelTools: TPanel
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 830
         Align = alClient
         Alignment = taLeftJustify
         Anchors = []
         BevelOuter = bvNone
-        ClientHeight = 882
-        ClientWidth = 1195
+        ClientHeight = 886
+        ClientWidth = 1197
         TabOrder = 0
         OnMouseDown = ShowContext
         object PanelVoid: TPanel
-          Left = 29
+          Left = 30
           Height = 304
-          Top = 30
+          Top = 31
           Width = 700
           HelpContext = 840
           Alignment = taLeftJustify
@@ -3449,19 +3448,19 @@ object CheckForm: TCheckForm
           TabOrder = 0
           OnMouseDown = ShowContext
           object Label94: TLabel
-            Left = 60
-            Height = 20
-            Top = 74
-            Width = 113
+            Left = 62
+            Height = 19
+            Top = 75
+            Width = 109
             Anchors = []
             Caption = 'Check Number'
             ParentColor = False
           end
           object Label145: TLabel
-            Left = 274
-            Height = 20
-            Top = 18
-            Width = 98
+            Left = 276
+            Height = 19
+            Top = 19
+            Width = 94
             Anchors = []
             Caption = 'Void a Check'
             ParentColor = False
@@ -3495,10 +3494,10 @@ object CheckForm: TCheckForm
             TabOrder = 1
           end
           object VoidBtn: TButton
-            Left = 547
-            Height = 31
-            Top = 66
-            Width = 95
+            Left = 550
+            Height = 28
+            Top = 67
+            Width = 89
             HelpContext = 840
             Anchors = []
             AutoSize = True
@@ -3512,9 +3511,9 @@ object CheckForm: TCheckForm
           end
         end
         object PanelDef: TPanel
-          Left = 733
+          Left = 735
           Height = 304
-          Top = 30
+          Top = 31
           Width = 432
           HelpContext = 860
           Anchors = []
@@ -3524,46 +3523,46 @@ object CheckForm: TCheckForm
           TabOrder = 1
           OnMouseDown = ShowContext
           object Label88: TLabel
-            Left = 81
-            Height = 20
-            Top = 144
-            Width = 92
+            Left = 83
+            Height = 19
+            Top = 145
+            Width = 89
             Anchors = []
             Caption = 'Default Year'
             ParentColor = False
           end
           object Label95: TLabel
-            Left = 74
-            Height = 20
-            Top = 198
-            Width = 49
+            Left = 75
+            Height = 19
+            Top = 199
+            Width = 47
             Anchors = []
             Caption = 'Month'
             ParentColor = False
           end
           object Label33: TLabel
-            Left = 144
-            Height = 20
-            Top = 16
-            Width = 92
+            Left = 146
+            Height = 19
+            Top = 17
+            Width = 89
             Anchors = []
             Caption = 'Default Year'
             ParentColor = False
           end
           object Label116: TLabel
-            Left = 131
-            Height = 20
-            Top = 40
-            Width = 145
+            Left = 133
+            Height = 19
+            Top = 41
+            Width = 140
             Anchors = []
             Caption = 'and Present Month'
             ParentColor = False
           end
           object YearEd: TEdit
             Left = 222
-            Height = 29
+            Height = 26
             Hint = 'Change to query past years.'
-            Top = 135
+            Top = 136
             Width = 76
             HelpContext = 860
             Anchors = []
@@ -3578,8 +3577,8 @@ object CheckForm: TCheckForm
           end
           object MonthEd: TEdit
             Left = 218
-            Height = 29
-            Top = 190
+            Height = 26
+            Top = 191
             Width = 55
             HelpContext = 860
             Anchors = []
@@ -3592,9 +3591,9 @@ object CheckForm: TCheckForm
           end
         end
         object PanelTax: TPanel
-          Left = 29
+          Left = 30
           Height = 272
-          Top = 340
+          Top = 342
           Width = 700
           HelpContext = 850
           Alignment = taLeftJustify
@@ -3604,28 +3603,28 @@ object CheckForm: TCheckForm
           TabOrder = 2
           OnMouseDown = ShowContext
           object Label119: TLabel
-            Left = 57
-            Height = 20
-            Top = 90
-            Width = 49
+            Left = 58
+            Height = 19
+            Top = 91
+            Width = 47
             Anchors = []
             Caption = 'Month'
             ParentColor = False
           end
           object Label138: TLabel
             Left = 451
-            Height = 20
-            Top = 101
-            Width = 59
+            Height = 19
+            Top = 102
+            Width = 58
             Anchors = []
             Caption = 'Quarter'
             ParentColor = False
           end
           object Label139: TLabel
-            Left = 277
-            Height = 20
-            Top = 30
-            Width = 79
+            Left = 276
+            Height = 19
+            Top = 31
+            Width = 80
             Anchors = []
             Caption = 'Tax Report'
             ParentColor = False
@@ -3647,8 +3646,8 @@ object CheckForm: TCheckForm
           end
           object SMonthBox: TComboBox
             Left = 53
-            Height = 31
-            Top = 133
+            Height = 28
+            Top = 134
             Width = 161
             HelpContext = 850
             Anchors = []
@@ -3677,8 +3676,8 @@ object CheckForm: TCheckForm
           end
           object QuarterBox: TComboBox
             Left = 445
-            Height = 31
-            Top = 133
+            Height = 28
+            Top = 134
             Width = 177
             HelpContext = 850
             Anchors = []
@@ -3699,9 +3698,9 @@ object CheckForm: TCheckForm
           end
         end
         object PanelBal: TPanel
-          Left = 733
+          Left = 735
           Height = 272
-          Top = 340
+          Top = 342
           Width = 432
           HelpContext = 870
           Alignment = taLeftJustify
@@ -3712,28 +3711,28 @@ object CheckForm: TCheckForm
           TabOrder = 3
           OnMouseDown = ShowContext
           object Label52: TLabel
-            Left = 43
-            Height = 20
-            Top = 90
-            Width = 103
+            Left = 46
+            Height = 19
+            Top = 91
+            Width = 97
             Anchors = []
             Caption = 'Contributions'
             ParentColor = False
           end
           object Label117: TLabel
-            Left = 33
-            Height = 20
-            Top = 223
-            Width = 77
+            Left = 34
+            Height = 19
+            Top = 224
+            Width = 75
             Anchors = []
             Caption = 'DirectPost'
             ParentColor = False
           end
           object Label118: TLabel
-            Left = 31
-            Height = 20
-            Top = 158
-            Width = 55
+            Left = 32
+            Height = 19
+            Top = 159
+            Width = 53
             Anchors = []
             Caption = 'Checks'
             ParentColor = False
@@ -3756,8 +3755,8 @@ object CheckForm: TCheckForm
           end
           object CheckEd: TEdit
             Left = 261
-            Height = 29
-            Top = 164
+            Height = 26
+            Top = 165
             Width = 121
             HelpContext = 870
             Anchors = []
@@ -3770,8 +3769,8 @@ object CheckForm: TCheckForm
           end
           object DPEd: TEdit
             Left = 261
-            Height = 29
-            Top = 229
+            Height = 26
+            Top = 230
             Width = 121
             HelpContext = 870
             Anchors = []
@@ -3781,8 +3780,8 @@ object CheckForm: TCheckForm
           end
           object ConEd: TEdit
             Left = 261
-            Height = 29
-            Top = 96
+            Height = 26
+            Top = 97
             Width = 121
             HelpContext = 870
             Anchors = []
@@ -3795,8 +3794,8 @@ object CheckForm: TCheckForm
           end
           object BalEd: TEdit
             Left = 261
-            Height = 29
-            Top = 27
+            Height = 26
+            Top = 28
             Width = 121
             HelpContext = 870
             Anchors = []
@@ -3809,9 +3808,9 @@ object CheckForm: TCheckForm
           end
         end
         object PanelNext: TPanel
-          Left = 29
+          Left = 30
           Height = 239
-          Top = 616
+          Top = 619
           Width = 700
           HelpContext = 880
           Alignment = taLeftJustify
@@ -3823,35 +3822,35 @@ object CheckForm: TCheckForm
           OnMouseDown = ShowContext
           object Label54: TLabel
             Left = 63
-            Height = 20
-            Top = 114
-            Width = 36
+            Height = 19
+            Top = 115
+            Width = 37
             Anchors = []
             Caption = 'Next'
             ParentColor = False
           end
           object Label55: TLabel
-            Left = 66
-            Height = 20
-            Top = 140
-            Width = 47
+            Left = 67
+            Height = 19
+            Top = 141
+            Width = 45
             Anchors = []
             Caption = 'Check'
             ParentColor = False
           end
           object Label146: TLabel
-            Left = 241
-            Height = 20
-            Top = 26
-            Width = 153
+            Left = 242
+            Height = 19
+            Top = 27
+            Width = 150
             Anchors = []
             Caption = 'Next Check Number'
             ParentColor = False
           end
           object DBEditSeed: TDBEdit
             Left = 175
-            Height = 29
-            Top = 131
+            Height = 26
+            Top = 132
             Width = 155
             HelpContext = 880
             DataField = 'CHECKSEED'
@@ -3885,9 +3884,9 @@ object CheckForm: TCheckForm
           end
         end
         object PanelBeg: TPanel
-          Left = 733
+          Left = 735
           Height = 239
-          Top = 616
+          Top = 619
           Width = 432
           HelpContext = 890
           Anchors = []
@@ -3897,10 +3896,10 @@ object CheckForm: TCheckForm
           TabOrder = 5
           OnMouseDown = ShowContext
           object Label137: TLabel
-            Left = 154
-            Height = 20
-            Top = 42
-            Width = 142
+            Left = 159
+            Height = 19
+            Top = 43
+            Width = 133
             Anchors = []
             Caption = 'Beginning Balance'
             ParentColor = False
@@ -3922,8 +3921,8 @@ object CheckForm: TCheckForm
           end
           object BBEdit: TEdit
             Left = 176
-            Height = 29
-            Top = 138
+            Height = 26
+            Top = 139
             Width = 200
             HelpContext = 890
             Anchors = []
@@ -3933,10 +3932,10 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page10: TPage
+    object Page10: TTabSheet
       Caption = 'RecOn'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupRet: TGroupBox
         Left = 0
         Height = 882
@@ -4227,149 +4226,149 @@ object CheckForm: TCheckForm
         end
       end
     end
-    object Page11: TPage
+    object Page11: TTabSheet
       Caption = 'Paystub'
-      ClientWidth = 1195
-      ClientHeight = 882
+      ClientHeight = 886
+      ClientWidth = 1197
       object AGroupStub: TGroupBox
         Left = 0
-        Height = 882
+        Height = 886
         Top = 0
-        Width = 1195
+        Width = 1197
         HelpContext = 1010
         Align = alClient
         AutoSize = True
-        ClientHeight = 878
-        ClientWidth = 1191
+        ClientHeight = 882
+        ClientWidth = 1193
         TabOrder = 0
         OnMouseDown = ShowContext
         object LabelRDed5: TLabel
-          Left = 58
-          Height = 20
-          Top = 802
-          Width = 164
+          Left = 61
+          Height = 19
+          Top = 807
+          Width = 159
           Anchors = []
           Caption = 'Deduction 5              '
           ParentColor = False
           Visible = False
         end
         object LabelRDed4: TLabel
-          Left = 58
-          Height = 20
-          Top = 755
-          Width = 139
+          Left = 60
+          Height = 19
+          Top = 759
+          Width = 134
           Anchors = []
           Caption = 'Deduction 4         '
           ParentColor = False
           Visible = False
         end
         object LabelRDed3: TLabel
-          Left = 58
-          Height = 20
-          Top = 708
-          Width = 134
+          Left = 61
+          Height = 19
+          Top = 712
+          Width = 129
           Anchors = []
           Caption = 'Deduction 3        '
           ParentColor = False
           Visible = False
         end
         object LabelRDed2: TLabel
-          Left = 58
-          Height = 20
-          Top = 661
-          Width = 134
+          Left = 61
+          Height = 19
+          Top = 665
+          Width = 129
           Anchors = []
           Caption = 'Deduction 2        '
           ParentColor = False
           Visible = False
         end
         object LabelRDed1: TLabel
-          Left = 58
-          Height = 20
-          Top = 614
-          Width = 134
+          Left = 61
+          Height = 19
+          Top = 618
+          Width = 129
           Anchors = []
           Caption = 'Deduction 1        '
           ParentColor = False
           Visible = False
         end
         object Label122: TLabel
-          Left = 58
-          Height = 20
-          Top = 567
-          Width = 210
+          Left = 60
+          Height = 19
+          Top = 571
+          Width = 206
           Anchors = []
           Caption = 'Pension to Date                  '
           ParentColor = False
           Visible = False
         end
         object Label123: TLabel
-          Left = 58
-          Height = 20
-          Top = 520
-          Width = 102
+          Left = 59
+          Height = 19
+          Top = 523
+          Width = 101
           Anchors = []
           Caption = 'State to Date'
           ParentColor = False
         end
         object Label130: TLabel
-          Left = 58
-          Height = 20
-          Top = 473
-          Width = 100
+          Left = 59
+          Height = 19
+          Top = 476
+          Width = 98
           Anchors = []
           Caption = 'Local to Date'
           ParentColor = False
         end
         object Label131: TLabel
-          Left = 58
-          Height = 20
-          Top = 426
-          Width = 94
+          Left = 59
+          Height = 19
+          Top = 429
+          Width = 92
           Anchors = []
           Caption = 'Med to Date'
           ParentColor = False
         end
         object Label132: TLabel
-          Left = 58
-          Height = 20
-          Top = 379
-          Width = 95
+          Left = 59
+          Height = 19
+          Top = 382
+          Width = 93
           Anchors = []
           Caption = 'FICA to Date'
           ParentColor = False
         end
         object Label133: TLabel
-          Left = 58
-          Height = 20
-          Top = 332
-          Width = 89
+          Left = 59
+          Height = 19
+          Top = 335
+          Width = 87
           Anchors = []
           Caption = 'Fed to Date'
           ParentColor = False
         end
         object Label134: TLabel
-          Left = 58
-          Height = 20
-          Top = 238
-          Width = 88
+          Left = 59
+          Height = 19
+          Top = 240
+          Width = 87
           Anchors = []
           Caption = 'Net to Date'
           ParentColor = False
         end
         object Label135: TLabel
           Left = 58
-          Height = 20
-          Top = 285
-          Width = 105
+          Height = 19
+          Top = 287
+          Width = 104
           Anchors = []
           Caption = 'Gross to Date'
           ParentColor = False
         end
         object Label101: TLabel
-          Left = 571
+          Left = 572
           Height = 24
-          Top = 122
+          Top = 123
           Width = 105
           Anchors = []
           AutoSize = False
@@ -4377,7 +4376,7 @@ object CheckForm: TCheckForm
           ParentColor = False
         end
         object Label104: TLabel
-          Left = 475
+          Left = 476
           Height = 33
           Top = 22
           Width = 146
@@ -4392,8 +4391,8 @@ object CheckForm: TCheckForm
         end
         object PayName: TLabel
           Left = 75
-          Height = 21
-          Top = 87
+          Height = 22
+          Top = 86
           Width = 196
           Anchors = []
           Caption = '                                       '
@@ -4403,9 +4402,9 @@ object CheckForm: TCheckForm
           ParentFont = False
         end
         object PrintBtn: TButton
-          Left = 275
+          Left = 276
           Height = 33
-          Top = 154
+          Top = 155
           Width = 85
           HelpContext = 1020
           Anchors = []
@@ -4415,9 +4414,9 @@ object CheckForm: TCheckForm
           TabOrder = 0
         end
         object GrossEd: TEdit
-          Left = 275
+          Left = 276
           Height = 28
-          Top = 473
+          Top = 475
           Width = 136
           HelpContext = 1090
           Anchors = []
@@ -4428,9 +4427,9 @@ object CheckForm: TCheckForm
           TabOrder = 1
         end
         object NetEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 240
+          Left = 276
+          Height = 26
+          Top = 242
           Width = 136
           HelpContext = 1040
           Anchors = []
@@ -4440,9 +4439,9 @@ object CheckForm: TCheckForm
           TabOrder = 2
         end
         object FedEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 287
+          Left = 276
+          Height = 26
+          Top = 289
           Width = 136
           HelpContext = 1030
           Anchors = []
@@ -4452,9 +4451,9 @@ object CheckForm: TCheckForm
           TabOrder = 3
         end
         object FICAEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 334
+          Left = 276
+          Height = 26
+          Top = 337
           Width = 136
           HelpContext = 1050
           Anchors = []
@@ -4464,9 +4463,9 @@ object CheckForm: TCheckForm
           TabOrder = 4
         end
         object MedEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 380
+          Left = 276
+          Height = 26
+          Top = 383
           Width = 136
           HelpContext = 1060
           Anchors = []
@@ -4476,9 +4475,9 @@ object CheckForm: TCheckForm
           TabOrder = 5
         end
         object LocEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 427
+          Left = 276
+          Height = 26
+          Top = 430
           Width = 136
           HelpContext = 1070
           Anchors = []
@@ -4488,9 +4487,9 @@ object CheckForm: TCheckForm
           TabOrder = 6
         end
         object StEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 520
+          Left = 276
+          Height = 26
+          Top = 523
           Width = 136
           HelpContext = 1080
           Anchors = []
@@ -4500,9 +4499,9 @@ object CheckForm: TCheckForm
           TabOrder = 7
         end
         object PenEd: TEdit
-          Left = 275
-          Height = 29
-          Top = 567
+          Left = 276
+          Height = 26
+          Top = 571
           Width = 136
           HelpContext = 1095
           Anchors = []
@@ -4514,9 +4513,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditRDed1: TEdit
-          Left = 275
-          Height = 29
-          Top = 614
+          Left = 276
+          Height = 26
+          Top = 618
           Width = 136
           HelpContext = 1105
           Anchors = []
@@ -4528,9 +4527,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditRDed2: TEdit
-          Left = 275
-          Height = 29
-          Top = 662
+          Left = 276
+          Height = 26
+          Top = 666
           Width = 136
           HelpContext = 1105
           Anchors = []
@@ -4542,9 +4541,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditRDed3: TEdit
-          Left = 275
-          Height = 29
-          Top = 709
+          Left = 276
+          Height = 26
+          Top = 713
           Width = 136
           HelpContext = 1105
           Anchors = []
@@ -4556,9 +4555,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditRDed4: TEdit
-          Left = 275
-          Height = 29
-          Top = 756
+          Left = 276
+          Height = 26
+          Top = 761
           Width = 136
           HelpContext = 1105
           Anchors = []
@@ -4570,9 +4569,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditRDed5: TEdit
-          Left = 275
-          Height = 29
-          Top = 802
+          Left = 276
+          Height = 26
+          Top = 807
           Width = 136
           HelpContext = 1105
           Anchors = []
@@ -4584,9 +4583,9 @@ object CheckForm: TCheckForm
           Visible = False
         end
         object EditStubDate: TEdit
-          Left = 571
-          Height = 29
-          Top = 156
+          Left = 572
+          Height = 26
+          Top = 158
           Width = 157
           HelpContext = 1100
           Anchors = []
@@ -4595,9 +4594,9 @@ object CheckForm: TCheckForm
         end
         object PayNameLUCB: TDBLookupComboBox
           Left = 475
-          Height = 37
+          Height = 41
           Top = 232
-          Width = 368
+          Width = 370
           HelpContext = 1110
           Anchors = [akTop, akLeft, akRight, akBottom]
           KeyField = 'SOC_SEC_NO'

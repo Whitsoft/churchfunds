@@ -24,15 +24,15 @@ type
     DBNameGrid: TDBGrid;
     Label47: TLabel;
     Label8: TLabel;
-    NotebookCont: TNotebook;
-    PageEntry: TPage;
-    PageDetail: TPage;
-    PageContrib: TPage;
-    PagePledge: TPage;
-    PageQuery: TPage;
-    PageReport: TPage;
-    PageMisc: TPage;
-    PageLabels: TPage;
+    NotebookCont: TPageControl;
+    PageEntry: TTabSheet;
+    PageDetail: TTabSheet;
+    PageContrib: TTabSheet;
+    PagePledge: TTabSheet;
+    PageQuery: TTabSheet;
+    PageReport: TTabSheet;
+    PageMisc: TTabSheet;
+    PageLabels: TTabSheet;
     Label23: TLabel;
     Label4: TLabel;
     EditSrchEnv: TEdit;
@@ -140,7 +140,6 @@ type
     GridMem: TDBGrid;
     BtnLabel: TButton;
     BtnLabClr: TButton;
- //   ReportSysLabel: TRvSystem;
     LabelSPL: TLabel;
     LabelSPT: TLabel;
     EDXPos: TEdit;
@@ -160,30 +159,24 @@ type
     LabelName: TLabel;
     procedure BtnLabelClick(Sender: TObject);
     procedure BtnViewClick(Sender: TObject);
-    procedure CheckBoxPostNetChange(Sender: TObject);
     procedure EditFromDateExit(Sender: TObject);
-    procedure EditSrchEnvExit(Sender: TObject);
     procedure EditToDateExit(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FunAccBoxChange(Sender: TObject);
     procedure LabelBoxClick(Sender: TObject);
     procedure LookUpEnvChange(Sender: TObject);
-    procedure RadioCashClick(Sender: TObject);
     function  DeletePledge(EnvNo, Fund: Integer): Boolean;
     function  findName(EnvNo: Integer): String;
     procedure ShowContext(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure srchEnvelope;
-    procedure SrcSeditContDataChange(Sender: TObject; Field: TField);
     procedure sumCont;
     procedure findContributor(Env: String);
-  //  procedure LabelChange(Lab: Integer);
-   // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     procedure upPledgeList(EnvNo,Title,FName,GName: String);
 
     procedure OpenAfterPost;
     procedure FindPledge(Env: Integer);
     procedure doEnvKey(Key: Char);
+    function  removeSpace(Str: String): String;
     function  TitleOK(Title: String): Boolean;
     function  GetInt(INStr: String): Integer;
     function  GetTitle(FNT: String): String;
@@ -221,17 +214,9 @@ type
     procedure EditToEnvKeyPress(Sender: TObject; var Key: Char);
     procedure EditFromDateKeyPress(Sender: TObject; var Key: Char);
     procedure BtnRepClrClick(Sender: TObject);
-//    procedure ReportSystem1NewPage(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-//    procedure ReportSystem1BeforePrint(Sender: TObject);
-  //  procedure NotebookContPageChanged(Sender: TObject);
-//    procedure TabSetChange(Sender: TObject; NewTab: Integer;
-//      var AllowChange: Boolean);
     procedure BtnMonPrntClick(Sender: TObject);
- //   procedure ReportSystem2Print(Sender: TObject);
- //   procedure ReportSystem2BeforePrint(Sender: TObject);
- //   procedure ReportSystem2NewPage(Sender: TObject);
     procedure BtnQueryClick(Sender: TObject);
     procedure EditSrchEnvKeyPress(Sender: TObject; var Key: Char);
     procedure TitleComboChange(Sender: TObject);
@@ -248,12 +233,9 @@ type
     procedure BtnCanKeyPress(Sender: TObject; var Key: Char);
     procedure EditDetailKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-//    procedure ReportSystem2PrintHeader(Sender: TObject);
     procedure BtnQueryClrClick(Sender: TObject);
     procedure DBNameGridDblClick(Sender: TObject);
     procedure BtnDelTorsClick(Sender: TObject);
-    procedure LookUpEnvClick(Sender: TObject);
-    procedure LookUpEnvKeyPress(Sender: TObject; var Key: Char);
     procedure FunAccBoxClick(Sender: TObject);
     procedure ComboPledgeFundKeyPress(Sender: TObject; var Key: Char);
     procedure ComboPledgeFundClick(Sender: TObject);
@@ -262,7 +244,6 @@ type
     procedure QueryBoxKeyPress(Sender: TObject; var Key: Char);
     procedure EditQFundKeyPress(Sender: TObject; var Key: Char);
     procedure DBGridPledgeDblClick(Sender: TObject);
-   // procedure LabelBoxClick(Sender: TObject);
     procedure EdNumRowsExit(Sender: TObject);
     procedure EdNumColsExit(Sender: TObject);
     procedure EdLeftMarginExit(Sender: TObject);
@@ -270,17 +251,8 @@ type
     procedure EdLabelWideExit(Sender: TObject);
     procedure EdSpaceWideExit(Sender: TObject);
     procedure EdSpaceHighExit(Sender: TObject);
-//    procedure LabelShellLabelPrint(ReportPrinter: TBaseReport;
-//      LabelShell: TLabelShell; var Valid: Boolean);
-//    procedure LabelShellReportBefore(ReportPrinter: TBaseReport;
- //     LabelShell: TLabelShell);
- //   procedure BtnLabelClick(Sender: TObject);
- //   procedure LabelShellLabelAfter(ReportPrinter: TBaseReport;
- //     LabelShell: TLabelShell; var Valid: Boolean);
-//    procedure ReportSysLabelPrint(Sender: TObject);
     procedure EdFontSizeExit(Sender: TObject);
     procedure BtnLabClrClick(Sender: TObject);
-//    procedure ReportSystemConPrint(Sender: TObject);
     procedure EdVuBoxClick(Sender: TObject);
     procedure GridQueryDrawDataCell(Sender: TObject; const Rect: TRect;
       Field: TField; State: TGridDrawState);
@@ -313,15 +285,6 @@ type
    procedure initPledges;
    procedure initfunds;
    procedure initOpenTables;
-   { procedure ConReportHeader;
-    procedure ConReportTitle;
-    procedure ConReportNewPage;
-    procedure LabellReportNewPage;
-    procedure LabelRowPrint;
-    procedure LabelReportSetup;
-    procedure LabelBodyHeader;}
-    {procedure ShowOrdinal (pti: PTypeInfo; sList: TStrings);
-    procedure ListEnum (pti: PTypeInfo; sList: TStrings); }
 
   private
     { Private declarations }
@@ -972,8 +935,6 @@ begin
            DataMod.QueryRCButions.Params[0].AsInteger:=GlobEnv;
            DataMod.QueryRCButions.Open;
            GlobPage:=1;
-       //    ReportSystemCon.Execute;
-
            ReportContributions;
          end
        else
@@ -990,7 +951,6 @@ begin
            DataMod.QueryRPledge.Params[0].AsInteger:=GlobEnv;
            DataMod.QueryRPledge.Open;
            GlobPage:=1;
-       //   ReportSystemCon.Execute;
            ReportContributions;
         //   If DataMod.ZFindKey('MEMBERS', 'ENV_NO', 'FALSE', GlobEnv) then
            If GetDetailDesc(GlobEnv) <> '' then
@@ -1001,6 +961,7 @@ begin
               end;
            next;
          end;
+          RPrinter.ViewFile;
        except
          ShowMessage('Error: check your entries.');
        end;
@@ -1053,7 +1014,6 @@ begin
   GlobFrom:='';
   GlobThru:='';
   ConList:=TStringList.Create;
- // RPrinter := TReportPrinterClass.Create(FormCont);
   WindowState := WSNormal;
   Caption := 'Contributions';
 end;
@@ -2003,14 +1963,6 @@ begin
   end;
 end;
 
-procedure TFormCont.LookUpEnvClick(Sender: TObject);
-begin
-end;
-
-procedure TFormCont.LookUpEnvKeyPress(Sender: TObject; var Key: Char);
-begin
-end;
-
 procedure TFormCont.FunAccBoxClick(Sender: TObject);
 begin
   {Edit4.Text:=DataMod.TableDetail.FieldByName('Description').AsString;   }
@@ -2244,12 +2196,6 @@ begin
  end;
 end;
 
-procedure TFormCont.RadioCashClick(Sender: TObject);
-begin
-
-end;
-
-
 procedure TFormCont.EdNumRowsExit(Sender: TObject);
 begin
 // LabelChange(1);
@@ -2288,30 +2234,14 @@ end;
 
 
 
-procedure TFormCont.CheckBoxPostNetChange(Sender: TObject);
-begin
-
-end;
-
-
-
 procedure TFormCont.EditFromDateExit(Sender: TObject);
 begin
   EditFromDate.Text := FormatDate(EditFromDate.Text);
 end;
 
-procedure TFormCont.EditSrchEnvExit(Sender: TObject);
-begin
-
-end;
-
 procedure TFormCont.EditToDateExit(Sender: TObject);
 begin
     EditToDate.Text := FormatDate(EditToDate.Text);
-end;
-
-procedure TFormCont.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
 end;
 
 procedure TFormCont.FunAccBoxChange(Sender: TObject);
@@ -2389,11 +2319,15 @@ begin
          PrintPSLabels(Src, Outline);
          //ClosePrintFile;
         // Destroy;
-        ViewFile;
+         ViewFile;
        except
          ShowMessage('Bad number in at least one label edit box.');
+         EZLabelClass.Free;
+         EZLabelClass := nil;
        end;
        EZLabelClass.LineScale := TmpScale;
+       EZLabelClass.Free;
+       EZLabelClass := nil;
  end;
 
 {procedure TFormCont.LabelShellLabelPrint(ReportPrinter: TBaseReport;
@@ -2552,6 +2486,18 @@ begin
   end;
 end;
 
+function  TFormCont.removeSpace(Str: String): String;
+var
+  S: String;
+  I, L: Integer;
+begin
+  L := Length(Str);
+  for I := 1 to L do
+    if (Str[I] > ' ') then
+       S := S + Str[I];
+  result := S;
+end;
+
 procedure TFormCont.ReportContributions;
 var
   ConSumStr, FundDesc, ChurchName: String;
@@ -2569,18 +2515,21 @@ begin
   With DataMod.TableChurch do
     begin
       if not active then open;
-      Churchname := FieldByName('NAME').AsString;
+      Churchname := removeSpace(FieldByName('NAME').AsString);
       First;
     end;
 
 
   With RPrinter,DataMod.QueryRCbutions do
       begin
+       first;
       //BH10 := PointToInch(Round(10*LineScale));
       Bold:=True;
       IndexFont(2); //Helvetica 10
 
       RPrinter.Newpage;
+      PSNewline;
+      PSNewline;
       PrintPSCenterPage(ChurchName);
       PSNewline;
       PSNewline;
@@ -2916,11 +2865,6 @@ begin
       end;
   except
   end;
-end;
-
-procedure TFormCont.SrcSeditContDataChange(Sender: TObject; Field: TField);
-begin
-
 end;
 
 procedure TFormCont.GridSrchEnvDblClick(Sender: TObject);

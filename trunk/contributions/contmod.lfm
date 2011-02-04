@@ -2,7 +2,7 @@ object DataMod: TDataMod
   OldCreateOrder = False
   Height = 771
   HorizontalOffset = 0
-  VerticalOffset = 252
+  VerticalOffset = 246
   Width = 1160
   object FBConnectionEZ: TIBConnection
     Connected = True
@@ -13,6 +13,7 @@ object DataMod: TDataMod
     Transaction = SQLTransactionEZ
     UserName = 'SYSDBA'
     HostName = 'localhost'
+    LogEvents = []
     left = 64
     top = 32
   end
@@ -123,8 +124,6 @@ object DataMod: TDataMod
     top = 504
   end
   object TableAmounts: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -132,8 +131,8 @@ object DataMod: TDataMod
       '    SELECT * FROM ACCOUNTS'
     )
     Params = <>
-    left = 672
-    top = 304
+    left = 664
+    top = 328
   end
   object TableEnvNo: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
@@ -1114,7 +1113,6 @@ object DataMod: TDataMod
   end
   object SrcMem: TDatasource
     DataSet = QueryMem
-    OnDataChange = SrcMemDataChange
     left = 816
     top = 504
   end
@@ -1124,8 +1122,6 @@ object DataMod: TDataMod
     top = 504
   end
   object TableMem: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1280,7 +1276,6 @@ object DataMod: TDataMod
   end
   object SrcMemAll: TDatasource
     DataSet = TableMem
-    OnDataChange = SrcMemDataChange
     left = 664
     top = 608
   end
@@ -1621,8 +1616,6 @@ object DataMod: TDataMod
     end
   end
   object QueryPledgeData: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = FBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1638,12 +1631,12 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'EnvNo'
         ParamType = ptUnknown
       end    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FundNo'
         ParamType = ptUnknown
       end>

@@ -136,7 +136,6 @@ type
     QueryFundData: TSQLQuery;
     QueryPledgeData: TSQLQuery;
 
-    procedure SrcMemDataChange(Sender: TObject; Field: TField);
     procedure TableEditDetailAfterDelete(DataSet: TDataSet);
     procedure TableEditDetailAfterPost(DataSet: TDataSet);
     procedure TableEditDetailBeforePost(DataSet: TDataSet);
@@ -157,11 +156,6 @@ implementation
 
 { TDataMod }
 
-
-procedure TDataMod.SrcMemDataChange(Sender: TObject; Field: TField);
-begin
-
-end;
 
 procedure TDataMod.TableEditDetailAfterDelete(DataSet: TDataSet);
 begin

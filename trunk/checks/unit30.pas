@@ -29,6 +29,10 @@ type
     ZQueryDelTempCk: TSQLQuery;
     ZQueryDelPayStub: TSQLQuery;
     ZQueryName: TSQLQuery;
+    ZQueryPayCheckAMOUNT: TBCDField;
+    ZQueryPayCheckCHECK_DATE: TDateField;
+    ZQueryPayCheckCHECK_NO: TLongintField;
+    ZQueryPayCheckVENDOR: TStringField;
     ZQuerySocPay: TSQLQuery;
     ZQueryTempCksAMOUNT: TBCDField;
     ZQueryTempCksCHECKMEMO: TStringField;

@@ -8,14 +8,13 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, LResources, accounts, unit30, rprintclass, SQLDBLaz,
+  Forms, accounts, unit30, SQLDBLaz,
   printer4lazarus;
 
 begin
-  {$I checks.lrs}
+ // {$I checks.lrs}
   Application.Initialize;
   Application.CreateForm(TCheckForm, CheckForm);
   Application.CreateForm(TDataMod, DataMod);
   Application.Run;
 end.
-
