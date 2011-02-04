@@ -49,18 +49,18 @@ Type
     Label81: TLabel;
 
     //TabSet1: TTabSet;
-    NoteBook: TNotebook;
-    Page1: TPage;
-    Page2: TPage;
-    Page3: TPage;
-    Page4: TPage;
-    Page5: TPage;
-    Page6: TPage;
-    Page7: TPage;
-    Page8: TPage;
-    Page9: TPage;
-    Page10: TPage;
-    Page11: TPage;
+    NoteBook: TPageControl;
+    Page1: TTabSheet;
+    Page2: TTabSheet;
+    Page3: TTabSheet;
+    Page4: TTabSheet;
+    Page5: TTabSheet;
+    Page6: TTabSheet;
+    Page7: TTabSheet;
+    Page8: TTabSheet;
+    Page9: TTabSheet;
+    Page10: TTabSheet;
+    Page11: TTabSheet;
     AccData: TDatabase;
     Label68: TLabel;
     AGroupAccount: TGroupBox;
@@ -193,16 +193,10 @@ Type
     Label76: TLabel;
     Label77: TLabel;
     Label78: TLabel;
-    procedure AGroupChecksClick(Sender: TObject);
     procedure BtnPayDelClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBEditPostChange(Sender: TObject);
-    procedure GridFundGroupsMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure GridGroupDblClick(Sender: TObject);
     procedure LoadBtnClick(Sender: TObject);
-    procedure ToolButton1Click(Sender: TObject);
-
     procedure UpdateChurchEdits;
     procedure EditFICAEnter(Sender: TObject);
     procedure EditFITEnter(Sender: TObject);
@@ -430,7 +424,7 @@ Begin
     MonthBox.ItemIndex := 1;
 
   AccNum := 0;
-  NoteBook.PageIndex := 0;
+  NoteBook.TabIndex := 0;
   RadioPrint.ItemIndex := 0;
   LineCnt := 4;
   If Not DataMod.ZTblGroup.Active Then
@@ -513,7 +507,7 @@ Procedure TFormSetup.TabSet1Change(Sender: TObject; NewTab: Integer;
 Var 
   Year, Month, Day: Word;
 Begin
-  NoteBook.PageIndex := NewTab;
+  NoteBook.TabIndex := NewTab;
   If NewTab=2 Then
     Begin
       DataMod.ZTblAcc.Close;
@@ -545,11 +539,14 @@ End;
 
 Procedure TFormSetup.PrintBtnClick(Sender: TObject);
 Begin
+  If RPrinter = nil then
+       RPrinter := TPostscriptClass.Create;
 If RadioPrint.ItemIndex=0 then
    ReportFunds
 else
   ReportAccounts;
-  RPrinter.EndPage;
+RPrinter.ViewFile;
+RPrinter.Landscape := false;
 End;
 
 
@@ -588,8 +585,8 @@ procedure TFormSetup.ReportFunds;
 var
   fName: String;
 begin
- RPrinter.NewPage;
 
+  RPrinter.NewPage;
   FundReportSetup;
   FundReportTitle;
   DataMod.ZTblFunds.First;
@@ -598,7 +595,6 @@ begin
       FundRowPrint;
       DataMod.ZTblFunds.Next;
     end;
- // RPrinter.EndPage;
 end;
 
 procedure TFormSetup.FundReportTitle;
@@ -610,6 +606,7 @@ begin
   ChurchName := DataMod.TableChurch.FieldByName('NAME').AsString;
   With RPrinter do
     begin
+      PageNo := 1;
       Bold:=True;
       IndexFont(1);
       //report Title
@@ -621,7 +618,7 @@ begin
       PrintPSCenterPage('Funds Report');
       PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
       If PageNo>1 then
-      PrintPSXY('Page '+IntToStr(PageNo),7.25,0.05);
+        PrintPSXY('Page '+IntToStr(PageNo),7.75,0.25);
       PSNewLine;
       PSNewline;
       FundReportHeader;
@@ -641,15 +638,17 @@ begin
       PageNo := PageNo + 1;
       If PageNo>1 then
         begin
+          PSNewline;
           PrintPSCenterPage('Fund Report');
           PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.0);
+          PrintPSXY('Page '+IntToStr(PageNo), 7.75,0.25);
         end;
-      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
       PSNewline;
       PSNewline;
       FundReportHeader;
     end;
  end;
+
 
 procedure TFormSetup.FundReportSetup;
 var
@@ -677,6 +676,7 @@ begin
  With RPrinter do
    begin
      PSNewLine;
+     PSNewline;
     // TabJustify := tjCenter;
      PrintPSTab(6,'Fund');
      PrintPSTab(6,'Description');
@@ -716,8 +716,6 @@ var
   fName: String;
 begin
   RPrinter.Landscape := true;
-  RPrinter.Newpage;
-  RPrinter.PageNo := 1;
   AccountReportSetup;
   AccountReportTitle;
   DataMod.ZTblAcc.First;
@@ -726,7 +724,8 @@ begin
       AccountRowPrint;
       DataMod.ZTblAcc.Next;
     end;
-  RPrinter.EndPage;
+   RPrinter.EndPage;
+   RPrinter.Landscape := false;
 end;
 
 procedure TFormSetup.AccountReportTitle;
@@ -741,13 +740,15 @@ begin
       Bold:=True;
       IndexFont(1);
       //report Title
+      PSNewline;
+      PSNewline;
       PrintPSCenterPage(ChurchName);
       IndexFont(2);
       Bold:=False;
       PrintPSCenterPage('Accounts Report');
       PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
       If PageNo>1 then
-      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PrintPSXY('Page '+IntToStr(PageNo), 7.75,0.25);
       PSNewline;
       PSNewline;
       PSNewline;
@@ -756,35 +757,14 @@ begin
     end;
 end;
 
-procedure TFormSetup.AccountReportNewPage;
-var
-  Day,Month,Year: Word;
-begin
-  DecodeDate(Date,Year,Month,Day);
-  With RPrinter do
-    begin
-      EndPage;
-      NewPage;
-      IndexFont(1);
-      PageNo := PageNo + 1;
-      If PageNo>1 then
-        begin
-          PrintPSCenterPage('Accounts Report');
-          PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
-           PSNewline;
-           PSNewline;
-        end;
-      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
-      PSNewLine;
-      AccountReportHeader;
-    end;
- end;
 
 procedure TFormSetup.AccountReportSetup;
 var
    FundFont: FontType;
    TmpTab: PTab;
 begin
+  RPrinter.Newpage;
+  RPrinter.PageNo := 1;
   if not DataMod.ZTblAcc.active then DataMod.ZTblAcc.open;
   DataMod.ZTblAcc.First;
   With RPrinter do
@@ -806,7 +786,7 @@ procedure TFormSetup.AccountReportHeader;
 begin
  With RPrinter do
    begin
-    // NewLine;
+     PSNewLine;
     // TabJustify := tjCenter;
      PrintPSTab(7, 'Account');
      PrintPSTab(7, 'Description');
@@ -816,6 +796,32 @@ begin
      PrintPSTab(7, 'Payroll');
    end;
 end;
+
+procedure TFormSetup.AccountReportNewPage;
+var
+  Day,Month,Year: Word;
+begin
+  DecodeDate(Date,Year,Month,Day);
+  With RPrinter do
+    begin
+      NewPage;
+      IndexFont(1);
+      PageNo := PageNo + 1;
+      If PageNo>1 then
+        begin
+          PSNewLine;
+          PSNewLine;
+          PrintPSCenterPage('Accounts Report');
+          PrintPSLeft(IntToStr(Month) + ' - '+ IntToStr(Day) +' , '+IntToStr(Year),6.5);
+          PSNewline;
+          PSNewline;
+        end;
+      PSNewline;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.75,0.25);
+      PSNewLine;
+      AccountReportHeader;
+    end;
+ end;
 
 procedure TFormSetup.AccountRowPrint;
 var
@@ -838,7 +844,10 @@ begin
               PrintPSTab(7, ' ');
            //NewLine;
            If  LinesLeft(0.3)<3 then
-             AccountReportNewPage;
+               begin
+                 Endpage;
+                 AccountReportNewPage;
+               end;
        end;
 end;
 
@@ -1620,7 +1629,7 @@ End;
 Procedure TFormSetup.FormCreate(Sender: TObject);
 Begin
   //Application.OnMessage := AppMessage;
-  //NoteBook.PageIndex:=TabSet1.TabIndex;
+  //NoteBook.TabIndex:=TabSet1.TabIndex;
   Activated := False;
   RPrinter := TPostScriptClass.Create;
   WindowState := wsNormal;
@@ -1742,11 +1751,6 @@ begin
        delete;
      end;
    BtnPayClrClick(Self);
-end;
-
-procedure TFormSetup.AGroupChecksClick(Sender: TObject);
-begin
-
 end;
 
 Procedure TFormSetup.BtnPostPayClick(Sender: TObject);
@@ -2079,37 +2083,15 @@ End;
 
 
 Procedure TFormSetup.FormClose(Sender: TObject);
-Var
-  IDX: Integer;
 Begin
+   If RPrinter <>nil then
+     begin
+       RPrinter.free;
+       RPrinter := nil;
+     end;
 End;
 
 
-
-procedure TFormSetup.ReportFinances;
-var
- Done: Boolean;
- FName: String;
-begin
-  ReportBeforePrint;
-  ReportSetup;
-  ReportTitle;
-  ReportPrintGroup(Done);
-  doLastPage;
-
-  RPrinter.EndPage;
-  RPrinter.ViewFile;
-end;
-
-
-procedure TFormSetup.ReportBeforePrint;
-begin
- // MyNewPage:=True;
-  ZeroGroup;
-  zeroYear;
-  RPRinter.Landscape:=false;
-  RPrinter.NewPage;
-end;
 
 function stripRight(S: String): String;
 var
@@ -2123,109 +2105,6 @@ begin
   for I1 := 1 to I2 do
     Tmp[I1] := S[I1];
   result := Tmp;
-end;
-
-procedure TFormSetup.ReportTitle;
-var
-  ChurchName: String;
-begin
-  With RPrinter do
-    begin
-      ChurchName := StripRight(DataMod.TableChurch.FieldByName('NAME').AsString);
-      Bold:=True;
-      IndexFont(1);
-      CurrentY := 0.15;
-      PageNo := 1;
-      //report Title
-      PrintPSCenterPage(ChurchName);
-      IndexFont(2);
-      Bold:=False;
-      PSNewLine;
-      PrintPSCenterPage('General Fund Report');
-      PrintPSLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
-      If PageNo>1 then
-      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
-      PSNewLine;
-      PSNewLine;
-     // MyNewPage:=True;
-    end;
-end;
-
-procedure TFormSetup.ReportNewPage;
-begin
-  With RPrinter do
-    begin
-      EndPage;
-      NewPage;
-      IndexFont(1);
-      PageNo := PageNo + 1;
-      If PageNo > 1 then
-        begin
-          PrintPSCenterPage('General Fund Report');
-          PrintPSLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
-         end;
-      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
-      PSNewline;
-      PSNewLine;
-    end;
-end;
-
-
-procedure TFormSetup.ReportSetup;
-var
-  TmpTab: PTab;
-begin
-  DataMod.ZTblGroup.First;
-  With RPrinter do
-    begin
-      //fLineToLine := round(fFont.FontSize * fLineScale);
-
-    FreeTabs(1);  //Page Header
-    TmpTab := NewTab(1, 4.0,JUSTIFYRIGHT,2.5,0.05, ABSOLUT, BOXLINENONE,0);
-    TmpTab := NewTab(1, 0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINENONE,0);
-
-    FreeTabs(2); //ToDate  Group Header
-    TmpTab := NewTab(2, 0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT, BOXLINELEFT+BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
-    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,1.3,  0.05 ,RELATIVE, BOXLINERIGHT+BOXLINETOP,1);
-
-    FreeTabs(3); //Income/Spent   Group Header
-    TmpTab := NewTab(3,0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT,BOXLINELEFT+BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
-    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINERIGHT+BOXLINEBOTTOM,1);
-
-
-    FreeTabs(4); //Figures   Funds
-    TmpTab := NewTab(4,0.2,JUSTIFYLEFT, 2.3,  0.05,ABSOLUT,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
-    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINENONE,0);
-
-
-    FreeTabs(5); //Sums
-    TmpTab := NewTab(5,0.2,JUSTIFYLEFT,  2.3, 0.05,ABSOLUT,BOXLINEALL,2);    //****
-    TmpTab := NewTab(5,2.6,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
-    TmpTab := NewTab(5,3.5,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
-    TmpTab := NewTab(5,4.4,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
-    TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
-    TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,ABSOLUT,BOXLINEALL,2);
-
-    PutTabFont(1, HELVETICA, 12 );
-    PutTabFont(2, HELVETICA, 10);
-    PutTabFont(3, HELVETICA, 12);
-    PutTabFont(4, HELVETICA, 10);
-    PutTabFont(5, HELVETICA, 10);
-    PutCurrentFont(HELVETICA,10);
-  end; //with
-
 end;
 
 
@@ -2498,6 +2377,8 @@ Procedure TFormSetup.BtnReportClick(Sender: TObject);
 Var 
   Month,Year: Word;
 Begin
+  If RPrinter = nil then
+       RPrinter := TPostscriptClass.Create;
   Try
     RepYear := StrToInt(EditYear.Text);
     Year := RepYear;
@@ -2696,7 +2577,135 @@ Begin
     End;
 End;
 
+ procedure TFormSetup.ReportFinances;
+var
+ Done: Boolean;
+ FName: String;
+begin
+  ReportBeforePrint;
+  ReportSetup;
+  ReportTitle;
+  ReportPrintGroup(Done);
+  doLastPage;
 
+  RPrinter.EndPage;
+  RPrinter.ViewFile;
+end;
+
+
+procedure TFormSetup.ReportBeforePrint;
+begin
+ // MyNewPage:=True;
+  ZeroGroup;
+  zeroYear;
+  RPRinter.Landscape:=false;
+  RPrinter.NewPage;
+end;
+
+
+procedure TFormSetup.ReportSetup;
+var
+  TmpTab: PTab;
+begin
+  DataMod.ZTblGroup.First;
+  With RPrinter do
+    begin
+      //fLineToLine := round(fFont.FontSize * fLineScale);
+
+    FreeTabs(1);  //Page Header
+    TmpTab := NewTab(1, 4.0,JUSTIFYRIGHT,2.5,0.05, ABSOLUT, BOXLINENONE,0);
+    TmpTab := NewTab(1, 0.0,JUSTIFYRIGHT,1.0,0.05,RELATIVE, BOXLINENONE,0);
+
+    FreeTabs(2); //ToDate  Group Header
+    TmpTab := NewTab(2, 0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT, BOXLINELEFT+BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,0.9,  0.05, RELATIVE, BOXLINETOP,1);
+    TmpTab := NewTab(2, 0.0,JUSTIFYRIGHT,1.3,  0.05 ,RELATIVE, BOXLINERIGHT+BOXLINETOP,1);
+
+    FreeTabs(3); //Income/Spent   Group Header
+    TmpTab := NewTab(3,0.2,JUSTIFYLEFT, 2.3,  0.05, ABSOLUT,BOXLINELEFT+BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINEBOTTOM,1);
+    TmpTab := NewTab(3,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINERIGHT+BOXLINEBOTTOM,1);
+
+
+    FreeTabs(4); //Figures   Funds
+    TmpTab := NewTab(4,0.2,JUSTIFYLEFT, 2.3,  0.05,ABSOLUT,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,0.9,  0.05,RELATIVE,BOXLINENONE,0);
+    TmpTab := NewTab(4,0.0,JUSTIFYRIGHT,1.3,  0.05,RELATIVE,BOXLINENONE,0);
+
+
+    FreeTabs(5); //Sums
+    TmpTab := NewTab(5,0.2,JUSTIFYLEFT,  2.3, 0.05,ABSOLUT,BOXLINEALL,2);    //****
+    TmpTab := NewTab(5,2.6,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,3.5,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,4.4,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,5.3,JUSTIFYRIGHT, 0.8, 0.05,ABSOLUT,BOXLINEALL,2);
+    TmpTab := NewTab(5,6.2,JUSTIFYRIGHT, 1.2, 0.05,ABSOLUT,BOXLINEALL,2);
+
+    PutTabFont(1, HELVETICA, 12 );
+    PutTabFont(2, HELVETICA, 10);
+    PutTabFont(3, HELVETICA, 12);
+    PutTabFont(4, HELVETICA, 10);
+    PutTabFont(5, HELVETICA, 10);
+    PutCurrentFont(HELVETICA,10);
+  end; //with
+end;
+
+procedure TFormSetup.ReportTitle;
+var
+  ChurchName: String;
+begin
+  With RPrinter do
+    begin
+      ChurchName := StripRight(DataMod.TableChurch.FieldByName('NAME').AsString);
+      Bold:=True;
+      IndexFont(1);
+      CurrentY := 0.15;
+      PageNo := 1;
+      //report Title
+      PSNewline;
+      PrintPSCenterPage(ChurchName);
+      IndexFont(2);
+      Bold:=False;
+      PSNewLine;
+      PrintPSCenterPage('General Fund Report');
+      PrintPSLeft(MonthBox.Text+'-'+EditYear.Text,6.0);
+      If PageNo>1 then
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewLine;
+      PSNewLine;
+     // MyNewPage:=True;
+    end;
+end;
+
+procedure TFormSetup.ReportNewPage;
+begin
+  With RPrinter do
+    begin
+      EndPage;
+      NewPage;
+      IndexFont(1);
+      PageNo := PageNo + 1;
+      PSNewline;
+      PSNewline;
+      If PageNo > 1 then
+        begin
+          PrintPSCenterPage('General Fund Report');
+          PrintPSLeft(MonthBox.Text+' - '+EditYear.Text,5.0);
+         end;
+      PrintPSXY('Page '+IntToStr(PageNo), 7.25,0.05);
+      PSNewline;
+      PSNewLine;
+    end;
+end;
 
 Procedure TFormSetup.printLiability;
 Var
@@ -2828,24 +2837,6 @@ begin
       UpdateChurchEdits;
     end;
 end;
-
-procedure TFormSetup.GridFundGroupsMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-begin
-
-end;
-
-procedure TFormSetup.GridGroupDblClick(Sender: TObject);
-begin
-
-end;
-
-
-procedure TFormSetup.ToolButton1Click(Sender: TObject);
-begin
-
-end;
-
 
 procedure TFormSetup.EditFICAEnter(Sender: TObject);
 begin
