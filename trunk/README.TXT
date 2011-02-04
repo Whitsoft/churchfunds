@@ -59,5 +59,7 @@ put a way to use relative path names. After changine that you have to activate t
 Also note that the lhelp package needs some minor changes. See Lazarus Bug tracker issue #0017835
 http://62.166.198.202/view.php?id=17835
 
+To do printing you will need to have kpdf installed.
+
 
 Don Whitbeck
