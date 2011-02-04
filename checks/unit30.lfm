@@ -1,8 +1,8 @@
 object DataMod: TDataMod
   OldCreateOrder = False
   Height = 784
-  HorizontalOffset = 79
-  VerticalOffset = 239
+  HorizontalOffset = 712
+  VerticalOffset = 282
   Width = 1215
   object QueryTranSrc: TDatasource
     DataSet = ZQueryTrans
@@ -27,8 +27,6 @@ object DataMod: TDataMod
     top = 80
   end
   object ZQueryReturn: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -78,11 +76,12 @@ object DataMod: TDataMod
   object IBConnectionEZ: TIBConnection
     Connected = True
     LoginPrompt = False
-    DatabaseName = '~/churchfunds/trunk/data/ezfunds.fdb'
+    DatabaseName = '/home/don/churchfunds/trunk/data/ezfunds.fdb'
     KeepConnection = False
     Password = 'masterkey'
     Transaction = SQLTransactionEZ
     UserName = 'SYSDBA'
+    LogEvents = []
     left = 56
     top = 24
   end
@@ -475,8 +474,6 @@ object DataMod: TDataMod
     top = 408
   end
   object ZQueryTempCks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -487,7 +484,7 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'CheckParm'
         ParamType = ptUnknown
       end>
@@ -634,6 +631,52 @@ object DataMod: TDataMod
       end>
     left = 480
     top = 80
+    object ZQueryPayCheckCHECK_NO: TLongintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_NO'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object ZQueryPayCheckAMOUNT: TBCDField
+      DisplayWidth = 18
+      FieldKind = fkData
+      FieldName = 'AMOUNT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 18
+      Currency = False
+      MaxValue = 0
+      MinValue = 0
+      Size = 2
+    end
+    object ZQueryPayCheckVENDOR: TStringField
+      DisplayWidth = 26
+      FieldKind = fkData
+      FieldName = 'VENDOR'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 26
+    end
+    object ZQueryPayCheckCHECK_DATE: TDateField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CHECK_DATE'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
   end
   object ZTblChecks: TSQLQuery
     IndexName = 'DEFAULT_ORDER'
@@ -959,8 +1002,6 @@ object DataMod: TDataMod
     top = 144
   end
   object ZQueryPrintTran: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -987,7 +1028,7 @@ object DataMod: TDataMod
   object SrcVoid: TDatasource
     DataSet = ZQueryVoidChecks
     left = 344
-    top = 144
+    top = 152
   end
   object EmpSrc: TDatasource
     DataSet = ZQueryEmpSum
@@ -1160,6 +1201,8 @@ object DataMod: TDataMod
     top = 344
   end
   object ZTblCheckTrans: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1169,7 +1212,7 @@ object DataMod: TDataMod
     )
     Params = <    
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'CheckNo'
         ParamType = ptUnknown
       end>
@@ -1277,8 +1320,6 @@ object DataMod: TDataMod
     top = 472
   end
   object ZQueryTrans: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     AutoCalcFields = False
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
@@ -1545,6 +1586,8 @@ object DataMod: TDataMod
     top = 472
   end
   object ZTblPayStubs: TSQLQuery
+    IndexName = 'DEFAULT_ORDER'
+    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2288,8 +2331,6 @@ object DataMod: TDataMod
     top = 720
   end
   object ZPostTempChecks: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2311,8 +2352,6 @@ object DataMod: TDataMod
     top = 720
   end
   object ZIncCheckSeed: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False
@@ -2417,8 +2456,6 @@ object DataMod: TDataMod
     top = 712
   end
   object ZEditCheckSeed: TSQLQuery
-    IndexName = 'DEFAULT_ORDER'
-    Active = True
     Database = IBConnectionEZ
     Transaction = SQLTransactionEZ
     ReadOnly = False

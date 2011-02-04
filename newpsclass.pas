@@ -4,12 +4,14 @@ unit newpsclass;
 //{$linklib c}
 {$mode objfpc} 
 interface
- uses BaseUnix, unixtype,initc, errors, sysutils, classes, strings, FileUtil,
-   Graphics, GraphType, OSPRinters, Printers, CUPSDyn, Process, ctypes, db, sqldb;
+ uses BaseUnix, unixtype,initc, errors, sysutils, classes, strings, FileUtil, Dialogs,
+   Graphics, GraphType, OSPRinters, Printers,  Process, ctypes, db, sqldb;
 
 const
   CR = #13;
   LF = #10;
+  LETTERWIDTH  = 612;
+  LETTERHEIGHT = 792;
   JUSTIFYLEFT = 0;
   JUSTIFYCENTER = 1;
   JUSTIFYRIGHT = 2;
@@ -119,7 +121,7 @@ Type
           fLineSpace        : Integer;
 	  fLineToLine       : Integer;
 	  fErrorCode        : Integer;
-	  fPageLength       : integer;
+	  fPageHeight       : integer;
 	  fpageWidth        : integer;
           fCurrentFont      : FontType;
           fBold             : Boolean;
@@ -146,9 +148,9 @@ Type
 	 function    getCurrentX: Double;
 	 function    getCurrentY: Double;
 
-	 procedure   setPageLength(Ln: Double);
+	 procedure   setPageHeight(Ln: Double);
 	 procedure   setPageWidth( Wd: Double);
-         function    getPageLength: Double;
+         function    getPageHeight: Double;
 	 function    getPageWidth: Double;
 	 procedure   getPrinterDotsPI;
          function    PrinterDotsToInchX(Pnt: Integer): Double;
@@ -172,6 +174,7 @@ Type
          function    GreyScaleToShade(Shade: TGraphicsColor): Integer;
          function    getPrintFileName: String; //from cupsPrinters.inc
          procedure   RecRoutine;
+         procedure   initPage;
 
    public
 	 constructor Create;
@@ -209,9 +212,9 @@ Type
          procedure   GetPrinterMargins;
 
          property    PgeNo: Integer read fPageNo write fPageNo;
-         property    PageLength: Double read getPageLength write setPageLength;
+         property    PageHeight: Double read getPageHeight write setPageHeight;
 	 property    PageWidth: Double  read getPageWidth  write setPageWidth;
-	 property    PageLengthInt: Integer read fPageLength;
+	 property    PageHeightInt: Integer read fPageHeight;
 	 property    PageWidthInt: Integer read fPageWidth; 
 	 
 	 function    getBoxLeft(Combined: Byte): Boolean;
@@ -289,7 +292,6 @@ Type
 	 procedure   NewPage;
          procedure   EndPage;
          procedure   ViewFile;
-         procedure   doPrint;
         // procedure   showPage;
   end;
 
@@ -391,26 +393,45 @@ Type
 implementation	
  
  procedure TPostScriptClass.OpenPrintFile(FileName: String);
+   var
+      H, W: Integer;
    begin
+     if fLandscape then
+       begin
+         H := LETTERWIDTH;
+         W := LETTERHEIGHT;
+       end
+     else
+       begin
+         H := LETTERHEIGHT;
+         W := LETTERWIDTH;
+       end;
      assignfile(fPrintFileID, FileName);
      reWrite(fPrintFileID);
 	 fPrintFileOpen := True;
+     fPrintFileOpen := True;
+     writeln(PrintFileID,'%!ps');
+     writeln(PrintFileID,'<</PageSize[' + IntToStr(W)+' '+IntToStr(H) +']>>setpagedevice');
      if Assigned(fOnFontChange) then
         OnFontChange(Self);
      psProcs;
    end;
 
- procedure TPostScriptClass.doPrint;
- begin
-   if fPrintFileName <>'' then
-      fPrinter.PrintFile(PrintFileName);
- end;
+  procedure TPostScriptClass.initPage;
+  begin
+    getPrinterMargins;
+    if PrintFileOpen then
+        CloseFile(fPrintFileID);
+    fPrintFileOpen := false;
+   // fOnLandscapeChange:= nil;
+    CurX := 0;
+    CurY := 0;
+    setLandscape(false);
+  end;
 
   procedure TPostScriptClass.ClosePrintFile;
   begin
-    if PrintFileOpen then
-      CloseFile(fPrintFileID);
-	fPrintFileOpen := false;
+    initPage;
   end;
    
  constructor TPostScriptClass.Create;   
@@ -426,8 +447,8 @@ implementation
 	fLineScale := 1.5;
         fLineSpace := 4;
 
-        fPageLength := 792;             //11.0
-	fPageWidth := 612;              //8.5
+        fPageHeight := LETTERHEIGHT;             //11.0
+	fPageWidth := LETTERWIDTH;              //8.5
 
         CreateTabArray;                 //create empty tab array
         CreateFontArray;                //Create default Font Array
@@ -436,27 +457,33 @@ implementation
 	fPrintFileName := '';
 	fPrintFileOpen := false;
 
-        CurX := MarginLeft;
-        CurY := MarginTop ;
+        {CurX := MarginLeft;
+        CurY := MarginTop ;  }
+        CurX := 0;
+        CurY := 0;
         fOnFontChange:= @PrintCurrentFont;
         fOnLandscapeChange:= @LandscapeChange;
         fPageNo:= 1;
         fBold := false;
    end;
 
+
   procedure TPostScriptClass.NewPage;
   begin
      if not PrintFileOpen then
         OpenPrintFile(GetPrintFileName);
-     writeln(PrintFileID, 'save');
-     CurrentY :=0.0;
+     writeln(PrintFileID, 'gsave');
+     CurrentX := 0.0;
+     CurrentY := 0.0;
+     CurY := 0;
+     CurX := 0;
   end;
 
   procedure TPostScriptClass.EndPage;
   begin
      if (PrintFileOpen)  then
        begin
-         writeln(PrintFileID, 'restore');
+         writeln(PrintFileID, 'grestore');
          writeln(PrintFileID, 'showpage');
        end;
   end;
@@ -591,14 +618,20 @@ implementation
    end;
 
  procedure TPostScriptClass.GetPrinterMargins;
+ var
+    L, T, R, B: Double;
  begin
    getPrinterDotsPI;
    With fPrinter.PaperSize.PaperRect.WorkRect do
      begin
-       fMargins.TopMargin   := Top;
-       fMargins.LeftMargin  := Left;
-       fMargins.RightMargin := Right;
-       fMargins.BottomMargin:= Bottom;
+       L := Left / FPSDotsPI.XDotsPI;
+       T := Top / FPSDotsPI.YDotsPI;
+       R := Right / FPSDotsPI.XDotsPI;
+       B := Bottom / FPSDotsPI.YDotsPI;
+       fMargins.TopMargin   := Round(Double(T) * POINTS);
+       fMargins.LeftMargin  := Round(Double(L) * POINTS);
+       fMargins.RightMargin := Round(Double(R) * POINTS);
+       fMargins.BottomMargin:= Round(Double(B) * POINTS);
      end;
  end;
 
@@ -712,9 +745,9 @@ end;
   end;	   	  
 	    	  	  
 
-  procedure   TPostScriptClass.setPageLength(Ln: Double);
+  procedure   TPostScriptClass.setPageHeight(Ln: Double);
   begin
-    fPageLength := trunc(Ln*POINTS);
+    fPageHeight := trunc(Ln*POINTS);
   end;
   
   procedure   TPostScriptClass.setPageWidth( Wd: Double);
@@ -722,9 +755,9 @@ end;
     fPageWidth := trunc(Wd*POINTS);
   end;
   
-  function    TPostScriptClass.getPageLength: Double; 
+  function    TPostScriptClass.getPageHeight: Double;
   begin
-    getPageLength := Double(fPageLength)/POINTS;
+    getPageHeight := Double(fPageHeight)/POINTS;
   end;
   
  function    TPostScriptClass.getPageWidth: Double;
@@ -1093,7 +1126,7 @@ end;
 		    begin
 		      TabPos := TabHead;
 		      TabIndex := 1;
-                      PSNewLine;             //Automatic newline after last tab
+                      PSTabNewLine(IDX);             //Automatic newline after last tab
 	 	   end
 		  else
 		    begin
@@ -1195,10 +1228,12 @@ end;
  procedure TPostScriptClass.PrintPSCenterPage(S: String);
  var
    X: Integer;
+   Cstr: String;
  begin
+   Cstr := '('+S+') centershow';
    X := CalcCenterPage;
    writeln(PrintFileID,X,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFileID,'(',S,') centershow');
+   writeln(PrintFileID,Cstr);
   end;
 
  function TPostScriptClass.CalcCenterPage: Integer;
@@ -1216,19 +1251,23 @@ end;
  procedure TPostScriptClass.PrintPSCenter(S: String; XPos: Double);
  var
    X: Integer;
- begin 
+   Cstr: String;
+ begin
+   Cstr := '('+S+') centershow';
    X := TransXFloat(XPos);
    writeln(PrintFileID,X,' ',TransYPoint(CurY),' moveto');
-   writeln(PrintFileID,'(',S,') centershow');
+   writeln(PrintFileID,Cstr);
  end;
   
  procedure TPostScriptClass.PrintPSRight(S: String; XPos: Double);
  var
    X: Integer;
+   Cstr: String;
  begin 
    X := TransXFloat(XPos);
    writeln(PrintFileID,X,' ',TransYPoint(fCurrentY),' moveto');
-   writeln(PrintFileID,'(',S,') rightshow');
+   Cstr := '('+S+') rightshow';
+   //writeln(PrintFileID,Cstr);
  end;
   
   procedure TPostScriptClass.PrintPSLeftPoint(S: String; XPos: integer);
@@ -1311,7 +1350,7 @@ end;
   	
   function TPostScriptClass.TransYPoint(Y: Integer): Integer; 
   begin
-    TransYPoint := fPAgeLength - Y; //fPageLength - MarginTop - Y;
+    TransYPoint := fPageHeight - Y; //fPageLength - MarginTop - Y;
    end;	
 
 procedure TPostScriptClass.XLocation(X: Double);
@@ -1372,6 +1411,7 @@ end;
   // InitCriticalSection(fCriticalSection); 
 	FreeAllTabs;
         FreeAllFonts;
+        fPrinter.destroy;
 	inherited Destroy;
 		
 	//DoneCriticalSection(fCriticalSection);	
@@ -1412,18 +1452,44 @@ begin
 end;
 
 
+procedure doSwap(var i,j: integer);
+var
+    tmp: Integer;
+begin
+    tmp := i;
+    i := j;
+    j := tmp;
+end;
+
 procedure TPostScriptClass.LandscapeChange(Sender: TObject);
-   begin
-     { if fLandscape then
-        begin
-          if fPageHeight >= fPageWidth then
-            swap(fPageHeight, fPagewidth);
-        end
-     else
-        begin
-           if fPageWidth >= fPageHeight then
-            swap(fPageHeight, fPagewidth);
-        end;  }
+var
+     H, W: Integer;
+begin
+  getPrinterMargins;
+  if fLandscape then
+    begin
+      H := LETTERWIDTH;
+      W := LETTERHEIGHT;
+    end
+  else
+    begin
+      H := LETTERHEIGHT;
+      W := LETTERWIDTH;
+    end;
+  if fLandscape then
+    begin
+      fPageHeight := LETTERWIDTH;             //11.0
+      fPageWidth :=  LETTERHEIGHT;
+      if fMargins.bottomMargin > fMargins.rightMargin then
+        doswap(fMargins.rightMargin, fMargins.bottomMargin);
+    end
+  else
+    begin
+      fPageHeight := LETTERHEIGHT;             //11.0
+      fPageWidth :=  LETTERWIDTH;
+      if fMargins.bottomMargin < fMargins.rightMargin then
+         doswap(fMargins.rightMargin, fMargins.bottomMargin);
+     end;
 end;
 
  procedure TPostScriptClass.RRect(X1, Y1, X2, Y2, Rad: Integer);  //in points
@@ -1583,9 +1649,12 @@ end;
      X, Y: Integer;
     YAdd1, YAdd2, YCSZ,YPostNet: Integer;
    begin
-      X := MarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
-      Y := fPageLength - MarginTop  - fTextMarginTop
+      X := fSpacingLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fPageHeight - fTextMarginTop  - fSpacingTop
                        - fRowPointer * (fSpacingHeight);
+     { X := MarginLeft + fTextMarginLeft + fColPointer * (fSpacingWidth );
+      Y := fPageLength - MarginTop  - fTextMarginTop
+                       - fRowPointer * (fSpacingHeight);  }
       YAdd1 := Y - fLineToLine;
       if fAddressRecord.Add2 <> '' then
          YAdd2 := YAdd1 - fLineToLine
@@ -1603,7 +1672,9 @@ end;
         end;
       if fPrintPostNet then
         begin
-          YPostNet := fPageLength - MarginTop - fLabelHeight + fTextMarginTop -
+         { YPostNet := fPageLength - MarginTop - fLabelHeight + fTextMarginTop -
+                       fRowPointer * (fSpacingHeight);  }
+         YPostNet := fPageHeight - fSpacingTop - fLabelHeight + fTextMarginTop -
                        fRowPointer * (fSpacingHeight);
 
           PrintPostNetXY(faddressRecord.ZipCode, X+2, YPostNet);
@@ -1667,8 +1738,8 @@ end;
      X0, Y0, X, Y, Rad: Integer;
      Across, Down: Integer;
    begin
-     X0 := fSpacingLeft - MarginLeft;
-     Y0 := fSpacingTop - MarginTop;
+     X0 := fSpacingLeft; // - MarginLeft;
+     Y0 := fSpacingTop; // - MarginTop;
 
      for Across := 0 to fNumAcross - 1 do
         for Down := 0 to fNumDown - 1 do
@@ -1699,6 +1770,7 @@ end;
       SmBarHt, BarHt, BarSpace: String;
     begin
       if not PrintFileOpen then exit;
+      writeln(PrintFileID, '0.0 setgray');   // black bar code
       BarHt := FloatToStr(fPostNetHeight);
       SmBarHt := FloatToStr(fPostNetHeight / 2.0);
       BarSpace := FloatToStr(fPostNetSpacing);
@@ -1811,10 +1883,13 @@ procedure TPostScriptClass.ViewFile;
       FName := fPrintFileName
     else
       exit;
-    EPath := FindDefaultExecutablePath('okular');
+    ClosePrintFile;
+    EPath := FindDefaultExecutablePath('kpdf');
     AProcess := TProcess.create(nil);
     AProcess.CommandLine := EPath +' '+fPrintFileName;
     AProcess.Options := AProcess.Options + [poWaitOnExit];
+    AProcess.Execute;
+    AProcess.CommandLine := 'rm '+fPrintFileName;
     AProcess.Execute;
     AProcess.Free;
  end;
@@ -1862,4 +1937,28 @@ begin
 end;
 
 end.
-                   }
+********************************************** origin top left
+//setLayout
+{ % sets proper page size
+  % repositions origin to "top left"
+
+  % in: pageSizeX pageSizeY
+  % pageSizeX and pageSizeY are numbers in points
+  % example: 612 792 or 792 612
+
+  /Y exch def
+  /X exch def
+
+  <</PageSize [X Y]>> setpagedevice  % Page Size (orientation implicit)
+  0 Y translate   % moves origin to upper-left corner
+
+  % need to redefine moveto to invert Y value
+  /mt /moveto load def  % store the "real" moveto
+  /moveto
+  { % now write our own
+    % on stack Y, X
+    neg mt  % negate the Y, then call real moveto
+  } bind def
+
+} bind def
+}

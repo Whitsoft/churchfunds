@@ -19,7 +19,7 @@ WHERE id = :id}
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
+  db, Grids, comctrls, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
   newpsclass;
 
 type
@@ -139,18 +139,18 @@ type
     LocalEdit: TEdit;
     MedEdit: TEdit;
     NetEdit: TEdit;
-    NoteBook: TNotebook;
-    Page1: TPage;
-    Page2: TPage;
-    Page3: TPage;
-    Page4: TPage;
-    Page5: TPage;
-    Page6: TPage;
-    Page7: TPage;
-    Page8: TPage;
-    Page9:TPage;
-    Page10:TPage;
-    Page11:TPage;
+    NoteBook: TPageControl;
+    Page1: TTabSheet;
+    Page2: TTabSheet;
+    Page3: TTabSheet;
+    Page4: TTabSheet;
+    Page5: TTabSheet;
+    Page6: TTabSheet;
+    Page7: TTabSheet;
+    Page8: TTabSheet;
+    Page9:TTabSheet;
+    Page10:TTabSheet;
+    Page11:TTabSheet;
     AGroupPrint: TGroupBox;
     AGroupEdit: TGroupBox;
     CheckSrc: TDataSource;
@@ -442,7 +442,6 @@ type
     procedure CheckPrinterPrint(begCK,endCK: Integer);
     procedure CheckPrintTables;
     procedure CheckAmountEnter(Sender: TObject);
-    procedure NoteBookChangeBounds(Sender: TObject);
     {*}
     procedure SearchReturn(Ret: Boolean);
    // procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
@@ -528,7 +527,6 @@ type
     procedure EdClrBtnClick(Sender: TObject);
     procedure VoidBtnClick(Sender: TObject);
 
-    procedure TableViewTranAfterPost(DataSet: TDataset);
     procedure BtnDed1Click(Sender: TObject);
     procedure BtnDed2Click(Sender: TObject);
     procedure BtnDed3Click(Sender: TObject);
@@ -572,11 +570,7 @@ type
     procedure HoursEditKeyPress(Sender: TObject; var Key: Char);
     procedure PenEditChange(Sender: TObject);
     procedure VendorBoxChange(Sender: TObject);
-    //procedure FormClose(Sender: TObject);
-    procedure FormClose(Sender: TObject);
     procedure AccountLookChange(Sender: TObject);
-    procedure QueryTranSrcDataChange(Sender: TObject; Field: TField);
-
     procedure EditDPAmntChange(Sender: TObject);
     procedure BtnSrchClick(Sender: TObject);
 
@@ -1755,10 +1749,13 @@ begin
     end;
   With RPrinter do
     begin
+      NewPage;
       Home;
-      NewLine;
-      NewLine;
+      PSNewline;
+      PSNewline;
       doTaxPrint(Sender,BegDate,EndDate);
+      EndPage;
+      ViewFile;
     end;
   except
     ShowMessage('Could not do report, check your dates');
@@ -1929,11 +1926,6 @@ begin
        end;
 end;
 
-
-procedure TCheckForm.TableViewTranAfterPost(DataSet: TDataset);
-begin
-
-end;
 
 procedure TCheckForm.BtnDed1Click(Sender: TObject);
 begin
@@ -2453,7 +2445,7 @@ begin
                    PrintPSTab(1,FieldByName('ACCOUNT').AsString);
                    PrintPSTab(1,FieldByName('NAME').AsString);
                    PrintPSTab(1,FormatFloat('0.00',Sum));
-                   NewLine;
+                   PSNewline;
                    Total:=Total+Sum;
                    next;
                 end;
@@ -2503,8 +2495,8 @@ begin
       else
          DataMod.ZQueryTranAcc.Params[1].AsInteger:=0;
       First;
-      NewLine;
-      NewLine;
+      PSNewline;
+      PSNewline;
      //RestoreTabs(1);
      while not EOF do
        begin
@@ -2519,7 +2511,7 @@ begin
              PrintPSTab(1, FieldByName('ACCOUNT').AsString);
              PrintPSTab(1, FieldByName('NAME').AsString);
              PrintPSTab(1, FormatFloat('0.00',Mult*Sum));
-             NewLine;
+             PSNewline;
            end;
          Total:=Total+Mult*Sum;
          next;
@@ -2586,13 +2578,6 @@ begin
    VendorLabel.Caption:=ComboVendor.Text;
    DateLabel.Caption:=CheckDate.Text;
 end;
-
-procedure TCheckForm.FormClose(Sender: TObject);
-begin
-end;
-
-
-
 
 procedure TCheckForm.EditDPAmntChange(Sender: TObject);
 begin
@@ -3259,10 +3244,6 @@ begin
    CheckAmount.Text:='';
 end;
 
-procedure TCheckForm.NoteBookChangeBounds(Sender: TObject);
-begin
-  end;
-
 Procedure PrintSpace(Ct: Integer; Var F:TextFile);
 var
   s: String;
@@ -3409,9 +3390,9 @@ const
                PrintPSXY('Payed to:  '+Vend,1.0,AccY);
                PrintPSXY(CkDate,DateX,AccY);
                CurY := InchToPoint(AccY);
-               NewLine;
-               NewLine;
-               NewLine;
+               PSNewline;
+               PSNewline;
+               PSNewline;
                While (not EOF) and (Cnt<10) do
                  begin
                    Inc(Cnt);
@@ -3420,7 +3401,7 @@ const
                    for I := 5 downto Dot do
                      MonStr1 := '  ' + MonStr1;
                    PrintPSTab(1, 'Account  '+Fields[1].AsString+'       '+ MonStr1);
-                  // NewLine;
+                  // PSNewline;
                    next;
                  end;
              except
@@ -3659,11 +3640,6 @@ procedure TCheckForm.AccountLookChange(Sender: TObject);
 begin
   If Length(ComboAcc.Text)<4 then exit;
   CheckAmount.Text:='';
-end;
-
-procedure TCheckForm.QueryTranSrcDataChange(Sender: TObject; Field: TField);
-begin
-
 end;
 
 procedure TCheckForm.FixTranGridDblClick(Sender: TObject);
@@ -4254,13 +4230,13 @@ begin
      // OpenPrintFile(fName);
       //LineSpacing := 0.30;
       Home;
-      NewLine;
-      NewLine;
-      NewLine;
+      PSNewline;
+      PSNewline;
+      PSNewline;
       NewPage;
       doPayPrint(PayStubInfo);
       For IDX:=1 to 12 do
-        NewLine;
+        PSNewline;
       doPayPrint(PayStubInfo);
     end;
 end;
@@ -4289,19 +4265,20 @@ begin
     end;
   With RPrinter do
     begin
+      NewPage;
       PutCurrentFont(HELVETICA,8);
 
       PrintPSCenterPage('Pay Stub');
-      Newline;
-      NewLine;
-      NewLine;
+      PSNewline;
+      PSNewline;
+      PSNewline;
 
       TmpTab := NewTab(TABLISTINDEX,0.5,JUSTIFYLEFT,1.875,0.05,False,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
       TmpTab := NewTab(TABLISTINDEX,0.0,JUSTIFYLEFT,1.875,0.05,True,BOXLINEALL,1);
       PutTabFont(TABLISTINDEX,HELVETICA, 10);
-      //NewLine;
+      //PSNewline;
 
       ResetTab(TABLISTINDEX);
       PrintPSTab(TABLISTINDEX,'Check No');
@@ -4309,14 +4286,14 @@ begin
       PrintPSTab(TABLISTINDEX,'Name');
       PrintPSTab(TABLISTINDEX,'Pay Date');
 
-     // NewLine;
+     // PSNewline;
       ResetTab(TABLISTINDEX);
       PrintPSTab(TABLISTINDEX, IntToStr(Info.PCheckNo));
       PrintPSTab(TABLISTINDEX, Info.PSocNo);
       PrintPSTab(TABLISTINDEX, Info.PName);
       PrintPSTab(TABLISTINDEX, Info.PDate);
 
-     // NewLine;
+     // PSNewline;
       FreeTabs(TABLISTINDEX);
       PutTabFont(TABLISTINDEX,HELVETICA, 10);
 
@@ -4331,7 +4308,7 @@ begin
       FreeTabs(TABLISTINDEX);
 
 
-      //NewLine;
+      //PSNewline;
       FreeTabs(TABLISTINDEX);
       PutTabFont(TABLISTINDEX,HELVETICA, 10);
 
@@ -4356,7 +4333,7 @@ begin
       PrintPSTab(TABLISTINDEX, 'Current');
       PrintPSTab(TABLISTINDEX, 'YTD');
 
-    //  NewLine;
+    //  PSNewline;
       FreeTabs(TABLISTINDEX);
       PutTabFont(TABLISTINDEX,HELVETICA, 10);
 
@@ -4391,7 +4368,7 @@ begin
            PrintPSTab(TABLISTINDEX,'');
         end;
 
-     // NewLine;
+     // PSNewline;
       PrintPSTab(TABLISTINDEX,'');
       PrintPSTab(TABLISTINDEX,'');
       PrintPSTab(TABLISTINDEX,'');
@@ -4412,7 +4389,7 @@ begin
            PrintPSTab(TABLISTINDEX,'');
          end;
 
-      // NewLine;
+      // PSNewline;
        PrintPSTab(TABLISTINDEX,'');
        PrintPSTab(TABLISTINDEX,'');
        PrintPSTab(TABLISTINDEX,'');
@@ -4433,7 +4410,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
           end;
 
-      //  NewLine;
+      //  PSNewline;
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
@@ -4454,7 +4431,7 @@ begin
              PrintPSTab(TABLISTINDEX, '');
           end;
 
-        //NewLine;
+        //PSNewline;
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
@@ -4475,7 +4452,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
           end;
 
-      // NewLine;
+      // PSNewline;
         If (Info.PD1>0.0) and (DedType[1]=8) then
           begin
             PrintPSTab(TABLISTINDEX, '');
@@ -4489,14 +4466,14 @@ begin
                 PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
                 PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
                 PrintPSTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
-              //  NewLine;
+              //  PSNewline;
               end
             else
               begin
                 PrintPSTab(TABLISTINDEX, '');
                 PrintPSTab(TABLISTINDEX, '');
                 PrintPSTab(TABLISTINDEX, '');
-              //  NewLine;
+              //  PSNewline;
               end;
           end
         else if (Info.PD5>0.0) and (DedType[1]=9) then
@@ -4510,7 +4487,7 @@ begin
             PrintPSTab(TABLISTINDEX, Copy(CheckForm.LabelRDed5.Caption,1,10));
             PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PD5));
             PrintPSTab(TABLISTINDEX, CheckForm.EditRDed5.Text);
-          //  NewLine;
+          //  PSNewline;
           end;
 
         If (Info.PD2>0.0) and (DedType[2]=8) then
@@ -4524,7 +4501,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
-          //  NewLine;
+          //  PSNewline;
           end;
         If (Info.PD3>0.00) and (DedType[3]=9) then
           begin
@@ -4537,7 +4514,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
-          //  NewLine;
+          //  PSNewline;
           end;
 
         If (Info.PD4>0.00) and (DedType[4]=9) then
@@ -4551,7 +4528,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
-         //   NewLine;
+         //   PSNewline;
           end;
 
         If (Info.PD5>0.0) and (DedType[5]=9) then
@@ -4565,7 +4542,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
-         //   NewLine;
+         //   PSNewline;
           end;
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
@@ -4576,7 +4553,7 @@ begin
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
         PrintPSTab(TABLISTINDEX, '');
-        //NewLine;
+        //PSNewline;
 
         FreeTabs(TABLISTINDEX);
         PutTabFont(TABLISTINDEX,HELVETICA, 10);
@@ -4602,7 +4579,7 @@ begin
         PrintPSTab(TABLISTINDEX, 'Totals');
         PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PPen));
         PrintPSTab(TABLISTINDEX, CheckForm.PenEd.Text);
-       // NewLine;
+       // PSNewline;
 
         FreeTabs(TABLISTINDEX);
         PutTabFont(TABLISTINDEX,HELVETICA, 10);
@@ -4618,10 +4595,12 @@ begin
         PrintPSTab(TABLISTINDEX, ' ');
         PrintPSTab(TABLISTINDEX, 'NetPay');
         PrintPSTab(TABLISTINDEX, FormatFloat('0.00',Info.PNet));
-       // NewLine;
+       // PSNewline;
         PrintPSTab(TABLISTINDEX, 'Net Pay YTD');
         PrintPSTab(TABLISTINDEX, FormatFloat('0.00',TextToFloat(CheckForm.NetEd.Text)));
         FreeTabs(TABLISTINDEX);
+        EndPage;
+        RPrinter.ViewFile;
      end; //do
 end;
 
