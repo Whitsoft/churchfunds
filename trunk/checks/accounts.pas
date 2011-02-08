@@ -1,6 +1,7 @@
 {Fix Xtra Check Feed when lot of accounts such as pay checks}
 {Adjust Yoff based on number of accounts}
 {Make a function to get a last name for search in view pay checks}
+// revision 79 8 feb 11
 unit accounts;
 {$mode objfpc}{$H+}
 {$R accounts.lfm}
@@ -4265,14 +4266,15 @@ begin
      // OpenPrintFile(fName);
       //LineSpacing := 0.30;
       Home;
-      PSNewline;
-      PSNewline;
-      PSNewline;
       NewPage;
+      PSNewline;
+      PSNewline;
       doPayPrint(PayStubInfo);
-      For IDX:=1 to 12 do
+      For IDX:=1 to 6 do
         PSNewline;
       doPayPrint(PayStubInfo);
+      EndPage;
+      ViewFile;
     end;
 end;
 
@@ -4300,10 +4302,11 @@ begin
     end;
   With RPrinter do
     begin
-      NewPage;
       PutCurrentFont(HELVETICA,8);
-
+      PSNewline;
+      PSNewline;
       PrintPSCenterPage('Pay Stub');
+
       PSNewline;
       PSNewline;
       PSNewline;
@@ -4634,8 +4637,6 @@ begin
         PrintPSTab(TABLISTINDEX, 'Net Pay YTD');
         PrintPSTab(TABLISTINDEX, FormatFloat('0.00',TextToFloat(CheckForm.NetEd.Text)));
         FreeTabs(TABLISTINDEX);
-        EndPage;
-        RPrinter.ViewFile;
      end; //do
 end;
 
