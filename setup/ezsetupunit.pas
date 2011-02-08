@@ -6,7 +6,11 @@ Interface
 Uses 
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, LCLType, chelp, IBConnection, db,
+<<<<<<< .mine
+Grids,  ComCtrls, Menus, newpsclass;
+=======
 Grids,  ComCtrls, PrintersDlgs,newpsclass;
+>>>>>>> .r71
 
    { TFormSetup }
 
@@ -69,6 +73,7 @@ Type
     Label53: TLabel;
     BtnInAcc: TButton;
     EditAccIn: TEdit;
+    PopMenuNil: TPopupMenu;
     Splitter1: TSplitter;
     TypeBox: TComboBox;
     GroupLookup: TDBLookupComboBox;
@@ -2084,11 +2089,20 @@ End;
 
 Procedure TFormSetup.FormClose(Sender: TObject);
 Begin
+<<<<<<< .mine
+   if HForm <> nil then HForm.close;
    If RPrinter <>nil then
      begin
        RPrinter.free;
        RPrinter := nil;
      end;
+=======
+   If RPrinter <>nil then
+     begin
+       RPrinter.free;
+       RPrinter := nil;
+     end;
+>>>>>>> .r71
 End;
 
 
@@ -2983,11 +2997,14 @@ var
 begin
   URL := 'file://'+HelpFN;
  // Label15.Caption:=TComponent(Sender).name;
- if (Button = mbRight) or (Button = mbLeft) then exit;
- CheckHelpOpen;
- hcontext:=TControl(Sender).HelpContext;
- If HForm <> nil then
-    HForm.OpenUrl(Url,hContext);
+ if (Button = mbRight) then
+   begin
+    CheckHelpOpen;
+    hcontext:=TControl(Sender).HelpContext;
+    If HForm <> nil then
+      HForm.OpenUrl(Url,hContext);
+    HForm.ShowOnTop;
+   end;
 end;
 
 
