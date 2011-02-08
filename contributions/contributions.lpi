@@ -47,12 +47,12 @@
         <PackageName Value="SQLDBLaz"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="54">
+    <Units Count="55">
       <Unit0>
         <Filename Value="contributions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="contributions"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="14"/>
@@ -182,14 +182,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="cont"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="17"/>
-        <CursorPos X="1" Y="51"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="contmod.pas"/>
@@ -378,10 +374,10 @@
       <Unit39>
         <Filename Value="../newpsclass.pas"/>
         <UnitName Value="newpsclass"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1132"/>
-        <CursorPos X="34" Y="1144"/>
+        <TopLine Value="1656"/>
+        <CursorPos X="46" Y="1697"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -404,21 +400,17 @@
       <Unit42>
         <Filename Value="../../lazarus/components/chmhelp/lhelp/chmcontentprovider.pas"/>
         <UnitName Value="chmcontentprovider"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="365"/>
         <CursorPos X="1" Y="386"/>
         <UsageCount Value="42"/>
-        <Loaded Value="True"/>
       </Unit42>
       <Unit43>
         <Filename Value="../../lazarus/lcl/include/control.inc"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3168"/>
         <CursorPos X="1" Y="3189"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit43>
       <Unit44>
         <Filename Value="../../lazarus/lcl/grids.pas"/>
@@ -430,12 +422,10 @@
       </Unit44>
       <Unit45>
         <Filename Value="../../lazarus/components/printers/unix/cupsprinters.inc"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="788"/>
         <CursorPos X="1" Y="809"/>
         <UsageCount Value="16"/>
-        <Loaded Value="True"/>
       </Unit45>
       <Unit46>
         <Filename Value="../../lazarus/lcl/include/buttoncontrol.inc"/>
@@ -455,12 +445,10 @@
       <Unit48>
         <Filename Value="../../lazarus/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3288"/>
         <CursorPos X="1" Y="3309"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit48>
       <Unit49>
         <Filename Value="/media/25e0de3c-d6e3-4675-9696-75b54bc28446/home/don/churchfunds/trunk/contributions/cont.pas"/>
@@ -482,12 +470,10 @@
       <Unit51>
         <Filename Value="../../lazarus/lcl/lresources.pp"/>
         <UnitName Value="LResources"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3082"/>
         <CursorPos X="79" Y="3086"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit51>
       <Unit52>
         <Filename Value="../../churchfunds/trunk/checks/accounts.lfm"/>
@@ -500,135 +486,62 @@
       <Unit53>
         <Filename Value="../../churchfunds/trunk/checks/accounts.pas"/>
         <UnitName Value="accounts"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3557"/>
         <CursorPos X="1" Y="3581"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit53>
+      <Unit54>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="cont"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1324"/>
+        <CursorPos X="1" Y="1345"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit54>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
-        <Filename Value="../../churchfunds/trunk/checks/accounts.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="contributions.pas"/>
+        <Caret Line="14" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="../../churchfunds/trunk/checks/accounts.pas"/>
-        <Caret Line="425" Column="26" TopLine="391"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1239" Column="59" TopLine="1222"/>
       </Position2>
       <Position3>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1055" Column="13" TopLine="1019"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1200" Column="1" TopLine="1179"/>
       </Position3>
       <Position4>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2296" Column="45" TopLine="2291"/>
+        <Filename Value="../newpsclass.pas"/>
+        <Caret Line="1697" Column="46" TopLine="1656"/>
       </Position4>
       <Position5>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1241" Column="75" TopLine="1222"/>
       </Position5>
       <Position6>
-        <Filename Value="cont.pas"/>
-        <Caret Line="219" Column="26" TopLine="185"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1200" Column="1" TopLine="1179"/>
       </Position6>
       <Position7>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1022" Column="32" TopLine="988"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="2" Column="25" TopLine="1"/>
       </Position7>
       <Position8>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2325" Column="19" TopLine="2291"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1241" Column="74" TopLine="1222"/>
       </Position8>
       <Position9>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../../../Programs/contributions/cont.pas"/>
+        <Caret Line="1200" Column="1" TopLine="1179"/>
       </Position9>
-      <Position10>
-        <Filename Value="cont.pas"/>
-        <Caret Line="219" Column="26" TopLine="185"/>
-      </Position10>
-      <Position11>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1032" Column="15" TopLine="991"/>
-      </Position11>
-      <Position12>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position12>
-      <Position13>
-        <Filename Value="cont.pas"/>
-        <Caret Line="368" Column="15" TopLine="334"/>
-      </Position13>
-      <Position14>
-        <Filename Value="cont.pas"/>
-        <Caret Line="376" Column="25" TopLine="342"/>
-      </Position14>
-      <Position15>
-        <Filename Value="cont.pas"/>
-        <Caret Line="452" Column="15" TopLine="418"/>
-      </Position15>
-      <Position16>
-        <Filename Value="cont.pas"/>
-        <Caret Line="617" Column="29" TopLine="583"/>
-      </Position16>
-      <Position17>
-        <Filename Value="cont.pas"/>
-        <Caret Line="655" Column="13" TopLine="621"/>
-      </Position17>
-      <Position18>
-        <Filename Value="cont.pas"/>
-        <Caret Line="669" Column="12" TopLine="635"/>
-      </Position18>
-      <Position19>
-        <Filename Value="cont.pas"/>
-        <Caret Line="690" Column="15" TopLine="656"/>
-      </Position19>
-      <Position20>
-        <Filename Value="cont.pas"/>
-        <Caret Line="843" Column="31" TopLine="809"/>
-      </Position20>
-      <Position21>
-        <Filename Value="cont.pas"/>
-        <Caret Line="883" Column="14" TopLine="849"/>
-      </Position21>
-      <Position22>
-        <Filename Value="cont.pas"/>
-        <Caret Line="924" Column="13" TopLine="890"/>
-      </Position22>
-      <Position23>
-        <Filename Value="cont.pas"/>
-        <Caret Line="931" Column="36" TopLine="897"/>
-      </Position23>
-      <Position24>
-        <Filename Value="cont.pas"/>
-        <Caret Line="944" Column="40" TopLine="910"/>
-      </Position24>
-      <Position25>
-        <Filename Value="cont.pas"/>
-        <Caret Line="951" Column="38" TopLine="917"/>
-      </Position25>
-      <Position26>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1027" Column="39" TopLine="993"/>
-      </Position26>
-      <Position27>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1275" Column="33" TopLine="1241"/>
-      </Position27>
-      <Position28>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2260" Column="3" TopLine="2258"/>
-      </Position28>
-      <Position29>
-        <Filename Value="cont.pas"/>
-        <Caret Line="2261" Column="39" TopLine="2259"/>
-      </Position29>
-      <Position30>
-        <Filename Value="cont.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -651,7 +564,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="5">
+    <BreakPoints Count="9">
       <Item1>
         <Source Value="../firebird/ezcont/ContOld/cont.pas"/>
         <Line Value="725"/>
@@ -672,6 +585,22 @@
         <Source Value="../help/chelp.pas"/>
         <Line Value="437"/>
       </Item5>
+      <Item6>
+        <Source Value="cont.pas"/>
+        <Line Value="956"/>
+      </Item6>
+      <Item7>
+        <Source Value="cont.pas"/>
+        <Line Value="1243"/>
+      </Item7>
+      <Item8>
+        <Source Value="../../../Programs/contributions/cont.pas"/>
+        <Line Value="1345"/>
+      </Item8>
+      <Item9>
+        <Source Value="../../../Programs/contributions/cont.pas"/>
+        <Line Value="1200"/>
+      </Item9>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>

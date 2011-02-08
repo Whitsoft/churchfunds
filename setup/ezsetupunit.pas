@@ -1,5 +1,6 @@
 Unit ezsetupunit;
   {$mode objfpc}{$H+}
+// revision 79 8 feb 11
 
 Interface
 

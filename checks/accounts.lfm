@@ -28,14 +28,14 @@ object CheckForm: TCheckForm
     Top = 0
     Width = 1201
     HelpContext = 490
-    ActivePage = Page5
+    ActivePage = Page11
     Align = alClient
     Anchors = []
     Font.Height = -15
     Font.Name = 'System'
     ParentFont = False
     PopupMenu = PopMenuNil
-    TabIndex = 4
+    TabIndex = 10
     TabOrder = 0
     OnMouseDown = ShowContext
     object Page1: TTabSheet
@@ -399,6 +399,7 @@ object CheckForm: TCheckForm
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabStop = False
           TabOrder = 3
         end
@@ -852,6 +853,7 @@ object CheckForm: TCheckForm
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabOrder = 11
         end
         object NavEditTran: TDBNavigator
@@ -1577,6 +1579,7 @@ object CheckForm: TCheckForm
           OnKeyPress = HoursEditKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabOrder = 2
         end
         object PayCheck: TEdit
@@ -1591,6 +1594,7 @@ object CheckForm: TCheckForm
           OnChange = PayCheckChange
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           ReadOnly = True
           TabStop = False
           TabOrder = 3
@@ -1606,6 +1610,7 @@ object CheckForm: TCheckForm
           OnChange = DBEdit2Exit
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabOrder = 4
         end
         object PanelSpc: TPanel
@@ -1914,6 +1919,7 @@ object CheckForm: TCheckForm
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabStop = False
           TabOrder = 8
         end
@@ -1929,6 +1935,7 @@ object CheckForm: TCheckForm
           OnChange = PayLookUpChange
           OnMouseDown = ShowContext
           ParentFont = False
+          PopupMenu = PopMenuNil
           TabOrder = 9
         end
       end
@@ -1991,7 +1998,7 @@ object CheckForm: TCheckForm
           Height = 30
           Top = 100
           Width = 217
-          HelpContext = 470
+          HelpContext = 520
           BevelOuter = bvNone
           ChildSizing.EnlargeHorizontal = crsScaleChilds
           ChildSizing.EnlargeVertical = crsScaleChilds

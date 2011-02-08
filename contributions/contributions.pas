@@ -5,7 +5,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, contmod, cont ;
+  Forms, contmod, cont;
 
 {$IFDEF WINDOWS}{$R projcont.rc}{$ENDIF}
 

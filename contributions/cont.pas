@@ -1,5 +1,5 @@
 unit cont;
-
+// revision 79 8 feb 11
   {$mode objfpc}{$H+}
   {$R cont.lfm}
 
@@ -1205,6 +1205,8 @@ begin
           RepFont.FontSize := 12;
           Font := RepFont;
           Bold:=True;
+          PSNewline;
+          PSNewline;
           If RadioRepType.ItemIndex<=0 then
               PrintPSTab(4,'Contributions Entered on  '+PickerRep.Text)
           else
@@ -1318,7 +1320,11 @@ begin
             ShowMessage('Error doing report queries, contributions');
          end;   //While QueryFGroup not EOF
 
-         If RPrinter.LinesLeft(LINESIZE)<3 then MonthDayNewPage;
+        If RPrinter.LinesLeft(LINESIZE)<3 then
+           begin
+             RPrinter.EndPage;
+             MonthDayNewPage;
+           end;
 
          RPrinter.PrintPSTab(3,DataMod.TableFundGroups.FieldByName('FUND_GROUP').AsString);
          RPrinter.PrintPSTab(3,DataMod.TableFundGroups.FieldByName('DESCRIPTION').AsString);
@@ -1339,6 +1345,8 @@ begin
      DataMod.TableRFund.Next;
   end;
   RPrinter.CLosePrintFile;
+    RPrinter.EndPage;
+  RPrinter.viewfile;
 end;
 
 procedure TFormCont.BtnQueryClick(Sender: TObject);
