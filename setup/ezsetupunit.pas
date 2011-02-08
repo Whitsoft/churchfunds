@@ -6,11 +6,7 @@ Interface
 Uses 
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, LCLType, chelp, IBConnection, db,
-<<<<<<< .mine
-Grids,  ComCtrls, Menus, newpsclass;
-=======
-Grids,  ComCtrls, PrintersDlgs,newpsclass;
->>>>>>> .r71
+Grids,  ComCtrls, Menus, PrintersDlgs,newpsclass;
 
    { TFormSetup }
 
@@ -2089,20 +2085,12 @@ End;
 
 Procedure TFormSetup.FormClose(Sender: TObject);
 Begin
-<<<<<<< .mine
    if HForm <> nil then HForm.close;
    If RPrinter <>nil then
      begin
        RPrinter.free;
        RPrinter := nil;
      end;
-=======
-   If RPrinter <>nil then
-     begin
-       RPrinter.free;
-       RPrinter := nil;
-     end;
->>>>>>> .r71
 End;
 
 

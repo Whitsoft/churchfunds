@@ -1,15 +1,7 @@
 object FormSetup: TFormSetup
-<<<<<<< .mine
   Left = 711
-=======
-  Left = 797
->>>>>>> .r71
   Height = 899
-<<<<<<< .mine
   Top = 118
-=======
-  Top = 705
->>>>>>> .r71
   Width = 1201
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
@@ -41,22 +33,13 @@ object FormSetup: TFormSetup
     Top = 0
     Width = 1201
     HelpContext = 10
-<<<<<<< .mine
     ActivePage = Page3
-=======
-    ActivePage = Page9
->>>>>>> .r71
     Align = alClient
     Anchors = []
     Font.Height = -15
     Font.Name = 'System'
     ParentFont = False
-<<<<<<< .mine
-    PopupMenu = PopMenuNil
     TabIndex = 2
-=======
-    TabIndex = 8
->>>>>>> .r71
     TabOrder = 0
     OnMouseDown = ShowContext
     object PAGE1: TTabSheet
@@ -382,7 +365,6 @@ object FormSetup: TFormSetup
           Anchors = []
           ItemHeight = 0
           OnMouseDown = ShowContext
-          PopupMenu = PopMenuNil
           TabOrder = 0
         end
         object GridFunds: TDBGrid
@@ -754,7 +736,6 @@ object FormSetup: TFormSetup
           ItemHeight = 0
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 0
         end
         object EditName: TEdit
@@ -770,7 +751,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditNameKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 11
         end
         object EditDed5Amt: TEdit
@@ -787,7 +767,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditDed5AmtKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 24
         end
         object EditDed4Amt: TEdit
@@ -804,7 +783,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditDed4AmtKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 22
         end
         object BtnPayClr: TButton
@@ -851,7 +829,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditDed3AmtKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 20
         end
         object EditDed2Amt: TEdit
@@ -868,7 +845,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditDed2AmtKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 18
         end
         object EditDed1Amt: TEdit
@@ -885,7 +861,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditDed1AmtKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 16
         end
         object EditPenAcc: TEdit
@@ -902,7 +877,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditPenAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 15
         end
         object EditPen: TEdit
@@ -918,7 +892,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditPenKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 14
         end
         object EditLocalAcc: TEdit
@@ -935,7 +908,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditLocalAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 13
         end
         object EditLocal: TEdit
@@ -951,7 +923,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditLocalKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 12
         end
         object EditStateAcc: TEdit
@@ -968,7 +939,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditStateAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 10
         end
         object EditState: TEdit
@@ -984,7 +954,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditStateKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 9
         end
         object EditMedAcc: TEdit
@@ -1001,7 +970,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditMedAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 8
         end
         object EditMed: TEdit
@@ -1017,7 +985,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditMedKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 7
         end
         object EditFICAAcc: TEdit
@@ -1034,7 +1001,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditFICAAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 6
         end
         object EditFICA: TEdit
@@ -1050,7 +1016,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditFICAKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 5
         end
         object EditFITAcc: TEdit
@@ -1067,7 +1032,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditFITAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 4
         end
         object EditFIT: TEdit
@@ -1083,7 +1047,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditFITKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 3
         end
         object EditWageAcc: TEdit
@@ -1100,7 +1063,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditWageAccKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 2
         end
@@ -1117,7 +1079,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditWageKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 1
         end
         object EditSocNo: TEdit
@@ -1133,7 +1094,6 @@ object FormSetup: TFormSetup
           OnKeyPress = EditSocNoKeyPress
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 27
         end
         object BtnPayDel: TButton
@@ -1374,7 +1334,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 0
         end
         object DateX: TEdit
@@ -1387,7 +1346,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 1
         end
         object PayX: TEdit
@@ -1400,17 +1358,11 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 2
         end
         object ScriptX: TEdit
-<<<<<<< .mine
-          Left = 156
-          Height = 27
-=======
           Left = 155
           Height = 27
->>>>>>> .r71
           Top = 144
           Width = 121
           HelpContext = 640
@@ -1418,7 +1370,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 3
         end
         object ScriptY: TEdit
@@ -1431,7 +1382,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 4
         end
         object PayY: TEdit
@@ -1444,7 +1394,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 5
         end
         object DateY: TEdit
@@ -1457,7 +1406,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 6
         end
         object AmountY: TEdit
@@ -1470,7 +1418,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 7
         end
         object PostBtn: TButton
@@ -1513,7 +1460,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 10
         end
         object DupY: TEdit
@@ -1526,7 +1472,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 11
         end
         object MemoY: TEdit
@@ -1539,17 +1484,11 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 12
         end
         object MemoX: TEdit
-<<<<<<< .mine
-          Left = 155
-          Height = 27
-=======
           Left = 159
           Height = 27
->>>>>>> .r71
           Top = 248
           Width = 121
           HelpContext = 740
@@ -1557,7 +1496,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 13
         end
         object LoadBtn: TButton
@@ -1840,7 +1778,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 2
         end
@@ -1856,7 +1793,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 3
         end
@@ -1872,7 +1808,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 4
         end
@@ -1888,7 +1823,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 5
         end
@@ -1904,7 +1838,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           ReadOnly = True
           TabOrder = 6
         end
@@ -2098,7 +2031,6 @@ object FormSetup: TFormSetup
           )
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 1
         end
         object EditYear: TEdit
@@ -2111,7 +2043,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 2
         end
         object Splitter1: TSplitter
@@ -2143,7 +2074,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 5
         end
         object EditChAdd1: TEdit
@@ -2157,7 +2087,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 6
         end
         object EditChAdd2: TEdit
@@ -2171,7 +2100,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 7
         end
         object EditChCity: TEdit
@@ -2185,7 +2113,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 8
         end
         object EditChState: TEdit
@@ -2199,7 +2126,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 9
         end
         object EditChZip: TEdit
@@ -2213,7 +2139,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 10
         end
         object EditChPhone: TEdit
@@ -2227,7 +2152,6 @@ object FormSetup: TFormSetup
           Font.Name = 'System'
           OnMouseDown = ShowContext
           ParentFont = False
-          PopupMenu = PopMenuNil
           TabOrder = 11
         end
       end
