@@ -17,9 +17,15 @@ WHERE id = :id}
 
 
 uses
+<<<<<<< .mine
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, menus, StdCtrls, ipc,
+  ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, IBConnection,
+  db, Grids, comctrls, Calendar, StrUtils, unit30, cHelp,
+=======
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
   db, Grids, comctrls, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
+>>>>>>> .r71
   newpsclass;
 
 type
@@ -165,6 +171,7 @@ type
    // PayLabel: TLabel;
     PayLookUp: TComboBox;
     PenEdit: TEdit;
+    PopMenuNil: TPopupMenu;
     ScriptLabel1: TLabel;
     SDateEdit: TEdit;
     StateEdit: TEdit;
@@ -419,6 +426,9 @@ type
 
     NavEditTran: TDBNavigator;
     procedure CheckGridCellClick(Column: TColumn);
+    procedure FormClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
     procedure GridDPDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure PayNameLUCBChange(Sender: TObject);
@@ -465,6 +475,7 @@ type
     function  GetDP(SDate, EDate: TDateTime): Double;
     procedure BtnClearViewPayClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    Procedure FormClose(Sender: TObject);
     procedure TabSetChange(Sender: TObject; NewTab: Integer;
       var AllowChange: Boolean);
 
@@ -689,7 +700,6 @@ var
   RPrinter:  TPostScriptClass;
   SocList:   TStringList;
   PayStubInfo: PayInfo;
-
   Activated: Boolean;
   StrDate: String;
   SepDate: String;
@@ -755,7 +765,112 @@ begin
    RPrinter := TPostScriptClass.Create;
  end;
 
+Procedure TCheckForm.FormClose(Sender: TObject);
+Begin
+   if HForm <> nil then HForm.close;
+   If RPrinter <>nil then
+     begin
+       RPrinter.free;
+       RPrinter := nil;
+     end;
+End;
 
+procedure TCheckForm.FormActivate(Sender: TObject);
+var
+   Chk:   Integer;
+   Bal:   Double;
+   Month,Year,Day: Word;
+begin
+With CheckForm do
+begin
+   If activated then exit;
+   activated := true;
+
+   initDates;
+   AccTypeDesc[1]:='Expense';
+   AccTypeDesc[2]:='Federal Tax';
+   AccTypeDesc[3]:='FICA';
+   AccTypeDesc[4]:='Medicare';
+   AccTypeDesc[5]:='State Tax';
+   AccTypeDesc[6]:='Local Tax';
+   AccTypeDesc[7]:='Pension';
+   For Chk:=8 to 13 do
+     AccTypeDesc[Chk]:='Deduction_'+IntToStr(chk-7);
+   AccTypeDesc[7]:='Pension';
+   AccTypeDesc[13]:='Other Deduction';
+   Chk:=8;
+   TranTypeCombo.Clear;
+   TranTypeCombo.Items.Add('Expense');
+   TranTypeCombo.Items.Add('Liability');
+   TranTypeCombo.Items.Add('All Transactions');
+
+  { With DataMod.ZTblDeductions do
+     begin
+       //If not Active then Open;
+          First;
+       For Chk:=8 to 12 do
+         If Fields[Chk-8].AsString<>'' then
+            AccTypeDesc[Chk]:=Fields[Chk-8].AsString;
+     end;  }
+   DecodeDate(Date,Year,Month,Day);
+   If GlobalAct=True then
+      exit;
+   GlobalAct:=True;
+   GlobalPost:=False;
+   GlobalTemp:=False;
+   PadStr:='                    ';
+   GlobalOcc:=False;
+   PayFlag:=False;
+   MemoLabel.Caption:='';
+   VendorLabel.Caption:='';
+   AmountLabel.Caption:='';
+   ScriptLabel.Caption:='';
+
+
+  { make the number of Tabs = number of Pages,
+    and have the same names }
+  // NoteBook.PageIndex:=TabSet.TabIndex;
+    initDisplay;
+   doBalance;
+   DataMod.ZQueryChecks.Close;
+   DataMod.ZQueryChecks.Open;
+   DataMod.ZQueryChecks.Last;
+   DataMod.ZTblBalance.First;
+   Chk:=DataMod.ZTblBalance.FieldByName('CHECKSEED').AsInteger;
+   NoteBook.PageIndex:=0;
+   OldTab:=0;
+      begin
+        CheckEdit.Text:=DataMod.ZTblBalance.FieldByName('CHECKSEED').AsString;
+        PayCheck.Text:=CheckEdit.Text;
+        CheckLabel.Caption:=CheckEdit.Text;
+        PayCheckLabel.Caption:=CheckEdit.Text;
+      end;
+  { Exp101Tbl.First;  }
+   ComboAcc.Text:='';
+   ComboTranAcc.Text:='';
+   GlobalLeft:=0;
+   GlobalRite:=0;
+   PartialCheck:=0;
+   DataMod.ZTblBalance.First;
+   Bal:=DataMod.ZTblBalance.FieldByName('BALANCE').AsFloat-
+        DataMod.ZTblBalance.FieldByName('TEMPSUM').AsFloat;
+   CkBal1.Text:=FormatFloat('0.00',Bal);
+   PayBal.Text:=CkBal1.Text;
+   initAccount;
+   initVendor;
+   initBalance;
+   //initDisplay;
+   NotCheck.Checked:=True;
+   RetCheck.Checked:=False;
+   ShortDateFormat := 'd/m/y';
+   SepDate := DateSeparator;
+   StrDate := ShortDateFormat;
+   SearchReturn(RetCheck.Checked);
+   initOpen;
+   initDPGrid;
+   InitCheckGrid;
+  end;
+end;
 
 procedure TCheckForm.TabSetChange(Sender: TObject; NewTab: Integer;
   var AllowChange: Boolean);
@@ -3457,6 +3572,26 @@ begin
   CheckPrintTables;
 end;
 
+procedure TCheckForm.FormClick(Sender: TObject);
+begin
+
+end;
+
+procedure TCheckForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+
+end;
+
+procedure TCheckForm.FormDestroy(Sender: TObject);
+begin
+    if HForm <> nil then HForm.close;
+   If RPrinter <>nil then
+     begin
+       RPrinter.free;
+       RPrinter := nil;
+     end;
+end;
+
 procedure TCheckForm.transferCheck(CheckNo: Integer);
 begin
   try
@@ -3757,101 +3892,7 @@ begin
     end;
 end;
 
-procedure TCheckForm.FormActivate(Sender: TObject);
-var
-   Chk:   Integer;
-   Bal:   Double;
-   Month,Year,Day: Word;
-begin
-With CheckForm do
-begin
-   If activated then exit;
-   activated := true;
-   initDates;
-   AccTypeDesc[1]:='Expense';
-   AccTypeDesc[2]:='Federal Tax';
-   AccTypeDesc[3]:='FICA';
-   AccTypeDesc[4]:='Medicare';
-   AccTypeDesc[5]:='State Tax';
-   AccTypeDesc[6]:='Local Tax';
-   AccTypeDesc[7]:='Pension';
-   For Chk:=8 to 13 do
-     AccTypeDesc[Chk]:='Deduction_'+IntToStr(chk-7);
-   AccTypeDesc[7]:='Pension';
-   AccTypeDesc[13]:='Other Deduction';
-   Chk:=8;
-   TranTypeCombo.Clear;
-   TranTypeCombo.Items.Add('Expense');
-   TranTypeCombo.Items.Add('Liability');
-   TranTypeCombo.Items.Add('All Transactions');
 
-  { With DataMod.ZTblDeductions do
-     begin
-       //If not Active then Open;
-          First;
-       For Chk:=8 to 12 do
-         If Fields[Chk-8].AsString<>'' then
-            AccTypeDesc[Chk]:=Fields[Chk-8].AsString;
-     end;  }
-   DecodeDate(Date,Year,Month,Day);
-   If GlobalAct=True then
-      exit;
-   GlobalAct:=True;
-   GlobalPost:=False;
-   GlobalTemp:=False;
-   PadStr:='                    ';
-   GlobalOcc:=False;
-   PayFlag:=False;
-   MemoLabel.Caption:='';
-   VendorLabel.Caption:='';
-   AmountLabel.Caption:='';
-   ScriptLabel.Caption:='';
-
-
-  { make the number of Tabs = number of Pages,
-    and have the same names }
-  // NoteBook.PageIndex:=TabSet.TabIndex;
-    initDisplay;
-   doBalance;
-   DataMod.ZQueryChecks.Close;
-   DataMod.ZQueryChecks.Open;
-   DataMod.ZQueryChecks.Last;
-   DataMod.ZTblBalance.First;
-   Chk:=DataMod.ZTblBalance.FieldByName('CHECKSEED').AsInteger;
-   NoteBook.PageIndex:=0;
-   OldTab:=0;
-      begin
-        CheckEdit.Text:=DataMod.ZTblBalance.FieldByName('CHECKSEED').AsString;
-        PayCheck.Text:=CheckEdit.Text;
-        CheckLabel.Caption:=CheckEdit.Text;
-        PayCheckLabel.Caption:=CheckEdit.Text;
-      end;
-  { Exp101Tbl.First;  }
-   ComboAcc.Text:='';
-   ComboTranAcc.Text:='';
-   GlobalLeft:=0;
-   GlobalRite:=0;
-   PartialCheck:=0;
-   DataMod.ZTblBalance.First;
-   Bal:=DataMod.ZTblBalance.FieldByName('BALANCE').AsFloat-
-        DataMod.ZTblBalance.FieldByName('TEMPSUM').AsFloat;
-   CkBal1.Text:=FormatFloat('0.00',Bal);
-   PayBal.Text:=CkBal1.Text;
-   initAccount;
-   initVendor;
-   initBalance;
-   //initDisplay;
-   NotCheck.Checked:=True;
-   RetCheck.Checked:=False;
-   ShortDateFormat := 'd/m/y';
-   SepDate := DateSeparator;
-   StrDate := ShortDateFormat;
-   SearchReturn(RetCheck.Checked);
-   initOpen;
-   initDPGrid;
-   InitCheckGrid;
-  end;
-end;
 
 procedure TCheckForm.initOpen;
 begin
@@ -4528,7 +4569,11 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
+<<<<<<< .mine
+         // 1027  PSNewline;
+=======
          //   PSNewline;
+>>>>>>> .r71
           end;
 
         If (Info.PD5>0.0) and (DedType[5]=9) then
@@ -5627,6 +5672,7 @@ begin
      ComboVendor.SetFocus;
 end;
 
+
 procedure TCheckForm.ShowContext(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -5635,11 +5681,14 @@ var
 begin
   URL := 'file://'+HelpFN;
  // Label15.Caption:=TComponent(Sender).name;
- if (Button = mbRight) or (Button = mbLeft) then exit;
- CheckHelpOpen;
- hcontext:=TControl(Sender).HelpContext;
- If HForm <> nil then
-    HForm.OpenUrl(Url,hContext);
+ if (Button = mbRight) then
+   begin
+    CheckHelpOpen;
+    hcontext:=TControl(Sender).HelpContext;
+    If HForm <> nil then
+      HForm.OpenUrl(Url,hContext);
+    HForm.ShowOnTop;
+   end;
 end;
 
 function TCheckForm.ZFindKey(TName, Fld, Key: String; IntKey: Integer): boolean;
