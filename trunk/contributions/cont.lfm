@@ -10,6 +10,7 @@ object FormCont: TFormCont
   Font.Height = -13
   Font.Name = 'System'
   OnActivate = FormActivate
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '0.9.31'
@@ -19,21 +20,13 @@ object FormCont: TFormCont
     Top = 0
     Width = 1062
     HelpContext = 10
-<<<<<<< .mine
-    ActivePage = PageEntry
-=======
-    ActivePage = PageQuery
->>>>>>> .r71
+    ActivePage = PageLabels
     Align = alClient
     Font.Height = -15
     Font.Name = 'System'
     ParentFont = False
-<<<<<<< .mine
     PopupMenu = PopMenuNil
-    TabIndex = 0
-=======
-    TabIndex = 4
->>>>>>> .r71
+    TabIndex = 7
     TabOrder = 0
     OnMouseDown = ShowContext
     object PageEntry: TTabSheet
@@ -342,22 +335,13 @@ object FormCont: TFormCont
       ClientWidth = 1058
       object AGroupFunds: TGroupBox
         Left = 0
-<<<<<<< .mine
         Height = 768
-=======
-        Height = 766
->>>>>>> .r71
         Top = 0
         Width = 1058
         HelpContext = 150
         Align = alClient
-<<<<<<< .mine
         ClientHeight = 764
         ClientWidth = 1054
-=======
-        ClientHeight = 762
-        ClientWidth = 1054
->>>>>>> .r71
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label24: TLabel
@@ -399,22 +383,13 @@ object FormCont: TFormCont
       ClientWidth = 1058
       object AGroupTors: TGroupBox
         Left = 0
-<<<<<<< .mine
         Height = 768
-=======
-        Height = 766
->>>>>>> .r71
         Top = 0
         Width = 1058
         HelpContext = 170
         Align = alClient
-<<<<<<< .mine
         ClientHeight = 764
         ClientWidth = 1054
-=======
-        ClientHeight = 762
-        ClientWidth = 1054
->>>>>>> .r71
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label13: TLabel
@@ -443,11 +418,7 @@ object FormCont: TFormCont
         end
         object TitleCombo: TComboBox
           Left = 659
-<<<<<<< .mine
           Height = 26
-=======
-          Height = 28
->>>>>>> .r71
           Top = 388
           Width = 168
           HelpContext = 200
@@ -577,22 +548,13 @@ object FormCont: TFormCont
       ClientWidth = 1058
       object AGroupPledge: TGroupBox
         Left = 0
-<<<<<<< .mine
         Height = 768
-=======
-        Height = 766
->>>>>>> .r71
         Top = 0
         Width = 1058
         HelpContext = 240
         Align = alClient
-<<<<<<< .mine
         ClientHeight = 764
         ClientWidth = 1054
-=======
-        ClientHeight = 762
-        ClientWidth = 1054
->>>>>>> .r71
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label7: TLabel
@@ -741,11 +703,7 @@ object FormCont: TFormCont
         end
         object FunAccBox: TComboBox
           Left = 739
-<<<<<<< .mine
           Height = 26
-=======
-          Height = 28
->>>>>>> .r71
           Top = 612
           Width = 231
           HelpContext = 290
@@ -758,11 +716,7 @@ object FormCont: TFormCont
         end
         object LookUpEnv: TComboBox
           Left = 739
-<<<<<<< .mine
           Height = 26
-=======
-          Height = 28
->>>>>>> .r71
           Top = 548
           Width = 231
           HelpContext = 280
@@ -1531,22 +1485,13 @@ object FormCont: TFormCont
       ClientWidth = 1058
       object AGroupLabel: TGroupBox
         Left = 0
-<<<<<<< .mine
         Height = 768
-=======
-        Height = 766
->>>>>>> .r71
         Top = 0
         Width = 1058
         HelpContext = 570
         Align = alClient
-<<<<<<< .mine
         ClientHeight = 764
         ClientWidth = 1054
-=======
-        ClientHeight = 762
-        ClientWidth = 1054
->>>>>>> .r71
         TabOrder = 0
         OnMouseDown = ShowContext
         object Label32: TLabel
@@ -1677,11 +1622,7 @@ object FormCont: TFormCont
         end
         object LabelBox: TComboBox
           Left = 259
-<<<<<<< .mine
           Height = 26
-=======
-          Height = 28
->>>>>>> .r71
           Top = 124
           Width = 210
           HelpContext = 580
@@ -1899,13 +1840,9 @@ object FormCont: TFormCont
         end
         object CheckBoxPostNet: TCheckBox
           Left = 830
-          Height = 22
+          Height = 23
           Top = 132
-<<<<<<< .mine
           Width = 118
-=======
-          Width = 116
->>>>>>> .r71
           HelpContext = 720
           Caption = 'Print Postnet'
           OnMouseDown = ShowContext
@@ -1955,12 +1892,8 @@ object FormCont: TFormCont
     left = 950
     top = 723
   end
-<<<<<<< .mine
   object PopMenuNil: TPopupMenu
     left = 33
     top = 52
   end
 end
-=======
-end
->>>>>>> .r71
