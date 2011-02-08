@@ -8,7 +8,7 @@ interface
 Uses
 Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, chelp, IBConnection, db, Grids,
-ComCtrls, Spin, StrUtils, LHelpControl, newpsclass, Keyboard;
+ComCtrls, Spin, Menus, StrUtils, LHelpControl, newpsclass, Keyboard;
 
 type
 
@@ -48,6 +48,8 @@ type
     GridDetail: TDBGrid;
     AGroupTors: TGroupBox;
     Label13: TLabel;
+    PipMenuNil: TPopupMenu;
+    PopMenuNil: TPopupMenu;
     SEFontSize: TSpinEdit;
     Timer1: TTimer;
     TitleCombo: TComboBox;
@@ -1023,6 +1025,12 @@ var
   IDX: Integer;
 begin
   ConList.Free;
+      if HForm <> nil then HForm.close;
+   If RPrinter <>nil then
+     begin
+       RPrinter.free;
+       RPrinter := nil;
+     end;
 end;
 
 procedure TFormCont.CheckHelpOpen;
@@ -1044,11 +1052,14 @@ var
   URL: String;
 begin
   URL := 'file://'+HelpFN;
- if (Button = mbRight) or (Button = mbLeft) then exit;
- CheckHelpOpen;
- hcontext:=TControl(Sender).HelpContext;
- If HForm <> nil then
-    HForm.OpenUrl(Url,hContext);
+ if (Button = mbRight) then
+   begin
+    CheckHelpOpen;
+    hcontext:=TControl(Sender).HelpContext;
+    If HForm <> nil then
+      HForm.OpenUrl(Url,hContext);
+    HForm.ShowOnTop;
+   end;
 end;
 
 procedure TFormCont.LastDateP(var Str2: String);
@@ -2244,6 +2255,14 @@ begin
     EditToDate.Text := FormatDate(EditToDate.Text);
 end;
 
+<<<<<<< .mine
+procedure TFormCont.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+
+end;
+
+=======
+>>>>>>> .r71
 procedure TFormCont.FunAccBoxChange(Sender: TObject);
 begin
     {Edit4.Text:=DataMod.TableDetail.FieldByName('Description').AsString;   }
