@@ -8,14 +8,10 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-<<<<<<< .mine
-  Forms, accounts, Unit30;
-=======
-  Forms, accounts, unit30, SQLDBLaz,
-  printer4lazarus;
->>>>>>> .r71
+ Forms, accounts, Unit30;
 
 begin
+  Application.Title:='Checks';
  // {$I checks.lrs}
   Application.Initialize;
   Application.CreateForm(TCheckForm, CheckForm);

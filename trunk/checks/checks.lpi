@@ -48,12 +48,11 @@
       <Unit0>
         <Filename Value="checks.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Checks"/>
-        <IsVisibleTab Value="True"/>
+        <UnitName Value="checks"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="87" Y="1"/>
+        <CursorPos X="1" Y="11"/>
         <UsageCount Value="173"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -86,21 +85,20 @@
         <TopLine Value="3549"/>
         <CursorPos X="23" Y="3564"/>
         <UsageCount Value="163"/>
-        <LoadedDesigner Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="../../Queries/StubQuery.txt"/>
         <TopLine Value="1"/>
         <CursorPos X="49" Y="6"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit4>
       <Unit5>
         <Filename Value="../../firebird/EZTest/accounts.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit5>
       <Unit6>
         <Filename Value="../../lazsrc/lcl/forms.pp"/>
@@ -120,15 +118,15 @@
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/ACCOUNTS.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="22" Y="4"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../lazarus/ezfunds/EZFund/accounts.lfm"/>
         <TopLine Value="3387"/>
         <CursorPos X="45" Y="3407"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit9>
       <Unit10>
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/ACCOUNTS.pas"/>
@@ -159,29 +157,29 @@
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/EZFund/Unit1.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit13>
       <Unit14>
         <Filename Value="../../../../media/windows/TempEZFunds/New Folder/accounts.txt"/>
         <TopLine Value="3322"/>
         <CursorPos X="49" Y="3346"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../../../media/windows/TempEZFunds/New Folder/accounts.~pas"/>
         <TopLine Value="3641"/>
         <CursorPos X="15" Y="3661"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit15>
       <Unit16>
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/EZFund/ACCOUNTS.~PAS"/>
         <TopLine Value="3629"/>
         <CursorPos X="15" Y="3661"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit16>
       <Unit17>
         <Filename Value="../../firebird/Caccounts.pas"/>
@@ -206,15 +204,15 @@
         <Filename Value="../../firebird/EZTest/ModUnit.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit20>
       <Unit21>
         <Filename Value="../../firebird/EZTest/simple/unit2.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit21>
       <Unit22>
         <Filename Value="../../firebird/EZTest/projectEZ.lrs"/>
@@ -226,8 +224,8 @@
         <Filename Value="../../firebird/EZTest/modunit.lfm"/>
         <TopLine Value="133"/>
         <CursorPos X="43" Y="143"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit23>
       <Unit24>
         <Filename Value="../trunk/checks/unit30.pas"/>
@@ -239,7 +237,6 @@
         <TopLine Value="22"/>
         <CursorPos X="31" Y="24"/>
         <UsageCount Value="134"/>
-        <LoadedDesigner Value="True"/>
       </Unit24>
       <Unit25>
         <Filename Value="../../../../usr/lib/lazarus/0.9.28/lcl/include/interfacebase.inc"/>
@@ -289,36 +286,36 @@
         <Filename Value="../../firebird/EZTest/unit30.lfm"/>
         <TopLine Value="1254"/>
         <CursorPos X="20" Y="1249"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit31>
       <Unit32>
         <Filename Value="../../firebird/EZTest/ACCO.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit32>
       <Unit33>
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/EZCont/CONT.~PAS"/>
         <TopLine Value="1"/>
         <CursorPos X="24" Y="4"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit33>
       <Unit34>
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZFUnds/OldUnits/ACCOUNTS.~PAS"/>
         <TopLine Value="3581"/>
         <CursorPos X="35" Y="3649"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit34>
       <Unit35>
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZFUnds/ACCOUNTS.~PAS"/>
         <TopLine Value="3434"/>
         <CursorPos X="56" Y="3436"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit35>
       <Unit36>
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZSetup/EZSetup.pas"/>
@@ -331,8 +328,8 @@
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZSetup/EZSet.~pas"/>
         <TopLine Value="529"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit37>
       <Unit38>
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZCont/CONT.PAS"/>
@@ -345,8 +342,8 @@
         <Filename Value="../../firebird/EZTest/unit30.lfm.bak"/>
         <TopLine Value="1"/>
         <CursorPos X="20" Y="12"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit39>
       <Unit40>
         <Filename Value="../../../../usr/lib/lazarus/0.9.28/lcl/interfaces/gtk2/gtk2int.pas"/>
@@ -359,15 +356,15 @@
         <Filename Value="../../../../media/windows/Program Files/Borland/Delphi5/Projects/EZFUnds/ACCOUNTS.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit41>
       <Unit42>
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/EZFund/ACCOUNTS.lfm"/>
         <TopLine Value="1"/>
         <CursorPos X="45" Y="27"/>
-        <SyntaxHighlighter Value="LFM"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit42>
       <Unit43>
         <Filename Value="../../../../media/windows/ECN/ECN/Source/ACC/EZFund/paystub.pas"/>
@@ -394,15 +391,15 @@
         <Filename Value="../../lazarus/ezdelphi/EZFund/ACCOUNTS.PAS.bak"/>
         <TopLine Value="358"/>
         <CursorPos X="15" Y="378"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit46>
       <Unit47>
         <Filename Value="../../lazarus/ezdelphi/EZFund/ACCOUNTS.txt"/>
         <TopLine Value="4377"/>
         <CursorPos X="23" Y="4397"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit47>
       <Unit48>
         <Filename Value="../../fpc/packages/fcl-db/src/sqldb/interbase/ibconnection.pp"/>
@@ -415,8 +412,8 @@
         <Filename Value="../../fpc/packages/fcl-db/src/sqldb/interbase/IBConnection.passaf"/>
         <TopLine Value="661"/>
         <CursorPos X="74" Y="666"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit49>
       <Unit50>
         <Filename Value="../../../../usr/lib/lazarus/0.9.28/components/sqldb/sqldblaz.pas"/>
@@ -457,8 +454,8 @@
         <Filename Value="../../lazarus/components/chmhelp/README.txt"/>
         <TopLine Value="1"/>
         <CursorPos X="70" Y="9"/>
-        <SyntaxHighlighter Value="None"/>
         <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="None"/>
       </Unit55>
       <Unit56>
         <Filename Value="../../lazsrc/lcl/lazchmhelp.pas"/>
@@ -845,27 +842,47 @@
       <Unit111>
         <Filename Value="accounts.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="CheckForm"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="accounts"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="72" Y="8"/>
         <SyntaxHighlighter Value="Text"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit111>
       <Unit112>
         <Filename Value="unit30.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataMod"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="unit30"/>
         <SyntaxHighlighter Value="Text"/>
         <UsageCount Value="20"/>
       </Unit112>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="checks.pas"/>
+        <Caret Line="1" Column="87" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="accounts.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position2>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="10"/>
     <SearchPaths>
-      <OtherUnitFiles Value="$(LazarusDir)/lcl/units/i386-linux/gtk2;$(LazarusDir)/lcl/units/i386-linux;/home/don/churchfunds/checks/"/>
-      <SrcPath Value="$(LazarusDir)/lcl/interfaces/gtk2"/>
+      <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/lcl/include;$(LazarusDir)/components/printers/unix"/>
+      <OtherUnitFiles Value="$(LazarusDir)/lcl;../data;..;../help;$(LazarusDir)/lcl/widgetset;$(LazarusDir)/lcl/interfaces/gtk2;$(LazarusDir)/components/chmhelp/packages/help;$(LazarusDir)/components/turbopower_ipro;$(LazarusDir)/components/printers;$(LazarusDir)/components/printers/unix;$(LazarusDir)/components/chmhelp/lhelp;$(LazarusDir)/ideintf;$(LazarusDir)/lcl/forms;$(LazarusDir)/lcl/nonwin32;$(LazarusDir)/components/synedit"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -881,6 +898,9 @@
         <ShowAllProcsOnError Value="True"/>
         <ShowDebugInfo Value="True"/>
       </Verbosity>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
       <ExecuteAfter>
         <ShowAllMessages Value="True"/>

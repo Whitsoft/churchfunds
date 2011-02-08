@@ -17,15 +17,9 @@ WHERE id = :id}
 
 
 uses
-<<<<<<< .mine
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, menus, StdCtrls, ipc,
   ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, IBConnection,
   db, Grids, comctrls, Calendar, StrUtils, unit30, cHelp,
-=======
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, DBGrids, LResources, sqldb, DbCtrls, Types, Printers, IBConnection,
-  db, Grids, comctrls, Calendar, Menus, PrintersDlgs, StrUtils, unit30, cHelp,
->>>>>>> .r71
   newpsclass;
 
 type
@@ -4569,11 +4563,7 @@ begin
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
             PrintPSTab(TABLISTINDEX, '');
-<<<<<<< .mine
          // 1027  PSNewline;
-=======
-         //   PSNewline;
->>>>>>> .r71
           end;
 
         If (Info.PD5>0.0) and (DedType[5]=9) then
