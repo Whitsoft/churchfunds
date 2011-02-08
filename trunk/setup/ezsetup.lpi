@@ -73,9 +73,15 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
+<<<<<<< .mine
+        <TopLine Value="2969"/>
+        <CursorPos X="1" Y="2990"/>
+        <UsageCount Value="47"/>
+=======
         <TopLine Value="397"/>
         <CursorPos X="1" Y="418"/>
         <UsageCount Value="45"/>
+>>>>>>> .r71
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -88,9 +94,15 @@
         <UnitName Value="setupmod"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
+<<<<<<< .mine
+        <TopLine Value="1"/>
+        <CursorPos X="11" Y="64"/>
+        <UsageCount Value="47"/>
+=======
         <TopLine Value="30"/>
         <CursorPos X="11" Y="64"/>
         <UsageCount Value="45"/>
+>>>>>>> .r71
         <Loaded Value="True"/>
       </Unit2>
     </Units>
